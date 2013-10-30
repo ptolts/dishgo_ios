@@ -8,7 +8,8 @@
 
 #import "RAppDelegate.h"
 
-#import "RMasterViewController.h"
+#import "RootViewController.h"
+#import "RestaurantViewController.h"
 
 @implementation RAppDelegate
 
@@ -18,10 +19,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    RMasterViewController *controller = (RMasterViewController *)navigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+//    // Override point for customization after application launch.
+////    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+////    RestaurantViewController *controller = (RestaurantViewController *)navigationController.topViewController;
+//    RootViewController *root = (RootViewController *)self.window.rootViewController;
+//    root.managedObjectContext = self.managedObjectContext;
     return YES;
 }
 							
