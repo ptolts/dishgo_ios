@@ -6,6 +6,7 @@
 const struct SectionsAttributes SectionsAttributes = {
 	.id = @"id",
 	.name = @"name",
+	.position = @"position",
 };
 
 const struct SectionsRelationships SectionsRelationships = {
@@ -42,6 +43,11 @@ const struct SectionsFetchedProperties SectionsFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"positionValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"position"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -58,6 +64,32 @@ const struct SectionsFetchedProperties SectionsFetchedProperties = {
 
 @dynamic name;
 
+
+
+
+
+
+@dynamic position;
+
+
+
+- (int16_t)positionValue {
+	NSNumber *result = [self position];
+	return [result shortValue];
+}
+
+- (void)setPositionValue:(int16_t)value_ {
+	[self setPosition:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitivePositionValue {
+	NSNumber *result = [self primitivePosition];
+	return [result shortValue];
+}
+
+- (void)setPrimitivePositionValue:(int16_t)value_ {
+	[self setPrimitivePosition:[NSNumber numberWithShort:value_]];
+}
 
 
 

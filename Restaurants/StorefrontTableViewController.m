@@ -16,16 +16,26 @@
 #import "Options.h"
 #import "Sections.h"
 #import "Subsections.h"
+#import "DishViewCell.h"
+#import "TableHeaderView.h"
 
 
 @interface StorefrontTableViewController ()
 @end
 
 @implementation StorefrontTableViewController
-    NSArray *sectionsList;
+    NSMutableArray *sectionsList;
+    NSArray *fetchedRestaurants;
+    NSSet *defaultSectionsList;
+    NSMutableDictionary *heights;
     // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
     CLLocationManager *locationManager;
     MKMapView *mapView;
+
+
+- (void)dealloc {
+    [locationManager stopUpdatingLocation];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -99,6 +109,7 @@
 {
     [super viewDidLoad];
     
+    heights = [[NSMutableDictionary alloc] init];
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
     header.scroll_view.restaurant = self.restaurant;
@@ -133,71 +144,157 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
-    if (sectionIndex == 0)
-        return 0;
+//    if (sectionIndex == 0)
+//        return 0;
     
-    return 34;
+    return 55;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 54;
+    NSString *key = [NSString stringWithFormat:@"%d-%d",indexPath.section,indexPath.row];
+    if([heights objectForKey:key]){
+        return [[heights valueForKey:key] doubleValue];
+    } else {
+//        Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
+//        int size = 0;
+//        for(Options *options in dish.options){
+//            size += 50;
+//        }
+//        size = size + 120 + 10;
+//        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
+//        return size;
+        [heights setObject:[NSNumber numberWithInteger:120] forKey:key];
+        return 120;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return [sectionsList count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"Rows in section %d: %d",section,[[[sectionsList objectAtIndex:section] subsections] count]);
-    return [[[sectionsList objectAtIndex:section] subsections] count];
+    
+    if([[sectionsList objectAtIndex:section] isKindOfClass:[Subsections class]]){
+        return [((Subsections *)[sectionsList objectAtIndex:section]).dishes count];
+    }
+    
+    return 0;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"DishViewCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    DishViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
     } else {
-        
+        UIView *removeView;
+        while((removeView = [cell.contentView viewWithTag:12345]) != nil) {
+            [removeView removeFromSuperview];
+        }
     }
     
     // Configure the cell...
+    Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
+    cell.dishDescription.text = dish.description_text;
+    cell.dishTitle.text = dish.name;
     
-    // Set up the cell...
-    Subsections *subsection = [[[sectionsList objectAtIndex:indexPath.section] subsections].allObjects objectAtIndex:indexPath.row];
-    NSLog(@"Cell Label: %@ at %d in section %d",subsection.name,indexPath.row,indexPath.section);
-    cell.textLabel.text = subsection.name;
+    for(Options *options in dish.options){
+        NSMutableArray *itemArray = [[NSMutableArray alloc] init];
+        for(Option *option in options.list){
+            [itemArray addObject:[NSString stringWithFormat:@"%@: %@$",option.name,option.price]];
+        }
+        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+        segmentedControl.frame = CGRectMake(5, cell.frame.size.height + 5, cell.frame.size.width - 10, 50);
+        segmentedControl.selectedSegmentIndex = 1;
+        segmentedControl.tag = 12345;
+        [cell.contentView addSubview:segmentedControl];
+    }
+
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView beginUpdates];
+    NSString *key = [NSString stringWithFormat:@"%d-%d",indexPath.section,indexPath.row];
+    if([[heights valueForKey:key] doubleValue] == 120){
+        Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
+        int size = 0;
+        for(Options *options in dish.options){
+            size += 50;
+        }
+        size = size + 120 + 10;
+        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
+    } else {
+        [heights setObject:[NSNumber numberWithInteger:120] forKey:key];
+    }
+    [tableView endUpdates];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
-    if (sectionIndex == 0)
+    if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
+        return [self headerView:sectionIndex tableView:tableView];
+    } else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
+        return [self subheaderView:sectionIndex tableView:tableView];
+    } else {
         return nil;
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
+    }
+}
+
+- (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
+{
     Sections *section = [sectionsList objectAtIndex:sectionIndex];
-    label.text = section.name;
-    label.font = [UIFont systemFontOfSize:15];
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor clearColor];
-    [label sizeToFit];
-    [view addSubview:label];
+    if([section.name length] == 0){
+        return nil;
+    }
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
+//    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
+//    
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
+//    label.text = section.name;
+//    label.font = [UIFont systemFontOfSize:15];
+//    label.textColor = [UIColor whiteColor];
+//    label.backgroundColor = [UIColor clearColor];
+//    [label sizeToFit];
+//    [view addSubview:label];
     
+    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
+    view.headerTitle.text = section.name;
+    return view;
+    
+}
+
+- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
+{
+    Subsections *section = [sectionsList objectAtIndex:sectionIndex];
+    if([section.name length] == 0){
+        return nil;
+    }
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
+//    view.backgroundColor = [UIColor colorWithRed:0.863 green:0.863 blue:0.863 alpha:1.0];
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
+//    label.text = section.name;
+//    label.font = [UIFont systemFontOfSize:15];
+//    label.textColor = [UIColor whiteColor];
+//    label.backgroundColor = [UIColor clearColor];
+//    [label sizeToFit];
+//    [view addSubview:label];
+    
+    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
+    view.headerTitle.text = section.name;
     return view;
 }
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -252,35 +349,27 @@
 
 - (void) loadMenu {
     
-    NSManagedObjectContext *context = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSError *error;
+    NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
+
+    fetchedRestaurants = [self.restaurant.menu allObjects];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Sections"
-                                              inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    NSArray *fetchedRestaurants = [context executeFetchRequest:fetchRequest error:&error];
-    NSLog(@"Fetched: %d\n\n\n", [fetchedRestaurants count]);
-    sectionsList = fetchedRestaurants;
+    sectionsList = [[NSMutableArray alloc] init];
+    
+    for(Sections *sec in fetchedRestaurants){
+        [sectionsList addObject:sec];
+        for(Subsections *sub in sec.subsections){
+            [sectionsList addObject:sub];
+            NSLog(@"Dishes: %d",[sub.dishes count]);
+        }
+    }
+    
+    [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
+    
     [self.tableView reloadData];
     
     
     ////////// QUERY NEW DATA AND UPDATE TABLE.
     
-    
-//    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-//    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-//    error = nil;
-//    BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
-//    if (! success) {
-//        RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
-//    }
-//    NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Restaurants.sqlite"];
-//    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
-//    if (! persistentStore) {
-//        RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
-//    }
-//    [managedObjectStore createManagedObjectContexts];
     RKManagedObjectStore *managedObjectStore = self.managedObjectStore;
     
     ///// MAPPINGS
@@ -288,6 +377,8 @@
     [dishesMapping addAttributeMappingsFromDictionary:@{
                                                         @"name": @"name",
                                                         @"id": @"id",
+                                                        @"price": @"price",
+                                                        @"description": @"description_text",
                                                         }];
     dishesMapping.identificationAttributes = @[ @"id" ];
     
@@ -325,7 +416,7 @@
     [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"subsections" toKeyPath:@"subsections" withMapping:subsectionsMapping]];
     [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
-    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"list" toKeyPath:@"options" withMapping:optionMapping]];
+    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
     NSString *url = [NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/api/v1/restaurants/menu?id=%@",self.restaurant.id];
@@ -340,16 +431,27 @@
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
         NSLog(@"Total Sections: %d",[result.array count]);
-        sectionsList = result.array;
-        for(Sections *res in sectionsList){
-           NSLog(@"Name: %@",res.name);
-       }
         
-        NSLog(@"Attempting save...\n\n\n");
-        NSError *err;
-//        if (![context save:&err]) {
-//            NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
-//        }
+        defaultSectionsList = [result set];
+        fetchedRestaurants = [result array];
+        
+        sectionsList = [[NSMutableArray alloc] init];
+        NSNumber *position = 0;
+        for(Sections *sec in fetchedRestaurants){
+            sec.position = position;
+            [sectionsList addObject:sec];
+            for(Subsections *sub in sec.subsections){
+                sub.position = position;
+                [sectionsList addObject:sub];
+            }
+        }
+
+        self.restaurant.menu = defaultSectionsList;
+        NSError *error;
+        NSLog(@"SAVING MENU");
+        if (![[self.restaurant managedObjectContext] save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
         
         [self.tableView reloadData];
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -358,7 +460,6 @@
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];
     
-
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay

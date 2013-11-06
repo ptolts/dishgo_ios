@@ -5,8 +5,11 @@
 
 
 extern const struct DishesAttributes {
+	__unsafe_unretained NSString *description_text;
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *position;
+	__unsafe_unretained NSString *price;
 } DishesAttributes;
 
 extern const struct DishesRelationships {
@@ -25,6 +28,9 @@ extern const struct DishesFetchedProperties {
 
 
 
+
+
+
 @interface DishesID : NSManagedObjectID {}
 @end
 
@@ -33,6 +39,16 @@ extern const struct DishesFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DishesID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* description_text;
+
+
+
+//- (BOOL)validateDescription_text:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -53,6 +69,34 @@ extern const struct DishesFetchedProperties {
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* position;
+
+
+
+@property int16_t positionValue;
+- (int16_t)positionValue;
+- (void)setPositionValue:(int16_t)value_;
+
+//- (BOOL)validatePosition:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* price;
+
+
+
+@property float priceValue;
+- (float)priceValue;
+- (void)setPriceValue:(float)value_;
+
+//- (BOOL)validatePrice:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -99,6 +143,12 @@ extern const struct DishesFetchedProperties {
 @interface _Dishes (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSString*)primitiveDescription_text;
+- (void)setPrimitiveDescription_text:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveId;
 - (void)setPrimitiveId:(NSString*)value;
 
@@ -107,6 +157,24 @@ extern const struct DishesFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitivePosition;
+- (void)setPrimitivePosition:(NSNumber*)value;
+
+- (int16_t)primitivePositionValue;
+- (void)setPrimitivePositionValue:(int16_t)value_;
+
+
+
+
+- (NSNumber*)primitivePrice;
+- (void)setPrimitivePrice:(NSNumber*)value;
+
+- (float)primitivePriceValue;
+- (void)setPrimitivePriceValue:(float)value_;
 
 
 

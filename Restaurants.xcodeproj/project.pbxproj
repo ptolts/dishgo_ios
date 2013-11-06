@@ -52,6 +52,10 @@
 		B7E20F481820560100791BEB /* Options.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F3E1820560100791BEB /* Options.m */; };
 		B7E20F4D182182ED00791BEB /* _Subsections.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F4A182182ED00791BEB /* _Subsections.m */; };
 		B7E20F4E182182ED00791BEB /* Subsections.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F4C182182ED00791BEB /* Subsections.m */; };
+		B7E20F501822F91600791BEB /* DishView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E20F4F1822F91600791BEB /* DishView.xib */; };
+		B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F55182302CB00791BEB /* DishViewCell.m */; };
+		B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E20F571824046600791BEB /* TableHeaderView.xib */; };
+		B7E20F5B1824053600791BEB /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F5A1824053600791BEB /* TableHeaderView.m */; };
 		B7E43058181EC22A002B6867 /* ImagesInScroll.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E43057181EC22A002B6867 /* ImagesInScroll.m */; };
 		B7E4305C181ED388002B6867 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E4305B181ED388002B6867 /* RootViewController.m */; };
 		B7E43066181EE625002B6867 /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E43065181EE625002B6867 /* MenuTableViewController.m */; };
@@ -147,6 +151,12 @@
 		B7E20F4A182182ED00791BEB /* _Subsections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Subsections.m; sourceTree = "<group>"; };
 		B7E20F4B182182ED00791BEB /* Subsections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subsections.h; sourceTree = "<group>"; };
 		B7E20F4C182182ED00791BEB /* Subsections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subsections.m; sourceTree = "<group>"; };
+		B7E20F4F1822F91600791BEB /* DishView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishView.xib; sourceTree = "<group>"; };
+		B7E20F54182302CB00791BEB /* DishViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishViewCell.h; sourceTree = "<group>"; };
+		B7E20F55182302CB00791BEB /* DishViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishViewCell.m; sourceTree = "<group>"; };
+		B7E20F571824046600791BEB /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableHeaderView.xib; sourceTree = "<group>"; };
+		B7E20F591824053600791BEB /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
+		B7E20F5A1824053600791BEB /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableHeaderView.m; sourceTree = "<group>"; };
 		B7E43056181EC22A002B6867 /* ImagesInScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesInScroll.h; sourceTree = "<group>"; };
 		B7E43057181EC22A002B6867 /* ImagesInScroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesInScroll.m; sourceTree = "<group>"; };
 		B7E4305A181ED388002B6867 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -351,6 +361,12 @@
 				B7E20F24182042F800791BEB /* Header.m */,
 				B7E20F261820459500791BEB /* Footer.h */,
 				B7E20F271820459500791BEB /* Footer.m */,
+				B7E20F4F1822F91600791BEB /* DishView.xib */,
+				B7E20F54182302CB00791BEB /* DishViewCell.h */,
+				B7E20F55182302CB00791BEB /* DishViewCell.m */,
+				B7E20F571824046600791BEB /* TableHeaderView.xib */,
+				B7E20F591824053600791BEB /* TableHeaderView.h */,
+				B7E20F5A1824053600791BEB /* TableHeaderView.m */,
 			);
 			name = Subviews;
 			sourceTree = "<group>";
@@ -487,6 +503,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7E20F501822F91600791BEB /* DishView.xib in Resources */,
+				B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */,
 				B7CC199018047D92003C71B9 /* Images.xcassets in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
@@ -580,9 +598,11 @@
 				B70C334A1805B2A70045183F /* _Images.m in Sources */,
 				B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */,
 				B7E20F451820560100791BEB /* _Option.m in Sources */,
+				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
 				B7E20F421820560100791BEB /* Sections.m in Sources */,
 				B7E20F481820560100791BEB /* Options.m in Sources */,
 				B7E4305C181ED388002B6867 /* RootViewController.m in Sources */,
+				B7E20F5B1824053600791BEB /* TableHeaderView.m in Sources */,
 				B7E20F4D182182ED00791BEB /* _Subsections.m in Sources */,
 				B7E20F4E182182ED00791BEB /* Subsections.m in Sources */,
 				B7CC198218047D92003C71B9 /* RAppDelegate.m in Sources */,

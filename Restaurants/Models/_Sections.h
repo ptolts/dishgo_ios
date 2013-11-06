@@ -7,6 +7,7 @@
 extern const struct SectionsAttributes {
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *position;
 } SectionsAttributes;
 
 extern const struct SectionsRelationships {
@@ -19,6 +20,7 @@ extern const struct SectionsFetchedProperties {
 
 @class Restaurant;
 @class Subsections;
+
 
 
 
@@ -51,6 +53,20 @@ extern const struct SectionsFetchedProperties {
 
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* position;
+
+
+
+@property int16_t positionValue;
+- (int16_t)positionValue;
+- (void)setPositionValue:(int16_t)value_;
+
+//- (BOOL)validatePosition:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -93,6 +109,15 @@ extern const struct SectionsFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitivePosition;
+- (void)setPrimitivePosition:(NSNumber*)value;
+
+- (int16_t)primitivePositionValue;
+- (void)setPrimitivePositionValue:(int16_t)value_;
 
 
 

@@ -51,7 +51,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     // Test listing all FailedBankInfos from the store
-    NSManagedObjectContext *context = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    self.managedObjectContext = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     NSError *error;
    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -95,6 +96,7 @@
                                                           @"lat": @"lat",
                                                           @"lon": @"lon",
                                                         }];
+    
     
     restaurantMapping.identificationAttributes = @[ @"id" ];
 
@@ -153,6 +155,7 @@
     if ([controller isKindOfClass:[StorefrontTableViewController class]]) {
         StorefrontTableViewController *vc = (StorefrontTableViewController *)controller;
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSLog(@"RESTAURANT ID: %@",[[restaurantList objectAtIndex:indexPath.row] objectID]);
         vc.restaurant = [restaurantList objectAtIndex:indexPath.row];
         vc.managedObjectStore = managedObjectStore;
         
