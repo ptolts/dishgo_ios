@@ -26,7 +26,6 @@
               placeholderImage:[UIImage imageNamed:@"Default.png"]];
         image.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:image];
-//        [self sendSubviewToBack:image];
         i++;
     }
     self.contentSize = CGSizeMake(self.frame.size.width * [self.subviews count], self.frame.size.height);

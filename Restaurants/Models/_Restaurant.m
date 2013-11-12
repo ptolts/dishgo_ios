@@ -4,10 +4,12 @@
 #import "_Restaurant.h"
 
 const struct RestaurantAttributes RestaurantAttributes = {
+	.address = @"address",
 	.id = @"id",
 	.lat = @"lat",
 	.lon = @"lon",
 	.name = @"name",
+	.phone = @"phone",
 };
 
 const struct RestaurantRelationships RestaurantRelationships = {
@@ -57,6 +59,13 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic address;
+
+
 
 
 
@@ -121,6 +130,13 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 
 @dynamic name;
+
+
+
+
+
+
+@dynamic phone;
 
 
 

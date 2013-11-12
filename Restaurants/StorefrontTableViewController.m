@@ -18,7 +18,8 @@
 #import "Subsections.h"
 #import "DishViewCell.h"
 #import "TableHeaderView.h"
-
+#import "SectionTableViewController.h"
+#import "DishScrollView.h"
 
 @interface StorefrontTableViewController ()
 @end
@@ -26,8 +27,8 @@
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
     NSArray *fetchedRestaurants;
+    int current_page = 0;
     NSSet *defaultSectionsList;
-    NSMutableDictionary *heights;
     // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
     CLLocationManager *locationManager;
     MKMapView *mapView;
@@ -109,7 +110,6 @@
 {
     [super viewDidLoad];
     
-    heights = [[NSMutableDictionary alloc] init];
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
     header.scroll_view.restaurant = self.restaurant;
@@ -117,6 +117,9 @@
     self.tableView.tableHeaderView = header;
     
     Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
+    
+    footer.phone.text = self.restaurant.phone;
+    footer.address.text = self.restaurant.address;
     mapView = footer.mapView;
     self.tableView.tableFooterView = footer;
     
@@ -147,26 +150,12 @@
 //    if (sectionIndex == 0)
 //        return 0;
     
-    return 55;
+    return 33;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [NSString stringWithFormat:@"%d-%d",indexPath.section,indexPath.row];
-    if([heights objectForKey:key]){
-        return [[heights valueForKey:key] doubleValue];
-    } else {
-//        Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
-//        int size = 0;
-//        for(Options *options in dish.options){
-//            size += 50;
-//        }
-//        size = size + 120 + 10;
-//        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
-//        return size;
-        [heights setObject:[NSNumber numberWithInteger:120] forKey:key];
-        return 120;
-    }
+        return 117;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -178,12 +167,18 @@
 {
     // Return the number of rows in the section.
     
-    if([[sectionsList objectAtIndex:section] isKindOfClass:[Subsections class]]){
-        return [((Subsections *)[sectionsList objectAtIndex:section]).dishes count];
+    if([sectionsList count] == 0){
+        return 0;
     }
     
-    return 0;
+    return 1;
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    current_page = [((DishViewCell *)([(UITableView *)self.tableView cellForRowAtIndexPath:indexPath])).dishScrollView currentPage];
+    NSLog(@"ScrollViewOffset Current_Page: %d",current_page);
+    [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -194,51 +189,20 @@
     
     // Configure the cell...
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
     } else {
-        UIView *removeView;
-        while((removeView = [cell.contentView viewWithTag:12345]) != nil) {
-            [removeView removeFromSuperview];
+        for (UIView *aView in [NSArray arrayWithArray:cell.dishScrollView.subviews]) {
+            [aView removeFromSuperview];
         }
     }
     
-    // Configure the cell...
-    Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
-    cell.dishDescription.text = dish.description_text;
-    cell.dishTitle.text = dish.name;
-    
-    for(Options *options in dish.options){
-        NSMutableArray *itemArray = [[NSMutableArray alloc] init];
-        for(Option *option in options.list){
-            [itemArray addObject:[NSString stringWithFormat:@"%@: %@$",option.name,option.price]];
-        }
-        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-        segmentedControl.frame = CGRectMake(5, cell.frame.size.height + 5, cell.frame.size.width - 10, 50);
-        segmentedControl.selectedSegmentIndex = 1;
-        segmentedControl.tag = 12345;
-        [cell.contentView addSubview:segmentedControl];
-    }
 
+    cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
+    [cell.dishScrollView setupViews];
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView beginUpdates];
-    NSString *key = [NSString stringWithFormat:@"%d-%d",indexPath.section,indexPath.row];
-    if([[heights valueForKey:key] doubleValue] == 120){
-        Dishes *dish = [((Subsections *)[sectionsList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
-        int size = 0;
-        for(Options *options in dish.options){
-            size += 50;
-        }
-        size = size + 120 + 10;
-        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
-    } else {
-        [heights setObject:[NSNumber numberWithInteger:120] forKey:key];
-    }
-    [tableView endUpdates];
-}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
@@ -335,35 +299,48 @@
 }
 */
 
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // unwrap the controller if it's embedded in the nav controller.
+    UIViewController *controller;
+    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        controller = [navController.viewControllers objectAtIndex:0];
+    } else {
+        controller = segue.destinationViewController;
+    }
+    
+    if ([controller isKindOfClass:[SectionTableViewController class]]) {
+        SectionTableViewController *vc = (SectionTableViewController *)controller;
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSLog(@"Section ID: %@",[[sectionsList objectAtIndex:indexPath.row] objectID]);
+        vc.section = [sectionsList objectAtIndex:indexPath.section];
+        vc.current_page = current_page;
+        vc.managedObjectStore = self.managedObjectStore;
+    } else {
+        NSLog(@"Class: %@",segue.destinationViewController);
+        NSAssert(NO, @"Unknown segue. All segues must be handled.");
+    }
+    
 }
-
- */
-
 - (void) loadMenu {
     
     NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
-
-    fetchedRestaurants = [self.restaurant.menu allObjects];
+//    sectionsList = [[NSMutableArray alloc] init];
+    sectionsList = (NSMutableArray *)[self.restaurant.menu allObjects];
     
-    sectionsList = [[NSMutableArray alloc] init];
+//    fetchedRestaurants = [self.restaurant.menu allObjects];
     
-    for(Sections *sec in fetchedRestaurants){
-        [sectionsList addObject:sec];
-        for(Subsections *sub in sec.subsections){
-            [sectionsList addObject:sub];
-            NSLog(@"Dishes: %d",[sub.dishes count]);
-        }
-    }
+//    sectionsList = [[NSMutableArray alloc] init];
+//    
+//    for(Sections *sec in fetchedRestaurants){
+//        [sectionsList addObject:sec];
+//        for(Subsections *sub in sec.subsections){
+//            [sectionsList addObject:sub];
+//        }
+//    }
     
-    [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
+//    [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
     
     [self.tableView reloadData];
     
@@ -378,6 +355,7 @@
                                                         @"name": @"name",
                                                         @"id": @"id",
                                                         @"price": @"price",
+                                                        @"index":@"position",
                                                         @"description": @"description_text",
                                                         }];
     dishesMapping.identificationAttributes = @[ @"id" ];
@@ -386,6 +364,7 @@
     [sectionsMapping addAttributeMappingsFromDictionary:@{
                                                           @"name": @"name",
                                                           @"id": @"id",
+                                                          @"index":@"position",
                                                           }];
     sectionsMapping.identificationAttributes = @[ @"id" ];
     
@@ -393,6 +372,7 @@
     [subsectionsMapping addAttributeMappingsFromDictionary:@{
                                                              @"name": @"name",
                                                              @"id": @"id",
+                                                             @"index":@"position",
                                                              }];
     subsectionsMapping.identificationAttributes = @[ @"id" ];
     
@@ -422,7 +402,7 @@
     NSString *url = [NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/api/v1/restaurants/menu?id=%@",self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:nil statusCodes:statusCodes];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
@@ -430,25 +410,28 @@
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
-        NSLog(@"Total Sections: %d",[result.array count]);
+//        NSLog(@"Total Sections: %d",[result.array count]);
         
-        defaultSectionsList = [result set];
-        fetchedRestaurants = [result array];
+//        defaultSectionsList = [result set];
+//        fetchedRestaurants = [result array];
+//        
+//        sectionsList = [[NSMutableArray alloc] init];
+//        for(Sections *sec in fetchedRestaurants){
+//            [sectionsList addObject:sec];
+//            for(Subsections *sub in sec.subsections){
+//                [sectionsList addObject:sub];
+//            }
+//        }
         
-        sectionsList = [[NSMutableArray alloc] init];
-        NSNumber *position = 0;
-        for(Sections *sec in fetchedRestaurants){
-            sec.position = position;
-            [sectionsList addObject:sec];
-            for(Subsections *sub in sec.subsections){
-                sub.position = position;
-                [sectionsList addObject:sub];
-            }
-        }
+        sectionsList = (NSMutableArray *)[result array];
+        
+        [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
 
-        self.restaurant.menu = defaultSectionsList;
+        self.restaurant = (Restaurant *)[[[[result array] firstObject] managedObjectContext] objectWithID:[self.restaurant objectID]];
+        self.restaurant.menu = [result set];
+
         NSError *error;
-        NSLog(@"SAVING MENU");
+        NSLog(@"SAVING MENU OF SIZE %lu",(unsigned long)[[result array] count]);
         if (![[self.restaurant managedObjectContext] save:&error]) {
             NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         }

@@ -39,10 +39,20 @@
     [self.frostedViewController presentMenuViewController];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:164 green:0 blue:0 alpha:0.9];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
 
+    
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -52,23 +62,29 @@
     
     // Test listing all FailedBankInfos from the store
     self.managedObjectContext = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSManagedObjectContext *context = self.managedObjectContext;
+
     NSError *error;
    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Restaurant"
-                                              inManagedObjectContext:context];
+                                              inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
-    NSArray *fetchedRestaurants = [context executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedRestaurants = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     NSLog(@"Fetched: %d\n\n\n", [fetchedRestaurants count]);
-    restaurantList = fetchedRestaurants;
+    restaurantList = [fetchedRestaurants sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+    {
+        return [obj2.images count] - [obj1.images count];
+    }];
+
     [self.tableView reloadData];
     
     
     ////////// QUERY NEW DATA AND UPDATE TABLE.
     
 
-    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+//    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    NSManagedObjectModel *managedObjectModel = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectModel];
+
     managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     error = nil;
     BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
@@ -76,7 +92,7 @@
         RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
     }
     NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Restaurants.sqlite"];
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path fromSeedDatabaseAtPath:path withConfiguration:nil options:nil error:&error];
     if (! persistentStore) {
         RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
     }
@@ -93,6 +109,8 @@
     [restaurantMapping addAttributeMappingsFromDictionary:@{
                                                           @"id": @"id",
                                                           @"name": @"name",
+                                                          @"phone": @"phone",
+                                                          @"address": @"address",
                                                           @"lat": @"lat",
                                                           @"lon": @"lon",
                                                         }];
@@ -112,17 +130,14 @@
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
         NSLog(@"Total Restaurants: %d",[result.array count]);
-        restaurantList = result.array;
-//        for(Restaurant *res in restaurantList){
-//            NSLog(@"Id: %@",res.objectID);
-//            for(Images *img in res.images){
-//                NSLog(@"\tImage: %@",img.url);
-//            }
-//        }
+        restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+                          {
+                              return [obj2.images count] - [obj1.images count];
+                          }];
         
         NSLog(@"Attempting save...\n\n\n");
         NSError *err;
-        if (![context save:&err]) {
+        if (![self.managedObjectContext save:&err]) {
             NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
         }
         

@@ -5,10 +5,12 @@
 
 
 extern const struct RestaurantAttributes {
+	__unsafe_unretained NSString *address;
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *lat;
 	__unsafe_unretained NSString *lon;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *phone;
 } RestaurantAttributes;
 
 extern const struct RestaurantRelationships {
@@ -27,6 +29,8 @@ extern const struct RestaurantFetchedProperties {
 
 
 
+
+
 @interface RestaurantID : NSManagedObjectID {}
 @end
 
@@ -35,6 +39,16 @@ extern const struct RestaurantFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (RestaurantID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* address;
+
+
+
+//- (BOOL)validateAddress:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -88,6 +102,16 @@ extern const struct RestaurantFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* phone;
+
+
+
+//- (BOOL)validatePhone:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSSet *images;
 
 - (NSMutableSet*)imagesSet;
@@ -122,6 +146,12 @@ extern const struct RestaurantFetchedProperties {
 @interface _Restaurant (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSString*)primitiveAddress;
+- (void)setPrimitiveAddress:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveId;
 - (void)setPrimitiveId:(NSString*)value;
 
@@ -148,6 +178,12 @@ extern const struct RestaurantFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSString*)primitivePhone;
+- (void)setPrimitivePhone:(NSString*)value;
 
 
 

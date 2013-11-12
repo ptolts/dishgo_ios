@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DishScrollView.h"
 
 @interface DishViewCell : UITableViewCell
-    @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
-    @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
+    @property (nonatomic, strong) IBOutlet DishScrollView *dishScrollView;
 @end

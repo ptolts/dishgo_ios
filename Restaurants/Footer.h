@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "TableHeaderView.h"
 
 @interface Footer : UIView
     @property (nonatomic, strong) IBOutlet MKMapView *mapView;
+    @property (nonatomic, strong) IBOutlet UILabel *phone;
+    @property (nonatomic, strong) IBOutlet UILabel *address;
 @end
