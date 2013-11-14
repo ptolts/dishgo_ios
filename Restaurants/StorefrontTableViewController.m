@@ -26,6 +26,7 @@
 
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
+    NSMutableArray *shoppingCart;
     NSArray *fetchedRestaurants;
     int current_page = 0;
     NSSet *defaultSectionsList;
@@ -109,6 +110,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    shoppingCart = [[NSMutableArray alloc] init];
     
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
@@ -316,6 +319,7 @@
         NSLog(@"Section ID: %@",[[sectionsList objectAtIndex:indexPath.row] objectID]);
         vc.section = [sectionsList objectAtIndex:indexPath.section];
         vc.current_page = current_page;
+        vc.shoppingCart = shoppingCart;
         vc.managedObjectStore = self.managedObjectStore;
     } else {
         NSLog(@"Class: %@",segue.destinationViewController);
@@ -420,6 +424,14 @@
 //            [sectionsList addObject:sec];
 //            for(Subsections *sub in sec.subsections){
 //                [sectionsList addObject:sub];
+//            }
+//        }
+        
+//        for(Sections *sec in [result array]){
+//            for(Subsections *sub in sec.subsections){
+//                for(Dishes *di in sub.dishes){
+//                    NSLog(@"%.02f",[di.price floatValue]);
+//                }
 //            }
 //        }
         

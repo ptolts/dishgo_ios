@@ -8,7 +8,9 @@
 
 #import "DishTableViewCell.h"
 
-@implementation DishTableViewCell
+@implementation DishTableViewCell {
+    float totalPrice;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -24,6 +26,20 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(NSString *) getPrice {
+    
+    if(totalPrice == 0.0){
+        NSLog(@"%.02f",[self.dish.price floatValue]);
+        if(self.dish.price == nil){
+            totalPrice = 0.0f;
+        } else {
+            totalPrice = [self.dish.price floatValue];
+        }
+    }
+    
+    return [NSString stringWithFormat:@"%.02f", totalPrice];
 }
 
 @end

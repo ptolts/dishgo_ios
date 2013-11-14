@@ -13,4 +13,6 @@
     @property(nonatomic, strong) Sections *section;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
     @property int current_page;
+    @property (nonatomic, strong) NSMutableArray *shoppingCart;
+    @property (nonatomic, strong) IBOutlet UIButton *cart;
 @end

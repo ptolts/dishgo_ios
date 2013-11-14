@@ -8,20 +8,29 @@
 
 #import "MenuTableViewController.h"
 #import "REFrostedViewController.h"
+#import "ShoppingCartTableView.h"
 
 @interface MenuTableViewController ()
 
 @end
 
-@implementation MenuTableViewController
+@implementation MenuTableViewController {
+    ShoppingCartTableView *shop;
+}
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+-(void)setupMenu {
+    if([self shopping]){
+        shop = [[ShoppingCartTableView alloc] init];
+        shop.frame = self.tableView.frame;
+        shop.shopping_cart = self.shopping_cart;
+        self.tableView.delegate = shop;
+        self.tableView.dataSource = shop;
+        NSLog(@"Displaying Cart");
+    } else {
+        self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+    }
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = ({
@@ -49,6 +58,11 @@
         [view addSubview:label];
         view;
     });
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 }
 
 #pragma mark -

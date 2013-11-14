@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MenuTableViewController : UITableViewController
-
+    @property (nonatomic, assign) BOOL shopping;
+    @property (nonatomic, strong) NSMutableArray *shopping_cart;
+    -(void) setupMenu;
 @end

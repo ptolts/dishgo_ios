@@ -15,6 +15,7 @@
 #import "ImagesInScroll.h"
 #import "RootViewController.h"
 #import "StorefrontTableViewController.h"
+#import "MenuTableViewController.h"
 
 @interface RestaurantViewController ()
 
@@ -36,6 +37,9 @@
 
 - (void)menuClick:sender
 {
+    self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = NO;
+    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     [self.frostedViewController presentMenuViewController];
 }
 
@@ -48,10 +52,10 @@
 {
     [super viewDidLoad];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:164 green:0 blue:0 alpha:0.9];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:0.9];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
-
+    
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
     // Uncomment the following line to preserve selection between presentations.
@@ -78,7 +82,7 @@
 
     [self.tableView reloadData];
     
-    
+    self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
     ////////// QUERY NEW DATA AND UPDATE TABLE.
     
 

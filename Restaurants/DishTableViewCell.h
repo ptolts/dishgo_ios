@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Dishes.h"
 
 @interface DishTableViewCell : UITableViewCell
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
+    @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
+    @property (nonatomic, strong) Dishes *dish;
+    -(NSString *) getPrice;
 @end
