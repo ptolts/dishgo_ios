@@ -8,6 +8,7 @@ const struct OptionsAttributes OptionsAttributes = {
 	.max = @"max",
 	.min = @"min",
 	.name = @"name",
+	.type = @"type",
 };
 
 const struct OptionsRelationships OptionsRelationships = {
@@ -121,6 +122,13 @@ const struct OptionsFetchedProperties OptionsFetchedProperties = {
 
 
 @dynamic name;
+
+
+
+
+
+
+@dynamic type;
 
 
 

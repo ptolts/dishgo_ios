@@ -26,6 +26,7 @@
         <attribute name="max" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="min" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dish_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="options" inverseEntity="Dishes" syncable="YES"/>
         <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Option" inverseName="option_owner" inverseEntity="Option" syncable="YES"/>
     </entity>

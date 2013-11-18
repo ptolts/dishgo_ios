@@ -9,6 +9,7 @@ extern const struct OptionsAttributes {
 	__unsafe_unretained NSString *max;
 	__unsafe_unretained NSString *min;
 	__unsafe_unretained NSString *name;
+	__unsafe_unretained NSString *type;
 } OptionsAttributes;
 
 extern const struct OptionsRelationships {
@@ -21,6 +22,7 @@ extern const struct OptionsFetchedProperties {
 
 @class Dishes;
 @class Option;
+
 
 
 
@@ -88,6 +90,16 @@ extern const struct OptionsFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* type;
+
+
+
+//- (BOOL)validateType:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) Dishes *dish_owner;
 
 //- (BOOL)validateDish_owner:(id*)value_ error:(NSError**)error_;
@@ -143,6 +155,12 @@ extern const struct OptionsFetchedProperties {
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveType;
+- (void)setPrimitiveType:(NSString*)value;
 
 
 

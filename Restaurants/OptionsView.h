@@ -13,4 +13,6 @@
     @property (weak, nonatomic) IBOutlet UILabel *optionTitle;
     @property (weak, nonatomic) Options *op;
     -(void) setupOption;
+    -(float) getPrice;
+    @property int full_height;
 @end

@@ -392,6 +392,7 @@
     [optionsMapping addAttributeMappingsFromDictionary:@{
                                                          @"name": @"name",
                                                          @"id": @"id",
+                                                         @"type": @"type",
                                                          }];
     optionsMapping.identificationAttributes = @[ @"id" ];
 

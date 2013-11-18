@@ -7,6 +7,7 @@
 //
 
 #import "DishTableViewCell.h"
+#import "OptionsView.h"
 
 @implementation DishTableViewCell {
     float totalPrice;
@@ -30,16 +31,37 @@
 
 -(NSString *) getPrice {
     
-    if(totalPrice == 0.0){
-        NSLog(@"%.02f",[self.dish.price floatValue]);
-        if(self.dish.price == nil){
-            totalPrice = 0.0f;
-        } else {
-            totalPrice = [self.dish.price floatValue];
+    if(self.dish.price == nil){
+        totalPrice = 0.0f;
+    } else {
+        totalPrice = [self.dish.price floatValue];
+    }
+    
+    for (OptionsView *priceView in [self.contentView subviews]){
+        NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
+        if (priceView.tag == 12347){
+            totalPrice += [priceView getPrice];
         }
     }
     
     return [NSString stringWithFormat:@"%.02f", totalPrice];
+}
+
+-(NSString *) getPriceFast {
+    
+    if(self.dish.price == nil){
+        totalPrice = 0.0f;
+    } else {
+        totalPrice = [self.dish.price floatValue];
+    }
+    
+    return [NSString stringWithFormat:@"%.02f", totalPrice];
+}
+
+
+-(void) setPrice {
+    NSLog(@"Updating price %@",[self getPrice]);
+    self.priceLabel.text = [self getPrice];
 }
 
 @end
