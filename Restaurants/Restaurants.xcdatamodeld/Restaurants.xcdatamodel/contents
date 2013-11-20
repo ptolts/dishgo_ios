@@ -6,8 +6,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
-        <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Options" inverseName="dish_owner" inverseEntity="Options" syncable="YES"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
+        <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Options" inverseName="dish_owner" inverseEntity="Options" syncable="YES"/>
         <relationship name="subsection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subsections" inverseName="dishes" inverseEntity="Subsections" syncable="YES"/>
     </entity>
     <entity name="Images" representedClassName="Images" syncable="YES">
@@ -28,7 +28,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dish_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="options" inverseEntity="Dishes" syncable="YES"/>
-        <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Option" inverseName="option_owner" inverseEntity="Option" syncable="YES"/>
+        <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Option" inverseName="option_owner" inverseEntity="Option" syncable="YES"/>
     </entity>
     <entity name="Restaurant" representedClassName="Restaurant" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,21 +37,21 @@
         <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Images" inverseName="relationship" inverseEntity="Images" syncable="YES"/>
-        <relationship name="menu" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sections" inverseName="restaurant" inverseEntity="Sections" syncable="YES"/>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="relationship" inverseEntity="Images" syncable="YES"/>
+        <relationship name="menu" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sections" inverseName="restaurant" inverseEntity="Sections" syncable="YES"/>
     </entity>
     <entity name="Sections" representedClassName="Sections" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="restaurant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="menu" inverseEntity="Restaurant" syncable="YES"/>
-        <relationship name="subsections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subsections" inverseName="section_owner" inverseEntity="Subsections" syncable="YES"/>
+        <relationship name="subsections" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Subsections" inverseName="section_owner" inverseEntity="Subsections" syncable="YES"/>
     </entity>
     <entity name="Subsections" representedClassName="Subsections" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dishes" inverseName="subsection" inverseEntity="Dishes" syncable="YES"/>
+        <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Dishes" inverseName="subsection" inverseEntity="Dishes" syncable="YES"/>
         <relationship name="section_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sections" inverseName="subsections" inverseEntity="Sections" syncable="YES"/>
     </entity>
     <elements>

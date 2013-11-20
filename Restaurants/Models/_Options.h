@@ -107,9 +107,9 @@ extern const struct OptionsFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *list;
+@property (nonatomic, strong) NSOrderedSet *list;
 
-- (NSMutableSet*)listSet;
+- (NSMutableOrderedSet*)listSet;
 
 
 
@@ -119,8 +119,8 @@ extern const struct OptionsFetchedProperties {
 
 @interface _Options (CoreDataGeneratedAccessors)
 
-- (void)addList:(NSSet*)value_;
-- (void)removeList:(NSSet*)value_;
+- (void)addList:(NSOrderedSet*)value_;
+- (void)removeList:(NSOrderedSet*)value_;
 - (void)addListObject:(Option*)value_;
 - (void)removeListObject:(Option*)value_;
 
@@ -171,8 +171,8 @@ extern const struct OptionsFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveList;
-- (void)setPrimitiveList:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveList;
+- (void)setPrimitiveList:(NSMutableOrderedSet*)value;
 
 
 @end

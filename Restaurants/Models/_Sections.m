@@ -102,10 +102,10 @@ const struct SectionsFetchedProperties SectionsFetchedProperties = {
 @dynamic subsections;
 
 	
-- (NSMutableSet*)subsectionsSet {
+- (NSMutableOrderedSet*)subsectionsSet {
 	[self willAccessValueForKey:@"subsections"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"subsections"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"subsections"];
   
 	[self didAccessValueForKey:@"subsections"];
 	return result;

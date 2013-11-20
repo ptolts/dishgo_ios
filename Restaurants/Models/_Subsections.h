@@ -72,9 +72,9 @@ extern const struct SubsectionsFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *dishes;
+@property (nonatomic, strong) NSOrderedSet *dishes;
 
-- (NSMutableSet*)dishesSet;
+- (NSMutableOrderedSet*)dishesSet;
 
 
 
@@ -91,8 +91,8 @@ extern const struct SubsectionsFetchedProperties {
 
 @interface _Subsections (CoreDataGeneratedAccessors)
 
-- (void)addDishes:(NSSet*)value_;
-- (void)removeDishes:(NSSet*)value_;
+- (void)addDishes:(NSOrderedSet*)value_;
+- (void)removeDishes:(NSOrderedSet*)value_;
 - (void)addDishesObject:(Dishes*)value_;
 - (void)removeDishesObject:(Dishes*)value_;
 
@@ -123,8 +123,8 @@ extern const struct SubsectionsFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveDishes;
-- (void)setPrimitiveDishes:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveDishes;
+- (void)setPrimitiveDishes:(NSMutableOrderedSet*)value;
 
 
 

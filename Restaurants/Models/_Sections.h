@@ -79,9 +79,9 @@ extern const struct SectionsFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *subsections;
+@property (nonatomic, strong) NSOrderedSet *subsections;
 
-- (NSMutableSet*)subsectionsSet;
+- (NSMutableOrderedSet*)subsectionsSet;
 
 
 
@@ -91,8 +91,8 @@ extern const struct SectionsFetchedProperties {
 
 @interface _Sections (CoreDataGeneratedAccessors)
 
-- (void)addSubsections:(NSSet*)value_;
-- (void)removeSubsections:(NSSet*)value_;
+- (void)addSubsections:(NSOrderedSet*)value_;
+- (void)removeSubsections:(NSOrderedSet*)value_;
 - (void)addSubsectionsObject:(Subsections*)value_;
 - (void)removeSubsectionsObject:(Subsections*)value_;
 
@@ -128,8 +128,8 @@ extern const struct SectionsFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveSubsections;
-- (void)setPrimitiveSubsections:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveSubsections;
+- (void)setPrimitiveSubsections:(NSMutableOrderedSet*)value;
 
 
 @end

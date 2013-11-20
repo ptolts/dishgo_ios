@@ -15,6 +15,8 @@
 @interface StorefrontTableViewController : UITableViewController <CLLocationManagerDelegate, MKMapViewDelegate>
     @property (nonatomic, strong) Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
+    @property (nonatomic, strong) IBOutlet UIButton *cart;
+//    @property (nonatomic, strong) NSMutableArray *shoppingCart;
     - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
 @end

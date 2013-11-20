@@ -142,10 +142,10 @@ const struct OptionsFetchedProperties OptionsFetchedProperties = {
 @dynamic list;
 
 	
-- (NSMutableSet*)listSet {
+- (NSMutableOrderedSet*)listSet {
 	[self willAccessValueForKey:@"list"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"list"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"list"];
   
 	[self didAccessValueForKey:@"list"];
 	return result;

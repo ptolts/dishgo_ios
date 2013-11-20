@@ -112,16 +112,16 @@ extern const struct RestaurantFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *images;
+@property (nonatomic, strong) NSOrderedSet *images;
 
-- (NSMutableSet*)imagesSet;
-
-
+- (NSMutableOrderedSet*)imagesSet;
 
 
-@property (nonatomic, strong) NSSet *menu;
 
-- (NSMutableSet*)menuSet;
+
+@property (nonatomic, strong) NSOrderedSet *menu;
+
+- (NSMutableOrderedSet*)menuSet;
 
 
 
@@ -131,13 +131,13 @@ extern const struct RestaurantFetchedProperties {
 
 @interface _Restaurant (CoreDataGeneratedAccessors)
 
-- (void)addImages:(NSSet*)value_;
-- (void)removeImages:(NSSet*)value_;
+- (void)addImages:(NSOrderedSet*)value_;
+- (void)removeImages:(NSOrderedSet*)value_;
 - (void)addImagesObject:(Images*)value_;
 - (void)removeImagesObject:(Images*)value_;
 
-- (void)addMenu:(NSSet*)value_;
-- (void)removeMenu:(NSSet*)value_;
+- (void)addMenu:(NSOrderedSet*)value_;
+- (void)removeMenu:(NSOrderedSet*)value_;
 - (void)addMenuObject:(Sections*)value_;
 - (void)removeMenuObject:(Sections*)value_;
 
@@ -189,13 +189,13 @@ extern const struct RestaurantFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveImages;
-- (void)setPrimitiveImages:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveImages;
+- (void)setPrimitiveImages:(NSMutableOrderedSet*)value;
 
 
 
-- (NSMutableSet*)primitiveMenu;
-- (void)setPrimitiveMenu:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveMenu;
+- (void)setPrimitiveMenu:(NSMutableOrderedSet*)value;
 
 
 @end

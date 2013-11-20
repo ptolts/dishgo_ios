@@ -102,16 +102,16 @@ extern const struct DishesFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSSet *images;
+@property (nonatomic, strong) NSOrderedSet *images;
 
-- (NSMutableSet*)imagesSet;
-
-
+- (NSMutableOrderedSet*)imagesSet;
 
 
-@property (nonatomic, strong) NSSet *options;
 
-- (NSMutableSet*)optionsSet;
+
+@property (nonatomic, strong) NSOrderedSet *options;
+
+- (NSMutableOrderedSet*)optionsSet;
 
 
 
@@ -128,13 +128,13 @@ extern const struct DishesFetchedProperties {
 
 @interface _Dishes (CoreDataGeneratedAccessors)
 
-- (void)addImages:(NSSet*)value_;
-- (void)removeImages:(NSSet*)value_;
+- (void)addImages:(NSOrderedSet*)value_;
+- (void)removeImages:(NSOrderedSet*)value_;
 - (void)addImagesObject:(Images*)value_;
 - (void)removeImagesObject:(Images*)value_;
 
-- (void)addOptions:(NSSet*)value_;
-- (void)removeOptions:(NSSet*)value_;
+- (void)addOptions:(NSOrderedSet*)value_;
+- (void)removeOptions:(NSOrderedSet*)value_;
 - (void)addOptionsObject:(Options*)value_;
 - (void)removeOptionsObject:(Options*)value_;
 
@@ -180,13 +180,13 @@ extern const struct DishesFetchedProperties {
 
 
 
-- (NSMutableSet*)primitiveImages;
-- (void)setPrimitiveImages:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveImages;
+- (void)setPrimitiveImages:(NSMutableOrderedSet*)value;
 
 
 
-- (NSMutableSet*)primitiveOptions;
-- (void)setPrimitiveOptions:(NSMutableSet*)value;
+- (NSMutableOrderedSet*)primitiveOptions;
+- (void)setPrimitiveOptions:(NSMutableOrderedSet*)value;
 
 
 

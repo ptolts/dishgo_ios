@@ -25,24 +25,26 @@
     if (self) {
         // Initialization code
     }
+//    self.autoresizingMask = UIViewAutoresizingNone;
     return self;
 }
 
-- (id)init {
-    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
-    
-    if (self) {
-        self = [[[NSBundle mainBundle] loadNibNamed:@"OptionsView" owner:self options:nil] objectAtIndex:0];
-//        self.frame = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
-//        self.bounds = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
-//        self.layer.bounds = self.bounds;
-//        self.layer.frame = self.frame;
-        self.autoresizingMask = UIViewAutoresizingNone;
-        totalPrice = 0.0f;
-    }
-    
-    return self;
-}
+//- (id)init {
+//    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
+//    
+//    if (self) {
+//        self = [[[NSBundle mainBundle] loadNibNamed:@"OptionsView" owner:self options:nil] objectAtIndex:0];
+////        self.frame = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
+////        self.bounds = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
+////        self.layer.bounds = self.bounds;
+////        self.layer.frame = self.frame;
+//        self.autoresizingMask = UIViewAutoresizingNone;
+////        self.optionTitle.autoresizingMask = UIViewAutoresizingNone;
+//        totalPrice = 0.0f;
+//    }
+//    
+//    return self;
+//}
 //
 //-(float) size:(Dishes *)dish {
 //    
@@ -98,6 +100,8 @@
     mainCGColor = mainColor.CGColor;
     
     int index = 0;
+    BOOL odd = ([option_values count] % 2 == 1);
+    int last = [option_values count] - 1;
     for(NSMutableArray *option in option_values){
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [button addTarget:self action:@selector(addOpt:) forControlEvents:UIControlEventTouchUpInside];
@@ -107,7 +111,12 @@
         if (index % 2 == 0){
             button.frame = CGRectMake(5, self.frame.size.height + 5, (self.frame.size.width/2) - 10, buttonSize);
         } else {
-            button.frame = CGRectMake((self.frame.size.width/2), self.frame.size.height + 5, (self.frame.size.width/2) - 10, buttonSize);
+            button.frame = CGRectMake((self.frame.size.width/2) + 5, self.frame.size.height + 5, (self.frame.size.width/2) - 10, buttonSize);
+        }
+        
+        // make last button full size if the count is odd.
+        if(odd && index == last){
+            button.frame = CGRectMake(5, self.frame.size.height + 5, self.frame.size.width - 10, buttonSize);
         }
         
         button.layer.borderColor = mainCGColor;
@@ -158,8 +167,8 @@
     NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:segmentedControl.selectedSegmentIndex];
     NSLog(@"Selected %f price.",[p[1] floatValue]);
     totalPrice = [p[1] floatValue];
-    DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
-    [oView setPrice];
+//    DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
+    [self.parent setPrice];
 }
 
 -(void)addOpt:(id)sender {
@@ -188,17 +197,17 @@
     if(but.selected){
         NSLog(@"Selected %f price.",[p[1] floatValue]);
         totalPrice += [p[1] floatValue];
-        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
+//        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
         but.layer.backgroundColor = mainCGColor;
         [but setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [oView setPrice];
+        [self.parent setPrice];
     } else {
         NSLog(@"Deselected %f price.",[p[1] floatValue]);
         totalPrice -= [p[1] floatValue];
-        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
+//        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
         but.layer.backgroundColor = [UIColor whiteColor].CGColor;
         [but setTitleColor:mainColor forState:UIControlStateNormal];
-        [oView setPrice];
+        [self.parent setPrice];
     }
 }
 

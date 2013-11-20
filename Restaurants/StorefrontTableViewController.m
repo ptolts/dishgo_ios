@@ -19,6 +19,8 @@
 #import "DishViewCell.h"
 #import "TableHeaderView.h"
 #import "SectionTableViewController.h"
+#import "REFrostedViewController.h"
+#import "MenuTableViewController.h"
 #import "DishScrollView.h"
 
 @interface StorefrontTableViewController ()
@@ -106,13 +108,18 @@
     }
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    if([shoppingCart count] != 0){
+        [self.cart setTitle:[NSString stringWithFormat:@"%d", [shoppingCart count]] forState:UIControlStateNormal];
+    }
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     shoppingCart = [[NSMutableArray alloc] init];
-    
+    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
     header.scroll_view.restaurant = self.restaurant;
@@ -140,6 +147,15 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)cartClick:sender
+{
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = shoppingCart;
+    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
+    [self.frostedViewController presentMenuViewController];
 }
 
 - (void)didReceiveMemoryWarning
@@ -331,7 +347,7 @@
     
     NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
 //    sectionsList = [[NSMutableArray alloc] init];
-    sectionsList = (NSMutableArray *)[self.restaurant.menu allObjects];
+    sectionsList = (NSMutableArray *)[self.restaurant.menu array];
     
 //    fetchedRestaurants = [self.restaurant.menu allObjects];
     
@@ -441,7 +457,7 @@
         [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
 
         self.restaurant = (Restaurant *)[[[[result array] firstObject] managedObjectContext] objectWithID:[self.restaurant objectID]];
-        self.restaurant.menu = [result set];
+        self.restaurant.menu = [NSOrderedSet orderedSetWithArray:[result array]];
 
         NSError *error;
         NSLog(@"SAVING MENU OF SIZE %lu",(unsigned long)[[result array] count]);

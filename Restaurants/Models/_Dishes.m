@@ -139,10 +139,10 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 @dynamic images;
 
 	
-- (NSMutableSet*)imagesSet {
+- (NSMutableOrderedSet*)imagesSet {
 	[self willAccessValueForKey:@"images"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"images"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"images"];
   
 	[self didAccessValueForKey:@"images"];
 	return result;
@@ -152,10 +152,10 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 @dynamic options;
 
 	
-- (NSMutableSet*)optionsSet {
+- (NSMutableOrderedSet*)optionsSet {
 	[self willAccessValueForKey:@"options"];
   
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"options"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"options"];
   
 	[self didAccessValueForKey:@"options"];
 	return result;

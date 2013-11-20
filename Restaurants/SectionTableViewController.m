@@ -18,6 +18,8 @@
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
 #import "OptionsView.h"
+#import "DishTableViewController.h"
+#import "SectionDishViewCell.h"
 
 #define DEFAULT_SIZE 75
 
@@ -29,6 +31,7 @@
 
     NSMutableArray *subsectionList;
     NSMutableDictionary *heights;
+    Dishes *selected_dish;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -62,8 +65,9 @@
         [subsectionList addObject:sub];
     }
     
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section]];
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//    [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section]];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -71,12 +75,17 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+//    self.tableView.tableFooterView = ({
+//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
+//        view;
+//    });
     
-    self.tableView.tableFooterView = ({
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
-        view;
-    });
-    
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    if([self.shoppingCart count] != 0){
+        [self.cart setTitle:[NSString stringWithFormat:@"%d", [self.shoppingCart count]] forState:UIControlStateNormal];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,26 +103,27 @@
     [self.frostedViewController presentMenuViewController];
 }
 
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    // unwrap the controller if it's embedded in the nav controller.
-//    UIViewController *controller;
-//    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
-//        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-//        controller = [navController.viewControllers objectAtIndex:0];
-//    } else {
-//        controller = segue.destinationViewController;
-//    }
-//    
-//    if ([controller isKindOfClass:[ShoppingCartTableViewViewController class]]) {
-//        ShoppingCartTableViewViewController *vc = (ShoppingCartTableViewViewController *)controller;
-//        vc.shopping_cart = self.shoppingCart;
-//    } else {
-//        NSLog(@"Class: %@",segue.destinationViewController);
-//        NSAssert(NO, @"Unknown segue. All segues must be handled.");
-//    }
-//    
-//}
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // unwrap the controller if it's embedded in the nav controller.
+    UIViewController *controller;
+    if ([segue.destinationViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
+        controller = [navController.viewControllers objectAtIndex:0];
+    } else {
+        controller = segue.destinationViewController;
+    }
+    
+    if ([segue.destinationViewController isKindOfClass:[DishTableViewController class]]) {
+        DishTableViewController *vc = (DishTableViewController *)controller;
+        vc.shoppingCart = self.shoppingCart;
+        vc.dish = selected_dish;
+    } else {
+        NSLog(@"Class: %@",segue.destinationViewController);
+        NSAssert(NO, @"Unknown segue. All segues must be handled.");
+    }
+    
+}
 
 #pragma mark - Table view data source
 
@@ -122,7 +132,7 @@
 {
 //    static NSString *CellIdentifier = @"DishTableViewCell";
     
-    DishTableViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
+    SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
     
 //    DishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 //    
@@ -140,7 +150,7 @@
 //    }
     
     NSLog(@"class: %@ index: %ld",[[subsectionList objectAtIndex:indexPath.section] class],(long)indexPath.section);
-    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.allObjects objectAtIndex:indexPath.row];
+    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
     cell.dish = dish;
     NSLog(@"%@",dish.name);
     cell.dishTitle.text = dish.name;
@@ -152,46 +162,46 @@
         cell.contentView.frame = f;
     }
     
-    for(Options *options in dish.options){
-        
-        OptionsView *option_view = [[OptionsView alloc] init];
-        option_view.tag = 12347;
-        option_view.op = options;
-        
-        CGRect frame = option_view.frame;
-        frame.origin.y = cell.contentView.frame.size.height + 5;
-        frame.origin.x = 10;
-        frame.size.width = cell.contentView.frame.size.width - 20;
-        option_view.frame = frame;
-        [option_view setupOption];
-        
-        [cell.contentView addSubview:option_view];
-        frame = cell.contentView.frame;
-        frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
-        cell.contentView.frame = frame;
-    }
-    
-    
-    // Add Dish Button
-    struct CGColor *mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9].CGColor;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    button.tag = 12345;
-    [button addTarget:self action:@selector(addDish:) forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"Add" forState:UIControlStateNormal];
-    int buttonSize = 40;
-    button.frame = CGRectMake(((cell.contentView.frame.size.width - 120)/2), cell.contentView.frame.size.height + 5, 120, buttonSize);
-    button.layer.borderColor = mainColor;
-    button.layer.backgroundColor = mainColor;
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor: [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:1.0] forState:UIControlStateHighlighted];
-    button.layer.borderWidth=1.0f;
-    [button.layer setCornerRadius:5.0f];
-    [cell.contentView addSubview:button];
-    
-    //Move DishViewCell frame down button size.
-    CGRect frame = cell.contentView.frame;
-    frame.size.height = cell.contentView.frame.size.height + (buttonSize + 15);
-    cell.contentView.frame = frame;
+//    for(Options *options in dish.options){
+//        
+//        OptionsView *option_view = [[OptionsView alloc] init];
+//        option_view.tag = 12347;
+//        option_view.op = options;
+//        
+//        CGRect frame = option_view.frame;
+//        frame.origin.y = cell.contentView.frame.size.height + 5;
+//        frame.origin.x = 10;
+//        frame.size.width = cell.contentView.frame.size.width - 20;
+//        option_view.frame = frame;
+//        [option_view setupOption];
+//        
+//        [cell.contentView addSubview:option_view];
+//        frame = cell.contentView.frame;
+//        frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
+//        cell.contentView.frame = frame;
+//    }
+//    
+//    
+//    // Add Dish Button
+//    struct CGColor *mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9].CGColor;
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    button.tag = 12345;
+//    [button addTarget:self action:@selector(addDish:) forControlEvents:UIControlEventTouchDown];
+//    [button setTitle:@"Add" forState:UIControlStateNormal];
+//    int buttonSize = 40;
+//    button.frame = CGRectMake(((cell.contentView.frame.size.width - 120)/2), cell.contentView.frame.size.height + 5, 120, buttonSize);
+//    button.layer.borderColor = mainColor;
+//    button.layer.backgroundColor = mainColor;
+//    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [button setTitleColor: [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:1.0] forState:UIControlStateHighlighted];
+//    button.layer.borderWidth=1.0f;
+//    [button.layer setCornerRadius:5.0f];
+//    [cell.contentView addSubview:button];
+//    
+//    //Move DishViewCell frame down button size.
+//    CGRect frame = cell.contentView.frame;
+//    frame.size.height = cell.contentView.frame.size.height + (buttonSize + 15);
+//    cell.contentView.frame = frame;
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
@@ -200,31 +210,24 @@
     return cell;
 }
 
--(void)addDish:(id)sender
-{
-    NSLog(@"Adding dish. Total dishes: %d",[self.shoppingCart count]);
-    UIButton *button = (UIButton *)sender;
-//    UIView *content_view = (UIView *)[button superview];
-    DishTableViewCell *cell = (DishTableViewCell*)[[[button superview] superview] superview];
-    [self.shoppingCart addObject:cell.dish];
-    [self.cart setTitle:[NSString stringWithFormat:@"%d", [self.shoppingCart count]] forState:UIControlStateNormal];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView beginUpdates];
-    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
-    if([[heights valueForKey:key] doubleValue] == DEFAULT_SIZE){
-        DishTableViewCell *c = (DishTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        int size = c.full_height;
-        for(id kkey in [heights allKeys]) {
-            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
-        }
-        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
-    } else {
-        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
-    }
-    [tableView endUpdates];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    DishTableViewCell *c = (DishTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    selected_dish = c.dish;
+    [self performSegueWithIdentifier:@"dishSelectClick" sender:self];
+//    [tableView beginUpdates];
+//    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
+//    if([[heights valueForKey:key] doubleValue] == DEFAULT_SIZE){
+//        DishTableViewCell *c = (DishTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//        int size = c.full_height;
+//        for(id kkey in [heights allKeys]) {
+//            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
+//        }
+//        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
+//    } else {
+//        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+//    }
+//    [tableView endUpdates];
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
