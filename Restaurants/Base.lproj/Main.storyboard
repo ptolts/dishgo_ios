@@ -24,8 +24,8 @@
             <objects>
                 <viewController title="Frosty" id="FPU-Lg-MNu" customClass="RootViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9kA-4D-Oaf"/>
-                        <viewControllerLayoutGuide type="bottom" id="YxN-2Z-WxU"/>
+                        <viewControllerLayoutGuide type="top" id="m07-AB-odF"/>
+                        <viewControllerLayoutGuide type="bottom" id="wVg-uC-Krd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Vey-o9-Kpv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>

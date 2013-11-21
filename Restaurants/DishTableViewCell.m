@@ -15,6 +15,12 @@
     float totalPrice;
 }
 
+- (void)setFrame:(CGRect)frame;
+{
+    NSLog(@"%@", NSStringFromCGRect(frame));
+    [super setFrame:frame];
+}
+
 -(void) setupShoppingCart {
     
     CartRowCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"CartRowCell" owner:self options:nil] objectAtIndex:0];
@@ -26,28 +32,63 @@
 }
 
 -(void) setupLowerHalf {
+    self.autoresizingMask = UIViewAutoresizingNone;
     
-    DishCellViewLowerHalf *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishCellViewLowerHalf" owner:self options:nil] objectAtIndex:0];
+    DishCellViewLowerHalf *cell = [[DishCellViewLowerHalf alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
+//    cell.autoresizingMask = UIViewAutoresizingNone;
+//    cell.contentView.autoresizingMask = UIViewAutoresizingNone;
+    cell.frame = CGRectMake(10, 0, 300, 0);
+    cell.contentView.frame = CGRectMake(10, 0, 300, 0);
+    NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
+    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+//    DishCellViewLowerHalf *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishCellViewLowerHalf" owner:self options:nil] objectAtIndex:0];
+//    cell.autoresizingMask = UIViewAutoresizingNone;
+//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Dishes *dish = self.dish;
+//
+//    cell.dishDescription.text = dish.description_text;
     
-    cell.dishDescription.text = dish.description_text;
-    
-    if([dish.description_text length] == 0){
+    if([dish.description_text length] != 0){
         
-        int old_origin = cell.descriptionLabel.frame.origin.y;
-        int height_change = cell.descriptionLabel.frame.size.height + cell.dishDescription.frame.size.height;
-        
-        [cell.descriptionLabel removeFromSuperview];
-        [cell.dishDescription removeFromSuperview];
-        
-        CGRect f = cell.optionLabel.frame;
-        f.origin.y = old_origin;
-        cell.optionLabel.frame = f;
-        
-        f = cell.contentView.frame;
-        f.size.height = f.size.height - height_change;
+        cell.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, 300, 50)];
+        cell.descriptionLabel.autoresizingMask = UIViewAutoresizingNone;
+        cell.descriptionLabel.backgroundColor = [UIColor clearColor];
+        cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
+        cell.descriptionLabel.textColor = [UIColor blackColor];
+        cell.descriptionLabel.text = @"Description";
+        CGRect f = cell.contentView.frame;
+        f.size.height = cell.contentView.frame.size.height + 50;
         cell.contentView.frame = f;
+        [cell.contentView addSubview:cell.descriptionLabel];
+        
+        cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, 300, 50)];
+        cell.dishDescription.autoresizingMask = UIViewAutoresizingNone;
+        cell.dishDescription.backgroundColor = [UIColor clearColor];
+        cell.dishDescription.textAlignment = NSTextAlignmentLeft;
+        cell.dishDescription.textColor = [UIColor blackColor];
+        cell.dishDescription.text = dish.description_text;
+        f = cell.contentView.frame;
+        f.size.height = cell.contentView.frame.size.height + 50;
+        cell.contentView.frame = f;
+        [cell.contentView addSubview:cell.dishDescription];
+        
+        NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
+        
+//        int old_origin = cell.descriptionLabel.frame.origin.y;
+//        int height_change = cell.descriptionLabel.frame.size.height + cell.dishDescription.frame.size.height;
+//        
+//        [cell.descriptionLabel removeFromSuperview];
+//        [cell.dishDescription removeFromSuperview];
+//        
+//        CGRect f = cell.optionLabel.frame;
+//        f.origin.y = old_origin;
+//        cell.optionLabel.frame = f;
+//        
+//        f = cell.contentView.frame;
+//        f.size.height = f.size.height - height_change;
+//        cell.contentView.frame = f;
     }
     
     for(Options *options in dish.options){
@@ -65,10 +106,7 @@
         
         CGRect frame = option_view.frame;
         frame.origin.y = cell.contentView.frame.size.height + 5;
-        frame.origin.x = 10;
-        frame.size.width = cell.contentView.frame.size.width - 20;
         option_view.frame = frame;
-        
         [option_view setupOption];
         
         [cell.contentView addSubview:option_view];
@@ -85,6 +123,7 @@
     
     // Add Dish Button
     DishFooterView *foot = [[[NSBundle mainBundle] loadNibNamed:@"DishFooterView" owner:self options:nil] objectAtIndex:0];
+    foot.autoresizingMask = UIViewAutoresizingNone;
     struct CGColor *mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9].CGColor;
 //    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIButton *button = foot.add;

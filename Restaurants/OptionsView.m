@@ -88,7 +88,7 @@
         [segmentedControl addTarget:self action:@selector(updatePrice:) forControlEvents:UIControlEventValueChanged];
         [self addSubview:segmentedControl];
         [self.layer setCornerRadius:5.0f];
-        self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
+//        self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
     }
 }
 
@@ -139,7 +139,7 @@
         index++;
     }
     [self.layer setCornerRadius:5.0f];
-    self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
+//    self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
 }
 
 - (void)setupOption

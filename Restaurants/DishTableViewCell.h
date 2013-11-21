@@ -17,7 +17,7 @@
 
 @interface DishTableViewCell : UIView
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
-    @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
+//    @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
     @property (nonatomic, nonatomic) DishCellViewLowerHalf *lower_half;
     @property (nonatomic, nonatomic) DishFooterView *dishFooterView;

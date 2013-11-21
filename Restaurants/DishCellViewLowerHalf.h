@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DishCellViewLowerHalf : UITableViewCell
-    @property (weak, nonatomic) IBOutlet UILabel *dishDescription;
-    @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-    @property (weak, nonatomic) IBOutlet UILabel *optionLabel;
+    @property (strong, nonatomic) IBOutlet UILabel *dishDescription;
+    @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
+    @property (strong, nonatomic) IBOutlet UILabel *optionLabel;
     @property float full_height;
     @property (nonatomic, strong) Dishes *dish;
 @end
