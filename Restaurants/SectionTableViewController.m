@@ -20,6 +20,7 @@
 #import "OptionsView.h"
 #import "DishTableViewController.h"
 #import "SectionDishViewCell.h"
+#import "CartButton.h"
 
 #define DEFAULT_SIZE 75
 
@@ -45,6 +46,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    CartButton *cartButton = [[CartButton alloc] init];
+    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+    self.navigationItem.rightBarButtonItem = customItem;
+    self.cart = cartButton;
+    
     heights = [[NSMutableDictionary alloc] init];
     subsectionList = [[NSMutableArray alloc] init];
     [subsectionList addObject:self.section];
@@ -74,7 +82,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+//    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
 //    self.tableView.tableFooterView = ({
 //        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
 //        view;
@@ -84,7 +92,7 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     if([self.shoppingCart count] != 0){
-        [self.cart setTitle:[NSString stringWithFormat:@"%d", [self.shoppingCart count]] forState:UIControlStateNormal];
+        [self.cart setCount:[NSString stringWithFormat:@"%d", [self.shoppingCart count]]];
     }
 }
 

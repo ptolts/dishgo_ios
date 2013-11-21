@@ -10,5 +10,6 @@
 
 @interface CartRowCell : UITableViewCell
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
-    @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
+    @property (nonatomic, strong) IBOutlet UILabel *priceLabel;
+    @property (nonatomic, strong) IBOutlet UILabel *quantity;
 @end

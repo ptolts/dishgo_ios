@@ -19,6 +19,17 @@
     return self;
 }
 
+- (id)init {
+    
+    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
+    
+    if (self) {
+        self = [[[NSBundle mainBundle] loadNibNamed:@"CheckoutView" owner:self options:nil] objectAtIndex:0];
+        [self.checkout.layer setCornerRadius:5.0f];
+    }
+    return self;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

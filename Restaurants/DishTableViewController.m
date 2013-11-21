@@ -14,6 +14,7 @@
 #import "MenuTableViewController.h"
 #import "SectionDishViewCell.h"
 
+
 @interface DishTableViewController ()
 
 @end
@@ -36,10 +37,15 @@
 {
     self.view.autoresizingMask = UIViewAutoresizingNone;
     [super viewDidLoad];
-    [self.cart setTitle:[NSString stringWithFormat:@"%d", [self.shoppingCart count]] forState:UIControlStateNormal];
-    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setupViews];
+    
+    CartButton *cartButton = [[CartButton alloc] init];
+    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+    self.navigationItem.rightBarButtonItem = customItem;
+    self.cart = cartButton;
+    [self.cart setCount:[NSString stringWithFormat:@"%d", [self.shoppingCart count]]];
 }
 
 -(void) setupViews{
@@ -121,10 +127,8 @@
 
 -(void)addDish:(DishTableViewCell *)dish_cell
 {
-    NSLog(@"-- Adding dish. Total dishes: %lu",(unsigned long)[self.shoppingCart count]);
     [self.shoppingCart addObject:dish_cell];
-    [self.cart setTitle:[NSString stringWithFormat:@"%lu", (unsigned long)[self.shoppingCart count]] forState:UIControlStateNormal];
-    NSLog(@"-- Added dish. Total dishes: %lu",(unsigned long)[self.shoppingCart count]);
+    [self.cart setCount:[NSString stringWithFormat:@"%lu", (unsigned long)[self.shoppingCart count]]];
 }
 
 - (void)cartClick:sender

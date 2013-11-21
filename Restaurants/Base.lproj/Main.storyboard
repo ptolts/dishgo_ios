@@ -163,22 +163,9 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="JXQ-Hn-obp">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="D98-L5-bJL">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="olP-bD-Aeu">
-                                <rect key="frame" x="276" y="8" width="28" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="cart.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="JXQ-Hn-obp"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="cart" destination="olP-bD-Aeu" id="c0i-e6-Xle"/>
                         <segue destination="cpw-B9-XP9" kind="push" identifier="menuSectionClick" id="qnc-mx-qcU"/>
                     </connections>
                 </tableViewController>
@@ -212,22 +199,7 @@
                             <outlet property="delegate" destination="cpw-B9-XP9" id="KoO-dk-wHH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="V6q-eX-ree">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="rMs-qg-4f9">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qdX-g7-MxO">
-                                <rect key="frame" x="276" y="8" width="28" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="cart.png">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="cart" destination="qdX-g7-MxO" id="ZlI-zG-wxB"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="V6q-eX-ree"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="739-2l-ADl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -237,21 +209,7 @@
         <scene sceneID="x3F-e7-m6X">
             <objects>
                 <viewController id="ANb-5f-l9y" customClass="DishTableViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="D7F-bz-cbS">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="1Ey-CB-BqW">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MyQ-MK-lRv">
-                                <rect key="frame" x="276" y="8" width="28" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" backgroundImage="cart.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="cart" destination="MyQ-MK-lRv" id="mEH-Ov-0ll"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="D7F-bz-cbS"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y0I-Ck-i0Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -288,7 +246,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cart.png" width="28" height="28"/>
         <image name="gear-32x32.png" width="512" height="512"/>
     </resources>
     <color key="tintColor" red="0.14901961389999999" green="0.14901961389999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>

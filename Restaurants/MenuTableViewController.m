@@ -9,6 +9,8 @@
 #import "MenuTableViewController.h"
 #import "REFrostedViewController.h"
 #import "ShoppingCartTableView.h"
+#import "CheckoutView.h"
+#import "DishTableViewCell.h"
 
 @interface MenuTableViewController ()
 
@@ -25,7 +27,13 @@
         shop.shopping_cart = self.shopping_cart;
         self.tableView.delegate = shop;
         self.tableView.dataSource = shop;
-        NSLog(@"Displaying Cart");
+        CheckoutView *checkoutView = [[CheckoutView alloc] init];
+        float tot = 0.0f;
+        for(DishTableViewCell *dish_cell in self.shopping_cart){
+            tot += dish_cell.getPrice;
+        }
+        checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+        self.tableView.tableFooterView = checkoutView;
     } else {
         self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
         self.tableView.delegate = self;

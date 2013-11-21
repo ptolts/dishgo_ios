@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "DishTableViewCell.h"
+#import "CartButton.h"
 
 @interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     @property (nonatomic, strong) Dishes *dish;
-    @property (nonatomic, strong) IBOutlet UIButton *cart;
+    @property (nonatomic, strong) CartButton *cart;
     @property (nonatomic, strong) IBOutlet UITableView *tableView;
     -(void)addDish:dish_cell;
 @end

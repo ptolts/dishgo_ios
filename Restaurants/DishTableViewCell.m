@@ -26,29 +26,24 @@
     CartRowCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"CartRowCell" owner:self options:nil] objectAtIndex:0];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.dishTitle.text = self.dish.name;
-    cell.priceLabel.text = [self getPrice];
+    cell.priceLabel.text = [self getPriceString];
     cell.backgroundColor = [UIColor clearColor];
+    [cell.quantity.layer setCornerRadius:5.0f];
+    cell.quantity.text = [NSString stringWithFormat:@"%d", (int) self.dishFooterView.stepper.value];
     self.shoppingCartCell = cell;
 }
 
 -(void) setupLowerHalf {
     self.autoresizingMask = UIViewAutoresizingNone;
-    
     DishCellViewLowerHalf *cell = [[DishCellViewLowerHalf alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
 //    cell.autoresizingMask = UIViewAutoresizingNone;
 //    cell.contentView.autoresizingMask = UIViewAutoresizingNone;
     cell.frame = CGRectMake(10, 0, 300, 0);
     cell.contentView.frame = CGRectMake(10, 0, 300, 0);
     NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
-    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-//    DishCellViewLowerHalf *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishCellViewLowerHalf" owner:self options:nil] objectAtIndex:0];
-//    cell.autoresizingMask = UIViewAutoresizingNone;
-//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     Dishes *dish = self.dish;
-//
-//    cell.dishDescription.text = dish.description_text;
+
     
     if([dish.description_text length] != 0){
         
@@ -58,6 +53,7 @@
         cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
         cell.descriptionLabel.textColor = [UIColor blackColor];
         cell.descriptionLabel.text = @"Description";
+        cell.descriptionLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0f];
         CGRect f = cell.contentView.frame;
         f.size.height = cell.contentView.frame.size.height + 50;
         cell.contentView.frame = f;
@@ -69,26 +65,14 @@
         cell.dishDescription.textAlignment = NSTextAlignmentLeft;
         cell.dishDescription.textColor = [UIColor blackColor];
         cell.dishDescription.text = dish.description_text;
+        cell.dishDescription.font = [UIFont fontWithName:@"Helvetica-Oblique" size:14.0f];
+        [cell.dishDescription setNumberOfLines:3];
         f = cell.contentView.frame;
         f.size.height = cell.contentView.frame.size.height + 50;
         cell.contentView.frame = f;
         [cell.contentView addSubview:cell.dishDescription];
         
         NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
-        
-//        int old_origin = cell.descriptionLabel.frame.origin.y;
-//        int height_change = cell.descriptionLabel.frame.size.height + cell.dishDescription.frame.size.height;
-//        
-//        [cell.descriptionLabel removeFromSuperview];
-//        [cell.dishDescription removeFromSuperview];
-//        
-//        CGRect f = cell.optionLabel.frame;
-//        f.origin.y = old_origin;
-//        cell.optionLabel.frame = f;
-//        
-//        f = cell.contentView.frame;
-//        f.size.height = f.size.height - height_change;
-//        cell.contentView.frame = f;
     }
     
     for(Options *options in dish.options){
@@ -98,6 +82,7 @@
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentCenter;
         option_view.optionTitle.textColor=[UIColor blackColor];
+        option_view.optionTitle.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0f];
         [option_view addSubview:option_view.optionTitle];
 
         option_view.parent = self;
@@ -117,6 +102,9 @@
     }
     
     cell.dish = dish;
+    CGRect f = cell.contentView.frame;
+    f.size.height = cell.contentView.frame.size.height + 50;
+    cell.contentView.frame = f;
     cell.full_height = cell.contentView.frame.size.height;
     self.lower_half = cell;
     [self setPrice];
@@ -127,6 +115,7 @@
     struct CGColor *mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9].CGColor;
 //    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIButton *button = foot.add;
+    foot.parent = self;
     [button addTarget:self action:@selector(addDish:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Add" forState:UIControlStateNormal];
 //    int buttonSize = 40;
@@ -153,7 +142,7 @@
     [self.parent.navigationController popViewControllerAnimated:YES];
 }
 
--(NSString *) getPrice {
+-(float) getPrice {
     
     if(self.dish.price == nil){
         totalPrice = 0.0f;
@@ -169,8 +158,13 @@
             }
         }
     }
+    int q = (int) self.dishFooterView.stepper.value;
+    if (q == 0){
+        q = 1;
+    }
+    totalPrice = totalPrice * q;
     
-    return [NSString stringWithFormat:@"%.02f", totalPrice];
+    return totalPrice;
 }
 
 -(NSString *) getPriceFast {
@@ -184,10 +178,19 @@
     return [NSString stringWithFormat:@"%.02f", totalPrice];
 }
 
+-(NSString *) getPriceString {
+    return [NSString stringWithFormat:@"%.02f", [self getPrice]];
+}
 
 -(void) setPrice {
-    NSLog(@"Updating price %@",[self getPrice]);
-    self.priceLabel.text = [self getPrice];
+//    NSLog(@"Updating price %@",[self getPrice]);
+//    [UIView animateWithDuration:0.5
+//                     animations:^{
+////                         self.priceLabel.alpha = 0.0f;
+//                         self.priceLabel.text = [self getPrice];
+////                         self.priceLabel.alpha = 1.0f;
+//                     }];
+    self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
 }
 
 @end

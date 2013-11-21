@@ -128,7 +128,7 @@
         
         if (index % 2 == 1 || (index + 1) == [option_values count]){
             CGRect frame = self.frame;
-            frame.size.height = self.frame.size.height + (buttonSize + 5);
+            frame.size.height = self.frame.size.height + (buttonSize + 10);
             self.frame = frame;
         }
 

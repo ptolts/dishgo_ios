@@ -14,6 +14,7 @@
 #import "DishFooterView.h"
 
 @class DishTableViewController;
+@class DishFooterView;
 
 @interface DishTableViewCell : UIView
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
@@ -25,7 +26,7 @@
     @property (nonatomic, strong) Dishes *dish;
     @property DishTableViewController *parent;
     @property int full_height;
-    -(NSString *) getPrice;
+    -(float) getPrice;
     -(NSString *) getPriceFast;
     -(void) setupLowerHalf;
     -(void) setPrice;

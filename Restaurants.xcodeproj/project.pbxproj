@@ -13,6 +13,8 @@
 		B70C334A1805B2A70045183F /* _Images.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C33481805B2A70045183F /* _Images.m */; };
 		B70C335C1806F5F70045183F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B70C335B1806F5F70045183F /* Default.png */; };
 		B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C335E180745A90045183F /* RestaurantLabelView.m */; };
+		B74AC373183E737A00A89616 /* CartButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74AC372183E737A00A89616 /* CartButton.xib */; };
+		B74AC377183E751C00A89616 /* CartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B74AC376183E751C00A89616 /* CartButton.m */; };
 		B78FB11118200CE40063E6C4 /* StorefrontLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11018200CE40063E6C4 /* StorefrontLabel.m */; };
 		B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */; };
 		B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB119182010E80063E6C4 /* StorefrontImageView.m */; };
@@ -111,6 +113,9 @@
 		B70C335B1806F5F70045183F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B70C335D180745A90045183F /* RestaurantLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantLabelView.h; sourceTree = "<group>"; };
 		B70C335E180745A90045183F /* RestaurantLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantLabelView.m; sourceTree = "<group>"; };
+		B74AC372183E737A00A89616 /* CartButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CartButton.xib; sourceTree = "<group>"; };
+		B74AC375183E751C00A89616 /* CartButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartButton.h; sourceTree = "<group>"; };
+		B74AC376183E751C00A89616 /* CartButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartButton.m; sourceTree = "<group>"; };
 		B78FB10F18200CE40063E6C4 /* StorefrontLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontLabel.h; sourceTree = "<group>"; };
 		B78FB11018200CE40063E6C4 /* StorefrontLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontLabel.m; sourceTree = "<group>"; };
 		B78FB11218200ED10063E6C4 /* StorefrontScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontScrollView.h; sourceTree = "<group>"; };
@@ -302,6 +307,16 @@
 			name = "Header Half - LOGIC";
 			sourceTree = "<group>";
 		};
+		B74AC374183E74C600A89616 /* Shopping Cart Button */ = {
+			isa = PBXGroup;
+			children = (
+				B74AC372183E737A00A89616 /* CartButton.xib */,
+				B74AC375183E751C00A89616 /* CartButton.h */,
+				B74AC376183E751C00A89616 /* CartButton.m */,
+			);
+			name = "Shopping Cart Button";
+			sourceTree = "<group>";
+		};
 		B7B74419182BFA2A001DFC49 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,6 +367,7 @@
 		B7B744481832DFC5001DFC49 /* Shopping Cart */ = {
 			isa = PBXGroup;
 			children = (
+				B74AC374183E74C600A89616 /* Shopping Cart Button */,
 				B7B7444F1833EFE5001DFC49 /* ShoppingCartTableView.h */,
 				B7B744501833EFE5001DFC49 /* ShoppingCartTableView.m */,
 				B7B7445218341CBF001DFC49 /* CheckoutView.h */,
@@ -701,6 +717,7 @@
 				B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
+				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
@@ -802,6 +819,7 @@
 				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
 				B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */,
 				B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */,
+				B74AC377183E751C00A89616 /* CartButton.m in Sources */,
 				B7E20F421820560100791BEB /* Sections.m in Sources */,
 				B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */,
 				B7E20F481820560100791BEB /* Options.m in Sources */,
@@ -886,7 +904,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philip Tolton (984YP4874G)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;

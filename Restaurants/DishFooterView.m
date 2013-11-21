@@ -23,6 +23,7 @@
 {
     double stepperValue = self.stepper.value;
     self.quantity.text = [NSString stringWithFormat:@"%.f", stepperValue];
+    [self.parent setPrice];
 }
 
 @end

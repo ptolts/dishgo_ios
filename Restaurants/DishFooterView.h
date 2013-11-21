@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DishTableViewCell.h"
+@class DishTableViewCell;
 
 @interface DishFooterView : UIView
     @property (weak, nonatomic) IBOutlet UIButton *add;
     @property (weak, nonatomic) IBOutlet UILabel *quantity;
     @property (weak, nonatomic) IBOutlet UIStepper *stepper;
+    @property DishTableViewCell *parent;
     - (IBAction)stepperValueChanged:(id)sender;
 @end

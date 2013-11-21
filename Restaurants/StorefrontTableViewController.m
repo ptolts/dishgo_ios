@@ -110,7 +110,7 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     if([shoppingCart count] != 0){
-        [self.cart setTitle:[NSString stringWithFormat:@"%d", [shoppingCart count]] forState:UIControlStateNormal];
+        [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
     }
 }
 
@@ -119,7 +119,14 @@
     [super viewDidLoad];
     
     shoppingCart = [[NSMutableArray alloc] init];
-    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+
+    CartButton *cartButton = [[CartButton alloc] init];
+    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+    self.navigationItem.rightBarButtonItem = customItem;
+    self.cart = cartButton;
+    [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
+    
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
     header.scroll_view.restaurant = self.restaurant;

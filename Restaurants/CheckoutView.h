@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CheckoutView : UIView
-
+    @property (strong, nonatomic) IBOutlet UIButton *checkout;
+    @property (strong, nonatomic) IBOutlet UILabel *total_cost;
 @end
