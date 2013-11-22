@@ -30,10 +30,21 @@
             DishView *dish_view = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
             CGRect frame = dish_view.frame;
             frame.origin.x = self.frame.size.width * i;
+           if (i == 0) {
+               CABasicAnimation *theAnimation;
+               theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+               theAnimation.duration=1.0;
+               theAnimation.repeatCount=2;
+               theAnimation.autoreverses=YES;
+               theAnimation.fromValue=[NSNumber numberWithFloat:0.0];
+               theAnimation.toValue=[NSNumber numberWithFloat:1.0];
+               [dish_view.arrow.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+           }
             i++;
             dish_view.frame = frame;
             dish_view.dishDescription.text = dish.description_text;
             dish_view.dishTitle.text = dish.name;
+           
             [self addSubview:dish_view];
 //            for(Options *options in dish.options){
 //                NSMutableArray *itemArray = [[NSMutableArray alloc] init];

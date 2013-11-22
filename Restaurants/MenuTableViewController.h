@@ -12,4 +12,5 @@
     @property (nonatomic, assign) BOOL shopping;
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
     -(void) setupMenu;
+    -(void) checkout;
 @end

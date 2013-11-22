@@ -56,7 +56,11 @@
         totalPrice = [self.dish.price floatValue];
     }
     
-    return [NSString stringWithFormat:@"%.02f", totalPrice];
+    if(totalPrice == 0.0){
+        return @"-";
+    } else {
+        return [NSString stringWithFormat:@"%.02f", totalPrice];
+    }
 }
 
 

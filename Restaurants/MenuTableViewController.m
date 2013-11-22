@@ -11,6 +11,9 @@
 #import "ShoppingCartTableView.h"
 #import "CheckoutView.h"
 #import "DishTableViewCell.h"
+#import "CheckoutViewController.h"
+#import "DishTableViewController.h"
+#import "ButtonCartRow.h"
 
 @interface MenuTableViewController ()
 
@@ -20,10 +23,38 @@
     ShoppingCartTableView *shop;
 }
 
+-(void) edit:(ButtonCartRow *) dish_button {
+    DishTableViewCell *dish_cell = dish_button.parent;
+    [dish_cell.dishFooterView.add setTitle:@"Save" forState:UIControlStateNormal];
+    dish_cell.editing = YES;
+    DishTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"dishEditViewController"];
+    [vc preloadDishCell:dish_cell];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
+}
+
+-(void) checkout {
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutController"];
+    vc.shoppingCart = self.shopping_cart;
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
+}
+
+-(void) signin {
+    NSLog(@"Clicked Signin");
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
+}
+
 -(void)setupMenu {
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
         shop.frame = self.tableView.frame;
+        shop.tableViewController = self.tableView;
         shop.shopping_cart = self.shopping_cart;
         self.tableView.delegate = shop;
         self.tableView.dataSource = shop;
@@ -31,8 +62,10 @@
         float tot = 0.0f;
         for(DishTableViewCell *dish_cell in self.shopping_cart){
             tot += dish_cell.getPrice;
+            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+        [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
         self.tableView.tableFooterView = checkoutView;
     } else {
         self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
@@ -42,7 +75,7 @@
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = ({
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         imageView.image = [UIImage imageNamed:@"avatar.jpg"];
@@ -61,10 +94,18 @@
         label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
         [label sizeToFit];
         label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    
+
+        [label setUserInteractionEnabled:NO];
+        [imageView setUserInteractionEnabled:NO];
         
-        [view addSubview:imageView];
-        [view addSubview:label];
-        view;
+        UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+        
+        [signin addSubview:imageView];
+        [signin addSubview:label];
+        [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
+        
+        signin;
     });
 }
 
@@ -97,8 +138,7 @@
     label.textColor = [UIColor whiteColor];
     label.backgroundColor = [UIColor clearColor];
     [label sizeToFit];
-    [view addSubview:label];
-    
+
     return view;
 }
 
@@ -165,6 +205,17 @@
     }
     
     return cell;
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    if(self.tableView.tableFooterView){
+        float tot = 0.0;
+        for(DishTableViewCell *dish_cell in self.shopping_cart){
+            tot += dish_cell.getPrice;
+            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        ((CheckoutView *)self.tableView.tableFooterView).total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+    }
 }
 
 @end

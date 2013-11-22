@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface RAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,5 +19,6 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+@property (strong, nonatomic) FBSession *session;
 
 @end

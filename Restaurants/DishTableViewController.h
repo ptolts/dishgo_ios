@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DishTableViewCell.h"
 #import "CartButton.h"
+#import "DishTableViewCell.h"
+
+@class DishTableViewCell;
 
 @interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
@@ -16,4 +19,5 @@
     @property (nonatomic, strong) CartButton *cart;
     @property (nonatomic, strong) IBOutlet UITableView *tableView;
     -(void)addDish:dish_cell;
+    - (void) preloadDishCell:(DishTableViewCell *) d;
 @end

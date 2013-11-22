@@ -10,6 +10,8 @@
 #import "OptionsView.h"
 #import "DishCellViewLowerHalf.h"
 #import "DishFooterView.h"
+#import "REFrostedViewController.h"
+#import "MenuTableViewController.h"
 
 @implementation DishTableViewCell {
     float totalPrice;
@@ -30,6 +32,10 @@
     cell.backgroundColor = [UIColor clearColor];
     [cell.quantity.layer setCornerRadius:5.0f];
     cell.quantity.text = [NSString stringWithFormat:@"%d", (int) self.dishFooterView.stepper.value];
+    NSLog(@"INITIAL CARTROWCELL HEIGHT: %f",cell.frame.size.height);
+    cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
+    cell.parent = self;
+    cell.edit.parent = self;
     self.shoppingCartCell = cell;
 }
 
@@ -137,9 +143,16 @@
 
 -(void)addDish:(id)sender
 {
-    [self setupShoppingCart];
-    [self.parent addDish:self];
-    [self.parent.navigationController popViewControllerAnimated:YES];
+    if(self.editing){
+        [self.parent.navigationController popViewControllerAnimated:YES];
+        REFrostedViewController *cu = (REFrostedViewController *)[self.parent.navigationController topViewController];
+        ((MenuTableViewController *)(cu.frostedViewController.menuViewController)).shopping = YES;
+        [cu.frostedViewController presentMenuViewController];
+    } else {
+        [self setupShoppingCart];
+        [self.parent addDish:self];
+        [self.parent.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 -(float) getPrice {
@@ -191,6 +204,9 @@
 ////                         self.priceLabel.alpha = 1.0f;
 //                     }];
     self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
+    if(self.shoppingCartCell){
+        self.shoppingCartCell.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
+    }
 }
 
 @end

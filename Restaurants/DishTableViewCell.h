@@ -15,17 +15,19 @@
 
 @class DishTableViewController;
 @class DishFooterView;
+@class CartRowCell;
 
 @interface DishTableViewCell : UIView
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
 //    @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
-    @property (nonatomic, nonatomic) DishCellViewLowerHalf *lower_half;
-    @property (nonatomic, nonatomic) DishFooterView *dishFooterView;
-    @property (nonatomic, nonatomic) CartRowCell *shoppingCartCell;
+    @property (nonatomic, strong) DishCellViewLowerHalf *lower_half;
+    @property (nonatomic, strong) DishFooterView *dishFooterView;
+    @property (nonatomic, strong) CartRowCell *shoppingCartCell;
     @property (nonatomic, strong) Dishes *dish;
     @property DishTableViewController *parent;
     @property int full_height;
+    @property BOOL editing;
     -(float) getPrice;
     -(NSString *) getPriceFast;
     -(void) setupLowerHalf;

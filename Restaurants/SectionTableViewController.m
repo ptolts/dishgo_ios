@@ -61,6 +61,8 @@
     int counter = 1;
     int row = 0;
     
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     // THIS COULD CAUSE BUGS IF DISHES ARE DISPLAYED DIFFERENTLY.
     
     for(Subsections *sub in self.section.subsections){
@@ -92,7 +94,11 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     if([self.shoppingCart count] != 0){
-        [self.cart setCount:[NSString stringWithFormat:@"%d", [self.shoppingCart count]]];
+        int tots = 0;
+        for(DishTableViewCell *d in self.shoppingCart){
+            tots += (int) d.dishFooterView.stepper.value;
+        }
+        [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
     }
 }
 

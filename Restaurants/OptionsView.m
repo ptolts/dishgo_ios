@@ -121,10 +121,13 @@
         
         button.layer.borderColor = mainCGColor;
         button.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        [button setTitle:[NSString stringWithFormat:@"%@: %@$",option[0],option[1]] forState:UIControlStateNormal];
+        button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        button.titleLabel.numberOfLines = 2;
+        button.titleLabel.textAlignment = UITextAlignmentCenter;
+        [button setTitle:[NSString stringWithFormat:@"%@\n$%@",option[0],option[1]] forState:UIControlStateNormal];
         [button setTitleColor:mainColor forState:UIControlStateNormal];
         button.layer.borderWidth=1.0f;
-        [button.layer setCornerRadius:5.0f];
+        [button.layer setCornerRadius:3.0f];
         
         if (index % 2 == 1 || (index + 1) == [option_values count]){
             CGRect frame = self.frame;

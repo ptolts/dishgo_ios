@@ -7,9 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DishTableViewCell.h"
+#import "ButtonCartRow.h"
+
+@class DishTableViewCell;
+@class ButtonCartRow;
 
 @interface CartRowCell : UITableViewCell
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *priceLabel;
     @property (nonatomic, strong) IBOutlet UILabel *quantity;
+    @property (nonatomic, strong) IBOutlet ButtonCartRow *edit;
+    @property (nonatomic, strong) IBOutlet ButtonCartRow *remove;
+    @property (nonatomic, strong) DishTableViewCell *parent;
+    @property (strong) NSNumber *fullHeight;
 @end

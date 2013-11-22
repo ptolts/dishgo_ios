@@ -11,4 +11,5 @@
 @interface DishView : UIView
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
+    @property (nonatomic, strong) IBOutlet UIImageView *arrow;
 @end

@@ -22,6 +22,7 @@
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
 #import "DishScrollView.h"
+#import "DishTableViewCell.h"
 
 @interface StorefrontTableViewController ()
 @end
@@ -110,7 +111,11 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     if([shoppingCart count] != 0){
-        [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
+        int tots = 0;
+        for(DishTableViewCell *d in shoppingCart){
+            tots += (int) d.dishFooterView.stepper.value;
+        }
+        [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
     }
 }
 
