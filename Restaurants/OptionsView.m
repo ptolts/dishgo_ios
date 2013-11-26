@@ -123,7 +123,7 @@
         button.layer.backgroundColor = [UIColor whiteColor].CGColor;
         button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         button.titleLabel.numberOfLines = 2;
-        button.titleLabel.textAlignment = UITextAlignmentCenter;
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
         [button setTitle:[NSString stringWithFormat:@"%@\n$%@",option[0],option[1]] forState:UIControlStateNormal];
         [button setTitleColor:mainColor forState:UIControlStateNormal];
         button.layer.borderWidth=1.0f;

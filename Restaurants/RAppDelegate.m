@@ -10,13 +10,21 @@
 
 #import "RootViewController.h"
 #import "RestaurantViewController.h"
+#import "UserSession.h"
 
 @implementation RAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-@synthesize session = _session;
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -25,6 +33,7 @@
 ////    RestaurantViewController *controller = (RestaurantViewController *)navigationController.topViewController;
 //    RootViewController *root = (RootViewController *)self.window.rootViewController;
 //    root.managedObjectContext = self.managedObjectContext;
+    UserSession *sharedManager = [UserSession sharedManager];
     return YES;
 }
 							

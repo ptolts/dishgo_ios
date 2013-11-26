@@ -23,17 +23,17 @@
     return self;
 }
 
--(void)setupViews {
+-(void)setupViews:(NSIndexPath *)indexPath {
     int i = 0;
     for (Subsections *sec in self.section.subsections) {
        for (Dishes *dish in sec.dishes) {
             DishView *dish_view = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
             CGRect frame = dish_view.frame;
             frame.origin.x = self.frame.size.width * i;
-           if (i == 0) {
+           if (i == 0 && indexPath.section == 0) {
                CABasicAnimation *theAnimation;
                theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-               theAnimation.duration=1.0;
+               theAnimation.duration=2.0;
                theAnimation.repeatCount=2;
                theAnimation.autoreverses=YES;
                theAnimation.fromValue=[NSNumber numberWithFloat:0.0];

@@ -39,6 +39,31 @@
     dish = dish_logic.dish;
 }
 
+- (void) setupBackButtonAndCart {
+	self.navigationItem.hidesBackButton = YES; // Important
+    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
+    [backBtn setImage:backBtnImage];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -16;// it was -6 in iOS 6
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+    //	self.navigationItem.leftBarButtonItem = backBtn;
+    
+    CartButton *cartButton = [[CartButton alloc] init];
+    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+    //    self.navigationItem.rightBarButtonItem = customItem;
+    self.cart = cartButton;
+}
+
+-(void) myCustomBack {
+	// Some anything you need to do before leaving
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     self.view.autoresizingMask = UIViewAutoresizingNone;
@@ -47,11 +72,8 @@
     
     [self setupViews];
 
-    CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    self.navigationItem.rightBarButtonItem = customItem;
-    self.cart = cartButton;
+    [self setupBackButtonAndCart];    
+    
     int tots = 0;
     for(DishTableViewCell *d in self.shoppingCart){
         tots += (int) d.dishFooterView.stepper.value;

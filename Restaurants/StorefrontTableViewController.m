@@ -24,6 +24,8 @@
 #import "DishScrollView.h"
 #import "DishTableViewCell.h"
 
+#define DEFAULT_SIZE 100
+
 @interface StorefrontTableViewController ()
 @end
 
@@ -119,21 +121,42 @@
     }
 }
 
+-(void) myCustomBack {
+	// Some anything you need to do before leaving
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) setupBackButtonAndCart {
+	self.navigationItem.hidesBackButton = YES; // Important
+    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
+    [backBtn setImage:backBtnImage];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -16;// it was -6 in iOS 6
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+    //	self.navigationItem.leftBarButtonItem = backBtn;
+    
+    shoppingCart = [[NSMutableArray alloc] init];
+    CartButton *cartButton = [[CartButton alloc] init];
+    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+    //    self.navigationItem.rightBarButtonItem = customItem;
+    self.cart = cartButton;
+    [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    shoppingCart = [[NSMutableArray alloc] init];
-
-    CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    self.navigationItem.rightBarButtonItem = customItem;
-    self.cart = cartButton;
-    [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
+    [self setupBackButtonAndCart];
     
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
+    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
     header.scroll_view.restaurant = self.restaurant;
     [header.scroll_view setupImages];
     self.tableView.tableHeaderView = header;
@@ -186,7 +209,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        return 117;
+        return DEFAULT_SIZE;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -229,7 +252,7 @@
     
 
     cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
-    [cell.dishScrollView setupViews];
+    [cell.dishScrollView setupViews:indexPath];
     
     return cell;
 }
@@ -262,9 +285,11 @@
 //    label.backgroundColor = [UIColor clearColor];
 //    [label sizeToFit];
 //    [view addSubview:label];
+//    NSLog(@"FONT FAMILIES\n%@",[UIFont familyNames]);
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
+    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
     return view;
     
 }
@@ -385,7 +410,7 @@
     RKEntityMapping *dishesMapping = [RKEntityMapping mappingForEntityForName:@"Dishes" inManagedObjectStore:managedObjectStore];
     [dishesMapping addAttributeMappingsFromDictionary:@{
                                                         @"name": @"name",
-                                                        @"id": @"id",
+                                                        @"_id": @"id",
                                                         @"price": @"price",
                                                         @"index":@"position",
                                                         @"description": @"description_text",
@@ -395,7 +420,7 @@
     RKEntityMapping *sectionsMapping = [RKEntityMapping mappingForEntityForName:@"Sections" inManagedObjectStore:managedObjectStore];
     [sectionsMapping addAttributeMappingsFromDictionary:@{
                                                           @"name": @"name",
-                                                          @"id": @"id",
+                                                          @"_id": @"id",
                                                           @"index":@"position",
                                                           }];
     sectionsMapping.identificationAttributes = @[ @"id" ];
@@ -403,7 +428,7 @@
     RKEntityMapping *subsectionsMapping = [RKEntityMapping mappingForEntityForName:@"Subsections" inManagedObjectStore:managedObjectStore];
     [subsectionsMapping addAttributeMappingsFromDictionary:@{
                                                              @"name": @"name",
-                                                             @"id": @"id",
+                                                             @"_id": @"id",
                                                              @"index":@"position",
                                                              }];
     subsectionsMapping.identificationAttributes = @[ @"id" ];
@@ -412,24 +437,24 @@
     [optionMapping addAttributeMappingsFromDictionary:@{
                                                         @"name": @"name",
                                                         @"price": @"price",
-                                                        @"id": @"id",
+                                                        @"_id": @"id",
                                                         }];
     optionMapping.identificationAttributes = @[ @"id" ];
     
     RKEntityMapping *optionsMapping = [RKEntityMapping mappingForEntityForName:@"Options" inManagedObjectStore:managedObjectStore];
     [optionsMapping addAttributeMappingsFromDictionary:@{
                                                          @"name": @"name",
-                                                         @"id": @"id",
+                                                         @"_id": @"id",
                                                          @"type": @"type",
                                                          }];
     optionsMapping.identificationAttributes = @[ @"id" ];
 
     
     
-    [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"subsections" toKeyPath:@"subsections" withMapping:subsectionsMapping]];
-    [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
+    [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"subsection" toKeyPath:@"subsections" withMapping:subsectionsMapping]];
+    [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dish" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
-    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"list" withMapping:optionMapping]];
+    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_option" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
     NSString *url = [NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/api/v1/restaurants/menu?id=%@",self.restaurant.id];

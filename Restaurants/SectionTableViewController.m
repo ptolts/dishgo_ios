@@ -43,15 +43,36 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void) setupBackButtonAndCart {
+	self.navigationItem.hidesBackButton = YES; // Important
+    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
+    [backBtn setImage:backBtnImage];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -16;// it was -6 in iOS 6
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+    //	self.navigationItem.leftBarButtonItem = backBtn;
     
     CartButton *cartButton = [[CartButton alloc] init];
     [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    self.navigationItem.rightBarButtonItem = customItem;
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+    //    self.navigationItem.rightBarButtonItem = customItem;
     self.cart = cartButton;
+}
+
+-(void) myCustomBack {
+	// Some anything you need to do before leaving
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self setupBackButtonAndCart];
     
     heights = [[NSMutableDictionary alloc] init];
     subsectionList = [[NSMutableArray alloc] init];
@@ -144,29 +165,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    static NSString *CellIdentifier = @"DishTableViewCell";
-    
     SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
-    
-//    DishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    
-//    // Configure the cell...
-//    if (cell == nil) {
-//        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
-//    } else {
-//        UIView *removeView;
-//        while((removeView = [cell viewWithTag:12347]) != nil) {
-//            [removeView removeFromSuperview];
-//        }
-//        while((removeView = [cell viewWithTag:12345]) != nil) {
-//            [removeView removeFromSuperview];
-//        }
-//    }
-    
-    NSLog(@"class: %@ index: %ld",[[subsectionList objectAtIndex:indexPath.section] class],(long)indexPath.section);
+//    NSLog(@"%d %d",indexPath.row, indexPath.section);
+    if (indexPath.row == 0 && indexPath.section == 1){
+        [cell.seperator removeFromSuperview];
+    }
+//    NSLog(@"class: %@ index: %ld",[[subsectionList objectAtIndex:indexPath.section] class],(long)indexPath.section);
     Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
     cell.dish = dish;
-    NSLog(@"%@",dish.name);
+//    NSLog(@"%@",dish.name);
     cell.dishTitle.text = dish.name;
     cell.dishDescription.text = dish.description_text;
     
@@ -176,46 +183,6 @@
         cell.contentView.frame = f;
     }
     
-//    for(Options *options in dish.options){
-//        
-//        OptionsView *option_view = [[OptionsView alloc] init];
-//        option_view.tag = 12347;
-//        option_view.op = options;
-//        
-//        CGRect frame = option_view.frame;
-//        frame.origin.y = cell.contentView.frame.size.height + 5;
-//        frame.origin.x = 10;
-//        frame.size.width = cell.contentView.frame.size.width - 20;
-//        option_view.frame = frame;
-//        [option_view setupOption];
-//        
-//        [cell.contentView addSubview:option_view];
-//        frame = cell.contentView.frame;
-//        frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
-//        cell.contentView.frame = frame;
-//    }
-//    
-//    
-//    // Add Dish Button
-//    struct CGColor *mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9].CGColor;
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    button.tag = 12345;
-//    [button addTarget:self action:@selector(addDish:) forControlEvents:UIControlEventTouchDown];
-//    [button setTitle:@"Add" forState:UIControlStateNormal];
-//    int buttonSize = 40;
-//    button.frame = CGRectMake(((cell.contentView.frame.size.width - 120)/2), cell.contentView.frame.size.height + 5, 120, buttonSize);
-//    button.layer.borderColor = mainColor;
-//    button.layer.backgroundColor = mainColor;
-//    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [button setTitleColor: [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:1.0] forState:UIControlStateHighlighted];
-//    button.layer.borderWidth=1.0f;
-//    [button.layer setCornerRadius:5.0f];
-//    [cell.contentView addSubview:button];
-//    
-//    //Move DishViewCell frame down button size.
-//    CGRect frame = cell.contentView.frame;
-//    frame.size.height = cell.contentView.frame.size.height + (buttonSize + 15);
-//    cell.contentView.frame = frame;
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
@@ -241,7 +208,7 @@
 //        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
 //    }
 //    [tableView endUpdates];
-//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
@@ -275,6 +242,7 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
+    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script" size:30.0f];
     return view;
     
 }

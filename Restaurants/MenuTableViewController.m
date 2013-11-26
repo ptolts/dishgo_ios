@@ -14,6 +14,7 @@
 #import "CheckoutViewController.h"
 #import "DishTableViewController.h"
 #import "ButtonCartRow.h"
+#import "UserSession.h"
 
 @interface MenuTableViewController ()
 
@@ -74,8 +75,42 @@
     }
     self.tableView.opaque = NO;
     self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = ({
+    self.tableView.tableHeaderView = [self setupHeader];
+}
 
+- (UIButton *) setupHeader {
+    if([[UserSession sharedManager] logged_in]){
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        imageView.image = [[UserSession sharedManager] profilePic];
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.cornerRadius = 50.0;
+        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        imageView.layer.borderWidth = 3.0f;
+        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        imageView.layer.shouldRasterize = YES;
+        imageView.clipsToBounds = YES;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+        label.text = @"Logged In";
+        label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+        [label sizeToFit];
+        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        
+        [label setUserInteractionEnabled:NO];
+        [imageView setUserInteractionEnabled:NO];
+        
+        UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+        
+        [signin addSubview:imageView];
+        [signin addSubview:label];
+        [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
+        
+        return signin;
+    } else {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 100, 100)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         imageView.image = [UIImage imageNamed:@"avatar.jpg"];
@@ -94,8 +129,8 @@
         label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
         [label sizeToFit];
         label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    
-
+        
+        
         [label setUserInteractionEnabled:NO];
         [imageView setUserInteractionEnabled:NO];
         
@@ -105,8 +140,8 @@
         [signin addSubview:label];
         [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
         
-        signin;
-    });
+        return signin;
+    }
 }
 
 - (void)viewDidLoad

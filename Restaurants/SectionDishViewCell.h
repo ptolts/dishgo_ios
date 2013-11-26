@@ -12,6 +12,7 @@
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
+    @property (nonatomic, nonatomic) IBOutlet UIView *seperator;
     @property (nonatomic, strong) Dishes *dish;
     @property int full_height;
     -(NSString *) getPrice;

@@ -54,8 +54,16 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:0.9];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     
+    // FOOD CLOUD TITLE
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.text = @"Foodcloud";
+    self.navigationItem.titleView = label;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
     // Uncomment the following line to preserve selection between presentations.
@@ -105,13 +113,13 @@
     ///// MAPPINGS
     RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
     [imagesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"url": @"url",
+                                                        @"local_file": @"url",
                                                         }];
     imagesMapping.identificationAttributes = @[ @"url" ];
     
     RKEntityMapping *restaurantMapping = [RKEntityMapping mappingForEntityForName:@"Restaurant" inManagedObjectStore:managedObjectStore];
     [restaurantMapping addAttributeMappingsFromDictionary:@{
-                                                          @"id": @"id",
+                                                          @"_id": @"id",
                                                           @"name": @"name",
                                                           @"phone": @"phone",
                                                           @"address": @"address",
@@ -122,7 +130,7 @@
     
     restaurantMapping.identificationAttributes = @[ @"id" ];
 
-    [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"images" toKeyPath:@"images" withMapping:imagesMapping]];
+    [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
@@ -250,6 +258,7 @@
     cell.scrollView.contentSize = CGSizeMake(cell.scrollView.frame.size.width * [resto.images count], cell.scrollView.frame.size.height);
     cell.scrollView.pagingEnabled = YES;
     cell.restaurantLabel.text = resto.name;
+    cell.restaurantLabel.font = [UIFont fontWithName:@"Freestyle Script Bold" size:28.0f];
     return cell;
 }
 
