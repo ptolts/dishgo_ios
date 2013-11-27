@@ -14,5 +14,7 @@
     @property NSString *facebookId;
     + (id)sharedManager;
     - (void)openSession;
-    -(UIImage *) profilePic;
+    -(UIImageView *) profilePic;
+    @property (nonatomic, strong) NSString *tokenFilePath;
+    - (NSString *) filePath;
 @end

@@ -16,6 +16,7 @@
 #import "RootViewController.h"
 #import "StorefrontTableViewController.h"
 #import "MenuTableViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface RestaurantViewController ()
 
@@ -248,8 +249,21 @@
         
         ImagesInScroll *imageView = [[ImagesInScroll alloc] initWithFrame:frame];
         imageView.userInteractionEnabled = YES;
-        [imageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
-                  placeholderImage:[UIImage imageNamed:@"Default.png"]];
+        
+        __weak typeof(imageView) weakImage = imageView;
+        [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+                            placeholderImage:[UIImage imageNamed:@"Default.png"]
+                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                              if (image && cacheType == SDImageCacheTypeNone)
+                                              {
+                                                  weakImage.alpha = 0.0;
+                                                  [UIView animateWithDuration:1.0
+                                                                   animations:^{
+                                                                       weakImage.alpha = 1.0;
+                                                                   }];
+                                              }
+                                          }];
+        
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [cell.scrollView addSubview:imageView];
         i++;
