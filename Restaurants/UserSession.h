@@ -12,8 +12,13 @@
     @property Boolean logged_in;
     @property NSString *facebookUserName;
     @property NSString *facebookId;
+    @property NSString *facebookToken;
+    @property NSString *foodcloudToken;
     + (id)sharedManager;
     - (void)openSession;
+    - (void)logout;
+    -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool))block;
+    -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool))block;
     -(UIImageView *) profilePic;
     @property (nonatomic, strong) NSString *tokenFilePath;
     - (NSString *) filePath;

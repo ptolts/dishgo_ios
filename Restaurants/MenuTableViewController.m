@@ -51,6 +51,11 @@
     [self.frostedViewController hideMenuViewController];
 }
 
+-(void) logout {
+    [[UserSession sharedManager] logout];
+    [self.frostedViewController hideMenuViewController];
+}
+
 -(void)setupMenu {
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
@@ -84,7 +89,7 @@
         UIImageView *imageView = [[UserSession sharedManager] profilePic];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
-        label.text = @"Logged In";
+        label.text = @"Logged Out";
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
@@ -99,7 +104,7 @@
         
         [signin addSubview:imageView];
         [signin addSubview:label];
-        [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
+        [signin addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
         
         return signin;
     } else {

@@ -9,5 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface SignInViewController : UIViewController
-    - (IBAction)buttonClickHandler:(id)sender;
+
+    - (IBAction)facebookSignIn:(id)sender;
+    - (IBAction)foodcloudSignIn:(id)sender;
+    - (IBAction)foodcloudSignUp:(id)sender;
+
+    @property IBOutlet UIButton *signUp;
+    @property IBOutlet UIButton *signIn;
+    @property IBOutlet UIButton *signInFacebook;
+
+    @property IBOutlet UITextField *username;
+    @property IBOutlet UITextField *password;
+
 @end

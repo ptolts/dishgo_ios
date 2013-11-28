@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface SignUpViewController : UIViewController
+    - (IBAction)foodcloudSignUp:(id)sender;
+    -(IBAction)dissmissKeyboard;
 
+    @property IBOutlet UIButton *signUp;
+
+    @property IBOutlet UITextField *username;
+    @property IBOutlet UITextField *password;
 @end

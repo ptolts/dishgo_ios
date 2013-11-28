@@ -22,6 +22,8 @@
 		B78FB11118200CE40063E6C4 /* StorefrontLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11018200CE40063E6C4 /* StorefrontLabel.m */; };
 		B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */; };
 		B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB119182010E80063E6C4 /* StorefrontImageView.m */; };
+		B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F691847DF2D00BF4F3F /* facebook@2x.png */; };
+		B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */; };
 		B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */; };
 		B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441F182C0D13001DFC49 /* DishTableViewCell.m */; };
 		B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B74421182C0D26001DFC49 /* DishTableViewCell.xib */; };
@@ -60,6 +62,7 @@
 		B7DA9D99184545220072AD47 /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9D98184545220072AD47 /* UserSession.m */; };
 		B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D9E184670EC0072AD47 /* icon@2x.png */; };
 		B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */; };
+		B7DA9DA61847B34E0072AD47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9DA51847B34E0072AD47 /* User.m */; };
 		B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E12847183BB2980079B5E9 /* DishTableViewController.m */; };
 		B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E1284C183BDAB10079B5E9 /* SectionDishViewCell.m */; };
 		B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E1284E183BDADD0079B5E9 /* SectionDishViewCell.xib */; };
@@ -140,6 +143,8 @@
 		B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontScrollView.m; sourceTree = "<group>"; };
 		B78FB118182010E80063E6C4 /* StorefrontImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontImageView.h; sourceTree = "<group>"; };
 		B78FB119182010E80063E6C4 /* StorefrontImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontImageView.m; sourceTree = "<group>"; };
+		B79E8F691847DF2D00BF4F3F /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
+		B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foodcloud_icon@2x.png"; sourceTree = "<group>"; };
 		B7B7441A182BFAA2001DFC49 /* SectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionTableViewController.h; sourceTree = "<group>"; };
 		B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionTableViewController.m; sourceTree = "<group>"; };
 		B7B7441E182C0D13001DFC49 /* DishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishTableViewCell.h; sourceTree = "<group>"; };
@@ -193,6 +198,8 @@
 		B7DA9D9E184670EC0072AD47 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		B7DA9DA11846A62E0072AD47 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		B7DA9DA41847B34E0072AD47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		B7DA9DA51847B34E0072AD47 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		B7E12846183BB2980079B5E9 /* DishTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishTableViewController.h; sourceTree = "<group>"; };
 		B7E12847183BB2980079B5E9 /* DishTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishTableViewController.m; sourceTree = "<group>"; };
 		B7E1284B183BDAB10079B5E9 /* SectionDishViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionDishViewCell.h; sourceTree = "<group>"; };
@@ -362,6 +369,8 @@
 				B7DA9D98184545220072AD47 /* UserSession.m */,
 				B7DA9DA11846A62E0072AD47 /* SignUpViewController.h */,
 				B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */,
+				B7DA9DA41847B34E0072AD47 /* User.h */,
+				B7DA9DA51847B34E0072AD47 /* User.m */,
 			);
 			name = "Sign In / Up";
 			sourceTree = "<group>";
@@ -501,6 +510,8 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */,
+				B79E8F691847DF2D00BF4F3F /* facebook@2x.png */,
 				B7DA9D9E184670EC0072AD47 /* icon@2x.png */,
 				B7DA9D951843E3CC0072AD47 /* arrow@2x.png */,
 				B7DA9D8F1843DFAF0072AD47 /* control@2x.png */,
@@ -795,11 +806,13 @@
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
+				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7DA9D8C1843DE2C0072AD47 /* back@2x.png in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
+				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
 				B7E6C296183BF909005E8598 /* CartRowCell.xib in Resources */,
@@ -889,6 +902,7 @@
 			files = (
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
 				B7E20F441820560100791BEB /* _Menu.m in Sources */,
+				B7DA9DA61847B34E0072AD47 /* User.m in Sources */,
 				B70C33491805B2A70045183F /* _Restaurant.m in Sources */,
 				B7E20F1A18202EE200791BEB /* StorefrontGradientView.m in Sources */,
 				B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */,
