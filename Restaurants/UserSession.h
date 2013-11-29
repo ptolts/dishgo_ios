@@ -15,10 +15,10 @@
     @property NSString *facebookToken;
     @property NSString *foodcloudToken;
     + (id)sharedManager;
-    - (void)openSession;
+    - (void)openSession:(void (^)(bool, NSString *))block;
     - (void)logout;
-    -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool))block;
-    -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool))block;
+    -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
+    -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
     -(UIImageView *) profilePic;
     @property (nonatomic, strong) NSString *tokenFilePath;
     - (NSString *) filePath;

@@ -500,9 +500,10 @@
         NSLog(@"SAVING MENU OF SIZE %lu",(unsigned long)[[result array] count]);
         if (![[self.restaurant managedObjectContext] save:&error]) {
             NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        } else {
+            [self.tableView reloadData];
         }
         
-        [self.tableView reloadData];
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);
     }];

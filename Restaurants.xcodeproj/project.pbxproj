@@ -55,7 +55,6 @@
 		B7CC19B518047E3D003C71B9 /* RestaurantCells.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B418047E3D003C71B9 /* RestaurantCells.m */; };
 		B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
-		B7DA9D8C1843DE2C0072AD47 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8B1843DE2C0072AD47 /* back@2x.png */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
 		B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D951843E3CC0072AD47 /* arrow@2x.png */; };
@@ -99,6 +98,9 @@
 		B7E6C299183BF927005E8598 /* CartRowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E6C298183BF927005E8598 /* CartRowCell.m */; };
 		B7E6C29D183C0F38005E8598 /* DishFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E6C29C183C0F38005E8598 /* DishFooterView.m */; };
 		B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E6C29E183C0F56005E8598 /* DishFooterView.xib */; };
+		B7EE7B5F1849292A003EE5B8 /* background_signup@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B5E1849292A003EE5B8 /* background_signup@2x.jpg */; };
+		B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B62184938A1003EE5B8 /* avatar@2x.png */; };
+		B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B6418493DB6003EE5B8 /* back@2x.png */; };
 		B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */; };
 		D6D63E0995B84A2A89637C60 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C89D06B07D4F4B8B054A7B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -189,7 +191,6 @@
 		B7CC19B618047FE9003C71B9 /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
-		B7DA9D8B1843DE2C0072AD47 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
 		B7DA9D951843E3CC0072AD47 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -261,6 +262,9 @@
 		B7E6C29B183C0F38005E8598 /* DishFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishFooterView.h; sourceTree = "<group>"; };
 		B7E6C29C183C0F38005E8598 /* DishFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishFooterView.m; sourceTree = "<group>"; };
 		B7E6C29E183C0F56005E8598 /* DishFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishFooterView.xib; sourceTree = "<group>"; };
+		B7EE7B5E1849292A003EE5B8 /* background_signup@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background_signup@2x.jpg"; sourceTree = "<group>"; };
+		B7EE7B62184938A1003EE5B8 /* avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@2x.png"; sourceTree = "<group>"; };
+		B7EE7B6418493DB6003EE5B8 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		B7FB3F90181B1A9700AD6036 /* RestoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestoScrollView.h; sourceTree = "<group>"; };
 		B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -510,13 +514,15 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B6418493DB6003EE5B8 /* back@2x.png */,
+				B7EE7B62184938A1003EE5B8 /* avatar@2x.png */,
+				B7EE7B5E1849292A003EE5B8 /* background_signup@2x.jpg */,
 				B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */,
 				B79E8F691847DF2D00BF4F3F /* facebook@2x.png */,
 				B7DA9D9E184670EC0072AD47 /* icon@2x.png */,
 				B7DA9D951843E3CC0072AD47 /* arrow@2x.png */,
 				B7DA9D8F1843DFAF0072AD47 /* control@2x.png */,
 				B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */,
-				B7DA9D8B1843DE2C0072AD47 /* back@2x.png */,
 				B7DA9D821843B1870072AD47 /* freestylebold.ttf */,
 				B77A8D0C1843AAF900AFBAEE /* FREESCPT.TTF */,
 				B7B744401832AF5C001DFC49 /* gear-32x32.png */,
@@ -799,9 +805,12 @@
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
+				B7EE7B5F1849292A003EE5B8 /* background_signup@2x.jpg in Resources */,
 				B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */,
+				B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */,
 				B7CC199018047D92003C71B9 /* Images.xcassets in Resources */,
 				B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */,
+				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
@@ -810,7 +819,6 @@
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
-				B7DA9D8C1843DE2C0072AD47 /* back@2x.png in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
 				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,

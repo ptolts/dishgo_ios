@@ -14,6 +14,8 @@
     - (IBAction)foodcloudSignIn:(id)sender;
     - (IBAction)foodcloudSignUp:(id)sender;
 
+    @property IBOutlet UIView *bg;
+
     @property IBOutlet UIButton *signUp;
     @property IBOutlet UIButton *signIn;
     @property IBOutlet UIButton *signInFacebook;

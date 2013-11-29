@@ -95,18 +95,16 @@ static NSString* kFilename = @"TokenInfo.plist";
                 [session openFromAccessTokenData:access_token completionHandler:
                  ^(FBSession *session, FBSessionState state, NSError *error) {
                      NSLog(@"result.... %@",error);
-                     [self sessionStateChanged:session state:state error:error];
+                     [self sessionStateChanged:session state:state error:error block:^(bool obj, NSString *result) {
+                         // Does nothing, but conforms to the function.
+                     }];
                  }];
-            } else if ([[self readData] objectForKey:@"foodcloud_token"]){
-                NSDictionary *dic = [self readData];
-                NSString *tok = [dic objectForKey:@"foodcloud_token"];
-                foodcloudToken = tok;
-                logged_in = YES;
             }
-            else {
-                NSError *error;
-                [self sessionStateChanged:FBSession.activeSession state:FBSession.activeSession.state error:error];
-            }
+        } else if ([[self readData] objectForKey:@"foodcloud_token"]){
+            NSDictionary *dic = [self readData];
+            NSString *tok = [dic objectForKey:@"foodcloud_token"];
+            foodcloudToken = tok;
+            logged_in = YES;
         }
     }
     return self;
@@ -129,14 +127,15 @@ static NSString* kFilename = @"TokenInfo.plist";
 }
 
 -(UIImageView *) profilePic {
+    int header_size = 60;
     if (FBSession.activeSession.isOpen) {
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 50, 50)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
         __weak typeof(imageView) weakImage = imageView;
         [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
-                           placeholderImage:[UIImage imageNamed:@"Default.png"]
+                           placeholderImage:[UIImage imageNamed:@"avatar.png"]
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image && cacheType == SDImageCacheTypeNone)
                                       {
@@ -149,7 +148,7 @@ static NSString* kFilename = @"TokenInfo.plist";
                                   }];
         
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 25.0;
+        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
         imageView.layer.borderColor = [UIColor whiteColor].CGColor;
         imageView.layer.borderWidth = 3.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -157,11 +156,11 @@ static NSString* kFilename = @"TokenInfo.plist";
         imageView.clipsToBounds = YES;
         return imageView;
     } else {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 50, 50)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"avatar.jpg"];
+        imageView.image = [UIImage imageNamed:@"avatar.png"];
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 25.0;
+        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
         imageView.layer.borderColor = [UIColor whiteColor].CGColor;
         imageView.layer.borderWidth = 3.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -171,7 +170,7 @@ static NSString* kFilename = @"TokenInfo.plist";
     }
 }
 
--(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool))block {
+-(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
     [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token"]];
@@ -198,16 +197,17 @@ static NSString* kFilename = @"TokenInfo.plist";
          User *user = [result firstObject];
          NSLog(@"ID: %@", user.foodcloud_token);
          [self completeLogin:user];
-         block(logged_in);
+         block(logged_in, @"Logged in!");
      } failure:
      ^( RKObjectRequestOperation *operation , NSError *error ){
          NSLog(@"%@",error);
+         block(NO,error.description);
      }
      ];
     
 }
 
--(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool))block {
+-(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
     [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token"]];
@@ -234,10 +234,11 @@ static NSString* kFilename = @"TokenInfo.plist";
          User *user = [result firstObject];
          NSLog(@"ID: %@", user.foodcloud_token);
          [self completeLogin:user];
-         block(logged_in);         
+         block(logged_in, @"Good!");
      } failure:
      ^( RKObjectRequestOperation *operation , NSError *error ){
          NSLog(@"%@",error);
+         block(logged_in, error.description);
      }
      ];
 
@@ -259,7 +260,7 @@ static NSString* kFilename = @"TokenInfo.plist";
     }
 }
 
--(void) loginWithFacebook {
+-(void) loginWithFacebook:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
     [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token"]];
@@ -284,14 +285,19 @@ static NSString* kFilename = @"TokenInfo.plist";
      ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
          User *user = [result firstObject];
          [self completeLogin:user];
+         block(YES,@"Good!");
          NSLog(@"ID: %@", user.foodcloud_token);
-    } failure:nil];
+     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
+         NSLog(@"%@",error);
+         block(NO,error.description);
+     }];
 
 }
 
 - (void)sessionStateChanged:(FBSession *)session
                       state:(FBSessionState) state
                       error:(NSError *)error
+                      block:(void (^)(bool, NSString *))block
 {
     switch (state) {
         case FBSessionStateOpen: {
@@ -313,7 +319,7 @@ static NSString* kFilename = @"TokenInfo.plist";
              nil]];
             
             [self updateFacebookCred];
-            [self loginWithFacebook];
+            [self loginWithFacebook:block];
             
         }
             break;
@@ -359,7 +365,7 @@ static NSString* kFilename = @"TokenInfo.plist";
     }
 }
 
-- (void)openSession
+- (void)openSession:(void (^)(bool, NSString *))block
 {
     [FBSession openActiveSessionWithReadPermissions:nil
                                        allowLoginUI:YES
@@ -367,7 +373,7 @@ static NSString* kFilename = @"TokenInfo.plist";
      ^(FBSession *session,
        FBSessionState state, NSError *error) {
 //         NSLog(@"result.... %@",error);
-         [self sessionStateChanged:session state:state error:error];
+         [self sessionStateChanged:session state:state error:error block:block];
      }];
 }
 

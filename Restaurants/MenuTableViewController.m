@@ -22,6 +22,7 @@
 
 @implementation MenuTableViewController {
     ShoppingCartTableView *shop;
+    UIColor *mainColor;
 }
 
 -(void) edit:(ButtonCartRow *) dish_button {
@@ -73,26 +74,32 @@
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
         [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
         self.tableView.tableFooterView = checkoutView;
+        self.tableView.opaque = NO;
+        self.tableView.backgroundColor = [UIColor clearColor];
+        self.tableView.tableHeaderView = [self setupHeader];
     } else {
-        self.tableView.separatorColor = [UIColor colorWithRed:150/255.0f green:161/255.0f blue:177/255.0f alpha:1.0f];
+        self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
+        self.tableView.opaque = NO;
+        self.tableView.backgroundColor = mainColor;
+        self.tableView.tableHeaderView = [self setupHeader];
     }
-    self.tableView.opaque = NO;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.tableHeaderView = [self setupHeader];
 }
 
 - (UIButton *) setupHeader {
+    
+    int header_size = 60;
+    
     if([[UserSession sharedManager] logged_in]){
         
         UIImageView *imageView = [[UserSession sharedManager] profilePic];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 118, 0, 24)];
         label.text = @"Logged Out";
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+        label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+        label.textColor = [UIColor whiteColor];
+
         [label sizeToFit];
         label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
@@ -108,22 +115,22 @@
         
         return signin;
     } else {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, 50, 50)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"avatar.jpg"];
+        imageView.image = [UIImage imageNamed:@"avatar.png"];
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 25.0;
+        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
         imageView.layer.borderColor = [UIColor whiteColor].CGColor;
         imageView.layer.borderWidth = 3.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 150, 0, 24)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 110, 0, 24)];
         label.text = @"Sign In";
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
         label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
         [label sizeToFit];
         label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
@@ -132,7 +139,6 @@
         [imageView setUserInteractionEnabled:NO];
         
         UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-        
         [signin addSubview:imageView];
         [signin addSubview:label];
         [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
@@ -144,6 +150,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
 }
 
 #pragma mark -
@@ -152,34 +159,37 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+//    cell.backgroundColor = mainColor;
+//    cell.textLabel.textColor = [UIColor colorWithRed:62/255.0f green:68/255.0f blue:75/255.0f alpha:1.0f];
+    cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
-{
-    if (sectionIndex == 0)
-        return nil;
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-    label.text = @"Previous Orders";
-    label.font = [UIFont systemFontOfSize:15];
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = [UIColor clearColor];
-    [label sizeToFit];
-
-    return view;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
+//{
+//    if (sectionIndex == 0)
+//        return nil;
+//    
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
+////    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
+//    view.backgroundColor = [UIColor clearColor];
+//    
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
+//    label.text = @"Previous Orders";
+//    label.font = [UIFont systemFontOfSize:15];
+//    label.textColor = [UIColor whiteColor];
+//    label.backgroundColor = [UIColor clearColor];
+//    [label sizeToFit];
+//
+//    return view;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
     if (sectionIndex == 0)
         return 0;
     
-    return 34;
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -210,7 +220,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex

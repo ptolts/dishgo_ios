@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import "UserSession.h"
+#import <MBProgressHUD.h>
 
 @interface SignUpViewController ()
 
@@ -24,14 +25,29 @@
     return self;
 }
 
-- (IBAction)foodcloudSignUn:(id)sender {
-    [[UserSession sharedManager] signIn:self.username.text password:self.password.text block:^(bool obj) {
+- (IBAction)foodcloudSignUp:(id)sender {
+    
+    for (UIView * txt in self.bg.subviews){
+        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
+            [txt resignFirstResponder];
+        }
+    }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.labelText = @"Working...";
+    
+    
+    [[UserSession sharedManager] signUp:self.username.text password:self.password.text block:^(bool obj, NSString *error) {
         if(obj){
+            [hud hide:YES];
+            [self.navigationController popViewControllerAnimated:YES];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
+            [hud hide:YES];
             UIAlertView *alertView = [[UIAlertView alloc]
                                       initWithTitle:@"Error"
-                                      message:@"Bad Email or Password!"
+                                      message:error
                                       delegate:nil
                                       cancelButtonTitle:@"OK"
                                       otherButtonTitles:nil];
@@ -39,6 +55,7 @@
             self.password.text = @"";
         }
     }];
+    
 }
 
 - (void)viewDidLoad
@@ -46,18 +63,22 @@
     [super viewDidLoad];
     [self setupBackButton];
 	// Do any additional setup after loading the view.
+    UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:imageView ];
+    [self.view sendSubviewToBack:imageView ];
+    
+    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+    [self.bg.layer setCornerRadius:5.0f];
 }
 
 -(IBAction)dissmissKeyboard:(id)sender{
     [sender resignFirstResponder];
 }
 
-- (IBAction)foodcloudSignUp {
-
-}
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UIView * txt in self.view.subviews){
+    for (UIView * txt in self.bg.subviews){
         if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
             [txt resignFirstResponder];
         }
