@@ -11,7 +11,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7bN-pl-Yl3">
-                    <rect key="frame" x="116" y="40" width="49" height="21"/>
+                    <rect key="frame" x="86" y="40" width="79" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <nil key="highlightedColor"/>
@@ -43,7 +43,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="checkout" destination="ed9-4c-Hut" id="Wdd-IA-bFW"/>
+                <outlet property="seperator" destination="oLi-GZ-yd8" id="1L8-lz-ydS"/>
                 <outlet property="total_cost" destination="FXd-wT-h1m" id="snN-UI-61o"/>
+                <outlet property="total_label" destination="7bN-pl-Yl3" id="c3F-Di-CMX"/>
             </connections>
         </view>
     </objects>

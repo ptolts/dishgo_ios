@@ -7,6 +7,7 @@
 //
 
 #import "CartButton.h"
+#import "UIColor+Custom.h"
 
 @implementation CartButton
 
@@ -37,8 +38,11 @@
         [self.cart_count.layer setCornerRadius:5.0f];
     }
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    self.cart_count.backgroundColor = [UIColor textColor];
+//    self.cart_count.layer.borderColor = [UIColor textColor].CGColor;
     [btn addSubview:self];
     [btn setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    
     self.button = btn;
     return self;
 }

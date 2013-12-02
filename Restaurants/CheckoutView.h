@@ -11,4 +11,8 @@
 @interface CheckoutView : UIView
     @property (strong, nonatomic) IBOutlet UIButton *checkout;
     @property (strong, nonatomic) IBOutlet UILabel *total_cost;
+    @property (strong, nonatomic) IBOutlet UILabel *total_label;
+    @property (strong, nonatomic) IBOutlet UIView *seperator;
+
 @end
+

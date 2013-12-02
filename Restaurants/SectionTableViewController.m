@@ -21,8 +21,10 @@
 #import "DishTableViewController.h"
 #import "SectionDishViewCell.h"
 #import "CartButton.h"
+#import "UIColor+Custom.h"
 
 #define DEFAULT_SIZE 75
+#define HEADER_DEFAULT_SIZE 44
 
 @interface SectionTableViewController ()
 
@@ -96,21 +98,9 @@
         [subsectionList addObject:sub];
     }
     
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-//    [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section]];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-//    [self.cart addTarget:self action:@selector(cartClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
-//    self.tableView.tableFooterView = ({
-//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300)];
-//        view;
-//    });
-    
+    self.tableView.backgroundColor = [UIColor bgColor];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -177,6 +167,9 @@
     cell.dishTitle.text = dish.name;
     cell.dishDescription.text = dish.description_text;
     
+    cell.dishTitle.textColor = [UIColor textColor];
+    cell.seperator.backgroundColor = [UIColor seperatorColor];
+    
     if([dish.description_text length] == 0){
         CGRect f = cell.contentView.frame;
         f.size.height = f.size.height - 65;
@@ -188,6 +181,7 @@
     cell.priceLabel.text = cell.getPriceFast;
     cell.dish = dish;
     cell.full_height = cell.contentView.frame.size.height;
+    cell.backgroundColor = [UIColor bgColor];
     return cell;
 }
 
@@ -242,7 +236,9 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
-    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script" size:30.0f];
+    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    view.headerTitle.textColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor almostBlackColor];
     return view;
     
 }
@@ -287,7 +283,7 @@
         return 0;
     }
     
-    return 33;
+    return HEADER_DEFAULT_SIZE;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

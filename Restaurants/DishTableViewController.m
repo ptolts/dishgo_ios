@@ -12,6 +12,7 @@
 #import "OptionsView.h"
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
+#import "UIColor+Custom.h"
 #import "SectionDishViewCell.h"
 
 
@@ -22,6 +23,7 @@
 @implementation DishTableViewController {
     Dishes *dish;
     DishTableViewCell *dish_logic;
+    bool editing;
 }
 
 //- (id)initWithStyle:(UITableViewStyle)style
@@ -37,6 +39,7 @@
     dish_logic = d;
     dish_logic.parent = self;
     dish = dish_logic.dish;
+    editing = YES;
 }
 
 - (void) setupBackButtonAndCart {
@@ -52,7 +55,9 @@
     //	self.navigationItem.leftBarButtonItem = backBtn;
     
     CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    if(!editing){
+        [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
     UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
     //    self.navigationItem.rightBarButtonItem = customItem;
@@ -74,6 +79,9 @@
 
     [self setupBackButtonAndCart];    
     
+    self.tableView.backgroundColor = [UIColor bgColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     int tots = 0;
     for(DishTableViewCell *d in self.shoppingCart){
         tots += (int) d.dishFooterView.stepper.value;
@@ -92,6 +100,7 @@
         dish_logic.dish = dish;
         dish_logic.dishTitle.text = dish.name;
         dish_logic.parent = self;
+        dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
         [dish_logic setupLowerHalf];
         CGRect frame = dish_logic.dishFooterView.frame;
         frame.origin.y = junkHeight - frame.size.height;

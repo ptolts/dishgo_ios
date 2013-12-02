@@ -63,7 +63,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"Foodcloud";
+    label.text = @"Sign In";
     self.navigationItem.titleView = label;
 }
 

@@ -15,6 +15,7 @@
 #import "DishTableViewController.h"
 #import "ButtonCartRow.h"
 #import "UserSession.h"
+#import "UIColor+Custom.h"
 
 @interface MenuTableViewController ()
 
@@ -23,6 +24,7 @@
 @implementation MenuTableViewController {
     ShoppingCartTableView *shop;
     UIColor *mainColor;
+    UIColor *sign_in_color;
 }
 
 -(void) edit:(ButtonCartRow *) dish_button {
@@ -30,6 +32,7 @@
     [dish_cell.dishFooterView.add setTitle:@"Save" forState:UIControlStateNormal];
     dish_cell.editing = YES;
     DishTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"dishEditViewController"];
+    vc.shoppingCart = self.shopping_cart;
     [vc preloadDishCell:dish_cell];
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
@@ -58,6 +61,9 @@
 }
 
 -(void)setupMenu {
+    
+    self.tableView.tableFooterView = nil;
+    
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
         shop.frame = self.tableView.frame;
@@ -76,6 +82,7 @@
         self.tableView.tableFooterView = checkoutView;
         self.tableView.opaque = NO;
         self.tableView.backgroundColor = [UIColor clearColor];
+        sign_in_color = [UIColor almostBlackColor];
         self.tableView.tableHeaderView = [self setupHeader];
     } else {
         self.tableView.separatorColor = [UIColor clearColor];
@@ -83,6 +90,7 @@
         self.tableView.dataSource = self;
         self.tableView.opaque = NO;
         self.tableView.backgroundColor = mainColor;
+        sign_in_color = [UIColor whiteColor];
         self.tableView.tableHeaderView = [self setupHeader];
     }
 }
@@ -98,7 +106,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 118, 0, 24)];
         label.text = @"Logged Out";
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
-        label.textColor = [UIColor whiteColor];
+        label.textColor = sign_in_color;
 
         [label sizeToFit];
         label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -117,10 +125,15 @@
     } else {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
         imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"avatar.png"];
+        [imageView setContentMode:UIViewContentModeCenter];
+        if(self.shopping){
+                    imageView.image = [UIImage imageNamed:@"avatar_black.png"];
+        } else {
+                    imageView.image = [UIImage imageNamed:@"avatar_white.png"];
+        }
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        imageView.layer.borderColor = sign_in_color.CGColor;
         imageView.layer.borderWidth = 3.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         imageView.layer.shouldRasterize = YES;
@@ -128,7 +141,7 @@
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 110, 0, 24)];
         label.text = @"Sign In";
-        label.textColor = [UIColor whiteColor];
+        label.textColor = sign_in_color;
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
         label.backgroundColor = [UIColor clearColor];
         [label sizeToFit];

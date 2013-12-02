@@ -23,8 +23,10 @@
 #import "MenuTableViewController.h"
 #import "DishScrollView.h"
 #import "DishTableViewCell.h"
+#import "UIColor+Custom.h"
 
-#define DEFAULT_SIZE 100
+#define DEFAULT_SIZE 148
+#define HEADER_DEFAULT_SIZE 44
 
 @interface StorefrontTableViewController ()
 @end
@@ -152,21 +154,45 @@
 {
     [super viewDidLoad];
     
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.tableView.autoresizingMask = UIViewAutoresizingNone;
+    
     [self setupBackButtonAndCart];
+    
+    // FOOD CLOUD TITLE
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.text = self.restaurant.name;
+    self.navigationItem.titleView = label;
     
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
-    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
+//    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
     header.scroll_view.restaurant = self.restaurant;
     [header.scroll_view setupImages];
+    header.autoresizingMask = UIViewAutoresizingNone;
+    header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
     self.tableView.tableHeaderView = header;
     
     Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
     
     footer.phone.text = self.restaurant.phone;
     footer.address.text = self.restaurant.address;
+    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    footer.backgroundColor = [UIColor bgColor];
+    for (UIView * txt in footer.subviews){
+        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+            ((UILabel *)txt).textColor = [UIColor textColor];
+        }
+    }
     mapView = footer.mapView;
     self.tableView.tableFooterView = footer;
+    
+    self.tableView.backgroundColor = [UIColor bgColor];
     
     [self loadMenu];
     
@@ -201,10 +227,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
-//    if (sectionIndex == 0)
-//        return 0;
-    
-    return 33;
+    if([sectionsList count] == 0){
+        return 0;
+    }
+    return HEADER_DEFAULT_SIZE;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -214,6 +240,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if([sectionsList count] == 0){
+        return 1;
+    }
     return [sectionsList count];
 }
 
@@ -253,6 +282,7 @@
 
     cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
     [cell.dishScrollView setupViews:indexPath];
+    cell.backgroundColor = [UIColor bgColor];
     
     return cell;
 }
@@ -260,6 +290,11 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
+    
+    if([sectionsList count] == 0){
+        return nil;
+    }
+    
     if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
         return [self headerView:sectionIndex tableView:tableView];
     } else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
@@ -290,6 +325,13 @@
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
     view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    view.headerTitle.textColor = [UIColor textColor];
+    view.backgroundColor = [UIColor bgColor];
+    for (UIView * txt in view.subviews){
+        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+            ((UILabel *)txt).textColor = [UIColor textColor];
+        }
+    }
     return view;
     
 }
@@ -312,6 +354,13 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
+    view.headerTitle.textColor = [UIColor textColor];    
+    view.backgroundColor = [UIColor bgColor];
+    for (UIView * txt in view.subviews){
+        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+            ((UILabel *)txt).textColor = [UIColor textColor];
+        }
+    }
     return view;
 }
 

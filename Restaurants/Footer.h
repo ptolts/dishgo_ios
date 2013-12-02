@@ -14,4 +14,5 @@
     @property (nonatomic, strong) IBOutlet MKMapView *mapView;
     @property (nonatomic, strong) IBOutlet UILabel *phone;
     @property (nonatomic, strong) IBOutlet UILabel *address;
+    @property (nonatomic, strong) IBOutlet UILabel *contact_title;
 @end
