@@ -108,6 +108,10 @@
 		B7EE7B75184D349F003EE5B8 /* 6809CHAR.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */; };
 		B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */; };
 		B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B77184D3ED7003EE5B8 /* avatar_white@2x.png */; };
+		B7EE7B7D184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B7C184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m */; };
+		B7EE7B81184E5676003EE5B8 /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B80184E5676003EE5B8 /* CustomIOS7AlertView.m */; };
+		B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */; };
+		B7EE7B85184E74DF003EE5B8 /* avatar_logged_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */; };
 		B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */; };
 		D6D63E0995B84A2A89637C60 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C89D06B07D4F4B8B054A7B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -280,6 +284,12 @@
 		B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = 6809CHAR.TTF; sourceTree = "<group>"; };
 		B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_black@2x.png"; sourceTree = "<group>"; };
 		B7EE7B77184D3ED7003EE5B8 /* avatar_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_white@2x.png"; sourceTree = "<group>"; };
+		B7EE7B7B184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+iOS7Spacing.h"; sourceTree = "<group>"; };
+		B7EE7B7C184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+iOS7Spacing.m"; sourceTree = "<group>"; };
+		B7EE7B7F184E5676003EE5B8 /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
+		B7EE7B80184E5676003EE5B8 /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_logged_black@2x.png"; sourceTree = "<group>"; };
+		B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_logged_white@2x.png"; sourceTree = "<group>"; };
 		B7FB3F90181B1A9700AD6036 /* RestoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestoScrollView.h; sourceTree = "<group>"; };
 		B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -529,6 +539,8 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */,
+				B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */,
 				B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */,
 				B7EE7B77184D3ED7003EE5B8 /* avatar_white@2x.png */,
 				B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */,
@@ -578,6 +590,8 @@
 		B7CC19AD18047DA0003C71B9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B7E184E5669003EE5B8 /* Custom Alert */,
+				B7EE7B7A184E4558003EE5B8 /* Custom Back Button */,
 				B7EE7B66184CE3F4003EE5B8 /* Global Color */,
 				B7CC198018047D92003C71B9 /* RAppDelegate.h */,
 				B7CC198118047D92003C71B9 /* RAppDelegate.m */,
@@ -750,6 +764,24 @@
 			name = "Global Color";
 			sourceTree = "<group>";
 		};
+		B7EE7B7A184E4558003EE5B8 /* Custom Back Button */ = {
+			isa = PBXGroup;
+			children = (
+				B7EE7B7B184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.h */,
+				B7EE7B7C184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m */,
+			);
+			name = "Custom Back Button";
+			sourceTree = "<group>";
+		};
+		B7EE7B7E184E5669003EE5B8 /* Custom Alert */ = {
+			isa = PBXGroup;
+			children = (
+				B7EE7B7F184E5676003EE5B8 /* CustomIOS7AlertView.h */,
+				B7EE7B80184E5676003EE5B8 /* CustomIOS7AlertView.m */,
+			);
+			name = "Custom Alert";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -853,6 +885,7 @@
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7EE7B71184D0A2E003EE5B8 /* right_arrow@2x.png in Resources */,
+				B7EE7B85184E74DF003EE5B8 /* avatar_logged_white@2x.png in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */,
@@ -866,6 +899,7 @@
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
 				B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */,
+				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,11 +979,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7EE7B7D184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m in Sources */,
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
 				B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */,
 				B7E20F441820560100791BEB /* _Menu.m in Sources */,
 				B7DA9DA61847B34E0072AD47 /* User.m in Sources */,
 				B70C33491805B2A70045183F /* _Restaurant.m in Sources */,
+				B7EE7B81184E5676003EE5B8 /* CustomIOS7AlertView.m in Sources */,
 				B7E20F1A18202EE200791BEB /* StorefrontGradientView.m in Sources */,
 				B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */,
 				B7CC19B518047E3D003C71B9 /* RestaurantCells.m in Sources */,

@@ -25,12 +25,65 @@
     return self;
 }
 
+-(BOOL) NSStringIsValidEmail:(NSString *)checkString
+{
+    BOOL stricterFilter = YES; // Discussion http://blog.logichigh.com/2010/09/02/validating-an-e-mail-address/
+    NSString *stricterFilterString = @"[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}";
+    NSString *laxString = @".+@([A-Za-z0-9]+\\.)+[A-Za-z]{2}[A-Za-z]*";
+    NSString *emailRegex = stricterFilter ? stricterFilterString : laxString;
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:checkString];
+}
+
+- (void)launchDialog:(NSString *)msg
+{
+    // Here we need to pass a full frame
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    
+    // Add some custom content to the alert view
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 260, 100)];
+    message.text = msg;
+    message.textAlignment = NSTextAlignmentCenter;
+    message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+    [alertView setContainerView:message];
+    
+    // Modify the parameters
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+    
+    // You may use a Block, rather than a delegate.
+    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    
+    [alertView setUseMotionEffects:true];
+    
+    // And launch the dialog
+    [alertView show];
+}
+
 - (IBAction)foodcloudSignUp:(id)sender {
     
     for (UIView * txt in self.bg.subviews){
         if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
             [txt resignFirstResponder];
         }
+    }
+    
+    if(![self NSStringIsValidEmail:self.username.text]){
+        [self launchDialog:@"Invalid Email Address."];
+        return;
+    }
+    
+    if(![self.password.text isEqualToString:self.password2.text]){
+        [self launchDialog:@"Passwords do not match."];
+        self.password2.text = @"";
+        self.password.text = @"";
+        return;
+    }
+    
+    if([self.password.text length] < 8){
+        [self launchDialog:@"Password must be at least 8 characters."];
+        return;
     }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -41,18 +94,13 @@
     [[UserSession sharedManager] signUp:self.username.text password:self.password.text block:^(bool obj, NSString *error) {
         if(obj){
             [hud hide:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self launchDialog:@"Account Created!"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [hud hide:YES];
-            UIAlertView *alertView = [[UIAlertView alloc]
-                                      initWithTitle:@"Error"
-                                      message:error
-                                      delegate:nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil];
-            [alertView show];
+            [self launchDialog:error];
             self.password.text = @"";
+            self.password2.text = @"";
         }
     }];
     
@@ -90,12 +138,12 @@
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                       target:nil action:nil];
-    negativeSpacer.width = -16;// it was -6 in iOS 6
-    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
-    //	self.navigationItem.leftBarButtonItem = backBtn;
+    //    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+    //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+    //                                       target:nil action:nil];
+    //    negativeSpacer.width = -16;// it was -6 in iOS 6
+    //    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+    [self.navigationItem setLeftBarButtonItem:backBtn];
     
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];

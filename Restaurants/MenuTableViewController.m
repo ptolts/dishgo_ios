@@ -101,21 +101,49 @@
     
     if([[UserSession sharedManager] logged_in]){
         
-        UIImageView *imageView = [[UserSession sharedManager] profilePic];
+        UIImageView *imageView = [[UserSession sharedManager] profilePic:_shopping color:sign_in_color];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 118, 0, 24)];
-        label.text = @"Logged Out";
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 99, 0, 24)];
+        label.text = @"Log Out";
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
         label.textColor = sign_in_color;
-
+        
+        label.textAlignment = NSTextAlignmentCenter;
         [label sizeToFit];
-        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        CGRect frame = label.frame;
+        frame.size.height = frame.size.height + 6;
+        frame.size.width = frame.size.width + 16;
+        label.frame = frame;
+        
+//        label.layer.cornerRadius = 5.0f;
+        label.layer.borderColor = sign_in_color.CGColor;
+        label.layer.borderWidth = 1.0f;
+        
+        if(self.shopping){
+            CGRect frame = label.frame;
+            frame.origin.x = 220;
+            label.frame = frame;
+        } else {
+            CGRect frame = label.frame;
+            frame.origin.x = -1;
+            label.frame = frame;
+        }
+//        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
         
         [label setUserInteractionEnabled:NO];
         [imageView setUserInteractionEnabled:NO];
         
         UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 40, 280.0f, 1.0f)];
+        lineView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0f];
+        [signin addSubview:lineView];
+        
+        UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 99, 280.0f, 1.0f)];
+        lineView2.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0f];
+        [signin addSubview:lineView2];
         
         [signin addSubview:imageView];
         [signin addSubview:label];
@@ -139,13 +167,34 @@
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 110, 0, 24)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 99, 0, 24)];
         label.text = @"Sign In";
         label.textColor = sign_in_color;
         label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
-        label.backgroundColor = [UIColor clearColor];
+//        label.backgroundColor = [UIColor clearColor];
+        label.layer.cornerRadius = 5.0f;
+        label.textAlignment = NSTextAlignmentCenter;        
         [label sizeToFit];
-        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        
+        CGRect frame = label.frame;
+        frame.size.height = frame.size.height + 6;
+        frame.size.width = frame.size.width + 16;
+        label.frame = frame;
+        
+//        label.layer.cornerRadius = 5.0f;
+        label.layer.borderColor = sign_in_color.CGColor;
+        label.layer.borderWidth = 1.0f;
+
+//        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        if(self.shopping){
+            CGRect frame = label.frame;
+            frame.origin.x = 220;
+            label.frame = frame;
+        } else {
+            CGRect frame = label.frame;
+            frame.origin.x = -1;
+            label.frame = frame;
+        }
         
         
         [label setUserInteractionEnabled:NO];

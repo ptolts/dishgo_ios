@@ -126,43 +126,84 @@ static NSString* kFilename = @"TokenInfo.plist";
     // Should never be called, but just here for clarity really.
 }
 
--(UIImageView *) profilePic {
+-(UIImageView *) profilePic:(bool)shopping color:(UIColor *)color{
     int header_size = 60;
     if (FBSession.activeSession.isOpen) {
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        
-        __weak typeof(imageView) weakImage = imageView;
-        [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
-                           placeholderImage:[UIImage imageNamed:@"avatar.png"]
-                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                      if (image && cacheType == SDImageCacheTypeNone)
-                                      {
-                                          weakImage.alpha = 0.0;
-                                          [UIView animateWithDuration:1.0
-                                                           animations:^{
-                                                               weakImage.alpha = 1.0;
-                                                           }];
-                                      }
-                                  }];
+//        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [imageView setContentMode:UIViewContentModeCenter];
+        if(shopping){
+            __weak typeof(imageView) weakImage = imageView;
+            [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
+                               placeholderImage:[UIImage imageNamed:@"avatar_logged_black.png"]
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                          if (image && cacheType == SDImageCacheTypeNone)
+                                          {
+                                              weakImage.alpha = 0.0;
+                                              [UIView animateWithDuration:1.0
+                                                               animations:^{
+                                                                   weakImage.alpha = 1.0;
+                                                               }];
+                                          }
+                                      }];
+        } else {
+            __weak typeof(imageView) weakImage = imageView;
+            [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
+                               placeholderImage:[UIImage imageNamed:@"avatar_logged_white.png"]
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                          if (image && cacheType == SDImageCacheTypeNone)
+                                          {
+                                              weakImage.alpha = 0.0;
+                                              [UIView animateWithDuration:1.0
+                                                               animations:^{
+                                                                   weakImage.alpha = 1.0;
+                                                               }];
+                                          }
+                                      }];
+        }
         
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        imageView.layer.borderWidth = 3.0f;
+//        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
+        if(shopping){
+            CGRect frame = imageView.frame;
+            frame.origin.x = 220;
+            imageView.frame = frame;
+            imageView.layer.borderColor = color.CGColor;
+        } else {
+            CGRect frame = imageView.frame;
+            frame.origin.x = -1;
+            imageView.frame = frame;
+            imageView.layer.borderColor = color.CGColor;
+        }
+        imageView.layer.borderWidth = 1.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;
         return imageView;
     } else {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-        imageView.image = [UIImage imageNamed:@"avatar.png"];
+//        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        [imageView setContentMode:UIViewContentModeCenter];
+        if(shopping){
+            CGRect frame = imageView.frame;
+            frame.origin.x = 220;
+            imageView.frame = frame;
+            imageView.image = [UIImage imageNamed:@"avatar_logged_black.png"];
+        } else {
+            CGRect frame = imageView.frame;
+            frame.origin.x = -1;
+            imageView.frame = frame;
+            imageView.image = [UIImage imageNamed:@"avatar_logged_white.png"];
+        }
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        imageView.layer.borderWidth = 3.0f;
+//        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
+        if(shopping){
+            imageView.layer.borderColor = color.CGColor;
+        } else {
+            imageView.layer.borderColor = color.CGColor;
+        }
+        imageView.layer.borderWidth = 1.0f;
         imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         imageView.layer.shouldRasterize = YES;
         imageView.clipsToBounds = YES;

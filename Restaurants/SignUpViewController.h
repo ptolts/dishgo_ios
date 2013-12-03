@@ -17,5 +17,6 @@
 
     @property IBOutlet UITextField *username;
     @property IBOutlet UITextField *password;
+    @property IBOutlet UITextField *password2;
 
 @end

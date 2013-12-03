@@ -50,17 +50,20 @@
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                       target:nil action:nil];
-    negativeSpacer.width = -16;// it was -6 in iOS 6
-    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                       target:nil action:nil];
+//    negativeSpacer.width = -16;// it was -6 in iOS 6
+//    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
     //	self.navigationItem.leftBarButtonItem = backBtn;
+    [self.navigationItem setLeftBarButtonItem:backBtn];
+    
     
     CartButton *cartButton = [[CartButton alloc] init];
     [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+//    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+    [self.navigationItem setRightBarButtonItem:customItem];
     //    self.navigationItem.rightBarButtonItem = customItem;
     self.cart = cartButton;
 }
