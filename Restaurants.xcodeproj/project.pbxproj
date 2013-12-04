@@ -112,6 +112,12 @@
 		B7EE7B81184E5676003EE5B8 /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B80184E5676003EE5B8 /* CustomIOS7AlertView.m */; };
 		B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */; };
 		B7EE7B85184E74DF003EE5B8 /* avatar_logged_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */; };
+		B7EE7B87184FB821003EE5B8 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B86184FB821003EE5B8 /* logo@2x.png */; };
+		B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */; };
+		B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B89184FBF12003EE5B8 /* settings@2x.png */; };
+		B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */; };
+		B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */; };
+		B7EE7B93184FDEF0003EE5B8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EE7B92184FDEF0003EE5B8 /* CoreLocation.framework */; };
 		B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */; };
 		D6D63E0995B84A2A89637C60 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C89D06B07D4F4B8B054A7B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -290,6 +296,13 @@
 		B7EE7B80184E5676003EE5B8 /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
 		B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_logged_black@2x.png"; sourceTree = "<group>"; };
 		B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_logged_white@2x.png"; sourceTree = "<group>"; };
+		B7EE7B86184FB821003EE5B8 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "favorites@2x.png"; sourceTree = "<group>"; };
+		B7EE7B89184FBF12003EE5B8 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_black@2x.png"; sourceTree = "<group>"; };
+		B7EE7B8F184FD6AB003EE5B8 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		B7EE7B92184FDEF0003EE5B8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B7FB3F90181B1A9700AD6036 /* RestoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestoScrollView.h; sourceTree = "<group>"; };
 		B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -299,6 +312,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7EE7B93184FDEF0003EE5B8 /* CoreLocation.framework in Frameworks */,
 				B7E20F2A182054F300791BEB /* SystemConfiguration.framework in Frameworks */,
 				B7E4B83F18087980006896D8 /* MapKit.framework in Frameworks */,
 				B7CC197218047D92003C71B9 /* CoreGraphics.framework in Frameworks */,
@@ -392,6 +406,7 @@
 		B77A8D02183FDFB700AFBAEE /* Sign In / Up */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B8E184FD606003EE5B8 /* Profile */,
 				B77A8D03183FDFCB00AFBAEE /* SignInViewController.h */,
 				B77A8D04183FDFCB00AFBAEE /* SignInViewController.m */,
 				B7DA9D97184545220072AD47 /* UserSession.h */,
@@ -511,6 +526,7 @@
 		B7CC196E18047D92003C71B9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B92184FDEF0003EE5B8 /* CoreLocation.framework */,
 				B7E20F29182054F300791BEB /* SystemConfiguration.framework */,
 				B7E4B83E18087980006896D8 /* MapKit.framework */,
 				B7CC196F18047D92003C71B9 /* Foundation.framework */,
@@ -539,6 +555,10 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */,
+				B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */,
+				B7EE7B89184FBF12003EE5B8 /* settings@2x.png */,
+				B7EE7B86184FB821003EE5B8 /* logo@2x.png */,
 				B7EE7B82184E74DF003EE5B8 /* avatar_logged_black@2x.png */,
 				B7EE7B83184E74DF003EE5B8 /* avatar_logged_white@2x.png */,
 				B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */,
@@ -782,6 +802,15 @@
 			name = "Custom Alert";
 			sourceTree = "<group>";
 		};
+		B7EE7B8E184FD606003EE5B8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B7EE7B8F184FD6AB003EE5B8 /* ProfileViewController.h */,
+				B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -865,8 +894,10 @@
 			files = (
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
+				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
 				B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
+				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
@@ -880,6 +911,7 @@
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
+				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
@@ -898,6 +930,7 @@
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
+				B7EE7B87184FB821003EE5B8 /* logo@2x.png in Resources */,
 				B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */,
 				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
 			);
@@ -999,6 +1032,7 @@
 				B7CC197E18047D92003C71B9 /* main.m in Sources */,
 				B7E20F401820560100791BEB /* Dishes.m in Sources */,
 				B7E20F471820560100791BEB /* Option.m in Sources */,
+				B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */,
 				B7B74426182C1981001DFC49 /* DishScrollView.m in Sources */,
 				B7E43066181EE625002B6867 /* MenuTableViewController.m in Sources */,
 				B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */,
@@ -1171,7 +1205,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
+				PROVISIONING_PROFILE = "B722CD22-F09A-4776-910B-8BE2B1DF2B7B";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1186,7 +1220,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
+				PROVISIONING_PROFILE = "B722CD22-F09A-4776-910B-8BE2B1DF2B7B";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

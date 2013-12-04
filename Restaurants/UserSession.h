@@ -19,7 +19,7 @@
     - (void)logout;
     -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
     -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
-    -(UIImageView *) profilePic:(bool)shopping color:(UIColor *)color;
+    -(UIImageView *) profilePic:(bool)shopping color:(UIColor *)color rect:(CGRect)rect;
     @property (nonatomic, strong) NSString *tokenFilePath;
     - (NSString *) filePath;
 @end

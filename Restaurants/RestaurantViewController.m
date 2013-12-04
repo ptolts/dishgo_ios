@@ -63,7 +63,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"Foodcloud";
+    label.text = @"FoodCloud";
     self.navigationItem.titleView = label;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
