@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UserSession.h"
 
 
 @interface ProfileViewController ()
@@ -57,6 +58,27 @@
     self.bg2.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
     [self.bg2.layer setCornerRadius:5.0f];
     
+    if([[UserSession sharedManager] hasAddress]){
+        User *u = [[UserSession sharedManager] fetchUser];
+        self.phone_number.text = u.phone_number;
+        self.street_number.text = u.street_number;
+        self.street_address.text = u.street_address;
+        self.city.text = u.city;
+        self.postal_code.text = u.postal_code;
+        self.province.text = u.province;
+        self.apartment_number.text = u.apartment_number;
+    }
+    
+}
+
+-(IBAction)clear:(id)sender {
+//    self.phone_number.text = u.phone_number;
+    self.street_number.text = nil;
+    self.street_address.text = nil;
+    self.city.text = nil;
+    self.postal_code.text = nil;
+    self.province.text = nil;
+    self.apartment_number.text = nil;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -233,4 +255,66 @@
     
 }
 
+- (IBAction)save:(UIButton *)sender {
+    
+    if([self.phone_number.text length] < 10){
+        [self launchDialog:@"Phone number appears invalid."];
+        return;
+    }
+    
+    if([self.street_number.text length] == 0){
+        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
+        return;
+    }
+    
+    if([self.street_address.text length] == 0){
+        [self launchDialog:@"Street required."];
+        return;
+    }
+    
+    if([self.city.text length] == 0){
+        [self launchDialog:@"City required."];
+        return;
+    }
+    
+    if([self.postal_code.text length] == 0){
+        [self launchDialog:@"Postal Code required."];
+        return;
+    }
+    
+    if([self.province.text length] == 0){
+        [self launchDialog:@"Province required."];
+        return;
+    }
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.labelText = @"Saving...";
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    
+    [dict setObject:self.phone_number.text forKey:@"phone_number"];
+    [dict setObject:self.street_number.text forKey:@"street_number"];
+    [dict setObject:self.street_address.text forKey:@"street_address"];
+    [dict setObject:self.city.text forKey:@"city"];
+    [dict setObject:self.postal_code.text forKey:@"postal_code"];
+    [dict setObject:self.province.text forKey:@"province"];
+    if(self.apartment_number.text == nil){
+        [dict setObject:@"" forKey:@"apartment_number"];
+    } else {
+        [dict setObject:self.apartment_number.text forKey:@"apartment_number"];
+    }
+
+    
+    [[UserSession sharedManager] setAddress:dict block:^(bool obj, NSString *error) {
+        if(obj){
+            [hud hide:YES];
+            [self launchDialog:@"Profile Updated."];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        } else {
+            [hud hide:YES];
+            [self launchDialog:error];
+        }
+    }];
+}
 @end

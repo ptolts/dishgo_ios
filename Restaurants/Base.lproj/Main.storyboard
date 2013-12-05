@@ -513,7 +513,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="vRd-d2-9IU">
-                                <rect key="frame" x="29" y="90" width="263" height="287"/>
+                                <rect key="frame" x="29" y="99" width="263" height="287"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.85000002384185791" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1uK-Ti-2Kp">
@@ -527,6 +527,7 @@
                                         </state>
                                         <connections>
                                             <action selector="foodcloudSignIn:" destination="lMc-e9-cyE" eventType="touchUpInside" id="ed9-8f-uEm"/>
+                                            <action selector="save:" destination="nTF-49-gd1" eventType="touchUpInside" id="3Kx-ch-iAn"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.59999999999999976" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3bd-zR-Ond">
@@ -652,7 +653,7 @@
                                 <rect key="frame" x="29" y="11" width="263" height="69"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uGx-7K-yTu">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uGx-7K-yTu">
                                         <rect key="frame" x="49" y="13" width="164" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>

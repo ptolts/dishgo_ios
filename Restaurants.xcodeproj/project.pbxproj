@@ -118,6 +118,8 @@
 		B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */; };
 		B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */; };
 		B7EE7B93184FDEF0003EE5B8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EE7B92184FDEF0003EE5B8 /* CoreLocation.framework */; };
+		B7EE7B9D1851020E003EE5B8 /* Lockbox.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B9C1851020E003EE5B8 /* Lockbox.m */; };
+		B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B9E18510690003EE5B8 /* logout@2x.png */; };
 		B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */; };
 		D6D63E0995B84A2A89637C60 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C89D06B07D4F4B8B054A7B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -303,6 +305,9 @@
 		B7EE7B8F184FD6AB003EE5B8 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		B7EE7B92184FDEF0003EE5B8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B7EE7B9B1851020E003EE5B8 /* Lockbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lockbox.h; path = ../../Lockbox/Lockbox.h; sourceTree = "<group>"; };
+		B7EE7B9C1851020E003EE5B8 /* Lockbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lockbox.m; path = ../../Lockbox/Lockbox.m; sourceTree = "<group>"; };
+		B7EE7B9E18510690003EE5B8 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7FB3F90181B1A9700AD6036 /* RestoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestoScrollView.h; sourceTree = "<group>"; };
 		B7FB3F91181B1A9700AD6036 /* RestoScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestoScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -555,6 +560,7 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B9E18510690003EE5B8 /* logout@2x.png */,
 				B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */,
 				B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */,
 				B7EE7B89184FBF12003EE5B8 /* settings@2x.png */,
@@ -610,6 +616,7 @@
 		B7CC19AD18047DA0003C71B9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				B7EE7B971850F9FB003EE5B8 /* Keychain */,
 				B7EE7B7E184E5669003EE5B8 /* Custom Alert */,
 				B7EE7B7A184E4558003EE5B8 /* Custom Back Button */,
 				B7EE7B66184CE3F4003EE5B8 /* Global Color */,
@@ -811,6 +818,15 @@
 			name = Profile;
 			sourceTree = "<group>";
 		};
+		B7EE7B971850F9FB003EE5B8 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				B7EE7B9B1851020E003EE5B8 /* Lockbox.h */,
+				B7EE7B9C1851020E003EE5B8 /* Lockbox.m */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -900,6 +916,7 @@
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
+				B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
 				B7EE7B5F1849292A003EE5B8 /* background_signup@2x.jpg in Resources */,
 				B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */,
@@ -1063,6 +1080,7 @@
 				B7B7443118328437001DFC49 /* TableHeaderViewGradient.m in Sources */,
 				B7CC198818047D92003C71B9 /* Restaurants.xcdatamodeld in Sources */,
 				B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */,
+				B7EE7B9D1851020E003EE5B8 /* Lockbox.m in Sources */,
 				B74AC37B183EAD4600A89616 /* CheckoutViewController.m in Sources */,
 				B7B7442B182C1B0B001DFC49 /* DishView.m in Sources */,
 				B7E43058181EC22A002B6867 /* ImagesInScroll.m in Sources */,

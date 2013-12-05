@@ -12,6 +12,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <FacebookSDK/FBAccessTokenData.h>
 #import <RestKit/RestKit.h>
+#import "Lockbox.h"
 #import "User.h"
 
 static NSString* kFilename = @"TokenInfo.plist";
@@ -22,48 +23,110 @@ static NSString* kFilename = @"TokenInfo.plist";
 @synthesize facebookUserName;
 @synthesize facebookToken;
 @synthesize foodcloudToken;
+@synthesize main_user;
 
 //- (void)cacheFBAccessTokenData:(FBAccessTokenData *)accessToken {
 //    NSDictionary *tokenInformation = [accessToken dictionary];
 //    [self writeData:tokenInformation];
 //}
 
-- (FBAccessTokenData *)fetchFBAccessTokenData
-{
-    NSDictionary *tokenInformation = [self readData];
-    if (nil == tokenInformation) {
-        return nil;
-    } else {
-        return [FBAccessTokenData createTokenFromDictionary:tokenInformation];
-    }
-}
+//- (FBAccessTokenData *)fetchFBAccessTokenData
+//{
+//    NSDictionary *tokenInformation = [self readData];
+//    if (nil == tokenInformation) {
+//        return nil;
+//    } else {
+//        return [FBAccessTokenData createTokenFromDictionary:tokenInformation];
+//    }
+//}
+
+//- (void)clearToken
+//{
+//    [self writeData:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+//}
+//
+//- (NSString *) filePath {
+//    NSArray *paths =
+//    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+//                                        NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths lastObject];
+//    return [documentsDirectory stringByAppendingPathComponent:kFilename];
+//}
+//
+//- (void) writeData:(NSDictionary *) data {
+//    NSLog(@"File = %@ and Data = %@", self.tokenFilePath, data);
+//    BOOL success = [data writeToFile:self.tokenFilePath atomically:YES];
+//    if (!success) {
+//        NSLog(@"Error writing to file");
+//    }
+//}
+//
+//- (NSMutableDictionary *) readData {
+//    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:self.tokenFilePath];
+//    NSLog(@"File = %@ and data = %@", self.tokenFilePath, data);
+//    return data;
+//}
 
 - (void)clearToken
 {
-    [self writeData:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-}
-
-- (NSString *) filePath {
-    NSArray *paths =
-    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                        NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths lastObject];
-    return [documentsDirectory stringByAppendingPathComponent:kFilename];
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions", nil];
+    for(NSString *key in keys){
+        [Lockbox setString:@"" forKey:key];
+    }
 }
 
 - (void) writeData:(NSDictionary *) data {
-    NSLog(@"File = %@ and Data = %@", self.tokenFilePath, data);
-    BOOL success = [data writeToFile:self.tokenFilePath atomically:YES];
-    if (!success) {
-        NSLog(@"Error writing to file");
+    for(id key in data){
+        if([[data objectForKey:key] isKindOfClass:[NSArray class]]){
+            [Lockbox setArray:[data objectForKey:key] forKey:key];
+        } else {
+            NSString *set = [data objectForKey:key];
+            NSLog(@"SET: %@",set);
+            [Lockbox setString:set forKey:key];
+        }
     }
 }
 
 - (NSMutableDictionary *) readData {
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:self.tokenFilePath];
-    NSLog(@"File = %@ and data = %@", self.tokenFilePath, data);
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    
+    // These keys are strings
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions", nil];
+    for(NSString *key in keys){
+        NSLog(@"Key: %@",key);
+        NSString *get = [Lockbox stringForKey:key];
+        if(get == nil){
+            [data setObject:@"" forKey:key];
+        } else {
+            [data setObject:get forKey:key];
+        }
+    }
+    
+    // These keys are arrays
+    keys = [NSArray arrayWithObjects:@"facebook_permissions", nil];
+    for(NSString *key in keys){
+        NSLog(@"Key for Array: %@",key);
+        NSArray *get = [Lockbox arrayForKey:key];
+        if(get == nil){
+            [data setObject:[[NSArray alloc] init] forKey:key];
+        } else {
+            [data setObject:get forKey:key];
+        }
+    }
     return data;
 }
+
+///// Store a secret
+//[[GSKeychain systemKeychain] setSecret:@"t0ps3kr1t" forKey:@"myAccessToken"];
+//
+//// Fetch a secret
+//NSString *secret = [[GSKeychain systemKeychain] secretForKey:@"myAccessToken"];
+//
+//// Delete a secret
+//[[GSKeychain systemKeychain] removeSecretForKey:@"myAccessToken"];
+//
+//// Delete all secrets
+//[[GSKeychain systemKeychain] removeAllSecrets];
 
 + (id)sharedManager {
     static UserSession *user_session = nil;
@@ -76,9 +139,10 @@ static NSString* kFilename = @"TokenInfo.plist";
 
 - (id)init {
     if (self = [super init]) {
+        main_user = [[User alloc] init];
         logged_in = NO;
-        self.tokenFilePath = [self filePath];
-        if([[self readData] objectForKey:@"facebook_token"]){
+//        self.tokenFilePath = [self filePath];
+        if([[[self readData] objectForKey:@"facebook_token"] length] > 0){
             if ([FBSession activeSession]){
                 [[FBSession activeSession] closeAndClearTokenInformation];
             }
@@ -100,10 +164,11 @@ static NSString* kFilename = @"TokenInfo.plist";
                      }];
                  }];
             }
-        } else if ([[self readData] objectForKey:@"foodcloud_token"]){
+        } else if ([[[self readData] objectForKey:@"foodcloud_token"] length] > 0){
             NSDictionary *dic = [self readData];
             NSString *tok = [dic objectForKey:@"foodcloud_token"];
             foodcloudToken = tok;
+            main_user.foodcloud_token = foodcloudToken;
             logged_in = YES;
         }
     }
@@ -118,6 +183,8 @@ static NSString* kFilename = @"TokenInfo.plist";
          if (!error) {
              facebookUserName = user.name;
              facebookId = user.id;
+             main_user.facebook_name = facebookUserName;
+             main_user.facebook_id = facebookId;
          }
      }];
 }
@@ -132,7 +199,7 @@ static NSString* kFilename = @"TokenInfo.plist";
         [imageView setContentMode:UIViewContentModeScaleAspectFit];
         __weak typeof(imageView) weakImage = imageView;
         [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
-                           placeholderImage:[UIImage imageNamed:@"avatar_logged_black.png"]
+                           placeholderImage:[UIImage imageNamed:@"avatar_logged_white.png"]
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image && cacheType == SDImageCacheTypeNone)
                                       {
@@ -239,7 +306,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token"]];
+    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
@@ -260,9 +327,9 @@ static NSString* kFilename = @"TokenInfo.plist";
     
     [manager postObject:re path:@"/api/v1/tokens" parameters:nil success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         User *user = [result firstObject];
-         NSLog(@"ID: %@", user.foodcloud_token);
-         [self completeLogin:user];
+         main_user = [result firstObject];
+         NSLog(@"ID: %@", main_user.foodcloud_token);
+         [self completeLogin:main_user];
          block(logged_in, @"Logged in!");
      } failure:
      ^( RKObjectRequestOperation *operation , NSError *error ){
@@ -271,6 +338,57 @@ static NSString* kFilename = @"TokenInfo.plist";
      }
      ];
     
+}
+
+-(void) setAddress:(NSMutableDictionary *) dict block:(void (^)(bool, NSString *))block; {
+    
+    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
+    [responseMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
+    
+    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
+    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
+    
+    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
+    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token"]];
+    
+    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
+    
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+    
+    [manager addRequestDescriptor:requestDescriptor];
+    [manager addResponseDescriptor:tokenDescriptor];
+    
+    main_user.phone_number = dict[@"phone_number"];
+    main_user.street_number = dict[@"street_number"];
+    main_user.street_address = dict[@"street_address"];
+    main_user.city = dict[@"city"];
+    main_user.postal_code = dict[@"postal_code"];
+    main_user.province = dict[@"province"];
+    main_user.apartment_number = dict[@"apartment_number"];
+    main_user.foodcloud_token = foodcloudToken;
+    
+    [manager postObject:main_user path:@"/api/v1/user/add_address" parameters:nil success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+         NSLog(@"SAVED ADDRESS!");
+         block(YES, @"Good!");
+     } failure:
+     ^( RKObjectRequestOperation *operation , NSError *error ){
+         NSLog(@"%@",error);
+         block(NO, error.description);
+     }
+     ];
+    
+}
+
+-(BOOL) hasAddress{
+    if([main_user.street_address length] > 0){
+        return YES;
+    }
+    return NO;
+}
+
+-(User *) fetchUser {
+    return main_user;
 }
 
 -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
@@ -329,7 +447,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token"]];
+    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
@@ -349,10 +467,11 @@ static NSString* kFilename = @"TokenInfo.plist";
 
     [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         User *user = [result firstObject];
-         [self completeLogin:user];
+         main_user = [result firstObject];
+         NSLog(@"ADDRESS: %@",main_user.street_address);
+         [self completeLogin:main_user];
          block(YES,@"Good!");
-         NSLog(@"ID: %@", user.foodcloud_token);
+         NSLog(@"ID: %@", main_user.foodcloud_token);
      } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
          NSLog(@"%@",error);
          block(NO,error.description);
@@ -376,7 +495,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 //            [alertView show];
             
             facebookToken = [session accessTokenData].accessToken;
-            
+            main_user.facebook_token = facebookToken;
             [self writeData:[[NSDictionary alloc] initWithObjectsAndKeys:
                              [NSString stringWithFormat:@"%@",[session accessTokenData].accessToken],@"facebook_token",
                              [session permissions],@"facebook_permissions",

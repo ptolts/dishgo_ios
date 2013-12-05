@@ -299,6 +299,8 @@
         [self settings];
     } else if (indexPath.row == 2){
         [self favorites];
+    } else if (indexPath.row == 3){
+        [self logout];
     }
 }
 
@@ -314,7 +316,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 3;
+    if([[UserSession sharedManager] logged_in]){
+        return 4;
+    } else {
+        return 3;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -394,7 +400,7 @@
         }
     } else if (indexPath.section == 0) {
         
-        NSArray *titles = @[@"Settings",@"Favorites"];
+        NSArray *titles = @[@"Settings",@"Favorites",@"Logout"];
         
         NSString *title = titles[indexPath.row - 1];
         
