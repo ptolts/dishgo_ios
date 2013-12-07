@@ -17,6 +17,7 @@
 #import "UserSession.h"
 #import "UIColor+Custom.h"
 #import "ProfileViewController.h"
+#import <ALAlertBanner/ALAlertBanner.h>
 
 @interface MenuTableViewController ()
 
@@ -38,6 +39,23 @@
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
     [self.frostedViewController hideMenuViewController];
+}
+
+-(void) remove:(ButtonCartRow *) dish_button {
+    DishTableViewCell *dish_cell = dish_button.parent;
+    [self.shopping_cart removeObject:dish_cell];
+    [UIView transitionWithView: self.tableView
+                      duration: 0.35f
+                       options: UIViewAnimationOptionTransitionCrossDissolve
+                    animations: ^(void)
+     {
+         [self.tableView reloadData];
+     }
+                    completion: ^(BOOL isFinished)
+     {
+
+     }];
+    [[((UINavigationController *)self.frostedViewController.contentViewController) topViewController] viewDidAppear:NO];
 }
 
 -(void) checkout {
@@ -82,7 +100,21 @@
 
 -(void) logout {
     [[UserSession sharedManager] logout];
+    [self launchAlert:@"Logged out!"];
     [self.frostedViewController hideMenuViewController];
+}
+
+- (void)launchAlert:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.frostedViewController.contentViewController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionBottom
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    
+    banner.secondsToShow = 1.5f;
+    
+    [banner show];
 }
 
 -(void)setupMenu {
@@ -101,6 +133,7 @@
         for(DishTableViewCell *dish_cell in self.shopping_cart){
             tot += dish_cell.getPrice;
             [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+            [dish_cell.shoppingCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
         [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];

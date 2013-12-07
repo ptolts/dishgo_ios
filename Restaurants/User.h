@@ -22,4 +22,6 @@
     @property (nonatomic, copy) NSString *city;
     @property (nonatomic, copy) NSString *postal_code;
     @property (nonatomic, copy) NSString *province;
+    @property (nonatomic, copy) NSString *first_name;
+    @property (nonatomic, copy) NSString *last_name;
 @end

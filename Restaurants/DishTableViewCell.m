@@ -42,6 +42,7 @@
     cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
     cell.parent = self;
     cell.edit.parent = self;
+    cell.remove.parent = self;
     self.shoppingCartCell = cell;
 }
 

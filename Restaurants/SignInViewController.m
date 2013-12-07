@@ -11,10 +11,12 @@
 #import "SignUpViewController.h"
 #import "REFrostedViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <ALAlertBanner/ALAlertBanner.h>
 
 @interface SignInViewController ()
 
 @end
+
 
 @implementation SignInViewController
 
@@ -119,6 +121,42 @@
     [alertView show];
 }
 
+- (void)launchAlert:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionBottom
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+
+    
+    banner.secondsToShow = 30.0f;
+    
+//    banner.layer.shadowColor = [UIColor clearColor].CGColor;
+//    banner.layer.borderColor = [UIColor clearColor].CGColor;
+//    banner.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:181.0/255.0 blue:241.0/255.0 alpha:0.95];
+    
+    for(UIView *v in [banner subviews]){
+        NSLog(@"%@",v.class);
+        NSLog(@"%@",CGRectCreateDictionaryRepresentation(v.frame));
+        if([v isKindOfClass:[UILabel class]]){
+            CGRect frame = v.frame;
+            frame.size.width = 320;
+            frame.origin.x = 0;
+            v.frame = frame;
+            ((UILabel *)v).textAlignment = NSTextAlignmentCenter;
+        }
+        
+        if([v isKindOfClass:[UIImageView class]]){
+            ((UIImageView *)v).contentMode = UIViewContentModeCenter;
+            ((UIImageView *)v).image = [UIImage imageNamed:@"info.png"];
+        }
+    }
+    
+    [banner show];
+}
+
+
 - (IBAction)facebookSignIn:(id)sender {
     
     for (UIView * txt in self.bg.subviews){
@@ -128,13 +166,12 @@
     }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Working...";
     
     [[UserSession sharedManager] openSession:^(bool obj, NSString *result) {
         if(obj){
             [hud hide:YES];
-            [self launchDialog:@"Logged in!"];            
+            [self launchAlert:@"Logged in!"];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             [hud hide:YES];
@@ -174,13 +211,12 @@
     }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Working...";
     
     [[UserSession sharedManager] signIn:self.username.text password:self.password.text block:^(bool obj, NSString *result) {
         if(obj){
             [hud hide:YES];
-            [self launchDialog:@"Logged in!"];
+            [self launchAlert:@"Logged in!"];
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             [hud hide:YES];

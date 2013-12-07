@@ -113,6 +113,8 @@
             tots += (int) d.dishFooterView.stepper.value;
         }
         [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
+    } else {
+        [self.cart setCount:@"0"];
     }
 }
 

@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UserSession.h"
+#import <ALAlertBanner/ALAlertBanner.h>
 
 
 @interface ProfileViewController ()
@@ -32,12 +33,38 @@
 -(IBAction)load_current_location:(id)sender{
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Finding Location...";
     [locationManager startUpdatingLocation];
+}
+
+- (void)launchAlert:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionBottom
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    
+    banner.secondsToShow = 2.5f;
+    
+    [banner show];
+}
+
+- (void)launchAlertTop:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionTop
+                                                        title:@"Be Aware!"
+                                                     subtitle:msg];
+    
+    banner.secondsToShow = 10.0f;
+    
+    [banner show];
 }
 
 - (void)viewDidLoad
@@ -67,6 +94,8 @@
         self.postal_code.text = u.postal_code;
         self.province.text = u.province;
         self.apartment_number.text = u.apartment_number;
+        self.first_name.text = u.first_name;
+        self.last_name.text = u.last_name;
     }
     
 }
@@ -104,7 +133,7 @@
  
     [locationManager stopUpdatingLocation];
     [hud hide:YES];
-    [self launchDialog:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
+    [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
 
 }
 
@@ -287,8 +316,17 @@
         return;
     }
     
+    if([self.first_name.text length] == 0){
+        [self launchDialog:@"First name required."];
+        return;
+    }
+    
+    if([self.last_name.text length] == 0){
+        [self launchDialog:@"Last name required."];
+        return;
+    }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Saving...";
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -299,6 +337,8 @@
     [dict setObject:self.city.text forKey:@"city"];
     [dict setObject:self.postal_code.text forKey:@"postal_code"];
     [dict setObject:self.province.text forKey:@"province"];
+    [dict setObject:self.last_name.text forKey:@"last_name"];
+    [dict setObject:self.first_name.text forKey:@"first_name"];
     if(self.apartment_number.text == nil){
         [dict setObject:@"" forKey:@"apartment_number"];
     } else {
@@ -309,7 +349,7 @@
     [[UserSession sharedManager] setAddress:dict block:^(bool obj, NSString *error) {
         if(obj){
             [hud hide:YES];
-            [self launchDialog:@"Profile Updated."];
+            [self launchAlert:@"Profile Updated."];
             [self.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [hud hide:YES];

@@ -35,7 +35,7 @@
 
     if (self) {
         self = [[[NSBundle mainBundle] loadNibNamed:@"CartButton" owner:self options:nil] objectAtIndex:0];
-        [self.cart_count.layer setCornerRadius:5.0f];
+        [self.background.layer setCornerRadius:5.0f];
     }
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    self.cart_count.backgroundColor = [UIColor textColor];

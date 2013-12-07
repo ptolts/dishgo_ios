@@ -54,6 +54,8 @@
 		B7CC19A418047D92003C71B9 /* RestaurantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19A318047D92003C71B9 /* RestaurantsTests.m */; };
 		B7CC19B518047E3D003C71B9 /* RestaurantCells.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B418047E3D003C71B9 /* RestaurantCells.m */; };
 		B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */; };
+		B7CF7B801852C709000D326F /* locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B7F1852C709000D326F /* locked@2x.png */; };
+		B7CF7B821852E522000D326F /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B811852E522000D326F /* info@2x.png */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -209,6 +211,8 @@
 		B7CC19B418047E3D003C71B9 /* RestaurantCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantCells.m; sourceTree = "<group>"; };
 		B7CC19B618047FE9003C71B9 /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
+		B7CF7B7F1852C709000D326F /* locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locked@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7CF7B811852E522000D326F /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -560,6 +564,8 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7CF7B811852E522000D326F /* info@2x.png */,
+				B7CF7B7F1852C709000D326F /* locked@2x.png */,
 				B7EE7B9E18510690003EE5B8 /* logout@2x.png */,
 				B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */,
 				B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */,
@@ -930,7 +936,9 @@
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
+				B7CF7B801852C709000D326F /* locked@2x.png in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
+				B7CF7B821852E522000D326F /* info@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7EE7B71184D0A2E003EE5B8 /* right_arrow@2x.png in Resources */,
@@ -1223,7 +1231,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B722CD22-F09A-4776-910B-8BE2B1DF2B7B";
+				PROVISIONING_PROFILE = "88CDA8E0-476B-453B-B406-AF70DA87F05C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1238,7 +1246,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B722CD22-F09A-4776-910B-8BE2B1DF2B7B";
+				PROVISIONING_PROFILE = "88CDA8E0-476B-453B-B406-AF70DA87F05C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

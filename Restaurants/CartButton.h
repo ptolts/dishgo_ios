@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CartButton : UIView
+    @property (strong, nonatomic) IBOutlet UIView *background;
     @property (strong, atomic) IBOutlet UILabel *cart_count;
     @property (strong, atomic) UIButton *button;
     - (void) setCount:(NSString *)newText;

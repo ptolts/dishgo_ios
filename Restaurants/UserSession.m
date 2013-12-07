@@ -306,7 +306,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
+    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
@@ -343,13 +343,13 @@ static NSString* kFilename = @"TokenInfo.plist";
 -(void) setAddress:(NSMutableDictionary *) dict block:(void (^)(bool, NSString *))block; {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
+    [responseMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
     
     RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token"]];
+    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token",@"first_name",@"last_name"]];
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
@@ -366,6 +366,8 @@ static NSString* kFilename = @"TokenInfo.plist";
     main_user.province = dict[@"province"];
     main_user.apartment_number = dict[@"apartment_number"];
     main_user.foodcloud_token = foodcloudToken;
+    main_user.first_name = dict[@"first_name"];
+    main_user.last_name = dict[@"last_name"];
     
     [manager postObject:main_user path:@"/api/v1/user/add_address" parameters:nil success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
@@ -429,8 +431,9 @@ static NSString* kFilename = @"TokenInfo.plist";
 }
 
 -(void) logout {
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [self writeData:dic];
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+//    [self writeData:dic];
+    [self clearToken];
     logged_in = NO;
 }
 
@@ -447,7 +450,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
     
     RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number"]];
+    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];

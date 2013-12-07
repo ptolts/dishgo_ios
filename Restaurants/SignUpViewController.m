@@ -9,6 +9,7 @@
 #import "SignUpViewController.h"
 #import "UserSession.h"
 #import <MBProgressHUD.h>
+#import <ALAlertBanner/ALAlertBanner.h>
 
 @interface SignUpViewController ()
 
@@ -61,6 +62,19 @@
     [alertView show];
 }
 
+- (void)launchAlert:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionBottom
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    
+    banner.secondsToShow = 2.5f;
+    
+    [banner show];
+}
+
 - (IBAction)foodcloudSignUp:(id)sender {
     
     for (UIView * txt in self.bg.subviews){
@@ -87,14 +101,13 @@
     }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Working...";
     
     
     [[UserSession sharedManager] signUp:self.username.text password:self.password.text block:^(bool obj, NSString *error) {
         if(obj){
             [hud hide:YES];
-            [self launchDialog:@"Account Created!"];
+            [self launchAlert:@"Account Created!"];
             [self.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [hud hide:YES];

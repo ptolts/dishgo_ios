@@ -21,6 +21,8 @@
     @property (strong, nonatomic) IBOutlet UITextField *apartment_number;
     @property (strong, nonatomic) IBOutlet UITextField *street_address;
     @property (strong, nonatomic) IBOutlet UITextField *phone_number;
+    @property (strong, nonatomic) IBOutlet UITextField *first_name;
+    @property (strong, nonatomic) IBOutlet UITextField *last_name;
     @property IBOutlet UIView *bg;
     @property IBOutlet UIView *bg2;
 @end
