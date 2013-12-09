@@ -1,15 +1,15 @@
 //
-//  ProfileViewController.h
+//  AddressView.h
 //  Restaurants
 //
-//  Created by Philip Tolton on 12/4/2013.
+//  Created by Philip Tolton on 12/9/2013.
 //  Copyright (c) 2013 Philip Tolton. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface ProfileViewController : UIViewController <CLLocationManagerDelegate, UITextFieldDelegate>
+@interface AddressView : UIView <CLLocationManagerDelegate, UITextFieldDelegate>
     - (IBAction)save:(UIButton *)sender;
     @property (strong, nonatomic) IBOutlet UITextField *street_number;
     - (IBAction)load_current_location:(id)sender;

@@ -56,6 +56,10 @@
 		B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */; };
 		B7CF7B801852C709000D326F /* locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B7F1852C709000D326F /* locked@2x.png */; };
 		B7CF7B821852E522000D326F /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B811852E522000D326F /* info@2x.png */; };
+		B7CF7B8418564475000D326F /* AddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B8318564475000D326F /* AddressView.xib */; };
+		B7CF7B87185644B6000D326F /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B86185644B6000D326F /* AddressView.m */; };
+		B7CF7B8A18564A8D000D326F /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B8918564A8D000D326F /* ProfileView.m */; };
+		B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B8B18564A99000D326F /* ProfileView.xib */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -213,6 +217,12 @@
 		B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
 		B7CF7B7F1852C709000D326F /* locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locked@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7CF7B811852E522000D326F /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7CF7B8318564475000D326F /* AddressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressView.xib; sourceTree = "<group>"; };
+		B7CF7B85185644B6000D326F /* AddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressView.h; sourceTree = "<group>"; };
+		B7CF7B86185644B6000D326F /* AddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressView.m; sourceTree = "<group>"; };
+		B7CF7B8818564A8D000D326F /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
+		B7CF7B8918564A8D000D326F /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
+		B7CF7B8B18564A99000D326F /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -820,6 +830,12 @@
 			children = (
 				B7EE7B8F184FD6AB003EE5B8 /* ProfileViewController.h */,
 				B7EE7B90184FD6AB003EE5B8 /* ProfileViewController.m */,
+				B7CF7B8318564475000D326F /* AddressView.xib */,
+				B7CF7B85185644B6000D326F /* AddressView.h */,
+				B7CF7B86185644B6000D326F /* AddressView.m */,
+				B7CF7B8818564A8D000D326F /* ProfileView.h */,
+				B7CF7B8918564A8D000D326F /* ProfileView.m */,
+				B7CF7B8B18564A99000D326F /* ProfileView.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -917,6 +933,7 @@
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
+				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
 				B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
@@ -929,6 +946,7 @@
 				B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */,
 				B7CC199018047D92003C71B9 /* Images.xcassets in Resources */,
 				B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */,
+				B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */,
 				B7EE7B75184D349F003EE5B8 /* 6809CHAR.TTF in Resources */,
 				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
@@ -1070,11 +1088,13 @@
 				B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */,
 				B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */,
 				B7E20F451820560100791BEB /* _Option.m in Sources */,
+				B7CF7B87185644B6000D326F /* AddressView.m in Sources */,
 				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
 				B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */,
 				B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */,
 				B74AC377183E751C00A89616 /* CartButton.m in Sources */,
 				B7E20F421820560100791BEB /* Sections.m in Sources */,
+				B7CF7B8A18564A8D000D326F /* ProfileView.m in Sources */,
 				B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */,
 				B7E20F481820560100791BEB /* Options.m in Sources */,
 				B7E4305C181ED388002B6867 /* RootViewController.m in Sources */,
