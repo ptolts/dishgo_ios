@@ -17,44 +17,44 @@ CLGeocoder *geocoder;
 CLLocationManager *locationManager;
 MBProgressHUD *hud;
 
-- (id)initWithFrame:(CGRect)frame
+- (id)init
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
     if (self) {
         self = [[[NSBundle mainBundle] loadNibNamed:@"ProfileView" owner:self options:nil] objectAtIndex:0];
-        self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-        [self.bg.layer setCornerRadius:5.0f];
+        self.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+        [self.layer setCornerRadius:5.0f];
         
         if([[UserSession sharedManager] hasAddress]){
             User *u = [[UserSession sharedManager] fetchUser];
-            //        self.phone_number.text = u.phone_number;
-            self.street_number.text = u.street_number;
-            self.street_address.text = u.street_address;
-            self.city.text = u.city;
-            self.postal_code.text = u.postal_code;
-            self.province.text = u.province;
-            self.apartment_number.text = u.apartment_number;
-            //        self.first_name.text = u.first_name;
-            //        self.last_name.text = u.last_name;
+            self.phone_number.text = u.phone_number;
+            //            self.street_number.text = u.street_number;
+            //            self.street_address.text = u.street_address;
+            //            self.city.text = u.city;
+            //            self.postal_code.text = u.postal_code;
+            //            self.province.text = u.province;
+            //            self.apartment_number.text = u.apartment_number;
+            self.first_name.text = u.first_name;
+            self.last_name.text = u.last_name;
         }
     }
     return self;
 }
 
--(IBAction)load_current_location:(id)sender{
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
-    hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
-    hud.labelText = @"Finding Location...";
-    [locationManager startUpdatingLocation];
-}
+//-(IBAction)load_current_location:(id)sender{
+//    locationManager = [[CLLocationManager alloc] init];
+//    locationManager.delegate = self;
+//    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+//    
+//    hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
+//    hud.mode = MBProgressHUDModeAnnularDeterminate;
+//    hud.labelText = @"Finding Location...";
+//    [locationManager startUpdatingLocation];
+//}
 
 - (void)launchAlert:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.nav.view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionBottom
                                                         title:@"Success!"
@@ -67,7 +67,7 @@ MBProgressHUD *hud;
 
 - (void)launchAlertTop:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.nav.view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionTop
                                                         title:@"Be Aware!"
@@ -78,45 +78,45 @@ MBProgressHUD *hud;
     [banner show];
 }
 
--(IBAction)clear:(id)sender {
-    //    self.phone_number.text = u.phone_number;
-    self.street_number.text = nil;
-    self.street_address.text = nil;
-    self.city.text = nil;
-    self.postal_code.text = nil;
-    self.province.text = nil;
-    self.apartment_number.text = nil;
-}
+//-(IBAction)clear:(id)sender {
+//    //    self.phone_number.text = u.phone_number;
+//    self.street_number.text = nil;
+//    self.street_address.text = nil;
+//    self.city.text = nil;
+//    self.postal_code.text = nil;
+//    self.province.text = nil;
+//    self.apartment_number.text = nil;
+//}
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    
-    geocoder = [[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation: locationManager.location completionHandler:
-     
-     //Getting Human readable Address from Lat long,,,
-     
-     ^(NSArray *placemarks, NSError *error) {
-         //Get nearby address
-         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-         //String to hold address
-         //         NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
-         //Print the location to console
-         NSLog(@"Location Dict %@",placemark.addressDictionary);
-         self.street_address.text = [placemark.addressDictionary objectForKey:@"Thoroughfare"];
-         self.city.text = [placemark.addressDictionary objectForKey:@"City"];
-         self.postal_code.text = [placemark.addressDictionary objectForKey:@"ZIP"];
-         self.province.text = [placemark.addressDictionary objectForKey:@"State"];
-     }];
-    
-    [locationManager stopUpdatingLocation];
-    [hud hide:YES];
-    [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
-    
-}
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    
+//    geocoder = [[CLGeocoder alloc]init];
+//    [geocoder reverseGeocodeLocation: locationManager.location completionHandler:
+//     
+//     //Getting Human readable Address from Lat long,,,
+//     
+//     ^(NSArray *placemarks, NSError *error) {
+//         //Get nearby address
+//         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+//         //String to hold address
+//         //         NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
+//         //Print the location to console
+//         NSLog(@"Location Dict %@",placemark.addressDictionary);
+//         self.street_address.text = [placemark.addressDictionary objectForKey:@"Thoroughfare"];
+//         self.city.text = [placemark.addressDictionary objectForKey:@"City"];
+//         self.postal_code.text = [placemark.addressDictionary objectForKey:@"ZIP"];
+//         self.province.text = [placemark.addressDictionary objectForKey:@"State"];
+//     }];
+//    
+//    [locationManager stopUpdatingLocation];
+//    [hud hide:YES];
+//    [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
+//    
+//}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UIView * txt in self.bg.subviews){
+    for (UIView * txt in self.subviews){
         if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
             [txt resignFirstResponder];
         }
@@ -156,12 +156,18 @@ MBProgressHUD *hud;
     [alertView show];
 }
 
-//- (IBAction)save:(UIButton *)sender {
-//
-//    if([self.phone_number.text length] < 10){
-//        [self launchDialog:@"Phone number appears invalid."];
-//        return;
-//    }
+-(void)clear {
+    self.phone_number.text = @"";
+    self.first_name.text = @"";
+    self.last_name.text = @"";
+}
+
+- (BOOL) validate {
+
+    if([self.phone_number.text length] < 10){
+        [self launchDialog:@"Phone number appears invalid."];
+        return NO;
+    }
 //
 //    if([self.street_number.text length] == 0){
 //        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
@@ -187,17 +193,19 @@ MBProgressHUD *hud;
 //        [self launchDialog:@"Province required."];
 //        return;
 //    }
-//
-//    if([self.first_name.text length] == 0){
-//        [self launchDialog:@"First name required."];
-//        return;
-//    }
-//
-//    if([self.last_name.text length] == 0){
-//        [self launchDialog:@"Last name required."];
-//        return;
-//    }
-//
+
+    if([self.first_name.text length] == 0){
+        [self launchDialog:@"First name required."];
+        return NO;
+    }
+
+    if([self.last_name.text length] == 0){
+        [self launchDialog:@"Last name required."];
+        return NO;
+    }
+    
+    return YES;
+
 //    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
 //    hud.labelText = @"Saving...";
 //
@@ -228,6 +236,6 @@ MBProgressHUD *hud;
 //            [self launchDialog:error];
 //        }
 //    }];
-//}
+}
 
 @end

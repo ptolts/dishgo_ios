@@ -29,6 +29,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="load_current_location:" destination="Ibv-g8-f8b" eventType="touchUpInside" id="766-mf-hxJ"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Street" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJk-EJ-9go">
                     <rect key="frame" x="13" y="89" width="217" height="17"/>
@@ -43,6 +46,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="vvd-kp-2Kk"/>
+                    </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Appt #, Suite, etc." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkw-H4-FH9">
                     <rect key="frame" x="138" y="43" width="112" height="17"/>
@@ -57,6 +63,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="tEH-9m-1sr"/>
+                    </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Street Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Etf-np-LVV">
                     <rect key="frame" x="13" y="43" width="112" height="17"/>
@@ -71,6 +80,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="aMS-hZ-VHY"/>
+                    </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVi-Mc-9Xy">
                     <rect key="frame" x="13" y="132" width="217" height="17"/>
@@ -85,6 +97,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="SO4-gz-X8a"/>
+                    </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Province" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXe-Tq-TG2">
                     <rect key="frame" x="138" y="182" width="112" height="17"/>
@@ -99,6 +114,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="H5p-ix-p4a"/>
+                    </connections>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Postal Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSb-BG-1wo">
                     <rect key="frame" x="13" y="182" width="105" height="17"/>
@@ -113,9 +131,22 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="jZT-Km-Yie"/>
+                    </connections>
                 </textField>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="apartment_number" destination="b5q-bz-LXa" id="LsJ-bd-vhK"/>
+                <outlet property="city" destination="Fs0-jI-et2" id="A0d-Q1-4cY"/>
+                <outlet property="load_current" destination="2sl-2J-yVF" id="8PI-9k-5M0"/>
+                <outlet property="postal_code" destination="x8a-08-vv4" id="OE6-Fe-d8i"/>
+                <outlet property="province" destination="Igh-S5-rbm" id="baA-xz-rFj"/>
+                <outlet property="save" destination="6Ru-V9-IPa" id="IvO-f6-fZp"/>
+                <outlet property="street_address" destination="Jjm-02-Ixg" id="bTL-Wm-hmT"/>
+                <outlet property="street_number" destination="WVH-iQ-2vx" id="kNM-fb-zOE"/>
+            </connections>
         </view>
     </objects>
 </document>

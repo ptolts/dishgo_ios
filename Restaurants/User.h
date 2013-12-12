@@ -24,4 +24,10 @@
     @property (nonatomic, copy) NSString *province;
     @property (nonatomic, copy) NSString *first_name;
     @property (nonatomic, copy) NSString *last_name;
+    @property BOOL confirm_address;
+    @property BOOL payment_details;
+    @property (nonatomic, copy) NSString *cc_number;
+    @property (nonatomic, copy) NSString *month;
+    @property (nonatomic, copy) NSString *year;
+    @property (nonatomic, copy) NSString *secret_number;
 @end

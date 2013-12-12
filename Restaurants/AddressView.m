@@ -17,13 +17,15 @@
     CLLocationManager *locationManager;
     MBProgressHUD *hud;
 
-- (id)initWithFrame:(CGRect)frame
+- (id)init
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
     if (self) {
         self = [[[NSBundle mainBundle] loadNibNamed:@"AddressView" owner:self options:nil] objectAtIndex:0];
-        self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-        [self.bg.layer setCornerRadius:5.0f];
+        self.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+        [self.layer setCornerRadius:5.0f];
+        
+//        NSLog(@"SIZE OF XIB: %@",CGRectCreateDictionaryRepresentation(self.frame));
         
         if([[UserSession sharedManager] hasAddress]){
             User *u = [[UserSession sharedManager] fetchUser];
@@ -41,6 +43,16 @@
     return self;
 }
 
+-(void)clear {
+    //    self.phone_number.text = u.phone_number;
+    self.street_number.text = nil;
+    self.street_address.text = nil;
+    self.city.text = nil;
+    self.postal_code.text = nil;
+    self.province.text = nil;
+    self.apartment_number.text = nil;
+}
+
 -(IBAction)load_current_location:(id)sender{
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -54,7 +66,7 @@
 
 - (void)launchAlert:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.nav.view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionBottom
                                                         title:@"Success!"
@@ -67,7 +79,7 @@
 
 - (void)launchAlertTop:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.nav.topViewController.view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionTop
                                                         title:@"Be Aware!"
@@ -116,7 +128,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UIView * txt in self.bg.subviews){
+    for (UIView * txt in self.subviews){
         if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
             [txt resignFirstResponder];
         }
@@ -156,38 +168,38 @@
     [alertView show];
 }
 
-//- (IBAction)save:(UIButton *)sender {
-//    
+- (BOOL) validate {
+    
 //    if([self.phone_number.text length] < 10){
 //        [self launchDialog:@"Phone number appears invalid."];
 //        return;
 //    }
-//    
-//    if([self.street_number.text length] == 0){
-//        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
-//        return;
-//    }
-//    
-//    if([self.street_address.text length] == 0){
-//        [self launchDialog:@"Street required."];
-//        return;
-//    }
-//    
-//    if([self.city.text length] == 0){
-//        [self launchDialog:@"City required."];
-//        return;
-//    }
-//    
-//    if([self.postal_code.text length] == 0){
-//        [self launchDialog:@"Postal Code required."];
-//        return;
-//    }
-//    
-//    if([self.province.text length] == 0){
-//        [self launchDialog:@"Province required."];
-//        return;
-//    }
-//    
+    
+    if([self.street_number.text length] == 0){
+        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
+        return YES;
+    }
+    
+    if([self.street_address.text length] == 0){
+        [self launchDialog:@"Street required."];
+        return YES;
+    }
+    
+    if([self.city.text length] == 0){
+        [self launchDialog:@"City required."];
+        return YES;
+    }
+    
+    if([self.postal_code.text length] == 0){
+        [self launchDialog:@"Postal Code required."];
+        return YES;
+    }
+    
+    if([self.province.text length] == 0){
+        [self launchDialog:@"Province required."];
+        return YES;
+    }
+    
 //    if([self.first_name.text length] == 0){
 //        [self launchDialog:@"First name required."];
 //        return;
@@ -197,7 +209,9 @@
 //        [self launchDialog:@"Last name required."];
 //        return;
 //    }
-//    
+    
+    return YES;
+    
 //    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
 //    hud.labelText = @"Saving...";
 //    
@@ -228,6 +242,6 @@
 //            [self launchDialog:error];
 //        }
 //    }];
-//}
+}
 
 @end

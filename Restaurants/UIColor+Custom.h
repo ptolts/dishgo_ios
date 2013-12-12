@@ -14,4 +14,5 @@
     + (UIColor*)textColor;
     + (UIColor*)seperatorColor;
     + (UIColor*)almostBlackColor;
+    + (UIColor*)titleRed;
 @end

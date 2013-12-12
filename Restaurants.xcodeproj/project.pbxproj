@@ -15,7 +15,6 @@
 		B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C335E180745A90045183F /* RestaurantLabelView.m */; };
 		B74AC373183E737A00A89616 /* CartButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74AC372183E737A00A89616 /* CartButton.xib */; };
 		B74AC377183E751C00A89616 /* CartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B74AC376183E751C00A89616 /* CartButton.m */; };
-		B74AC37B183EAD4600A89616 /* CheckoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B74AC37A183EAD4600A89616 /* CheckoutViewController.m */; };
 		B77A8D05183FDFCB00AFBAEE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A8D04183FDFCB00AFBAEE /* SignInViewController.m */; };
 		B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A8D08183FFD3A00AFBAEE /* ButtonCartRow.m */; };
 		B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B77A8D0C1843AAF900AFBAEE /* FREESCPT.TTF */; };
@@ -36,6 +35,11 @@
 		B7B7445418341CBF001DFC49 /* CheckoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445318341CBF001DFC49 /* CheckoutView.m */; };
 		B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B7445518341CCE001DFC49 /* CheckoutView.xib */; };
 		B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445C183532EE001DFC49 /* OptionsView.m */; };
+		B7BE3606185A34F000D55ED8 /* PaymentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */; };
+		B7BE3609185A3B4200D55ED8 /* PaymentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */; };
+		B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360A185A42D700D55ED8 /* secure@2x.png */; };
+		B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360C185A493D00D55ED8 /* BillingView.xib */; };
+		B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE360F185A4A5F00D55ED8 /* BillingView.m */; };
 		B7CC197018047D92003C71B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC196F18047D92003C71B9 /* Foundation.framework */; };
 		B7CC197218047D92003C71B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC197118047D92003C71B9 /* CoreGraphics.framework */; };
 		B7CC197418047D92003C71B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC197318047D92003C71B9 /* UIKit.framework */; };
@@ -54,12 +58,16 @@
 		B7CC19A418047D92003C71B9 /* RestaurantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19A318047D92003C71B9 /* RestaurantsTests.m */; };
 		B7CC19B518047E3D003C71B9 /* RestaurantCells.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B418047E3D003C71B9 /* RestaurantCells.m */; };
 		B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */; };
-		B7CF7B801852C709000D326F /* locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B7F1852C709000D326F /* locked@2x.png */; };
 		B7CF7B821852E522000D326F /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B811852E522000D326F /* info@2x.png */; };
 		B7CF7B8418564475000D326F /* AddressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B8318564475000D326F /* AddressView.xib */; };
 		B7CF7B87185644B6000D326F /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B86185644B6000D326F /* AddressView.m */; };
 		B7CF7B8A18564A8D000D326F /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B8918564A8D000D326F /* ProfileView.m */; };
 		B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B8B18564A99000D326F /* ProfileView.xib */; };
+		B7CF7B921856627F000D326F /* CheckoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B911856627F000D326F /* CheckoutTableViewController.m */; };
+		B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B9318566BF7000D326F /* checkmark@2x.png */; };
+		B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9618567050000D326F /* CheckoutCell.m */; };
+		B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B9818567063000D326F /* CheckoutCell.xib */; };
+		B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -157,8 +165,6 @@
 		B74AC372183E737A00A89616 /* CartButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CartButton.xib; sourceTree = "<group>"; };
 		B74AC375183E751C00A89616 /* CartButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartButton.h; sourceTree = "<group>"; };
 		B74AC376183E751C00A89616 /* CartButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartButton.m; sourceTree = "<group>"; };
-		B74AC379183EAD4600A89616 /* CheckoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutViewController.h; sourceTree = "<group>"; };
-		B74AC37A183EAD4600A89616 /* CheckoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutViewController.m; sourceTree = "<group>"; };
 		B77A8D03183FDFCB00AFBAEE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		B77A8D04183FDFCB00AFBAEE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		B77A8D07183FFD3A00AFBAEE /* ButtonCartRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCartRow.h; sourceTree = "<group>"; };
@@ -192,6 +198,14 @@
 		B7B7445518341CCE001DFC49 /* CheckoutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutView.xib; sourceTree = "<group>"; };
 		B7B7445B183532EE001DFC49 /* OptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsView.h; sourceTree = "<group>"; };
 		B7B7445C183532EE001DFC49 /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsView.m; sourceTree = "<group>"; };
+		B7BE3604185A34F000D55ED8 /* PaymentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentTableViewController.h; sourceTree = "<group>"; };
+		B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentTableViewController.m; sourceTree = "<group>"; };
+		B7BE3607185A3B4200D55ED8 /* PaymentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentTableViewCell.h; sourceTree = "<group>"; };
+		B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentTableViewCell.m; sourceTree = "<group>"; };
+		B7BE360A185A42D700D55ED8 /* secure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secure@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BE360C185A493D00D55ED8 /* BillingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillingView.xib; sourceTree = "<group>"; };
+		B7BE360E185A4A5F00D55ED8 /* BillingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillingView.h; sourceTree = "<group>"; };
+		B7BE360F185A4A5F00D55ED8 /* BillingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillingView.m; sourceTree = "<group>"; };
 		B7CC196C18047D92003C71B9 /* Restaurants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restaurants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CC196F18047D92003C71B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7CC197118047D92003C71B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -215,7 +229,6 @@
 		B7CC19B418047E3D003C71B9 /* RestaurantCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantCells.m; sourceTree = "<group>"; };
 		B7CC19B618047FE9003C71B9 /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
-		B7CF7B7F1852C709000D326F /* locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "locked@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7CF7B811852E522000D326F /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7CF7B8318564475000D326F /* AddressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressView.xib; sourceTree = "<group>"; };
 		B7CF7B85185644B6000D326F /* AddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressView.h; sourceTree = "<group>"; };
@@ -223,6 +236,14 @@
 		B7CF7B8818564A8D000D326F /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
 		B7CF7B8918564A8D000D326F /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
 		B7CF7B8B18564A99000D326F /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		B7CF7B901856627F000D326F /* CheckoutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutTableViewController.h; sourceTree = "<group>"; };
+		B7CF7B911856627F000D326F /* CheckoutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutTableViewController.m; sourceTree = "<group>"; };
+		B7CF7B9318566BF7000D326F /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7CF7B9518567050000D326F /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
+		B7CF7B9618567050000D326F /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
+		B7CF7B9818567063000D326F /* CheckoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutCell.xib; sourceTree = "<group>"; };
+		B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressForDeliveryViewController.h; sourceTree = "<group>"; };
+		B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressForDeliveryViewController.m; sourceTree = "<group>"; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -413,13 +434,15 @@
 			name = "Shopping Cart Button";
 			sourceTree = "<group>";
 		};
-		B74AC378183EAD3000A89616 /* Checkout */ = {
+		B74AC378183EAD3000A89616 /* Payment Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B74AC379183EAD4600A89616 /* CheckoutViewController.h */,
-				B74AC37A183EAD4600A89616 /* CheckoutViewController.m */,
+				B7BE3604185A34F000D55ED8 /* PaymentTableViewController.h */,
+				B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */,
+				B7BE3607185A3B4200D55ED8 /* PaymentTableViewCell.h */,
+				B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */,
 			);
-			name = Checkout;
+			name = "Payment Controller";
 			sourceTree = "<group>";
 		};
 		B77A8D02183FDFB700AFBAEE /* Sign In / Up */ = {
@@ -500,9 +523,10 @@
 		B7B744481832DFC5001DFC49 /* Shopping Cart */ = {
 			isa = PBXGroup;
 			children = (
+				B7CF7B8F18566253000D326F /* Checkout Controller */,
 				B77A8D06183FFD2000AFBAEE /* Cart Row */,
 				B77A8D02183FDFB700AFBAEE /* Sign In / Up */,
-				B74AC378183EAD3000A89616 /* Checkout */,
+				B74AC378183EAD3000A89616 /* Payment Controller */,
 				B74AC374183E74C600A89616 /* Shopping Cart Button */,
 				B7B7444F1833EFE5001DFC49 /* ShoppingCartTableView.h */,
 				B7B744501833EFE5001DFC49 /* ShoppingCartTableView.m */,
@@ -574,8 +598,9 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7BE360A185A42D700D55ED8 /* secure@2x.png */,
+				B7CF7B9318566BF7000D326F /* checkmark@2x.png */,
 				B7CF7B811852E522000D326F /* info@2x.png */,
-				B7CF7B7F1852C709000D326F /* locked@2x.png */,
 				B7EE7B9E18510690003EE5B8 /* logout@2x.png */,
 				B7EE7B8C184FC39E003EE5B8 /* logo_black@2x.png */,
 				B7EE7B88184FBF12003EE5B8 /* favorites@2x.png */,
@@ -661,6 +686,20 @@
 				B70C335E180745A90045183F /* RestaurantLabelView.m */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		B7CF7B8F18566253000D326F /* Checkout Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B7CF7B901856627F000D326F /* CheckoutTableViewController.h */,
+				B7CF7B911856627F000D326F /* CheckoutTableViewController.m */,
+				B7CF7B9518567050000D326F /* CheckoutCell.h */,
+				B7CF7B9618567050000D326F /* CheckoutCell.m */,
+				B7CF7B9818567063000D326F /* CheckoutCell.xib */,
+				B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */,
+				B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */,
+			);
+			name = "Checkout Controller";
 			sourceTree = "<group>";
 		};
 		B7DA9D861843DCEF0072AD47 /* Scroll View */ = {
@@ -836,6 +875,9 @@
 				B7CF7B8818564A8D000D326F /* ProfileView.h */,
 				B7CF7B8918564A8D000D326F /* ProfileView.m */,
 				B7CF7B8B18564A99000D326F /* ProfileView.xib */,
+				B7BE360C185A493D00D55ED8 /* BillingView.xib */,
+				B7BE360E185A4A5F00D55ED8 /* BillingView.h */,
+				B7BE360F185A4A5F00D55ED8 /* BillingView.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -937,6 +979,8 @@
 				B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
+				B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */,
+				B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
 				B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */,
@@ -946,6 +990,7 @@
 				B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */,
 				B7CC199018047D92003C71B9 /* Images.xcassets in Resources */,
 				B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */,
+				B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */,
 				B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */,
 				B7EE7B75184D349F003EE5B8 /* 6809CHAR.TTF in Resources */,
 				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
@@ -954,7 +999,6 @@
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
-				B7CF7B801852C709000D326F /* locked@2x.png in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
 				B7CF7B821852E522000D326F /* info@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
@@ -970,6 +1014,7 @@
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
 				B7E6C296183BF909005E8598 /* CartRowCell.xib in Resources */,
 				B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */,
+				B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */,
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
@@ -1076,6 +1121,7 @@
 				B7E20F401820560100791BEB /* Dishes.m in Sources */,
 				B7E20F471820560100791BEB /* Option.m in Sources */,
 				B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */,
+				B7BE3606185A34F000D55ED8 /* PaymentTableViewController.m in Sources */,
 				B7B74426182C1981001DFC49 /* DishScrollView.m in Sources */,
 				B7E43066181EE625002B6867 /* MenuTableViewController.m in Sources */,
 				B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */,
@@ -1085,9 +1131,11 @@
 				B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */,
 				B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */,
 				B70C334A1805B2A70045183F /* _Images.m in Sources */,
+				B7BE3609185A3B4200D55ED8 /* PaymentTableViewCell.m in Sources */,
 				B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */,
 				B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */,
 				B7E20F451820560100791BEB /* _Option.m in Sources */,
+				B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */,
 				B7CF7B87185644B6000D326F /* AddressView.m in Sources */,
 				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
 				B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */,
@@ -1109,13 +1157,15 @@
 				B7CC198818047D92003C71B9 /* Restaurants.xcdatamodeld in Sources */,
 				B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */,
 				B7EE7B9D1851020E003EE5B8 /* Lockbox.m in Sources */,
-				B74AC37B183EAD4600A89616 /* CheckoutViewController.m in Sources */,
 				B7B7442B182C1B0B001DFC49 /* DishView.m in Sources */,
+				B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */,
 				B7E43058181EC22A002B6867 /* ImagesInScroll.m in Sources */,
+				B7CF7B921856627F000D326F /* CheckoutTableViewController.m in Sources */,
 				B7B7445418341CBF001DFC49 /* CheckoutView.m in Sources */,
 				B7E6C29D183C0F38005E8598 /* DishFooterView.m in Sources */,
 				B7B744511833EFE5001DFC49 /* ShoppingCartTableView.m in Sources */,
 				B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */,
+				B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,6 +1250,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
 				SDKROOT = iphoneos;
 			};
@@ -1235,6 +1286,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

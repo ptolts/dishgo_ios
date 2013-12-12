@@ -11,6 +11,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UserSession.h"
 #import <ALAlertBanner/ALAlertBanner.h>
+#import "AddressView.h"
+#import "ProfileView.h"
 
 
 @interface ProfileViewController ()
@@ -18,8 +20,8 @@
 @end
 
 @implementation ProfileViewController
-    CLGeocoder *geocoder;
-    CLLocationManager *locationManager;
+//    CLGeocoder *geocoder;
+//    CLLocationManager *locationManager;
     MBProgressHUD *hud;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,16 +32,16 @@
     return self;
 }
 
--(IBAction)load_current_location:(id)sender{
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeAnnularDeterminate;
-    hud.labelText = @"Finding Location...";
-    [locationManager startUpdatingLocation];
-}
+//-(IBAction)load_current_location:(id)sender{
+//    locationManager = [[CLLocationManager alloc] init];
+//    locationManager.delegate = self;
+//    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+//    
+//    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.mode = MBProgressHUDModeAnnularDeterminate;
+//    hud.labelText = @"Finding Location...";
+//    [locationManager startUpdatingLocation];
+//}
 
 - (void)launchAlert:(NSString *)msg
 {
@@ -79,70 +81,99 @@
     [self.view addSubview:imageView ];
     [self.view sendSubviewToBack:imageView ];
     
-    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-    [self.bg.layer setCornerRadius:5.0f];
     
-    self.bg2.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-    [self.bg2.layer setCornerRadius:5.0f];
+    // This is just hideous, but at least we can reuse views.
+    AddressView *addy_view = [[AddressView alloc] init];
+    addy_view.nav = self.navigationController;
+    addy_view.frame = self.address_view.frame;
+    [self.address_view removeFromSuperview];
+    self.address_view = addy_view;
+    [self.view addSubview:addy_view];
+    self.address_view = addy_view;
+    [addy_view.save addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     
-    if([[UserSession sharedManager] hasAddress]){
-        User *u = [[UserSession sharedManager] fetchUser];
-        self.phone_number.text = u.phone_number;
-        self.street_number.text = u.street_number;
-        self.street_address.text = u.street_address;
-        self.city.text = u.city;
-        self.postal_code.text = u.postal_code;
-        self.province.text = u.province;
-        self.apartment_number.text = u.apartment_number;
-        self.first_name.text = u.first_name;
-        self.last_name.text = u.last_name;
-    }
+    ProfileView *prof_view = [[ProfileView alloc] init];
+    prof_view.nav = self.navigationController;
+    prof_view.frame = self.profile_view.frame;
+    [self.profile_view removeFromSuperview];
+    self.profile_view = prof_view;
+    [self.view addSubview:prof_view];
+    self.profile_view = prof_view;
+    
+//    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+//    [self.bg.layer setCornerRadius:5.0f];
+//    
+//    self.bg2.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+//    [self.bg2.layer setCornerRadius:5.0f];
+//    
+//    if([[UserSession sharedManager] hasAddress]){
+//        User *u = [[UserSession sharedManager] fetchUser];
+//        self.phone_number.text = u.phone_number;
+//        self.street_number.text = u.street_number;
+//        self.street_address.text = u.street_address;
+//        self.city.text = u.city;
+//        self.postal_code.text = u.postal_code;
+//        self.province.text = u.province;
+//        self.apartment_number.text = u.apartment_number;
+//        self.first_name.text = u.first_name;
+//        self.last_name.text = u.last_name;
+//    }
     
 }
 
 -(IBAction)clear:(id)sender {
 //    self.phone_number.text = u.phone_number;
-    self.street_number.text = nil;
-    self.street_address.text = nil;
-    self.city.text = nil;
-    self.postal_code.text = nil;
-    self.province.text = nil;
-    self.apartment_number.text = nil;
+//    self.street_number.text = nil;
+//    self.street_address.text = nil;
+//    self.city.text = nil;
+//    self.postal_code.text = nil;
+//    self.province.text = nil;
+//    self.apartment_number.text = nil;
+    [self.address_view clear];
+    [self.profile_view clear];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    
-    geocoder = [[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation: locationManager.location completionHandler:
-     
-     //Getting Human readable Address from Lat long,,,
-     
-     ^(NSArray *placemarks, NSError *error) {
-         //Get nearby address
-         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-         //String to hold address
-//         NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
-         //Print the location to console
-         NSLog(@"Location Dict %@",placemark.addressDictionary);
-         self.street_address.text = [placemark.addressDictionary objectForKey:@"Thoroughfare"];
-         self.city.text = [placemark.addressDictionary objectForKey:@"City"];
-         self.postal_code.text = [placemark.addressDictionary objectForKey:@"ZIP"];
-         self.province.text = [placemark.addressDictionary objectForKey:@"State"];
-     }];
- 
-    [locationManager stopUpdatingLocation];
-    [hud hide:YES];
-    [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
-
-}
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    
+//    geocoder = [[CLGeocoder alloc]init];
+//    [geocoder reverseGeocodeLocation: locationManager.location completionHandler:
+//     
+//     //Getting Human readable Address from Lat long,,,
+//     
+//     ^(NSArray *placemarks, NSError *error) {
+//         //Get nearby address
+//         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+//         //String to hold address
+////         NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
+//         //Print the location to console
+//         NSLog(@"Location Dict %@",placemark.addressDictionary);
+//         self.street_address.text = [placemark.addressDictionary objectForKey:@"Thoroughfare"];
+//         self.city.text = [placemark.addressDictionary objectForKey:@"City"];
+//         self.postal_code.text = [placemark.addressDictionary objectForKey:@"ZIP"];
+//         self.province.text = [placemark.addressDictionary objectForKey:@"State"];
+//     }];
+// 
+//    [locationManager stopUpdatingLocation];
+//    [hud hide:YES];
+//    [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
+//
+//}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UIView * txt in self.bg.subviews){
+    
+    for (UIView * txt in self.address_view.subviews){
         if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
             [txt resignFirstResponder];
         }
     }
+    
+    for (UIView * txt in self.profile_view.subviews){
+        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
+            [txt resignFirstResponder];
+        }
+    }
+    
     [self.view endEditing:YES];
 }
 
@@ -213,116 +244,121 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
-    int length = [self getLength:textField.text];
-    //NSLog(@"Length  =  %d ",length);
-    
-    if(length == 10)
-    {
-        if(range.length == 0)
-            return NO;
-    }
-    
-    if(length == 3)
-    {
-        NSString *num = [self formatNumber:textField.text];
-        textField.text = [NSString stringWithFormat:@"(%@) ",num];
-        if(range.length > 0)
-            textField.text = [NSString stringWithFormat:@"%@",[num substringToIndex:3]];
-    }
-    else if(length == 6)
-    {
-        NSString *num = [self formatNumber:textField.text];
-        //NSLog(@"%@",[num  substringToIndex:3]);
-        //NSLog(@"%@",[num substringFromIndex:3]);
-        textField.text = [NSString stringWithFormat:@"(%@) %@-",[num  substringToIndex:3],[num substringFromIndex:3]];
-        if(range.length > 0)
-            textField.text = [NSString stringWithFormat:@"(%@) %@",[num substringToIndex:3],[num substringFromIndex:3]];
-    }
-    
-    return YES;
-}
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+//    
+//    int length = [self getLength:textField.text];
+//    //NSLog(@"Length  =  %d ",length);
+//    
+//    if(length == 10)
+//    {
+//        if(range.length == 0)
+//            return NO;
+//    }
+//    
+//    if(length == 3)
+//    {
+//        NSString *num = [self formatNumber:textField.text];
+//        textField.text = [NSString stringWithFormat:@"(%@) ",num];
+//        if(range.length > 0)
+//            textField.text = [NSString stringWithFormat:@"%@",[num substringToIndex:3]];
+//    }
+//    else if(length == 6)
+//    {
+//        NSString *num = [self formatNumber:textField.text];
+//        //NSLog(@"%@",[num  substringToIndex:3]);
+//        //NSLog(@"%@",[num substringFromIndex:3]);
+//        textField.text = [NSString stringWithFormat:@"(%@) %@-",[num  substringToIndex:3],[num substringFromIndex:3]];
+//        if(range.length > 0)
+//            textField.text = [NSString stringWithFormat:@"(%@) %@",[num substringToIndex:3],[num substringFromIndex:3]];
+//    }
+//    
+//    return YES;
+//}
 
--(NSString*)formatNumber:(NSString*)mobileNumber
-{
-    
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-    
-    NSLog(@"%@", mobileNumber);
-    
-    int length = [mobileNumber length];
-    if(length > 10)
-    {
-        mobileNumber = [mobileNumber substringFromIndex: length-10];
-        NSLog(@"%@", mobileNumber);
-        
-    }
-    
-    
-    return mobileNumber;
-}
-
-
--(int)getLength:(NSString*)mobileNumber
-{
-    
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
-    
-    int length = [mobileNumber length];
-    
-    return length;
-    
-    
-}
+//-(NSString*)formatNumber:(NSString*)mobileNumber
+//{
+//    
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+//    
+//    NSLog(@"%@", mobileNumber);
+//    
+//    int length = [mobileNumber length];
+//    if(length > 10)
+//    {
+//        mobileNumber = [mobileNumber substringFromIndex: length-10];
+//        NSLog(@"%@", mobileNumber);
+//        
+//    }
+//    
+//    
+//    return mobileNumber;
+//}
+//
+//
+//-(int)getLength:(NSString*)mobileNumber
+//{
+//    
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//    mobileNumber = [mobileNumber stringByReplacingOccurrencesOfString:@"+" withString:@""];
+//    
+//    int length = [mobileNumber length];
+//    
+//    return length;
+//    
+//    
+//}
 
 - (IBAction)save:(UIButton *)sender {
     
-    if([self.phone_number.text length] < 10){
-        [self launchDialog:@"Phone number appears invalid."];
-        return;
-    }
+//    if([self.phone_number.text length] < 10){
+//        [self launchDialog:@"Phone number appears invalid."];
+//        return;
+//    }
+//    
+//    if([self.street_number.text length] == 0){
+//        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
+//        return;
+//    }
+//    
+//    if([self.street_address.text length] == 0){
+//        [self launchDialog:@"Street required."];
+//        return;
+//    }
+//    
+//    if([self.city.text length] == 0){
+//        [self launchDialog:@"City required."];
+//        return;
+//    }
+//    
+//    if([self.postal_code.text length] == 0){
+//        [self launchDialog:@"Postal Code required."];
+//        return;
+//    }
+//    
+//    if([self.province.text length] == 0){
+//        [self launchDialog:@"Province required."];
+//        return;
+//    }
+//    
+//    if([self.first_name.text length] == 0){
+//        [self launchDialog:@"First name required."];
+//        return;
+//    }
+//    
+//    if([self.last_name.text length] == 0){
+//        [self launchDialog:@"Last name required."];
+//        return;
+//    }
     
-    if([self.street_number.text length] == 0){
-        [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
-        return;
-    }
     
-    if([self.street_address.text length] == 0){
-        [self launchDialog:@"Street required."];
-        return;
-    }
-    
-    if([self.city.text length] == 0){
-        [self launchDialog:@"City required."];
-        return;
-    }
-    
-    if([self.postal_code.text length] == 0){
-        [self launchDialog:@"Postal Code required."];
-        return;
-    }
-    
-    if([self.province.text length] == 0){
-        [self launchDialog:@"Province required."];
-        return;
-    }
-    
-    if([self.first_name.text length] == 0){
-        [self launchDialog:@"First name required."];
-        return;
-    }
-    
-    if([self.last_name.text length] == 0){
-        [self launchDialog:@"Last name required."];
+    if(!([self.address_view validate] && [self.profile_view validate])){
         return;
     }
     
@@ -331,18 +367,18 @@
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     
-    [dict setObject:self.phone_number.text forKey:@"phone_number"];
-    [dict setObject:self.street_number.text forKey:@"street_number"];
-    [dict setObject:self.street_address.text forKey:@"street_address"];
-    [dict setObject:self.city.text forKey:@"city"];
-    [dict setObject:self.postal_code.text forKey:@"postal_code"];
-    [dict setObject:self.province.text forKey:@"province"];
-    [dict setObject:self.last_name.text forKey:@"last_name"];
-    [dict setObject:self.first_name.text forKey:@"first_name"];
-    if(self.apartment_number.text == nil){
+    [dict setObject:self.profile_view.phone_number.text forKey:@"phone_number"];
+    [dict setObject:self.address_view.street_number.text forKey:@"street_number"];
+    [dict setObject:self.address_view.street_address.text forKey:@"street_address"];
+    [dict setObject:self.address_view.city.text forKey:@"city"];
+    [dict setObject:self.address_view.postal_code.text forKey:@"postal_code"];
+    [dict setObject:self.address_view.province.text forKey:@"province"];
+    [dict setObject:self.profile_view.last_name.text forKey:@"last_name"];
+    [dict setObject:self.profile_view.first_name.text forKey:@"first_name"];
+    if(self.address_view.apartment_number.text == nil){
         [dict setObject:@"" forKey:@"apartment_number"];
     } else {
-        [dict setObject:self.apartment_number.text forKey:@"apartment_number"];
+        [dict setObject:self.address_view.apartment_number.text forKey:@"apartment_number"];
     }
 
     

@@ -24,7 +24,9 @@
 
 - (void)mk_setLeftBarButtonItem:(UIBarButtonItem *)leftBarButtonItem
 {
-    if ([self isIOS7] && leftBarButtonItem) {
+    BOOL isNotCardIO = !([@"CardIODataEntryViewController" isEqualToString:[NSString stringWithFormat:@"%@",[leftBarButtonItem.target class]]]);
+                          
+    if ([self isIOS7] && leftBarButtonItem && isNotCardIO) {
         [self mk_setLeftBarButtonItem:nil];
         [self mk_setLeftBarButtonItems:@[[self spacer], leftBarButtonItem]];
     } else {
@@ -51,7 +53,9 @@
 
 - (void)mk_setRightBarButtonItem:(UIBarButtonItem *)rightBarButtonItem
 {
-    if ([self isIOS7] && rightBarButtonItem) {
+    BOOL isNotCardIO = !([@"CardIODataEntryViewController" isEqualToString:[NSString stringWithFormat:@"%@",[rightBarButtonItem.target class]]]);
+    
+    if ([self isIOS7] && rightBarButtonItem && isNotCardIO) {
         [self mk_setRightBarButtonItem:nil];
         [self mk_setRightBarButtonItems:@[[self spacer], rightBarButtonItem]];
     } else {
