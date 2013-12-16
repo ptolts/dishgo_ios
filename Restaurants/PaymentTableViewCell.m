@@ -28,11 +28,20 @@
     self.paymentView.delegate = self;
     
     [self killKeyboard];
+    
+    BillingView *bill_view = [[BillingView alloc] init];
+    bill_view.u = _bill_user;
+    bill_view.frame = self.b_view.frame;
+    [self.b_view removeFromSuperview];
+    self.b_view = bill_view;
+    [self addSubview:bill_view];
+    self.b_view = bill_view;
+    bill_view.pay = controller;
+    [bill_view setup];
 }
 
 -(void) killKeyboard {
     for (UIView * txt in self.paymentView.innerView.subviews){
-        NSLog(@"%@",txt.class);
         if ([txt respondsToSelector:@selector(resignFirstResponder)]) {
             [txt resignFirstResponder];
         }

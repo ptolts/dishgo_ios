@@ -69,6 +69,43 @@
     [banner show];
 }
 
+
+- (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if ([keyPath isEqual:@"current_textfield"]) {
+        sub_textfield = [change objectForKey:NSKeyValueChangeNewKey];
+    }
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification
+{
+    // Step 1: Get the size of the keyboard.
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    // Step 2: Adjust the bottom content inset of your scroll view by the keyboard height.
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+    self.scroll_view.contentInset = contentInsets;
+    self.scroll_view.scrollIndicatorInsets = contentInsets;
+    // Step 3: Scroll the target text field into view.
+    CGRect aRect = self.scroll_view.frame;
+    aRect.size.height -= keyboardSize.height;
+    CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.view];
+    
+    //    NSLog(@"view minus keyboard: %@",CGRectCreateDictionaryRepresentation(aRect));
+    //    NSLog(@"text_view in parent: %@",CGRectCreateDictionaryRepresentation(textFrame));
+    
+    if (!CGRectContainsRect(aRect, textFrame)) {
+        //        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
+        CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
+        //        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
+        [self.scroll_view setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+- (void) keyboardWillHide:(NSNotification *)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scroll_view.contentInset = contentInsets;
+    self.scroll_view.scrollIndicatorInsets = contentInsets;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -99,6 +136,8 @@
     self.profile_view = prof_view;
     [self.view addSubview:prof_view];
     self.profile_view = prof_view;
+    
+    [addy_view addObserver:self forKeyPath:@"current_textfield" options:NSKeyValueObservingOptionNew context:NULL];
     
 //    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
 //    [self.bg.layer setCornerRadius:5.0f];

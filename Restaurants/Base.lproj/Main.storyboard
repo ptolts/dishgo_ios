@@ -275,7 +275,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mAK-67-19J">
-                                            <rect key="frame" x="64" y="419" width="193" height="30"/>
+                                            <rect key="frame" x="64" y="270" width="193" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="Scan Credit Card">
@@ -284,38 +284,39 @@
                                             </state>
                                         </button>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="secure.png" id="VDH-JK-1Dg">
-                                            <rect key="frame" x="110" y="516" width="100" height="30"/>
+                                            <rect key="frame" x="110" y="433" width="100" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" id="ayc-qf-dcF" customClass="PKView">
-                                            <rect key="frame" x="13" y="462" width="280" height="60"/>
+                                            <rect key="frame" x="14" y="310" width="280" height="60"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credit Card Information" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZWn-Cp-Ove">
-                                            <rect key="frame" x="0.0" y="385" width="320" height="21"/>
+                                            <rect key="frame" x="0.0" y="236" width="320" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="DamascusBold" family="Damascus" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="77l-Af-oEC">
-                                            <rect key="frame" x="64" y="574" width="193" height="30"/>
+                                            <rect key="frame" x="64" y="384" width="193" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.73563058039999996" green="0.0025693145779999999" blue="0.090610669020000006" alpha="1" colorSpace="calibratedRGB"/>
-                                            <state key="normal" title="Conftinue">
+                                            <state key="normal" title="Confirm">
                                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
                                         <view contentMode="scaleToFill" id="X4E-EO-IZr" customClass="BillingView">
-                                            <rect key="frame" x="20" y="36" width="280" height="327"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="223"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="b_view" destination="X4E-EO-IZr" id="V13-P6-fNc"/>
                                     <outlet property="confirm" destination="77l-Af-oEC" id="jTT-eS-tBG"/>
                                     <outlet property="paymentView" destination="ayc-qf-dcF" id="qCp-vV-pKb"/>
                                     <outlet property="scan_card" destination="mAK-67-19J" id="ZT8-U0-vdY"/>
@@ -327,9 +328,6 @@
                             <outlet property="delegate" destination="JZc-Tf-DK1" id="t60-9y-hZU"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="b_view" destination="X4E-EO-IZr" id="RjW-eI-tKx"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ztb-Fj-pGb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -339,24 +337,24 @@
         <scene sceneID="NRZ-qe-OjL">
             <objects>
                 <viewController storyboardIdentifier="addressViewController" id="eJU-cC-dzf" customClass="AddressForDeliveryViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bcf-6I-nAe">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="EBq-P8-t4c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="726-fX-jlf" customClass="AddressView">
-                                <rect key="frame" x="29" y="128" width="263" height="276"/>
+                                <rect key="frame" x="29" y="133" width="263" height="276"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="b74-3U-Fg2" customClass="ProfileView">
-                                <rect key="frame" x="29" y="12" width="263" height="108"/>
+                                <rect key="frame" x="29" y="9" width="263" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                    </scrollView>
                     <connections>
+                        <outlet property="scroll_view" destination="EBq-P8-t4c" id="ABX-Lp-410"/>
                         <outlet property="user_address" destination="726-fX-jlf" id="E6T-U0-Z3Y"/>
                         <outlet property="user_info" destination="b74-3U-Fg2" id="1dI-BN-SKA"/>
                     </connections>

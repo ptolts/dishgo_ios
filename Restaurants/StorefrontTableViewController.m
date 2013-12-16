@@ -42,8 +42,10 @@
     MKMapView *mapView;
 
 
-- (void)dealloc {
+- (void) viewDidDisappear:(BOOL)animated {
+    [locationManager stopMonitoringSignificantLocationChanges];
     [locationManager stopUpdatingLocation];
+    [mapView setDelegate:nil];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style

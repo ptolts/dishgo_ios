@@ -16,6 +16,8 @@
     CLGeocoder *geocoder;
     CLLocationManager *locationManager;
     MBProgressHUD *hud;
+    @synthesize controller;
+    @synthesize current_textfield;
 
 - (id)init
 {
@@ -24,7 +26,6 @@
         self = [[[NSBundle mainBundle] loadNibNamed:@"AddressView" owner:self options:nil] objectAtIndex:0];
         self.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
         [self.layer setCornerRadius:5.0f];
-        
 //        NSLog(@"SIZE OF XIB: %@",CGRectCreateDictionaryRepresentation(self.frame));
         
         if([[UserSession sharedManager] hasAddress]){
@@ -39,9 +40,39 @@
             //        self.first_name.text = u.first_name;
             //        self.last_name.text = u.last_name;
         }
+        
+        for (UITextField * txt in self.subviews){
+            if ([txt isKindOfClass:[UITextField class]]) {
+                txt.delegate = self;
+            }
+        }
+        
     }
     return self;
 }
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"FROM ADDRESSVIEW: %@",CGRectCreateDictionaryRepresentation(textField.frame));
+    self.current_textfield = textField;
+}
+
+//- (void)textFieldDidBeginEditing:(UITextField *)textField
+//{
+//    int location = [[NSNumber numberWithFloat:(textField.frame.origin.y + self.frame.origin.y)] intValue];
+//    NSNumber *num = [NSNumber numberWithInt:location];
+//    NSLog(@"Textfield Location: %d",location);
+//    if ([controller respondsToSelector:@selector(edit:)]){
+//        [controller performSelector:@selector(edit:) withObject:(num)];
+//    }
+//}
+//- (void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    NSLog(@"Textfield Location: ");
+//    if ([controller respondsToSelector:@selector(edit:)]){
+//        [controller performSelector:@selector(edit:) withObject:([NSNumber numberWithInteger:0])];
+//    }
+//}
 
 -(void)clear {
     //    self.phone_number.text = u.phone_number;

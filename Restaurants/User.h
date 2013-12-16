@@ -26,6 +26,7 @@
     @property (nonatomic, copy) NSString *last_name;
     @property BOOL confirm_address;
     @property BOOL payment_details;
+    @property BOOL confirm_billing;
     @property (nonatomic, copy) NSString *cc_number;
     @property (nonatomic, copy) NSString *month;
     @property (nonatomic, copy) NSString *year;

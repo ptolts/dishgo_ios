@@ -133,6 +133,7 @@
                     <textInputTraits key="textInputTraits"/>
                     <connections>
                         <action selector="dissmissKeyboard:" destination="Ibv-g8-f8b" eventType="editingDidEndOnExit" id="jZT-Km-Yie"/>
+                        <outlet property="delegate" destination="Ibv-g8-f8b" id="tze-NS-5jV"/>
                     </connections>
                 </textField>
             </subviews>

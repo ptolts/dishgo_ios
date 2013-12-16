@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface RestoScrollView : UIScrollView
-
+    @property int numberOfPages;
+    - (void) scrollPages;
+    - (void) killScroll;
+    @property int currentPage;
 @end

@@ -18,6 +18,7 @@
 @implementation PaymentTableViewController
 
 @synthesize main_user;
+@synthesize bill_user;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,14 +32,10 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     [self setupBackButtonAndCart];
-    
-    BillingView *bill_view = [[BillingView alloc] init];
-    bill_view.u = _bill_user;
-    bill_view.frame = self.b_view.frame;
-    [self.b_view removeFromSuperview];
-    self.b_view = bill_view;
-    [self.view addSubview:bill_view];
-    self.b_view = bill_view;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
 }
 
 - (void) setupBackButtonAndCart {
@@ -83,6 +80,7 @@
     // Configure the cell...
     cell.controller = self;
     cell.main_user = main_user;
+    cell.bill_user = bill_user;
     [cell setup];
     return cell;
 }

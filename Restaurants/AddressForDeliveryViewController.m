@@ -15,6 +15,9 @@
 
 @implementation AddressForDeliveryViewController
 
+    NSNumber *activeTextField;
+    UITextField *sub_textfield;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -85,15 +88,15 @@
     }
     
     _main_user.confirm_address = YES;
-    [self launchAlert:@"Address Confirmed!"];
     [self.navigationController popViewControllerAnimated:YES];
+    [self launchAlert:@"Address Confirmed!"];    
 }
 
 - (void)launchAlert:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.topViewController.view
                                                         style:ALAlertBannerStyleNotify
-                                                     position:ALAlertBannerPositionBottom
+                                                     position:ALAlertBannerPositionTop
                                                         title:@"Success!"
                                                      subtitle:msg];
     
@@ -138,6 +141,7 @@
     [addy_view.save.titleLabel sizeToFit];
     [self.view addSubview:addy_view];
     self.user_address = addy_view;
+    addy_view.controller = self;
     [addy_view.save addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     
     ProfileView *prof_view = [[ProfileView alloc] init];
@@ -147,9 +151,57 @@
     self.user_info = prof_view;
     [self.view addSubview:prof_view];
     self.user_info = prof_view;
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+//    [prof_view addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
+    [addy_view addObserver:self forKeyPath:@"current_textfield" options:NSKeyValueObservingOptionNew context:NULL];
+    
 }
 
+- (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if ([keyPath isEqual:@"current_textfield"]) {
+        sub_textfield = [change objectForKey:NSKeyValueChangeNewKey];
+    }
+}
 
+- (void)keyboardWasShown:(NSNotification *)notification
+{
+    // Step 1: Get the size of the keyboard.
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    // Step 2: Adjust the bottom content inset of your scroll view by the keyboard height.
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+    self.scroll_view.contentInset = contentInsets;
+    self.scroll_view.scrollIndicatorInsets = contentInsets;
+    // Step 3: Scroll the target text field into view.
+    CGRect aRect = self.scroll_view.frame;
+    aRect.size.height -= keyboardSize.height;
+    CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.view];
+
+//    NSLog(@"view minus keyboard: %@",CGRectCreateDictionaryRepresentation(aRect));
+//    NSLog(@"text_view in parent: %@",CGRectCreateDictionaryRepresentation(textFrame));
+    
+    if (!CGRectContainsRect(aRect, textFrame)) {
+//        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
+        CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
+//        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
+        [self.scroll_view setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+- (void) keyboardWillHide:(NSNotification *)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scroll_view.contentInset = contentInsets;
+    self.scroll_view.scrollIndicatorInsets = contentInsets;
+}
 
 - (void)didReceiveMemoryWarning
 {

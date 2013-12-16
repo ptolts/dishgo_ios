@@ -28,5 +28,7 @@
 //    @property (strong, nonatomic) IBOutlet UITextField *last_name;
 //    @property IBOutlet UIView *bg;
 //    @property IBOutlet UIView *bg2;
+    @property UIViewController *controller;
+    @property UITextField *current_textfield;
     -(void) clear;
 @end

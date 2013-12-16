@@ -25,6 +25,8 @@
 @implementation RestaurantViewController {
     NSArray *restaurantList;
     RKManagedObjectStore *managedObjectStore;
+    NSMutableArray *cellList;
+    NSTimer *scroll_timer;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -52,6 +54,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    cellList = [[NSMutableArray alloc] init];
+    [self startScrolling];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:0.9];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
@@ -217,18 +221,40 @@
     return restaurantList.count;
 }
 
+//- (void) killScroll {
+//    [scroll_timer invalidate];
+//    scroll_timer = nil;
+//}
+
+- (void) startScrolling {
+    scroll_timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                    target:self
+                                                  selector:@selector(scrollEachCell)
+                                                  userInfo:Nil
+                                                   repeats:YES];
+    [scroll_timer fire];
+}
+
+- (void) scrollEachCell {
+    for(RestaurantCells *c in cellList){
+        [c.scrollView scrollPages];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"RestaurantCells";
     
-//    RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
     if (cell == nil) {
         cell = [[RestaurantCells alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     } else {
+//        [cell.scrollView killScroll];
+        [cellList removeObject:cell];
         for (UIView *aView in [NSArray arrayWithArray:cell.scrollView.subviews]) {
             [aView removeFromSuperview];
         }
@@ -271,8 +297,14 @@
     
     cell.scrollView.contentSize = CGSizeMake(cell.scrollView.frame.size.width * [resto.images count], cell.scrollView.frame.size.height);
     cell.scrollView.pagingEnabled = YES;
+    
+    cell.scrollView.numberOfPages = [resto.images count];
+//    [cell.scrollView scroll];
+    
     cell.restaurantLabel.text = resto.name;
     cell.restaurantLabel.font = [UIFont fontWithName:@"Freestyle Script Bold" size:28.0f];
+    [cellList addObject:cell];
+    cell.scrollView.currentPage = 0;
     return cell;
 }
 

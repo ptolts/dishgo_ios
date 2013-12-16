@@ -10,6 +10,10 @@
 
 @implementation RestoScrollView
 
+    @synthesize currentPage;
+    @synthesize numberOfPages;
+    NSTimer *scroll_timer;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -17,6 +21,36 @@
         // Initialization code
     }
     return self;
+}
+
+//- (void) killScroll {
+//    NSLog(@"Scrollview: %d stopping scroll",self.numberOfPages);    
+//    [scroll_timer invalidate];
+//    scroll_timer = nil;
+//}
+//
+//- (void) scroll {
+//    NSLog(@"Scrollview: %d starting scroll",self.numberOfPages);
+//    currentPage = 0;
+//    scroll_timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+//                                      target:self
+//                                    selector:@selector(scrollPages)
+//                                    userInfo:Nil
+//                                     repeats:YES];
+//    [scroll_timer fire];
+//}
+
+
+
+-(void)scrollToPage:(NSInteger)aPage{
+    float myPageWidth = [self frame].size.width;
+    float myPageY = [self frame].origin.y;
+    [self setContentOffset:CGPointMake(aPage*myPageWidth,myPageY) animated:YES];
+}
+
+-(void)scrollPages{
+    [self scrollToPage:currentPage%numberOfPages];
+    currentPage++;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

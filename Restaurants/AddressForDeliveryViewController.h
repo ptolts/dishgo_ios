@@ -11,9 +11,11 @@
 #import "AddressView.h"
 #import "User.h"
 
-@interface AddressForDeliveryViewController : UIViewController
+@interface AddressForDeliveryViewController : UIViewController <UITextFieldDelegate>
     @property (strong, nonatomic) IBOutlet ProfileView *user_info;
     @property (strong, nonatomic) IBOutlet AddressView *user_address;
     @property User *main_user;
+    @property (strong, nonatomic) IBOutlet UIScrollView *scroll_view;
     @property User *bill_user;
+    -(void) edit:(NSNumber *) location;
 @end

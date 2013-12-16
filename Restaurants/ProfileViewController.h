@@ -27,4 +27,5 @@
 //    @property (strong, nonatomic) IBOutlet UITextField *last_name;
     @property IBOutlet ProfileView *profile_view;
     @property IBOutlet AddressView *address_view;
+    @property (strong, nonatomic) IBOutlet UIScrollView *scroll_view;
 @end

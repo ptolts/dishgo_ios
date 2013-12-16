@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "User.h"
-#import "BillingView.h"
 
 @interface PaymentTableViewController : UITableViewController
     @property User *main_user;
     @property User *bill_user;
-    @property IBOutlet BillingView *b_view;
 @end

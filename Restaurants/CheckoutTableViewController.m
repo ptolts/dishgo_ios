@@ -166,8 +166,6 @@
 }
 
 - (void) address {
-    [self payment];
-    return;
     NSLog(@"Clicked Signin");
     AddressForDeliveryViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"addressViewController"];
     vc.main_user = user_for_order;
