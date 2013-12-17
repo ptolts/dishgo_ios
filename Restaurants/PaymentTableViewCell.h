@@ -25,5 +25,12 @@
     @property IBOutlet PKView* paymentView;
     @property PaymentTableViewController *controller;
     -(void) setup;
+    @property (strong, nonatomic) IBOutlet UIImageView *secured_image;
     @property IBOutlet BillingView *b_view;
+    @property IBOutlet PKTextField *card_field;
+    @property IBOutlet PKTextField *card_date;
+    @property IBOutlet PKTextField *card_cvv;
+    @property IBOutlet UIImageView *card_image;
+    @property IBOutlet UIView *card_bg;
+    @property IBOutlet UIButton *completeButton;
 @end

@@ -45,7 +45,16 @@
 -(void)scrollToPage:(NSInteger)aPage{
     float myPageWidth = [self frame].size.width;
     float myPageY = [self frame].origin.y;
-    [self setContentOffset:CGPointMake(aPage*myPageWidth,myPageY) animated:YES];
+//    [self setContentOffset:CGPointMake(aPage*myPageWidth,myPageY) animated:YES];
+    [UIView
+        animateWithDuration:1.5
+        delay:0
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{
+        self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
+        }
+        completion: nil
+     ];
 }
 
 -(void)scrollPages{

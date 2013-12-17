@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Stripe/Stripe.h>
 
 @interface User : NSObject
     @property (nonatomic, copy) NSString *facebook_token;
@@ -27,8 +28,11 @@
     @property BOOL confirm_address;
     @property BOOL payment_details;
     @property BOOL confirm_billing;
+    @property BOOL validCreditCard;
     @property (nonatomic, copy) NSString *cc_number;
     @property (nonatomic, copy) NSString *month;
     @property (nonatomic, copy) NSString *year;
     @property (nonatomic, copy) NSString *secret_number;
+    @property STPCard *stripeCard;
+    -(NSString *) get_full_name;
 @end

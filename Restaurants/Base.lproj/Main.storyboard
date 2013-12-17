@@ -274,33 +274,18 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="653"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mAK-67-19J">
-                                            <rect key="frame" x="64" y="270" width="193" height="26"/>
+                                        <view contentMode="scaleToFill" id="X4E-EO-IZr" customClass="BillingView">
+                                            <rect key="frame" x="20" y="210" width="280" height="175"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <state key="normal" title="Scan Credit Card">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="secure.png" id="VDH-JK-1Dg">
-                                            <rect key="frame" x="110" y="433" width="100" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <view contentMode="scaleToFill" id="ayc-qf-dcF" customClass="PKView">
-                                            <rect key="frame" x="14" y="310" width="280" height="60"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credit Card Information" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZWn-Cp-Ove">
-                                            <rect key="frame" x="0.0" y="236" width="320" height="21"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="secure.png" id="x81-20-CX8">
+                                            <rect key="frame" x="110" y="439" width="100" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="DamascusBold" family="Damascus" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="77l-Af-oEC">
-                                            <rect key="frame" x="64" y="384" width="193" height="30"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V5o-UJ-bXj">
+                                            <rect key="frame" x="20" y="401" width="280" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.73563058039999996" green="0.0025693145779999999" blue="0.090610669020000006" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="Confirm">
@@ -308,18 +293,74 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <view contentMode="scaleToFill" id="X4E-EO-IZr" customClass="BillingView">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="223"/>
+                                        <view contentMode="scaleToFill" id="SmN-Da-GQ8" customClass="SkipTouchesUIView">
+                                            <rect key="frame" x="20" y="19" width="280" height="175"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="earth.png" id="uCo-Ga-aEh">
+                                                    <rect key="frame" x="73" y="0.0" width="207" height="173"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="VAj-Vl-XwD" customClass="PKTextField">
+                                                    <rect key="frame" x="67" y="47" width="193" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="h7a-VX-AtL" customClass="PKTextField">
+                                                    <rect key="frame" x="82" y="98" width="91" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="hKy-Zo-3s6" customClass="PKTextField">
+                                                    <rect key="frame" x="189" y="98" width="71" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder.png" id="ImL-sC-EXV">
+                                                    <rect key="frame" x="19" y="47" width="33" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Dxe-Ip-jLz">
+                                                    <rect key="frame" x="0.0" y="147" width="111" height="28"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <state key="normal" title="Scan Credit Card">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.png" id="vEW-Ot-kQf">
+                                                    <rect key="frame" x="99" y="152" width="21" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chip.png" id="fcz-cj-u6H">
+                                                    <rect key="frame" x="6" y="90" width="59" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="b_view" destination="X4E-EO-IZr" id="V13-P6-fNc"/>
-                                    <outlet property="confirm" destination="77l-Af-oEC" id="jTT-eS-tBG"/>
-                                    <outlet property="paymentView" destination="ayc-qf-dcF" id="qCp-vV-pKb"/>
-                                    <outlet property="scan_card" destination="mAK-67-19J" id="ZT8-U0-vdY"/>
+                                    <outlet property="card_bg" destination="SmN-Da-GQ8" id="gUv-We-h6e"/>
+                                    <outlet property="card_cvv" destination="hKy-Zo-3s6" id="V03-x4-ZgV"/>
+                                    <outlet property="card_date" destination="h7a-VX-AtL" id="OwC-tu-Uqd"/>
+                                    <outlet property="card_field" destination="VAj-Vl-XwD" id="lxx-5B-xeX"/>
+                                    <outlet property="card_image" destination="ImL-sC-EXV" id="vm9-5S-woS"/>
+                                    <outlet property="completeButton" destination="V5o-UJ-bXj" id="fIq-vU-aRV"/>
+                                    <outlet property="scan_card" destination="Dxe-Ip-jLz" id="4oA-Ed-XJU"/>
+                                    <outlet property="secured_image" destination="x81-20-CX8" id="Uft-4w-gcK"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -337,7 +378,7 @@
         <scene sceneID="NRZ-qe-OjL">
             <objects>
                 <viewController storyboardIdentifier="addressViewController" id="eJU-cC-dzf" customClass="AddressForDeliveryViewController" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="EBq-P8-t4c">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="EBq-P8-t4c" customClass="DismissKeyboardScrollview">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -352,6 +393,7 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </scrollView>
                     <connections>
                         <outlet property="scroll_view" destination="EBq-P8-t4c" id="ABX-Lp-410"/>
@@ -602,9 +644,9 @@
         <scene sceneID="4nh-Vw-mDw">
             <objects>
                 <viewController storyboardIdentifier="profileViewController" id="nTF-49-gd1" customClass="ProfileViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kjx-zX-7fA">
+                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4FE-xC-sFV" customClass="DismissKeyboardScrollview">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="c39-RM-9Fl" customClass="AddressView">
                                 <rect key="frame" x="29" y="130" width="263" height="276"/>
@@ -612,16 +654,16 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="hcG-Dr-gPh" customClass="ProfileView">
-                                <rect key="frame" x="29" y="7" width="263" height="108"/>
+                                <rect key="frame" x="29" y="14" width="263" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                    </scrollView>
                     <connections>
                         <outlet property="address_view" destination="c39-RM-9Fl" id="gQm-xT-YDq"/>
                         <outlet property="profile_view" destination="hcG-Dr-gPh" id="Ycd-rQ-1ii"/>
+                        <outlet property="scroll_view" destination="4FE-xC-sFV" id="Ulu-aC-Evp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4x-TW-Bff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -630,8 +672,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera.png" width="15" height="15"/>
+        <image name="chip.png" width="40" height="37"/>
         <image name="control.png" width="32" height="32"/>
+        <image name="earth.png" width="175" height="175"/>
         <image name="facebook.png" width="32" height="32"/>
+        <image name="placeholder.png" width="32" height="19"/>
         <image name="secure.png" width="80" height="15"/>
     </resources>
     <color key="tintColor" red="0.14901961389999999" green="0.14901961389999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>

@@ -17,5 +17,5 @@
     @property User *main_user;
     @property (strong, nonatomic) IBOutlet UIScrollView *scroll_view;
     @property User *bill_user;
-    -(void) edit:(NSNumber *) location;
+    @property NSString *nav_title;
 @end

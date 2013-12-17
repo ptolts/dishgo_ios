@@ -21,11 +21,14 @@
 @end
 
 @implementation CheckoutTableViewController
+
     NSMutableDictionary *progress;
     NSDictionary *titles;
     NSArray *keys;
     User *user_for_order;
     User *user_for_billing;
+    bool speed_things_up;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -62,6 +65,15 @@
         [progress setValue:@1  forKey:@"address"];
     }
     
+    //Check Address Confirmation
+    if(user_for_order.validCreditCard) {
+        [progress setValue:@1  forKey:@"payment"];
+    }
+    
+    if(speed_things_up){
+//        [self next];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -69,6 +81,8 @@
 {
     [super viewDidLoad];
     [self setupBackButtonAndCart];
+    
+    speed_things_up = NO;
     
     user_for_order = [[User alloc] init];
     user_for_order.confirm_address = NO;
@@ -183,6 +197,7 @@
 
 - (void) next {
     NSLog(@"next!");
+    speed_things_up = YES;
     for(id key in keys){
         if([[progress objectForKey:key]  isEqual: @0]){
             NSLog(@"key: %@",key);
@@ -194,6 +209,7 @@
                 return;
             } else if ([key isEqualToString:@"payment"]){
                 [self payment];
+                speed_things_up = NO;
                 return;
             } else {
                 NSLog(@"What!");
@@ -208,7 +224,7 @@
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
 
-    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 75, 35)];
+    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
     next_but.text = @"Next";
     next_but.textColor = [UIColor bgColor];
     next_but.textAlignment = NSTextAlignmentCenter;
@@ -216,10 +232,11 @@
     next_but.layer.cornerRadius = 3.0f;
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(220, 40, 75, 35)];
+    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
     btn.backgroundColor = [UIColor scarletColor];
 //    btn.layer.borderColor = [UIColor blackColor].CGColor;
 //    btn.layer.borderWidth = 1.0f;
+    self.next_but = btn;
     [btn addSubview:next_but];
     
     [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];

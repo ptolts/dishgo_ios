@@ -10,4 +10,5 @@
 
 @interface CheckoutTableViewController : UITableViewController
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
+    @property UIButton *next_but;
 @end

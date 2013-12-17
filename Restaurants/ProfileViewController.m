@@ -23,6 +23,8 @@
 //    CLGeocoder *geocoder;
 //    CLLocationManager *locationManager;
     MBProgressHUD *hud;
+    float originalScrollerOffsetY;
+    UITextField *sub_textfield;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -96,6 +98,7 @@
         //        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
         CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
         //        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
+        originalScrollerOffsetY = self.scroll_view.contentOffset.y;
         [self.scroll_view setContentOffset:scrollPoint animated:YES];
     }
 }
@@ -104,6 +107,7 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
+    [self.scroll_view setContentOffset:CGPointMake(0.0, originalScrollerOffsetY) animated:YES];
 }
 
 - (void)viewDidLoad

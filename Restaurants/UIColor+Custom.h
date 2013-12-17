@@ -15,4 +15,5 @@
     + (UIColor*)seperatorColor;
     + (UIColor*)almostBlackColor;
     + (UIColor*)titleRed;
+    + (UIColor*)creditCardColor;
 @end

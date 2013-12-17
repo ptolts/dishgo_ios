@@ -39,7 +39,7 @@
     UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:imageView ];
-    [self.view sendSubviewToBack:imageView ];
+    [self.view sendSubviewToBack:imageView];
     
     self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
     [self.bg.layer setCornerRadius:5.0f];

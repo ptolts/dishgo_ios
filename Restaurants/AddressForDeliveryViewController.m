@@ -17,6 +17,8 @@
 
     NSNumber *activeTextField;
     UITextField *sub_textfield;
+    @synthesize nav_title;
+    float originalScrollerOffsetY;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +53,11 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"Confirm Address";
+    if(nav_title == nil){
+        label.text = @"Confirm Address";
+    } else {
+        label.text = nav_title;
+    }
     self.navigationItem.titleView = label;
 }
 
@@ -131,6 +137,15 @@
 {
     [super viewDidLoad];
     [self setupBackButton];
+    
+    UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:imageView ];
+    [self.view sendSubviewToBack:imageView];
+    
+    self.scroll_view.backgroundColor = [UIColor bgColor];
+    
     // This is just hideous, but at least we can reuse views.
     AddressView *addy_view = [[AddressView alloc] init];
     addy_view.nav = self.navigationController;
@@ -152,6 +167,7 @@
     [self.view addSubview:prof_view];
     self.user_info = prof_view;
     
+//    [self.scroll_view setUserInteractionEnabled:NO];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
@@ -171,6 +187,10 @@
     if ([keyPath isEqual:@"current_textfield"]) {
         sub_textfield = [change objectForKey:NSKeyValueChangeNewKey];
     }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [sub_textfield resignFirstResponder];
 }
 
 - (void)keyboardWasShown:(NSNotification *)notification
@@ -193,6 +213,7 @@
 //        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
         CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
 //        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
+        originalScrollerOffsetY = self.scroll_view.contentOffset.y;
         [self.scroll_view setContentOffset:scrollPoint animated:YES];
     }
 }
@@ -201,6 +222,7 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
+    [self.scroll_view setContentOffset:CGPointMake(0.0, originalScrollerOffsetY) animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

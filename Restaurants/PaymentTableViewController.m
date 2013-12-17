@@ -32,10 +32,22 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     [self setupBackButtonAndCart];
+    
+    UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
+    [imageView setFrame:self.tableView.frame];
+    imageView.contentMode = UIViewContentModeScaleToFill;
+    self.tableView.backgroundView = imageView;
+    
+//    self.tableView.backgroundColor = [UIColor bgColor];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    
 }
 
 - (void) setupBackButtonAndCart {
@@ -50,7 +62,15 @@
     //    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
     //	self.navigationItem.leftBarButtonItem = backBtn;
     [self.navigationItem setLeftBarButtonItem:backBtn];
-    
+    // FOOD CLOUD TITLE
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.text = @"Payment Method";
+    self.navigationItem.titleView = label;
 }
 
 -(void) myCustomBack {

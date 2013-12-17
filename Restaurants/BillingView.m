@@ -53,6 +53,7 @@
     AddressForDeliveryViewController *vc = [pay.storyboard instantiateViewControllerWithIdentifier:@"addressViewController"];
     vc.main_user = [[UserSession sharedManager] fetchUser];
     vc.bill_user = u;
+    vc.nav_title = @"Billing Address";
     [pay.navigationController pushViewController:vc animated:YES];
 }
 
