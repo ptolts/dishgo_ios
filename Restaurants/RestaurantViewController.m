@@ -27,6 +27,8 @@
     RKManagedObjectStore *managedObjectStore;
     NSMutableArray *cellList;
     NSTimer *scroll_timer;
+    UIView *spinnerView;
+    UIWindow  *mainWindow;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -51,13 +53,45 @@
     return UIStatusBarStyleLightContent;
 }
 
+- (void) startLoading {
+    // Get main window reference
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
+    
+    // Create a full-screen subview
+    spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height)];
+    
+    // Set up some properties of the subview
+    spinnerView.backgroundColor = [UIColor whiteColor];
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((mainWindow.frame.size.width/2.0) - 75, (mainWindow.frame.size.height/2.0) - 75, 150, 150)];
+    [logo setContentMode:UIViewContentModeCenter];
+    logo.image = [UIImage imageNamed:@"loading.png"];
+    
+    [spinnerView addSubview:logo];
+    // Add the subview to the main window
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner setColor:[UIColor almostBlackColor]];
+    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
+    [spinnerView addSubview:spinner];
+    [spinner startAnimating];
+    
+    
+    [mainWindow addSubview:spinnerView];
+}
+
+- (void) stopLoading{
+    [UIView animateWithDuration:0.5
+                     animations:^{spinnerView.alpha = 0.0;}
+                     completion:^(BOOL finished){ [spinnerView removeFromSuperview]; }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self startLoading];
     cellList = [[NSMutableArray alloc] init];
     [self startScrolling];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:0.9];
+    self.navigationController.navigationBar.barTintColor = [UIColor scarletColor];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     
     // FOOD CLOUD TITLE
@@ -159,6 +193,7 @@
         }
         
         [self.tableView reloadData];
+        [self stopLoading];
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);
     }];

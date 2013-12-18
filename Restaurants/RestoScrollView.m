@@ -46,15 +46,39 @@
     float myPageWidth = [self frame].size.width;
     float myPageY = [self frame].origin.y;
 //    [self setContentOffset:CGPointMake(aPage*myPageWidth,myPageY) animated:YES];
-    [UIView
-        animateWithDuration:1.5
-        delay:0
-        options:UIViewAnimationOptionAllowUserInteraction
-        animations:^{
-        self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
-        }
-        completion: nil
-     ];
+    NSLog(@"aPage: %d currentPage: %@ numPages: %@",aPage,currentPage,numberOfPages);
+    if (aPage == numberOfPages){
+        [UIView
+         animateWithDuration:0.75
+         delay:0
+         options:UIViewAnimationOptionAllowUserInteraction
+         animations:^{
+             self.alpha = 0.0f;
+         }
+         completion: ^(BOOL finished){
+             self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
+             [UIView
+              animateWithDuration:0.75
+              delay:0
+              options:UIViewAnimationOptionAllowUserInteraction
+              animations:^{
+                  self.alpha = 1.0f;
+              }
+              completion: nil
+              ];
+         }
+         ];
+    } else {
+        [UIView
+            animateWithDuration:1.5
+            delay:0
+            options:UIViewAnimationOptionAllowUserInteraction
+            animations:^{
+            self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
+            }
+            completion: nil
+         ];
+    }
 }
 
 -(void)scrollPages{

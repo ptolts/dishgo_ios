@@ -32,5 +32,6 @@
     @property IBOutlet PKTextField *card_cvv;
     @property IBOutlet UIImageView *card_image;
     @property IBOutlet UIView *card_bg;
+    @property (strong, nonatomic) IBOutlet UIView *bg;
     @property IBOutlet UIButton *completeButton;
 @end

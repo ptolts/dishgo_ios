@@ -40,6 +40,8 @@
     // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
     CLLocationManager *locationManager;
     MKMapView *mapView;
+    UIView *spinnerView;
+    UIWindow  *mainWindow;
 
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -55,6 +57,31 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void) startLoading {
+    int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
+    spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
+    spinnerView.backgroundColor = [UIColor whiteColor];
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((mainWindow.frame.size.width/2.0) - 75, ((mainWindow.frame.size.height - junk)/2.0) - 75, 150, 150)];
+    [logo setContentMode:UIViewContentModeCenter];
+    logo.image = [UIImage imageNamed:@"loading.png"];
+    [spinnerView addSubview:logo];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner setColor:[UIColor almostBlackColor]];
+    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
+    [spinnerView addSubview:spinner];
+    [spinner startAnimating];
+    
+    [self.view addSubview:spinnerView];
+}
+
+- (void) stopLoading{
+    [UIView animateWithDuration:0.5
+                     animations:^{spinnerView.alpha = 0.0;}
+                     completion:^(BOOL finished){ [spinnerView removeFromSuperview]; }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -159,7 +186,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self startLoading];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.autoresizingMask = UIViewAutoresizingNone;
     
@@ -558,6 +585,8 @@
         } else {
             [self.tableView reloadData];
         }
+        
+        [self stopLoading];
         
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);

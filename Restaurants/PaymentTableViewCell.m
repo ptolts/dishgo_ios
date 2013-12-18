@@ -53,12 +53,15 @@
     
     [self killKeyboard];
     
+    self.bg.backgroundColor = [UIColor colorWithRed:255.0/255.0f green:255.0/255.0f blue:255.0/255.0f alpha:0.75f];
+    [self.bg.layer setCornerRadius:5.0f];
+    
     BillingView *bill_view = [[BillingView alloc] init];
-    bill_view.u = _bill_user;
+    bill_view.u = bill_user;
     bill_view.frame = self.b_view.frame;
     [self.b_view removeFromSuperview];
     self.b_view = bill_view;
-    [self addSubview:bill_view];
+    [self.bg addSubview:bill_view];
     self.b_view = bill_view;
     bill_view.pay = controller;
     [bill_view setup];

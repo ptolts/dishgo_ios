@@ -31,11 +31,21 @@
     }
 
     + (UIColor*)creditCardColor {
-        return [UIColor colorWithRed:0.0/255.0 green:24.0/255.0 blue:127.0/255.0 alpha:1];
+        return [UIColor colorWithRed:0.0/255.0 green:32.0/255.0 blue:117.0/255.0 alpha:1];
     }
 
     + (UIColor*)titleRed {
-        return [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:0.9];
+        return [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:1.0];
     }
+
+    + (UIColor*)complimentaryBlue {
+        return [UIColor colorWithRed:(24/255.0) green:(159.0/255.0) blue:(243.0/255.0) alpha:1];
+    }
+
+    + (UIColor*)nextColor {
+//        return [UIColor colorWithRed:(116/255.0) green:(0/255.0) blue:(0/255.0) alpha:1];
+        return [self titleRed];
+    }
+
 
 @end

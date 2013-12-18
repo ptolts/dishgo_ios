@@ -226,6 +226,7 @@
 
     UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
     next_but.text = @"Next";
+    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
     next_but.textColor = [UIColor bgColor];
     next_but.textAlignment = NSTextAlignmentCenter;
     [next_but setUserInteractionEnabled:NO];
@@ -233,7 +234,7 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
-    btn.backgroundColor = [UIColor scarletColor];
+    btn.backgroundColor = [UIColor nextColor];
 //    btn.layer.borderColor = [UIColor blackColor].CGColor;
 //    btn.layer.borderWidth = 1.0f;
     self.next_but = btn;

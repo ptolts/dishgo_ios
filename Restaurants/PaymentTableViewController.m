@@ -38,7 +38,7 @@
     [imageView setFrame:self.tableView.frame];
     imageView.contentMode = UIViewContentModeScaleToFill;
     self.tableView.backgroundView = imageView;
-    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    self.tableView.backgroundColor = [UIColor bgColor];
 }
 

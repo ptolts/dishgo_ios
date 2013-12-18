@@ -113,22 +113,22 @@
     //    banner.layer.borderColor = [UIColor clearColor].CGColor;
     //    banner.backgroundColor = [UIColor colorWithRed:0.0/255.0 green:181.0/255.0 blue:241.0/255.0 alpha:0.95];
     
-    for(UIView *v in [banner subviews]){
-        NSLog(@"%@",v.class);
-        NSLog(@"%@",CGRectCreateDictionaryRepresentation(v.frame));
-        if([v isKindOfClass:[UILabel class]]){
-            CGRect frame = v.frame;
-            frame.size.width = 320;
-            frame.origin.x = 0;
-            v.frame = frame;
-            ((UILabel *)v).textAlignment = NSTextAlignmentCenter;
-        }
-        
-        if([v isKindOfClass:[UIImageView class]]){
-            ((UIImageView *)v).contentMode = UIViewContentModeCenter;
-            ((UIImageView *)v).image = [UIImage imageNamed:@"info.png"];
-        }
-    }
+//    for(UIView *v in [banner subviews]){
+//        NSLog(@"%@",v.class);
+//        NSLog(@"%@",CGRectCreateDictionaryRepresentation(v.frame));
+//        if([v isKindOfClass:[UILabel class]]){
+//            CGRect frame = v.frame;
+//            frame.size.width = 320;
+//            frame.origin.x = 0;
+//            v.frame = frame;
+//            ((UILabel *)v).textAlignment = NSTextAlignmentCenter;
+//        }
+//        
+//        if([v isKindOfClass:[UIImageView class]]){
+//            ((UIImageView *)v).contentMode = UIViewContentModeCenter;
+//            ((UIImageView *)v).image = [UIImage imageNamed:@"info.png"];
+//        }
+//    }
     
     [banner show];
 }
