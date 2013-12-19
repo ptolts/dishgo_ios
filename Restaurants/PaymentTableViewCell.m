@@ -9,6 +9,7 @@
 #import "PaymentTableViewCell.h"
 #import "PKView.h"
 #import <PKTextField.h>
+#import <ALAlertBanner/ALAlertBanner.h>
 
 #define StripeToken @"pk_test_cfUGIxN4SeoRDJaeyHNOxblH"
 #define CardColor [UIColor creditCardColor]
@@ -75,7 +76,7 @@
 }
 
 -(void) killKeyboard {
-    NSLog(@"Killin Keyboard");
+//    NSLog(@"Killin Keyboard");
     [self endEditing:YES];
 //    for (UIView * txt in [self subviews]){
 //        if ([txt respondsToSelector:@selector(resignFirstResponder)]) {
@@ -96,7 +97,7 @@
 }
 
 - (void)userDidCancelPaymentViewController:(CardIOPaymentViewController *)scanViewController {
-    NSLog(@"User canceled payment info");
+//    NSLog(@"User canceled payment info");
     // Handle user cancellation here...
     [scanViewController dismissModalViewControllerAnimated:YES];
 }
@@ -167,6 +168,47 @@
     // Configure the view for the selected state
 }
 
+- (void)launchDialog:(NSString *)msg
+{
+    // Here we need to pass a full frame
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    
+    // Add some custom content to the alert view
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 260, 100)];
+    message.text = msg;
+    message.textAlignment = NSTextAlignmentCenter;
+    message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+    [alertView setContainerView:message];
+    
+    // Modify the parameters
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+    
+    // You may use a Block, rather than a delegate.
+    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    
+    [alertView setUseMotionEffects:true];
+    
+    // And launch the dialog
+    [alertView show];
+}
+
+- (void)launchAlert:(NSString *)msg
+{
+//    NSLog(@"CONTROLLER NAMED: %@", controller.navigationController.topViewController.class);
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:controller.navigationController.topViewController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionTop
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    
+    
+    banner.secondsToShow = 3.0f;
+    
+    [banner show];
+}
+
 - (IBAction)completeButtonTapped:(id)sender {
     
     //1
@@ -182,20 +224,16 @@
         [self performStripeOperation];
         main_user.validCreditCard = YES;
         [controller.navigationController popViewControllerAnimated:YES];
+        [self launchAlert:@"Payment Information Accepted"];        
     }
 }
 
 - (BOOL)validateCustomerInfo {
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Please try again"
-                                                     message:@"Please enter all required information"
-                                                    delegate:nil
-                                           cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil];
     
     //1. Validate name & email
     if (main_user.stripeCard.name.length == 0) {
-        [alert show];
+        [self launchDialog:@"Please enter all information."];
         return NO;
     }
     
@@ -205,8 +243,7 @@
     
     //3
     if (error) {
-        alert.message = [error localizedDescription];
-        [alert show];
+        [self launchDialog:[error localizedDescription]];
         return NO;
     }
     

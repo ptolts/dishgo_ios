@@ -42,7 +42,7 @@
 //    self.cart_count.layer.borderColor = [UIColor textColor].CGColor;
     [btn addSubview:self];
     [btn setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    
+    [self.background setBackgroundColor:[UIColor complimentaryRed]];
     self.button = btn;
     return self;
 }

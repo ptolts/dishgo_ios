@@ -18,6 +18,8 @@
     NSMutableDictionary *heights;
 }
 
+@synthesize junk;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -62,6 +64,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+        NSLog(@"HIEGHT FOR ROW: %ld",(long)indexPath.row);
+    
+    if([self.shopping_cart count] == 0){
+        return self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+    }
+    
+    if([self.shopping_cart count] == (int)indexPath.row){
+        NSLog(@"it equals count");
+        if (heights == nil){
+            [self setupHeight];
+        }
+        int height = self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+        for(id val in heights){
+//            NSLog(@"height: %d",[((NSNumber *)[heights objectForKey:val]) intValue]);
+            height -= [((NSNumber *)[heights objectForKey:val]) intValue];
+        }
+        if(height < 0){
+            height = 0;
+        }
+        NSLog(@"RETURNING SPACER CELL OF HEIGHT: %d", height);
+        return height;
+    }
+    
+    NSLog(@"DIDNT RETURN SPACER CELL");
+
     if (heights == nil){
         NSLog(@"Setting up height dict");
         [self setupHeight];
@@ -80,11 +107,50 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.shopping_cart count];
+    return [self.shopping_cart count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if([self.shopping_cart count] == 0){
+        int height = self.tableViewController.frame.size.height - junk - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+        int width = self.tableViewController.frame.size.width;
+        UITableViewCell *c = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        c.backgroundColor = [UIColor clearColor];
+        c.selectionStyle = UITableViewCellSelectionStyleNone;
+        UILabel *empty = [[UILabel alloc] init];
+        empty.text = @"Your cart is empty!";
+        empty.textColor = [UIColor nextColor];
+        [empty sizeToFit];
+        CGRect f = empty.frame;
+        f.origin.y = height/2.0;
+        f.origin.x = (width / 2.0) - (f.size.width / 2.0);
+        empty.frame = f;
+        [c addSubview:empty];
+        return c;
+    }
+    
+    NSLog(@"ROW: %ld",(long)indexPath.row);
+    
+    if([self.shopping_cart count] == (int)indexPath.row){
+        if (heights == nil){
+            [self setupHeight];
+        }
+        int height = self.tableViewController.frame.size.height - junk - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+        int width = self.tableViewController.frame.size.width;
+        for(id val in heights){
+//            NSLog(@"height: %d",[((NSNumber *)[heights objectForKey:val]) intValue]);
+            height -= [((NSNumber *)[heights objectForKey:val]) intValue];
+        }
+        if(height < 0){
+            height = 0;
+        }
+        UITableViewCell *c = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        c.backgroundColor = [UIColor clearColor];
+        c.selectionStyle = UITableViewCellSelectionStyleNone;
+        return c;
+    }
+    
     DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
     return dish_view.shoppingCartCell;
 }

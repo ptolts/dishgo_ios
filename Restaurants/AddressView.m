@@ -53,7 +53,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    NSLog(@"FROM ADDRESSVIEW: %@",CGRectCreateDictionaryRepresentation(textField.frame));
+//    NSLog(@"FROM ADDRESSVIEW: %@",CGRectCreateDictionaryRepresentation(textField.frame));
     self.current_textfield = textField;
 }
 
@@ -92,6 +92,7 @@
     hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.labelText = @"Finding Location...";
+    self.load_current.enabled = NO;
     [locationManager startUpdatingLocation];
 }
 
@@ -145,7 +146,7 @@
          //String to hold address
          //         NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
          //Print the location to console
-         NSLog(@"Location Dict %@",placemark.addressDictionary);
+//         NSLog(@"Location Dict %@",placemark.addressDictionary);
          self.street_address.text = [placemark.addressDictionary objectForKey:@"Thoroughfare"];
          self.city.text = [placemark.addressDictionary objectForKey:@"City"];
          self.postal_code.text = [placemark.addressDictionary objectForKey:@"ZIP"];
@@ -154,6 +155,7 @@
     
     [locationManager stopUpdatingLocation];
     [hud hide:YES];
+    self.load_current.enabled = YES;
     [self launchAlertTop:@"This is just our best attempt at your current location. Please go over the result and correct any errors. Thanks!"];
     
 }

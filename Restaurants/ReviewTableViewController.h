@@ -1,15 +1,16 @@
 //
-//  ShoppingCartTableView.h
+//  ReviewTableViewController.h
 //  Restaurants
 //
-//  Created by Philip Tolton on 11/13/2013.
+//  Created by Philip Tolton on 12/18/2013.
 //  Copyright (c) 2013 Philip Tolton. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
-@interface ShoppingCartTableView : UITableView <UITableViewDelegate, UITableViewDataSource>
+@interface ReviewTableViewController : UITableViewController
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
     @property UITableView *tableViewController;
-    @property int junk;
+    @property User *main_user;
 @end

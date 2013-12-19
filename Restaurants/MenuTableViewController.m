@@ -18,6 +18,7 @@
 #import "UIColor+Custom.h"
 #import "ProfileViewController.h"
 #import <ALAlertBanner/ALAlertBanner.h>
+#import "WobbleCell.h"
 
 @interface MenuTableViewController ()
 
@@ -123,12 +124,14 @@
     
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
+        shop.junk = 0;
         shop.frame = self.tableView.frame;
         shop.tableViewController = self.tableView;
         shop.shopping_cart = self.shopping_cart;
         self.tableView.delegate = shop;
         self.tableView.dataSource = shop;
         CheckoutView *checkoutView = [[CheckoutView alloc] init];
+        checkoutView.checkout.backgroundColor = [UIColor nextColor];
         float tot = 0.0f;
         for(DishTableViewCell *dish_cell in self.shopping_cart){
             tot += dish_cell.getPrice;
@@ -137,8 +140,14 @@
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
         [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
+        if([self.shopping_cart count] == 0) {
+            checkoutView.checkout.enabled = NO;
+        } else {
+            checkoutView.checkout.enabled = YES;
+        }
         self.tableView.tableFooterView = checkoutView;
         self.tableView.opaque = NO;
+        [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         self.tableView.backgroundColor = [UIColor clearColor];
         sign_in_color = [UIColor almostBlackColor];
         self.tableView.tableHeaderView = [self setupHeader];
@@ -157,21 +166,23 @@
     
 //    int header_size = 30;
 //    int offset = 120;
-    
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, 100, 100)];
+    int logo_size = 60;
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, logo_size, logo_size)];
     logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [logo setContentMode:UIViewContentModeScaleToFill];
+    [logo setContentMode:UIViewContentModeCenter];
+    UIView *head;
     
     if(self.shopping){
-        logo.image = [UIImage imageNamed:@"logo_black.png"];
+        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
+        logo.image = [UIImage imageNamed:@"large_cart.png"];
+//        logo.layer.cornerRadius = logo_size / 2.0;
+        logo.layer.borderColor = [UIColor almostBlackColor].CGColor;
+        logo.layer.borderWidth = 2.5f;
+//        [head addSubview:logo];
     } else {
+        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 145)];
         logo.image = [UIImage imageNamed:@"logo.png"];
     }
-    
-
-    
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 175)];
-    [head addSubview:logo];
     
     return head;
 
@@ -293,7 +304,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85f];
 }
 
@@ -359,7 +369,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    WobbleCell *cell = [[WobbleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     CGRect fr = cell.frame;
     fr.size.width = self.tableView.frame.size.width;
     cell.frame = fr;
@@ -387,7 +397,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
             label.text = @"Profile";
             label.textColor = sign_in_color;
-            label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+            label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
             label.layer.cornerRadius = 5.0f;
             label.textAlignment = NSTextAlignmentLeft;
             
@@ -417,7 +427,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
             label.text = @"Sign In";
             label.textColor = sign_in_color;
-            label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+            label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
             label.layer.cornerRadius = 5.0f;
             label.textAlignment = NSTextAlignmentLeft;
             
@@ -451,7 +461,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
         label.text = title;
         label.textColor = sign_in_color;
-        label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
+        label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
         label.layer.cornerRadius = 5.0f;
         label.textAlignment = NSTextAlignmentLeft;
         
@@ -465,6 +475,10 @@
         
         [cell addSubview:hold];
     }
+    
+//    if(indexPath.row >= 2){
+        [cell wobble];
+//    }
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

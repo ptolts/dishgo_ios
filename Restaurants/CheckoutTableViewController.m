@@ -13,6 +13,7 @@
 #import "AddressForDeliveryViewController.h"
 #import "SignInViewController.h"
 #import "PaymentTableViewController.h"
+#import "ReviewTableViewController.h"
 
 #define CELL_SIZE 34
 
@@ -44,6 +45,17 @@
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
     [self.navigationItem setLeftBarButtonItem:backBtn];
+    
+    
+    // FOOD CLOUD TITLE
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.text = @"Checkout";
+    self.navigationItem.titleView = label;
 }
 
 -(void) myCustomBack {
@@ -68,6 +80,13 @@
     //Check Address Confirmation
     if(user_for_order.validCreditCard) {
         [progress setValue:@1  forKey:@"payment"];
+    }
+    
+    //Check Address Confirmation
+    if(user_for_order.review_confirm) {
+        [progress setValue:@1  forKey:@"review"];
+        self.next_but.titleLabel.text = @"Place Order!";
+        [self.next_but setNeedsLayout];
     }
     
     if(speed_things_up){
@@ -152,7 +171,7 @@
     cell.label.font = [UIFont fontWithName:@"DamascusBold" size:14.0f];
     cell.backgroundColor = [UIColor bgColor];
 
-    NSLog(@"%@",[[progress objectForKey:key] class]);
+//    NSLog(@"%@",[[progress objectForKey:key] class]);
     
 
     if([[progress objectForKey:key]  isEqual: @1]){
@@ -174,25 +193,34 @@
 }
 
 -(void) login {
-    NSLog(@"Clicked Signin");
     SignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void) address {
-    NSLog(@"Clicked Signin");
     AddressForDeliveryViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"addressViewController"];
     vc.main_user = user_for_order;
     vc.bill_user = user_for_billing;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void) review {
+    ReviewTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewViewController"];
+    vc.shopping_cart = self.shoppingCart;
+    vc.main_user = user_for_order;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 - (void) payment {
-    NSLog(@"Clicked Signin");
     PaymentTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentViewController"];
     vc.main_user = user_for_order;
     vc.bill_user = user_for_billing;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void) place_order {
+
 }
 
 - (void) next {
@@ -211,8 +239,11 @@
                 [self payment];
                 speed_things_up = NO;
                 return;
+            } else if ([key isEqualToString:@"review"]){
+                [self review];
+                return;
             } else {
-                NSLog(@"What!");
+                [self place_order];
                 return;
             }
         }
@@ -253,7 +284,7 @@
 
 - (UIView *) setupHeader {
     
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 5, 100, 100)];
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 25, 100, 100)];
     [logo setContentMode:UIViewContentModeScaleToFill];
     logo.image = [UIImage imageNamed:@"logo_black.png"];
     
@@ -261,12 +292,12 @@
 
     [head addSubview:logo];
     
-    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
-    text_header.text = @"Progress";
-    text_header.textAlignment = NSTextAlignmentCenter;
-    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
-    text_header.textColor = [UIColor textColor];
-    [head addSubview:text_header];
+//    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
+//    text_header.text = @"Progress";
+//    text_header.textAlignment = NSTextAlignmentCenter;
+//    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
+//    text_header.textColor = [UIColor textColor];
+//    [head addSubview:text_header];
     
     return head;
     

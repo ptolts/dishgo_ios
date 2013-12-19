@@ -10,6 +10,6 @@
 
 @interface DishScrollView : UIScrollView
     @property (nonatomic, strong) Sections *section;
-    -(void)setupViews:(NSIndexPath *)indexPath;
+    -(void)setupViews;
     -(int) currentPage;
 @end

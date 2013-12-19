@@ -26,10 +26,10 @@
     
     if (self) {
         self = [[[NSBundle mainBundle] loadNibNamed:@"CheckoutView" owner:self options:nil] objectAtIndex:0];
-        [self.checkout.layer setCornerRadius:5.0f];
+        [self.checkout.layer setCornerRadius:2.0f];
         self.total_cost.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
         self.total_label.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
-        self.seperator.backgroundColor = [UIColor textColor];
+//        self.seperator.backgroundColor = [UIColor textColor];
     }
     return self;
 }

@@ -24,8 +24,9 @@
     return self;
 }
 
--(void)setupViews:(NSIndexPath *)indexPath {
+-(void)setupViews {
     int i = 0;
+    int dd = 0;
     for (Subsections *sec in self.section.subsections) {
         int d = 0;
         for (Dishes *dish in sec.dishes) {
@@ -34,7 +35,7 @@
             
             CGRect frame = dish_view.frame;
             
-            frame.origin.x = self.frame.size.width * i;
+            frame.origin.x = self.frame.size.width * dd;
 
 
 //            if (i == 0 && indexPath.section == 0) {
@@ -48,7 +49,7 @@
 //                [dish_view.arrow.layer addAnimation:theAnimation forKey:@"animateOpacity"];
 //            }
             
-            if (i == 0) {
+            if (d == 0) {
                 [dish_view.right_arrow removeFromSuperview];
             }
             
@@ -56,8 +57,9 @@
                 [dish_view.left_arrow removeFromSuperview];
             }
             
-            i++;
+//            i++;
             d++;
+            dd++;
             dish_view.frame = frame;
             dish_view.dishDescription.text = dish.description_text;
             dish_view.dishDescription.textColor = [UIColor textColor];
@@ -78,8 +80,10 @@
             [self addSubview:dish_view];
             
         }
+        i++;
     }
-    self.contentSize = CGSizeMake(self.frame.size.width * [self.subviews count], self.frame.size.height);
+    NSLog(@"Secion: %@ Dishes: %d Subviews: %d",self.section.name,dd,[self.subviews count]);
+    self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;
 }
 

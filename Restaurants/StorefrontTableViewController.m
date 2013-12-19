@@ -34,6 +34,7 @@
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
     NSMutableArray *shoppingCart;
+    NSMutableArray *cellList;
     NSArray *fetchedRestaurants;
     int current_page = 0;
     NSSet *defaultSectionsList;
@@ -60,11 +61,12 @@
 }
 
 - (void) startLoading {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
     spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
     spinnerView.backgroundColor = [UIColor whiteColor];
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((mainWindow.frame.size.width/2.0) - 75, ((mainWindow.frame.size.height - junk)/2.0) - 75, 150, 150)];
+    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((mainWindow.frame.size.width/2.0) - 75, ((mainWindow.frame.size.height - junk)/2.0) - 95, 150, 150)];
     [logo setContentMode:UIViewContentModeCenter];
     logo.image = [UIImage imageNamed:@"loading.png"];
     [spinnerView addSubview:logo];
@@ -81,7 +83,35 @@
 - (void) stopLoading{
     [UIView animateWithDuration:0.5
                      animations:^{spinnerView.alpha = 0.0;}
-                     completion:^(BOOL finished){ [spinnerView removeFromSuperview]; }];
+                     completion:^(BOOL finished){
+                         [spinnerView removeFromSuperview];
+                         self.navigationItem.rightBarButtonItem.enabled = YES;
+                     }];
+    
+    // THIS ADD STUFF TO THE CART FOR TESTING.
+    bool kill = NO;
+    for(Sections *sec in sectionsList){
+        for(Subsections *subsec in sec.subsections){
+            for(Dishes *d in subsec.dishes){
+                DishTableViewCell *dish_logic = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
+                dish_logic.dish = d;
+                dish_logic.dishTitle.text = d.name;
+                dish_logic.parent = self;
+                dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
+                [dish_logic setupLowerHalf];
+                [dish_logic setupShoppingCart];
+                [shoppingCart addObject:dish_logic];
+                if([shoppingCart count] > 5){
+                    kill = YES;
+                    break;
+                }
+            }
+            if (kill)
+                break;
+        }
+        if (kill)
+            break;
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -297,27 +327,41 @@
     [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
 }
 
+- (void) buildCells {
+    cellList = [[NSMutableArray alloc] init];
+    for(Sections *section in sectionsList){
+        DishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
+        [cell setRestorationIdentifier:@"DishViewCell"];
+        cell.dishScrollView.section = section;
+        [cell.dishScrollView setupViews];
+        cell.backgroundColor = [UIColor bgColor];
+        [cellList addObject:cell];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"DishViewCell";
+//    static NSString *CellIdentifier = @"DishViewCell";
+//
+//    DishViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//
+//    // Configure the cell...
+//    if (cell == nil) {
+//        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
+//    } else {
+//        for (UIView *aView in [NSArray arrayWithArray:cell.dishScrollView.subviews]) {
+//            [aView removeFromSuperview];
+//        }
+//    }
+//    
+//
+//    cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
+////    [cell.dishScrollView setupViews:indexPath];
+//    cell.backgroundColor = [UIColor bgColor];
     
-    DishViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
-    } else {
-        for (UIView *aView in [NSArray arrayWithArray:cell.dishScrollView.subviews]) {
-            [aView removeFromSuperview];
-        }
-    }
-    
+//    return cell;
 
-    cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
-    [cell.dishScrollView setupViews:indexPath];
-    cell.backgroundColor = [UIColor bgColor];
-    
-    return cell;
+    return [cellList objectAtIndex:indexPath.section];
 }
 
 
@@ -480,7 +524,7 @@
 //    }
     
 //    [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
-    
+    [self buildCells];
     [self.tableView reloadData];
     
     
@@ -583,6 +627,7 @@
         if (![[self.restaurant managedObjectContext] save:&error]) {
             NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         } else {
+            [self buildCells];
             [self.tableView reloadData];
         }
         

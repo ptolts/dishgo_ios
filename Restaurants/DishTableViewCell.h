@@ -32,4 +32,5 @@
     -(NSString *) getPriceFast;
     -(void) setupLowerHalf;
     -(void) setPrice;
+    -(void) setupShoppingCart;
 @end

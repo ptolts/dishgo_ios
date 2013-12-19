@@ -81,12 +81,28 @@
 - (void) stopLoading{
     [UIView animateWithDuration:0.5
                      animations:^{spinnerView.alpha = 0.0;}
-                     completion:^(BOOL finished){ [spinnerView removeFromSuperview]; }];
+                     completion:^(BOOL finished){
+                        [spinnerView removeFromSuperview];
+                        [self scrollEachCell];
+                     }];
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    NSLog(@"kill scroll");
+    [self killScroll];
+    [self.nextResponder touchesBegan: touches withEvent:event];
+}
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.nextResponder touchesMoved: touches withEvent:event];
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.nextResponder touchesEnded: touches withEvent:event];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     [self startLoading];
     cellList = [[NSMutableArray alloc] init];
     [self startScrolling];
@@ -244,23 +260,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return restaurantList.count;
 }
-
-//- (void) killScroll {
-//    [scroll_timer invalidate];
-//    scroll_timer = nil;
-//}
-
 - (void) startScrolling {
     scroll_timer = [NSTimer scheduledTimerWithTimeInterval:5.0
                                                     target:self
@@ -274,6 +282,11 @@
     for(RestaurantCells *c in cellList){
         [c.scrollView scrollPages];
     }
+}
+
+- (void) killScroll {
+    [scroll_timer invalidate];
+    scroll_timer = nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -339,7 +352,7 @@
     cell.restaurantLabel.text = resto.name;
     cell.restaurantLabel.font = [UIFont fontWithName:@"Freestyle Script Bold" size:28.0f];
     [cellList addObject:cell];
-    cell.scrollView.currentPage = 0;
+    cell.scrollView.currentPage = 1;
     return cell;
 }
 

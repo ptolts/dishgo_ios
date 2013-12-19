@@ -76,6 +76,11 @@
 		B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9618567050000D326F /* CheckoutCell.m */; };
 		B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B9818567063000D326F /* CheckoutCell.xib */; };
 		B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */; };
+		B7D47F7718622C5200DD3C99 /* fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F7618622C5200DD3C99 /* fork@2x.png */; };
+		B7D47F7B18624D5400DD3C99 /* ReviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */; };
+		B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F7C1863436D00DD3C99 /* location@2x.png */; };
+		B7D47F8118635C2E00DD3C99 /* WobbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F8018635C2E00DD3C99 /* WobbleCell.m */; };
+		B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F821863702B00DD3C99 /* large_cart@2x.png */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -262,6 +267,13 @@
 		B7CF7B9818567063000D326F /* CheckoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutCell.xib; sourceTree = "<group>"; };
 		B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressForDeliveryViewController.h; sourceTree = "<group>"; };
 		B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressForDeliveryViewController.m; sourceTree = "<group>"; };
+		B7D47F7618622C5200DD3C99 /* fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fork@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7D47F7918624D5400DD3C99 /* ReviewTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTableViewController.h; sourceTree = "<group>"; };
+		B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTableViewController.m; sourceTree = "<group>"; };
+		B7D47F7C1863436D00DD3C99 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7D47F7F18635C2E00DD3C99 /* WobbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WobbleCell.h; sourceTree = "<group>"; };
+		B7D47F8018635C2E00DD3C99 /* WobbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WobbleCell.m; sourceTree = "<group>"; };
+		B7D47F821863702B00DD3C99 /* large_cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "large_cart@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -543,6 +555,8 @@
 		B7B744481832DFC5001DFC49 /* Shopping Cart */ = {
 			isa = PBXGroup;
 			children = (
+				B7D47F7E18635C0D00DD3C99 /* Menu Cells */,
+				B7D47F7818624D3700DD3C99 /* Review Confirm */,
 				B7CF7B8F18566253000D326F /* Checkout Controller */,
 				B77A8D06183FFD2000AFBAEE /* Cart Row */,
 				B77A8D02183FDFB700AFBAEE /* Sign In / Up */,
@@ -618,6 +632,9 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7D47F821863702B00DD3C99 /* large_cart@2x.png */,
+				B7D47F7C1863436D00DD3C99 /* location@2x.png */,
+				B7D47F7618622C5200DD3C99 /* fork@2x.png */,
 				B75DA1FE1860FCC500803AF5 /* loading@2x.png */,
 				B75DA1F91860D3DC00803AF5 /* billing_address@2x.png */,
 				B75DA1F71860CDA100803AF5 /* earth@2x.png */,
@@ -726,6 +743,24 @@
 				B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */,
 			);
 			name = "Checkout Controller";
+			sourceTree = "<group>";
+		};
+		B7D47F7818624D3700DD3C99 /* Review Confirm */ = {
+			isa = PBXGroup;
+			children = (
+				B7D47F7918624D5400DD3C99 /* ReviewTableViewController.h */,
+				B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */,
+			);
+			name = "Review Confirm";
+			sourceTree = "<group>";
+		};
+		B7D47F7E18635C0D00DD3C99 /* Menu Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B7D47F7F18635C2E00DD3C99 /* WobbleCell.h */,
+				B7D47F8018635C2E00DD3C99 /* WobbleCell.m */,
+			);
+			name = "Menu Cells";
 			sourceTree = "<group>";
 		};
 		B7DA9D861843DCEF0072AD47 /* Scroll View */ = {
@@ -1002,6 +1037,9 @@
 			files = (
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
+				B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */,
+				B7D47F7718622C5200DD3C99 /* fork@2x.png in Resources */,
+				B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
 				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
 				B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */,
@@ -1136,7 +1174,9 @@
 			files = (
 				B7EE7B7D184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m in Sources */,
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
+				B7D47F7B18624D5400DD3C99 /* ReviewTableViewController.m in Sources */,
 				B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */,
+				B7D47F8118635C2E00DD3C99 /* WobbleCell.m in Sources */,
 				B7E20F441820560100791BEB /* _Menu.m in Sources */,
 				B7DA9DA61847B34E0072AD47 /* User.m in Sources */,
 				B70C33491805B2A70045183F /* _Restaurant.m in Sources */,

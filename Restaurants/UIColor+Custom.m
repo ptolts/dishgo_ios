@@ -38,6 +38,10 @@
         return [UIColor colorWithRed:(192/255.0) green:0 blue:0 alpha:1.0];
     }
 
+    + (UIColor*)complimentaryRed {
+        return [UIColor colorWithRed:(65/255.0) green:(0/255.0) blue:(0/255.0) alpha:1];
+    }
+
     + (UIColor*)complimentaryBlue {
         return [UIColor colorWithRed:(24/255.0) green:(159.0/255.0) blue:(243.0/255.0) alpha:1];
     }

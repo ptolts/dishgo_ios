@@ -42,12 +42,11 @@
 
 
 
--(void)scrollToPage:(NSInteger)aPage{
+-(void)scrollToPage:(NSNumber *)aPage{
     float myPageWidth = [self frame].size.width;
     float myPageY = [self frame].origin.y;
 //    [self setContentOffset:CGPointMake(aPage*myPageWidth,myPageY) animated:YES];
-    NSLog(@"aPage: %d currentPage: %@ numPages: %@",aPage,currentPage,numberOfPages);
-    if (aPage == numberOfPages){
+    if ([aPage intValue] == 0){
         [UIView
          animateWithDuration:0.75
          delay:0
@@ -56,7 +55,7 @@
              self.alpha = 0.0f;
          }
          completion: ^(BOOL finished){
-             self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
+             self.contentOffset = CGPointMake([aPage intValue]*myPageWidth,myPageY);
              [UIView
               animateWithDuration:0.75
               delay:0
@@ -74,7 +73,7 @@
             delay:0
             options:UIViewAnimationOptionAllowUserInteraction
             animations:^{
-            self.contentOffset = CGPointMake(aPage*myPageWidth,myPageY);
+            self.contentOffset = CGPointMake([aPage intValue]*myPageWidth,myPageY);
             }
             completion: nil
          ];
@@ -82,7 +81,7 @@
 }
 
 -(void)scrollPages{
-    [self scrollToPage:currentPage%numberOfPages];
+    [self scrollToPage:[NSNumber numberWithInt:currentPage%numberOfPages]];
     currentPage++;
 }
 
