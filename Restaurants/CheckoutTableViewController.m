@@ -14,6 +14,12 @@
 #import "SignInViewController.h"
 #import "PaymentTableViewController.h"
 #import "ReviewTableViewController.h"
+#import "Order_Order.h"
+#import <JSONModel/JSONHTTPClient.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <ALAlertBanner/ALAlertBanner.h>
+#import <REFrostedViewController/REFrostedViewController.h>
+#import "RootViewController.h"
 
 #define CELL_SIZE 34
 
@@ -220,7 +226,40 @@
 }
 
 - (void) place_order {
+    user_for_order.billing_user = user_for_billing;
+    user_for_order.shopping_cart = self.shoppingCart;
+    Order_Order *json_order = [[Order_Order alloc] init];
+    [json_order setupJsonWithUser:user_for_order];
+    
+    NSString *json = [json_order toJSONString];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Placing Order...";
+    
+    //make post, get requests
+    [JSONHTTPClient postJSONFromURLWithString:@"http://foodcloud.ca/api/v1/order/submit_order"
+                                       params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
+                                   completion:^(id json, JSONModelError *err) {
+                                       NSLog(@"RESPONSE: %@",json);
+                                       [hud hide:YES];
+                                       [self.navigationController popToRootViewControllerAnimated:YES];
+                                       [((RootViewController *)self.frostedViewController) trackOrder:@"response"];
+                                       [self launchAlert:@"Order Submitted!"];
+                                   }];
+}
 
+- (void)launchAlert:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.topViewController.view
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionTop
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    
+    
+    banner.secondsToShow = 3.0f;
+    
+    [banner show];
 }
 
 - (void) next {

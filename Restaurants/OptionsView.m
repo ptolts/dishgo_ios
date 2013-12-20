@@ -9,6 +9,7 @@
 #import "OptionsView.h"
 #import "Option.h"
 #import "DishTableViewCell.h"
+#import "Option_Order.h"
 
 @implementation OptionsView {
     NSMutableArray *option_values;
@@ -18,6 +19,8 @@
     struct CGColor *mainCGColor;
     BOOL useButton;
 }
+
+@synthesize option_order_json;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -147,8 +150,14 @@
 
 - (void)setupOption
 {
+    option_order_json = [[NSMutableArray alloc] init];
     option_values = [[NSMutableArray alloc] init];
     for(Option *option in self.op.list){
+        Option_Order *opt = [[Option_Order alloc] init];
+        opt.name = option.name;
+        opt.selected = NO;
+        opt.ident = option.id;
+        [option_order_json addObject:opt];
         NSMutableArray *currentItem = [[NSMutableArray alloc] init];
         [currentItem addObject:option.name];
         [currentItem addObject:option.price];
@@ -187,6 +196,8 @@
                     totalPrice -= [p[1] floatValue];
                     NSLog(@"%@: %hhd",but.titleLabel.text,but.selected);
                     [but setSelected:![but isSelected]];
+                    Option_Order *o = [option_order_json objectAtIndex:but.tag];
+                    o.selected = !o.selected;
                     but.layer.backgroundColor = [UIColor whiteColor].CGColor;
                     [but setTitleColor:mainColor forState:UIControlStateNormal];
                 }
@@ -197,6 +208,10 @@
     UIButton *but = (UIButton *)sender;
     NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:but.tag];
     [but setSelected:![but isSelected]];
+    
+    Option_Order *o = [option_order_json objectAtIndex:but.tag];
+    o.selected = !o.selected;
+    
     if(but.selected){
         NSLog(@"Selected %f price.",[p[1] floatValue]);
         totalPrice += [p[1] floatValue];

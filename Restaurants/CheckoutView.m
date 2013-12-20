@@ -29,18 +29,32 @@
         [self.checkout.layer setCornerRadius:2.0f];
         self.total_cost.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
         self.total_label.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
-//        self.seperator.backgroundColor = [UIColor textColor];
+        self.tax_amount.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+        self.tax_label.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
     }
     return self;
 }
 
-/*
+
+
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(context, [UIColor almostBlackColor].CGColor);
+    CGContextSetLineWidth(context, 1.0);
+    CGContextMoveToPoint(context, self.seperator.frame.origin.x, self.seperator.frame.origin.y);
+    CGContextAddLineToPoint(context, self.seperator.frame.origin.x + self.seperator.frame.size.width, self.seperator.frame.origin.y);
+    CGFloat lengths[2];
+    lengths[0] = 2;
+    lengths[1] = 2;
+    CGContextSetLineDash(context, 0.0f, lengths, 2);
+    CGContextStrokePath(context);
+    self.seperator.backgroundColor = [UIColor clearColor];
 }
-*/
+
 
 @end

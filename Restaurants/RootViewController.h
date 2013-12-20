@@ -7,7 +7,10 @@
 //
 
 #import "REFrostedViewController.h"
+#import "CHDraggingCoordinator.h"
 
-@interface RootViewController : REFrostedViewController
+@interface RootViewController : REFrostedViewController <CHDraggingCoordinatorDelegate>
     @property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
+    @property (strong, nonatomic) CHDraggingCoordinator *draggingCoordinator;
+    - (void) trackOrder:(NSString *)order_id;
 @end

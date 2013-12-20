@@ -29,6 +29,7 @@
     NSTimer *scroll_timer;
     UIView *spinnerView;
     UIWindow  *mainWindow;
+    int scroll_count;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -87,22 +88,11 @@
                      }];
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSLog(@"kill scroll");
-    [self killScroll];
-    [self.nextResponder touchesBegan: touches withEvent:event];
-}
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.nextResponder touchesMoved: touches withEvent:event];
-}
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.nextResponder touchesEnded: touches withEvent:event];
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    scroll_count = 0;
     [self startLoading];
     cellList = [[NSMutableArray alloc] init];
     [self startScrolling];
@@ -279,9 +269,20 @@
 }
 
 - (void) scrollEachCell {
-    for(RestaurantCells *c in cellList){
-        [c.scrollView scrollPages];
+    
+    if(scroll_count > 3){
+        [scroll_timer invalidate];
+        scroll_timer = nil;
+        return;
     }
+    
+    int i = 0;
+    for(RestaurantCells *c in cellList){
+        i++;
+        [c.scrollView scrollPages:i];
+    }
+    
+    scroll_count++;
 }
 
 - (void) killScroll {

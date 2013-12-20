@@ -9,7 +9,7 @@
 #import "PaymentTableViewController.h"
 #import "PaymentTableViewCell.h"
 
-#define CELL_SIZE 800
+#define CELL_SIZE 532
 
 @interface PaymentTableViewController ()
 

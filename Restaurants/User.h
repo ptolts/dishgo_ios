@@ -35,5 +35,7 @@
     @property (nonatomic, copy) NSString *year;
     @property (nonatomic, copy) NSString *secret_number;
     @property STPCard *stripeCard;
+    @property User *billing_user;
+    @property NSMutableArray *shopping_cart;
     -(NSString *) get_full_name;
 @end

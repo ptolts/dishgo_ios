@@ -18,6 +18,8 @@
     float totalPrice;
 }
 
+@synthesize option_views;
+
 - (void)setFrame:(CGRect)frame;
 {
     NSLog(@"%@", NSStringFromCGRect(frame));
@@ -31,14 +33,14 @@
     cell.dishTitle.text = self.dish.name;
     cell.priceLabel.text = [self getPriceString];
     
-    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:16.0f];
+    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
     cell.dishTitle.font = [UIFont fontWithName:@"6809 Chargen" size:16.0f];
     
     cell.backgroundColor = [UIColor clearColor];
     [cell.quantity.layer setCornerRadius:5.0f];
     cell.quantity.text = [NSString stringWithFormat:@"%dx", (int) self.dishFooterView.stepper.value];
     NSLog(@"INITIAL CARTROWCELL HEIGHT: %f",cell.frame.size.height);
-    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:16.0f];
+    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
     cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
     cell.parent = self;
     cell.edit.parent = self;
@@ -90,6 +92,8 @@
         NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
     }
     
+    self.option_views = [[NSMutableArray alloc] init];
+    
     for(Options *options in dish.options){
         
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
@@ -110,6 +114,8 @@
         [option_view setupOption];
         
         [cell.contentView addSubview:option_view];
+        
+        [option_views addObject:option_view];
         
         frame = cell.contentView.frame;
         frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;

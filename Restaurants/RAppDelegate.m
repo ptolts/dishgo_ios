@@ -12,6 +12,7 @@
 #import "RestaurantViewController.h"
 #import "UserSession.h"
 
+
 @implementation RAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -26,13 +27,10 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-//    // Override point for customization after application launch.
-////    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-////    RestaurantViewController *controller = (RestaurantViewController *)navigationController.topViewController;
-//    RootViewController *root = (RootViewController *)self.window.rootViewController;
-//    root.managedObjectContext = self.managedObjectContext;
+{    
     UserSession *sharedManager = [UserSession sharedManager];
     return YES;
 }

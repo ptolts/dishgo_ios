@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "Options.h"
 #import "DishTableViewCell.h"
+#import "Option_Order.h"
 
 @interface OptionsView : UIView
     @property (strong, nonatomic) IBOutlet UILabel *optionTitle;
     @property (weak, nonatomic) Options *op;
     @property (weak, nonatomic) DishTableViewCell *parent;
+    @property NSMutableArray<Option_Order> *option_order_json;
     -(void) setupOption;
     -(float) getPrice;
     @property int full_height;

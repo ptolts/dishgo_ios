@@ -80,8 +80,8 @@
     }
 }
 
--(void)scrollPages{
-    [self scrollToPage:[NSNumber numberWithInt:currentPage%numberOfPages]];
+-(void)scrollPages:(int) i{
+    [self scrollToPage:[NSNumber numberWithInt:abs(currentPage)%numberOfPages]];
     currentPage++;
 }
 

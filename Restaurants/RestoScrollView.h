@@ -10,7 +10,7 @@
 
 @interface RestoScrollView : UIScrollView
     @property int numberOfPages;
-    - (void) scrollPages;
+- (void) scrollPages:(int) i;
     - (void) killScroll;
     @property int currentPage;
 @end
