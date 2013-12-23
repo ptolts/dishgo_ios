@@ -17,5 +17,6 @@
     @property User *main_user;
     @property (strong, nonatomic) IBOutlet UIScrollView *scroll_view;
     @property User *bill_user;
+    @property (strong, nonatomic) IBOutlet UIView *next_view;
     @property NSString *nav_title;
 @end

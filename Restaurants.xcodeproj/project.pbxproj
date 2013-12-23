@@ -41,8 +41,7 @@
 		B7B7445418341CBF001DFC49 /* CheckoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445318341CBF001DFC49 /* CheckoutView.m */; };
 		B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B7445518341CCE001DFC49 /* CheckoutView.xib */; };
 		B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445C183532EE001DFC49 /* OptionsView.m */; };
-		B7BE3606185A34F000D55ED8 /* PaymentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */; };
-		B7BE3609185A3B4200D55ED8 /* PaymentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */; };
+		B7BE3606185A34F000D55ED8 /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3605185A34F000D55ED8 /* PaymentViewController.m */; };
 		B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360A185A42D700D55ED8 /* secure@2x.png */; };
 		B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360C185A493D00D55ED8 /* BillingView.xib */; };
 		B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE360F185A4A5F00D55ED8 /* BillingView.m */; };
@@ -71,13 +70,13 @@
 		B7CF7B87185644B6000D326F /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B86185644B6000D326F /* AddressView.m */; };
 		B7CF7B8A18564A8D000D326F /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B8918564A8D000D326F /* ProfileView.m */; };
 		B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B8B18564A99000D326F /* ProfileView.xib */; };
-		B7CF7B921856627F000D326F /* CheckoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B911856627F000D326F /* CheckoutTableViewController.m */; };
+		B7CF7B921856627F000D326F /* CheckoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B911856627F000D326F /* CheckoutViewController.m */; };
 		B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B9318566BF7000D326F /* checkmark@2x.png */; };
 		B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9618567050000D326F /* CheckoutCell.m */; };
 		B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7CF7B9818567063000D326F /* CheckoutCell.xib */; };
 		B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */; };
 		B7D47F7718622C5200DD3C99 /* fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F7618622C5200DD3C99 /* fork@2x.png */; };
-		B7D47F7B18624D5400DD3C99 /* ReviewTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */; };
+		B7D47F7B18624D5400DD3C99 /* ReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */; };
 		B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F7C1863436D00DD3C99 /* location@2x.png */; };
 		B7D47F8118635C2E00DD3C99 /* WobbleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F8018635C2E00DD3C99 /* WobbleCell.m */; };
 		B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F821863702B00DD3C99 /* large_cart@2x.png */; };
@@ -88,6 +87,7 @@
 		B7D47F931864A9B400DD3C99 /* Order_Order.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D47F921864A9B400DD3C99 /* Order_Order.m */; };
 		B7D47F951864D3F400DD3C99 /* remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F941864D3F400DD3C99 /* remove@2x.png */; };
 		B7D47F971864F0F500DD3C99 /* stop_watch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F961864F0F500DD3C99 /* stop_watch@2x.png */; };
+		B7D47F991864F70500DD3C99 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F981864F70500DD3C99 /* edit@2x.png */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -225,10 +225,8 @@
 		B7B7445518341CCE001DFC49 /* CheckoutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutView.xib; sourceTree = "<group>"; };
 		B7B7445B183532EE001DFC49 /* OptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsView.h; sourceTree = "<group>"; };
 		B7B7445C183532EE001DFC49 /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsView.m; sourceTree = "<group>"; };
-		B7BE3604185A34F000D55ED8 /* PaymentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentTableViewController.h; sourceTree = "<group>"; };
-		B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentTableViewController.m; sourceTree = "<group>"; };
-		B7BE3607185A3B4200D55ED8 /* PaymentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentTableViewCell.h; sourceTree = "<group>"; };
-		B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentTableViewCell.m; sourceTree = "<group>"; };
+		B7BE3604185A34F000D55ED8 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
+		B7BE3605185A34F000D55ED8 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
 		B7BE360A185A42D700D55ED8 /* secure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secure@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7BE360C185A493D00D55ED8 /* BillingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillingView.xib; sourceTree = "<group>"; };
 		B7BE360E185A4A5F00D55ED8 /* BillingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillingView.h; sourceTree = "<group>"; };
@@ -266,8 +264,8 @@
 		B7CF7B8818564A8D000D326F /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
 		B7CF7B8918564A8D000D326F /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
 		B7CF7B8B18564A99000D326F /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
-		B7CF7B901856627F000D326F /* CheckoutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutTableViewController.h; sourceTree = "<group>"; };
-		B7CF7B911856627F000D326F /* CheckoutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutTableViewController.m; sourceTree = "<group>"; };
+		B7CF7B901856627F000D326F /* CheckoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutViewController.h; sourceTree = "<group>"; };
+		B7CF7B911856627F000D326F /* CheckoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutViewController.m; sourceTree = "<group>"; };
 		B7CF7B9318566BF7000D326F /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7CF7B9518567050000D326F /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutCell.h; sourceTree = "<group>"; };
 		B7CF7B9618567050000D326F /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckoutCell.m; sourceTree = "<group>"; };
@@ -275,8 +273,8 @@
 		B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressForDeliveryViewController.h; sourceTree = "<group>"; };
 		B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressForDeliveryViewController.m; sourceTree = "<group>"; };
 		B7D47F7618622C5200DD3C99 /* fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fork@2x.png"; sourceTree = SOURCE_ROOT; };
-		B7D47F7918624D5400DD3C99 /* ReviewTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTableViewController.h; sourceTree = "<group>"; };
-		B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTableViewController.m; sourceTree = "<group>"; };
+		B7D47F7918624D5400DD3C99 /* ReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController.h; sourceTree = "<group>"; };
+		B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController.m; sourceTree = "<group>"; };
 		B7D47F7C1863436D00DD3C99 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7D47F7F18635C2E00DD3C99 /* WobbleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WobbleCell.h; sourceTree = "<group>"; };
 		B7D47F8018635C2E00DD3C99 /* WobbleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WobbleCell.m; sourceTree = "<group>"; };
@@ -293,6 +291,7 @@
 		B7D47F921864A9B400DD3C99 /* Order_Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order_Order.m; sourceTree = "<group>"; };
 		B7D47F941864D3F400DD3C99 /* remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "remove@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7D47F961864F0F500DD3C99 /* stop_watch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop_watch@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7D47F981864F70500DD3C99 /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -486,10 +485,8 @@
 		B74AC378183EAD3000A89616 /* Payment Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B7BE3604185A34F000D55ED8 /* PaymentTableViewController.h */,
-				B7BE3605185A34F000D55ED8 /* PaymentTableViewController.m */,
-				B7BE3607185A3B4200D55ED8 /* PaymentTableViewCell.h */,
-				B7BE3608185A3B4200D55ED8 /* PaymentTableViewCell.m */,
+				B7BE3604185A34F000D55ED8 /* PaymentViewController.h */,
+				B7BE3605185A34F000D55ED8 /* PaymentViewController.m */,
 				B75DA1FB1860E4E500803AF5 /* SkipTouchesUIView.h */,
 				B75DA1FC1860E4E500803AF5 /* SkipTouchesUIView.m */,
 			);
@@ -651,6 +648,7 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7D47F981864F70500DD3C99 /* edit@2x.png */,
 				B7D47F961864F0F500DD3C99 /* stop_watch@2x.png */,
 				B7D47F941864D3F400DD3C99 /* remove@2x.png */,
 				B7D47F821863702B00DD3C99 /* large_cart@2x.png */,
@@ -756,8 +754,8 @@
 			isa = PBXGroup;
 			children = (
 				B7D47F841864A85A00DD3C99 /* Order Models */,
-				B7CF7B901856627F000D326F /* CheckoutTableViewController.h */,
-				B7CF7B911856627F000D326F /* CheckoutTableViewController.m */,
+				B7CF7B901856627F000D326F /* CheckoutViewController.h */,
+				B7CF7B911856627F000D326F /* CheckoutViewController.m */,
 				B7CF7B9518567050000D326F /* CheckoutCell.h */,
 				B7CF7B9618567050000D326F /* CheckoutCell.m */,
 				B7CF7B9818567063000D326F /* CheckoutCell.xib */,
@@ -770,8 +768,8 @@
 		B7D47F7818624D3700DD3C99 /* Review Confirm */ = {
 			isa = PBXGroup;
 			children = (
-				B7D47F7918624D5400DD3C99 /* ReviewTableViewController.h */,
-				B7D47F7A18624D5400DD3C99 /* ReviewTableViewController.m */,
+				B7D47F7918624D5400DD3C99 /* ReviewViewController.h */,
+				B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */,
 			);
 			name = "Review Confirm";
 			sourceTree = "<group>";
@@ -1118,6 +1116,7 @@
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
+				B7D47F991864F70500DD3C99 /* edit@2x.png in Resources */,
 				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
@@ -1215,7 +1214,7 @@
 			files = (
 				B7EE7B7D184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m in Sources */,
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
-				B7D47F7B18624D5400DD3C99 /* ReviewTableViewController.m in Sources */,
+				B7D47F7B18624D5400DD3C99 /* ReviewViewController.m in Sources */,
 				B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */,
 				B7D47F8D1864A8ED00DD3C99 /* Options_Order.m in Sources */,
 				B7D47F8118635C2E00DD3C99 /* WobbleCell.m in Sources */,
@@ -1239,7 +1238,7 @@
 				B7E20F471820560100791BEB /* Option.m in Sources */,
 				B7D47F931864A9B400DD3C99 /* Order_Order.m in Sources */,
 				B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */,
-				B7BE3606185A34F000D55ED8 /* PaymentTableViewController.m in Sources */,
+				B7BE3606185A34F000D55ED8 /* PaymentViewController.m in Sources */,
 				B7B74426182C1981001DFC49 /* DishScrollView.m in Sources */,
 				B7E43066181EE625002B6867 /* MenuTableViewController.m in Sources */,
 				B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */,
@@ -1249,7 +1248,6 @@
 				B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */,
 				B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */,
 				B70C334A1805B2A70045183F /* _Images.m in Sources */,
-				B7BE3609185A3B4200D55ED8 /* PaymentTableViewCell.m in Sources */,
 				B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */,
 				B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */,
 				B7E20F451820560100791BEB /* _Option.m in Sources */,
@@ -1280,7 +1278,7 @@
 				B7B7442B182C1B0B001DFC49 /* DishView.m in Sources */,
 				B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */,
 				B7E43058181EC22A002B6867 /* ImagesInScroll.m in Sources */,
-				B7CF7B921856627F000D326F /* CheckoutTableViewController.m in Sources */,
+				B7CF7B921856627F000D326F /* CheckoutViewController.m in Sources */,
 				B7B7445418341CBF001DFC49 /* CheckoutView.m in Sources */,
 				B7E6C29D183C0F38005E8598 /* DishFooterView.m in Sources */,
 				B7B744511833EFE5001DFC49 /* ShoppingCartTableView.m in Sources */,

@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Philip Tolton. All rights reserved.
 //
 
-#import "CheckoutTableViewController.h"
+#import "CheckoutViewController.h"
 #import "UIColor+Custom.h"
 #import "UserSession.h"
 #import "CheckoutCell.h"
 #import "AddressForDeliveryViewController.h"
 #import "SignInViewController.h"
-#import "PaymentTableViewController.h"
-#import "ReviewTableViewController.h"
+#import "PaymentViewController.h"
+#import "ReviewViewController.h"
 #import "Order_Order.h"
 #import <JSONModel/JSONHTTPClient.h>
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -23,11 +23,11 @@
 
 #define CELL_SIZE 34
 
-@interface CheckoutTableViewController ()
+@interface CheckoutViewController ()
 
 @end
 
-@implementation CheckoutTableViewController
+@implementation CheckoutViewController
 
     NSMutableDictionary *progress;
     NSDictionary *titles;
@@ -35,15 +35,7 @@
     User *user_for_order;
     User *user_for_billing;
     bool speed_things_up;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+    @synthesize next_view;
 
 - (void) setupBackButtonAndCart {
 	self.navigationItem.hidesBackButton = YES; // Important
@@ -70,7 +62,6 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-    
     // Check Logged In
     if([[UserSession sharedManager] logged_in]){
         [progress setValue:@1  forKey:@"login"];
@@ -102,15 +93,20 @@
     [self.tableView reloadData];
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setupBackButtonAndCart];
     
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
     speed_things_up = NO;
     
     user_for_order = [[User alloc] init];
     user_for_order.confirm_address = NO;
+    user_for_order.foodcloud_token = [[UserSession sharedManager] fetchUser].foodcloud_token;
     
     user_for_billing = [[User alloc] init];
     user_for_billing.confirm_billing = NO;
@@ -123,6 +119,7 @@
     self.tableView.backgroundColor = [UIColor bgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
+    self.view.backgroundColor = [UIColor bgColor];
     
     for(NSString *val in keys){
         [progress setValue:@0  forKey:val];
@@ -211,7 +208,7 @@
 }
 
 - (void) review {
-    ReviewTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewViewController"];
+    ReviewViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewViewController"];
     vc.shopping_cart = self.shoppingCart;
     vc.main_user = user_for_order;
     [self.navigationController pushViewController:vc animated:YES];
@@ -219,7 +216,7 @@
 
 
 - (void) payment {
-    PaymentTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentViewController"];
+    PaymentViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"paymentViewController"];
     vc.main_user = user_for_order;
     vc.bill_user = user_for_billing;
     [self.navigationController pushViewController:vc animated:YES];
@@ -233,11 +230,13 @@
     
     NSString *json = [json_order toJSONString];
     
+    NSLog(@"token %@",user_for_order.foodcloud_token);
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Placing Order...";
     
     //make post, get requests
-    [JSONHTTPClient postJSONFromURLWithString:@"http://foodcloud.ca/api/v1/order/submit_order"
+    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/submit_order"
                                        params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
                                    completion:^(id json, JSONModelError *err) {
                                        NSLog(@"RESPONSE: %@",json);
@@ -294,31 +293,71 @@
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
 
-    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
-    next_but.text = @"Next";
-    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
-    next_but.textColor = [UIColor bgColor];
-    next_but.textAlignment = NSTextAlignmentCenter;
-    [next_but setUserInteractionEnabled:NO];
-    next_but.layer.cornerRadius = 3.0f;
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
-    btn.backgroundColor = [UIColor nextColor];
-//    btn.layer.borderColor = [UIColor blackColor].CGColor;
-//    btn.layer.borderWidth = 1.0f;
-    self.next_but = btn;
-    [btn addSubview:next_but];
-    
-    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footer addSubview:btn];
+//    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 38)];
+//    next_but.text = @"Next";
+//    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+//    next_but.textColor = [UIColor bgColor];
+//    next_but.textAlignment = NSTextAlignmentCenter;
+//    [next_but setUserInteractionEnabled:NO];
+//    
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    
+//    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 38)];
+//    btn.backgroundColor = [UIColor nextColor];
+//    btn.layer.cornerRadius = 3.0f;
+////    btn.layer.borderColor = [UIColor blackColor].CGColor;
+////    btn.layer.borderWidth = 1.0f;
+//    self.next_but = btn;
+//    [btn addSubview:next_but];
+//    
+//    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [footer addSubview:btn];
     
 //    footer.layer.borderColor = [UIColor blackColor].CGColor;
 //    footer.layer.borderWidth = 1.0f;
     
     return footer;
     
+}
+
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self setupNextButton];
+}
+
+- (void) setupNextButton {
+    if([[next_view subviews] count] == 0){
+        next_view.backgroundColor = [UIColor clearColor];
+        NSLog(@"Adding Next");
+        int total_height = self.view.frame.size.height;
+        int view_height = 60;
+        int button_height = 38;
+        int view_position = total_height - view_height;
+        
+        CGRect frame = next_view.frame;
+        frame.origin.y = view_position;
+        frame.size.height = view_height;
+        next_view.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.size.height = self.view.frame.size.height - view_height;
+        self.tableView.frame = frame;
+        
+        UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, button_height)];
+        next_but.text = @"Next";
+        [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+        next_but.textColor = [UIColor bgColor];
+        next_but.textAlignment = NSTextAlignmentCenter;
+        [next_but setUserInteractionEnabled:NO];
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:CGRectMake(20, ((view_height - button_height) / 2.0), self.view.frame.size.width - 40, button_height)];
+        btn.backgroundColor = [UIColor nextColor];
+        btn.layer.cornerRadius = 3.0f;
+        [btn addSubview:next_but];
+        [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        [next_view addSubview:btn];
+    }
 }
 
 - (UIView *) setupHeader {
@@ -346,58 +385,5 @@
 {
     return CELL_SIZE;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end

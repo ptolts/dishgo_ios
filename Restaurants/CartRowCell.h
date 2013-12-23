@@ -21,4 +21,5 @@
     @property (nonatomic, strong) IBOutlet ButtonCartRow *remove;
     @property (nonatomic, strong) DishTableViewCell *parent;
     @property (strong) NSNumber *fullHeight;
+    - (void) buttonDash;
 @end

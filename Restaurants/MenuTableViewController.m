@@ -10,7 +10,7 @@
 #import "REFrostedViewController.h"
 #import "ShoppingCartTableView.h"
 #import "CheckoutView.h"
-#import "CheckoutTableViewController.h"
+#import "CheckoutViewController.h"
 #import "DishTableViewCell.h"
 #import "DishTableViewController.h"
 #import "ButtonCartRow.h"
@@ -60,7 +60,7 @@
 }
 
 -(void) checkout {
-    CheckoutTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutTableViewController"];
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutTableViewController"];
     vc.shoppingCart = self.shopping_cart;
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
@@ -69,7 +69,7 @@
 
 -(void) signin {
     NSLog(@"Clicked Signin");
-    CheckoutTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
     [self.frostedViewController hideMenuViewController];
@@ -85,7 +85,7 @@
 
 -(void) favorites {
     NSLog(@"Clicked Signin");
-    CheckoutTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
     [self.frostedViewController hideMenuViewController];
@@ -93,7 +93,7 @@
 
 -(void) settings {
     NSLog(@"Clicked Signin");
-    CheckoutTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
     [self.frostedViewController hideMenuViewController];

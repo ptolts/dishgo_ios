@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "User.h"
-#import "PaymentTableViewController.h"
+#import "PaymentViewController.h"
 
 @interface BillingView : UIView
     @property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *actual_data;
@@ -26,5 +26,5 @@
     @property (strong, nonatomic) IBOutlet UILabel *last_name;
     - (void) setup;
     - (IBAction)change_billingaddress:(id)sender;
-    @property PaymentTableViewController *pay;
+    @property (nonatomic,weak) PaymentViewController *pay;
 @end

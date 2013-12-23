@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CheckoutTableViewController : UITableViewController
+@interface CheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
+    @property (strong, nonatomic) IBOutlet UITableView *tableView;
+    @property (strong, nonatomic) IBOutlet UIView *next_view;
     @property UIButton *next_but;
 @end

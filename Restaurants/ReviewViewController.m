@@ -6,26 +6,23 @@
 //  Copyright (c) 2013 Philip Tolton. All rights reserved.
 //
 
-#import "ReviewTableViewController.h"
+#import "ReviewViewController.h"
 #import "ShoppingCartTableView.h"
 #import <ALAlertBanner/ALAlertBanner.h>
 
-@interface ReviewTableViewController ()
+@interface ReviewViewController ()
 
 @end
 
-@implementation ReviewTableViewController
+@implementation ReviewViewController
 
     ShoppingCartTableView *shop;
-@synthesize main_user;
+    @synthesize main_user;
+    @synthesize next_view;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+-(void) myCustomBack {
+	// Some anything you need to do before leaving
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) setupBackButtonAndCart {
@@ -78,6 +75,7 @@
     self.tableView.delegate = shop;
     self.tableView.dataSource = shop;
     self.tableView.backgroundColor = [UIColor bgColor];
+    self.view.backgroundColor = [UIColor bgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableHeaderView = [self setupHeader];
     self.tableView.tableFooterView = [self setupFooter];
@@ -89,28 +87,28 @@
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     
-    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
-    next_but.text = @"Next";
-    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
-    next_but.textColor = [UIColor bgColor];
-    next_but.textAlignment = NSTextAlignmentCenter;
-    [next_but setUserInteractionEnabled:NO];
-    next_but.layer.cornerRadius = 3.0f;
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
-    btn.backgroundColor = [UIColor nextColor];
-    //    btn.layer.borderColor = [UIColor blackColor].CGColor;
-    //    btn.layer.borderWidth = 1.0f;
-//    self.next_but = btn;
-    [btn addSubview:next_but];
-    
-    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-    
-    [footer addSubview:btn];
-    
-    //    footer.layer.borderColor = [UIColor blackColor].CGColor;
-    //    footer.layer.borderWidth = 1.0f;
+//    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
+//    next_but.text = @"Next";
+//    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+//    next_but.textColor = [UIColor bgColor];
+//    next_but.textAlignment = NSTextAlignmentCenter;
+//    [next_but setUserInteractionEnabled:NO];
+//    next_but.layer.cornerRadius = 3.0f;
+//    
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
+//    btn.backgroundColor = [UIColor nextColor];
+//    //    btn.layer.borderColor = [UIColor blackColor].CGColor;
+//    //    btn.layer.borderWidth = 1.0f;
+////    self.next_but = btn;
+//    [btn addSubview:next_but];
+//    
+//    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [footer addSubview:btn];
+//    
+//    //    footer.layer.borderColor = [UIColor blackColor].CGColor;
+//    //    footer.layer.borderWidth = 1.0f;
     
     return footer;
     
@@ -147,14 +145,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return 0;
 }
@@ -169,55 +165,53 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+//-(void) viewWillDisappear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    [next_view removeFromSuperview];
+//}
+//
+//-(void) viewDidDisappear:(BOOL)animated {
+//    [super viewDidDisappear:animated];
+//    setup_the_next_button = NO;
+//}
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self setupNextButton];
 }
 
- */
+- (void) setupNextButton {
+    if([[next_view subviews] count] == 0){
+        next_view.backgroundColor = [UIColor clearColor];
+        NSLog(@"Adding Next");
+        int total_height = self.view.frame.size.height;
+        int view_height = 60;
+        int button_height = 38;
+        int view_position = total_height - view_height;
+        
+        CGRect frame = next_view.frame;
+        frame.origin.y = view_position;
+        frame.size.height = view_height;
+        next_view.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.size.height = self.view.frame.size.height - view_height;
+        self.tableView.frame = frame;
+        
+        UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, button_height)];
+        next_but.text = @"Next";
+        [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+        next_but.textColor = [UIColor bgColor];
+        next_but.textAlignment = NSTextAlignmentCenter;
+        [next_but setUserInteractionEnabled:NO];
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:CGRectMake(20, ((view_height - button_height) / 2.0), self.view.frame.size.width - 40, button_height)];
+        btn.backgroundColor = [UIColor nextColor];
+        btn.layer.cornerRadius = 3.0f;
+        [btn addSubview:next_but];
+        [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        [next_view addSubview:btn];
+    }
+}
 
 @end

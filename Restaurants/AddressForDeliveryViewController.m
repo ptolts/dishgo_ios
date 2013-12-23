@@ -18,6 +18,7 @@
     NSNumber *activeTextField;
     UITextField *sub_textfield;
     @synthesize nav_title;
+    @synthesize next_view;
     float originalScrollerOffsetY;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -61,7 +62,7 @@
     self.navigationItem.titleView = label;
 }
 
-- (IBAction)save:(UIButton *)sender {
+- (IBAction)save {
     
     if(!([self.user_address validate] && [self.user_info validate])){
         return;
@@ -123,7 +124,7 @@
     [self.view addSubview:imageView ];
     [self.view sendSubviewToBack:imageView];
     
-    self.scroll_view.backgroundColor = [UIColor bgColor];
+    self.scroll_view.backgroundColor = [UIColor clearColor];
     
     // This is just hideous, but at least we can reuse views.
     AddressView *addy_view = [[AddressView alloc] init];
@@ -133,17 +134,24 @@
     self.user_address = addy_view;
     [addy_view.save setTitle:@"Confirm" forState:UIControlStateNormal];
     [addy_view.save.titleLabel sizeToFit];
-    [self.view addSubview:addy_view];
+    [self.scroll_view addSubview:addy_view];
+    //    [addy_view.save addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
+    
+    CGRect frame = addy_view.frame;
+    frame.size.height = frame.size.height - addy_view.save.frame.size.height - 10;
+    addy_view.frame = frame;
+    [addy_view.save removeFromSuperview];
+    
     self.user_address = addy_view;
     addy_view.controller = self;
-    [addy_view.save addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
+
     
     ProfileView *prof_view = [[ProfileView alloc] init];
     prof_view.nav = self.navigationController;
     prof_view.frame = self.user_info.frame;
     [self.user_info removeFromSuperview];
     self.user_info = prof_view;
-    [self.view addSubview:prof_view];
+    [self.scroll_view addSubview:prof_view];
     self.user_info = prof_view;
     
 //    [self.scroll_view setUserInteractionEnabled:NO];
@@ -208,6 +216,80 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self setupNextButton];
+}
+
+- (void) setupNextButton {
+    if([[next_view subviews] count] == 0){
+        next_view.backgroundColor = [UIColor clearColor];
+        NSLog(@"Adding Next");
+        int total_height = self.view.frame.size.height;
+        int view_height = 60;
+        int button_height = 38;
+        int view_position = total_height - view_height;
+        
+        CGRect frame = next_view.frame;
+        frame.origin.y = view_position;
+        frame.size.height = view_height;
+        next_view.frame = frame;
+        
+        frame = self.scroll_view.frame;
+        frame.size.height = self.view.frame.size.height - view_height;
+        self.scroll_view.frame = frame;
+        
+        UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, button_height)];
+        next_but.text = @"Next";
+        [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+        next_but.textColor = [UIColor bgColor];
+        next_but.textAlignment = NSTextAlignmentCenter;
+        [next_but setUserInteractionEnabled:NO];
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:CGRectMake(20, ((view_height - button_height) / 2.0), self.view.frame.size.width - 40, button_height)];
+        btn.backgroundColor = [UIColor nextColor];
+        btn.layer.cornerRadius = 3.0f;
+        [btn addSubview:next_but];
+        [btn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
+        [next_view addSubview:btn];
+        
+        [self equalSpace];
+    }
+}
+
+- (void) equalSpace {
+    
+    int available = self.scroll_view.frame.size.height;
+    
+    int subcount = [[self.scroll_view subviews] count];
+    for(UIView *v in [self.scroll_view subviews]){
+        available -= v.frame.size.height;
+    }
+    
+    NSComparator comparatorBlock = ^(UIView *obj1, UIView *obj2) {
+        if (obj1.frame.origin.y > obj2.frame.origin.y) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if (obj1.frame.origin.y < obj2.frame.origin.y) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    };
+    
+    int new_offset = 0;
+    int add_offset = (int)(available / subcount);
+    
+    NSLog(@"Add_offset: %d",add_offset);
+    
+    for(UIView *v in [[self.scroll_view subviews] sortedArrayUsingComparator:comparatorBlock]){
+        new_offset += add_offset;
+        CGRect frame = v.frame;
+        frame.origin.y += new_offset;
+        v.frame = frame;
+    }
 }
 
 @end
