@@ -29,13 +29,13 @@
 
 @implementation CheckoutViewController
 
-    NSMutableDictionary *progress;
-    NSDictionary *titles;
-    NSArray *keys;
-    User *user_for_order;
-    User *user_for_billing;
-    bool speed_things_up;
-    @synthesize next_view;
+NSMutableDictionary *progress;
+NSDictionary *titles;
+NSArray *keys;
+User *user_for_order;
+User *user_for_billing;
+bool speed_things_up;
+@synthesize next_view;
 
 - (void) setupBackButtonAndCart {
 	self.navigationItem.hidesBackButton = YES; // Important
@@ -57,8 +57,34 @@
 }
 
 -(void) myCustomBack {
-	// Some anything you need to do before leaving
-	[self.navigationController popViewControllerAnimated:YES];
+    if([progress[@"login"] isEqual: @0] || [progress[@"address"] isEqual: @0]){
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    NSString *last_key;
+    
+    for(id key in keys){
+        
+        if([[progress objectForKey:key]  isEqual: @1]){
+            last_key = key;
+        }
+
+        if([[progress objectForKey:key]  isEqual: @0] && ![last_key isEqualToString:@""]){
+            NSLog(@"%@",[NSString stringWithFormat:@"%@Reverse",last_key]);
+            [self.tableView reloadData];
+            [progress setValue:@0  forKey:last_key];
+            [self performSelector:(NSSelectorFromString([NSString stringWithFormat:@"%@Reverse",last_key]))];
+            [self next];
+            return;
+        }
+
+    }
+    
+    
+    [progress setValue:@0  forKey:@"review"];
+    [self next];
+    return;
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -87,7 +113,7 @@
     }
     
     if(speed_things_up){
-//        [self next];
+        //        [self next];
     }
     
     [self.tableView reloadData];
@@ -118,7 +144,7 @@
     
     self.tableView.backgroundColor = [UIColor bgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+    
     self.view.backgroundColor = [UIColor bgColor];
     
     for(NSString *val in keys){
@@ -136,7 +162,7 @@
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -164,19 +190,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CheckoutCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"CheckoutCell" owner:self options:nil] objectAtIndex:0];
-
-//    if (indexPath.row == 0 && indexPath.section == 1){
-//        [cell.seperator removeFromSuperview];
-//    }
+    
+    //    if (indexPath.row == 0 && indexPath.section == 1){
+    //        [cell.seperator removeFromSuperview];
+    //    }
     NSString *key = [keys objectAtIndex:indexPath.row];
     cell.label.text = [titles objectForKey:key];
     cell.label.textColor = [UIColor textColor];
     cell.label.font = [UIFont fontWithName:@"DamascusBold" size:14.0f];
     cell.backgroundColor = [UIColor bgColor];
-
-//    NSLog(@"%@",[[progress objectForKey:key] class]);
     
-
+    //    NSLog(@"%@",[[progress objectForKey:key] class]);
+    
+    
     if([[progress objectForKey:key]  isEqual: @1]){
         cell.checkmark.image = [UIImage imageNamed:@"checkmark.png"];
     } else {
@@ -194,6 +220,25 @@
     
     return cell;
 }
+
+
+-(void) loginReverse {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) addressReverse {
+    user_for_order.confirm_address = NO;
+}
+
+- (void) reviewReverse {
+    user_for_order.review_confirm = NO;
+}
+
+
+- (void) paymentReverse {
+    user_for_order.validCreditCard = NO;
+}
+
 
 -(void) login {
     SignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
@@ -292,30 +337,30 @@
 - (UIView *) setupFooter {
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-
-//    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 38)];
-//    next_but.text = @"Next";
-//    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
-//    next_but.textColor = [UIColor bgColor];
-//    next_but.textAlignment = NSTextAlignmentCenter;
-//    [next_but setUserInteractionEnabled:NO];
-//    
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    
-//    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 38)];
-//    btn.backgroundColor = [UIColor nextColor];
-//    btn.layer.cornerRadius = 3.0f;
-////    btn.layer.borderColor = [UIColor blackColor].CGColor;
-////    btn.layer.borderWidth = 1.0f;
-//    self.next_but = btn;
-//    [btn addSubview:next_but];
-//    
-//    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    [footer addSubview:btn];
     
-//    footer.layer.borderColor = [UIColor blackColor].CGColor;
-//    footer.layer.borderWidth = 1.0f;
+    //    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 38)];
+    //    next_but.text = @"Next";
+    //    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
+    //    next_but.textColor = [UIColor bgColor];
+    //    next_but.textAlignment = NSTextAlignmentCenter;
+    //    [next_but setUserInteractionEnabled:NO];
+    //
+    //    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //
+    //    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 38)];
+    //    btn.backgroundColor = [UIColor nextColor];
+    //    btn.layer.cornerRadius = 3.0f;
+    ////    btn.layer.borderColor = [UIColor blackColor].CGColor;
+    ////    btn.layer.borderWidth = 1.0f;
+    //    self.next_but = btn;
+    //    [btn addSubview:next_but];
+    //
+    //    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+    //
+    //    [footer addSubview:btn];
+    
+    //    footer.layer.borderColor = [UIColor blackColor].CGColor;
+    //    footer.layer.borderWidth = 1.0f;
     
     return footer;
     
@@ -367,15 +412,15 @@
     logo.image = [UIImage imageNamed:@"logo_black.png"];
     
     UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 130)];
-
+    
     [head addSubview:logo];
     
-//    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
-//    text_header.text = @"Progress";
-//    text_header.textAlignment = NSTextAlignmentCenter;
-//    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
-//    text_header.textColor = [UIColor textColor];
-//    [head addSubview:text_header];
+    //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
+    //    text_header.text = @"Progress";
+    //    text_header.textAlignment = NSTextAlignmentCenter;
+    //    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
+    //    text_header.textColor = [UIColor textColor];
+    //    [head addSubview:text_header];
     
     return head;
     
