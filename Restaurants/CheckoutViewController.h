@@ -13,4 +13,5 @@
     @property (strong, nonatomic) IBOutlet UITableView *tableView;
     @property (strong, nonatomic) IBOutlet UIView *next_view;
     @property UIButton *next_but;
+    @property UILabel *next_but_label;
 @end

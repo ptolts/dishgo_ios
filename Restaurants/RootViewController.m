@@ -54,7 +54,7 @@
 - (void) trackOrder:(NSString *)order_id {
     UIWindow *win = self.view.window;
     
-    NSLog(@"IMAGE SIZE: %@",CGRectCreateDictionaryRepresentation(self.view.window.frame));
+//    NSLog(@"IMAGE SIZE: %@",CGRectCreateDictionaryRepresentation(self.view.window.frame));
     
     CHDraggableView *draggableView = [CHDraggableView draggableViewWithImage:[UIImage imageNamed:@"stop_watch.png"] size:CGSizeMake(100, 100)];
     draggableView.tag = 1;

@@ -213,8 +213,10 @@ int cellHeight;
     if ([self validateCustomerInfo]) {
         [self performStripeOperation];
         main_user.validCreditCard = YES;
-        [self.navigationController popViewControllerAnimated:YES];
-        [self launchAlert:@"Payment Information Accepted"];
+        UINavigationController *n = self.navigationController;
+        [self.navigationController popViewControllerAnimated:NO];
+        [n.topViewController performSelector:NSSelectorFromString(@"next")];
+//        [self launchAlert:@"Payment Information Accepted"];
     }
 }
 

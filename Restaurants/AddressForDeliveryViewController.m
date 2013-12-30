@@ -95,8 +95,11 @@
     }
     
     _main_user.confirm_address = YES;
-    [self.navigationController popViewControllerAnimated:YES];
-    [self launchAlert:@"Address Confirmed!"];    
+
+    UINavigationController *n = self.navigationController;
+    [self.navigationController popViewControllerAnimated:NO];
+    [n.topViewController performSelector:NSSelectorFromString(@"next")];
+//    [self launchAlert:@"Address Confirmed!"];    
 }
 
 - (void)launchAlert:(NSString *)msg

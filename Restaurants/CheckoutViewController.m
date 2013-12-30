@@ -39,7 +39,7 @@ bool speed_things_up;
 
 - (void) setupBackButtonAndCart {
 	self.navigationItem.hidesBackButton = YES; // Important
-    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
+    UIImage *backBtnImage = [UIImage imageNamed:@"cancel.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
     [self.navigationItem setLeftBarButtonItem:backBtn];
@@ -57,37 +57,41 @@ bool speed_things_up;
 }
 
 -(void) myCustomBack {
-    if([progress[@"login"] isEqual: @0] || [progress[@"address"] isEqual: @0]){
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
+//    if([progress[@"login"] isEqual: @0] || [progress[@"address"] isEqual: @0]){
+//        [self.navigationController popViewControllerAnimated:YES];
+//        return;
+//    }
+//    
+//    NSString *last_key;
+//    
+//    for(id key in keys){
+//        
+//        if([[progress objectForKey:key]  isEqual: @1]){
+//            last_key = key;
+//        }
+//
+//        if([[progress objectForKey:key]  isEqual: @0] && ![last_key isEqualToString:@""]){
+//            NSLog(@"%@",[NSString stringWithFormat:@"%@Reverse",last_key]);
+//            [self.tableView reloadData];
+//            [progress setValue:@0  forKey:last_key];
+//            [self performSelector:(NSSelectorFromString([NSString stringWithFormat:@"%@Reverse",last_key]))];
+//            [self next];
+//            return;
+//        }
+//
+//    }
+//    
+//    
+//    [progress setValue:@0  forKey:@"review"];
+//    [self next];
+//    return;
     
-    NSString *last_key;
-    
-    for(id key in keys){
-        
-        if([[progress objectForKey:key]  isEqual: @1]){
-            last_key = key;
-        }
-
-        if([[progress objectForKey:key]  isEqual: @0] && ![last_key isEqualToString:@""]){
-            NSLog(@"%@",[NSString stringWithFormat:@"%@Reverse",last_key]);
-            [self.tableView reloadData];
-            [progress setValue:@0  forKey:last_key];
-            [self performSelector:(NSSelectorFromString([NSString stringWithFormat:@"%@Reverse",last_key]))];
-            [self next];
-            return;
-        }
-
-    }
-    
-    
-    [progress setValue:@0  forKey:@"review"];
-    [self next];
+    [self.navigationController popViewControllerAnimated:YES];
     return;
+    
 }
 
--(void) viewDidAppear:(BOOL)animated {
+-(void) viewWillAppear:(BOOL)animated {
     // Check Logged In
     if([[UserSession sharedManager] logged_in]){
         [progress setValue:@1  forKey:@"login"];
@@ -108,14 +112,16 @@ bool speed_things_up;
     //Check Address Confirmation
     if(user_for_order.review_confirm) {
         [progress setValue:@1  forKey:@"review"];
-        self.next_but.titleLabel.text = @"Place Order!";
-        [self.next_but setNeedsLayout];
+        self.next_but_label.text = @"Place Order!";
+        [self.next_but_label setNeedsLayout];
     }
     
-    if(speed_things_up){
-        //        [self next];
-    }
-    
+//    if(speed_things_up){
+//        [self next];
+//    }
+}
+
+-(void) viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
 }
 
@@ -285,9 +291,10 @@ bool speed_things_up;
                                        params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
                                    completion:^(id json, JSONModelError *err) {
                                        NSLog(@"RESPONSE: %@",json);
+                                       Order_Order *response = [[Order_Order alloc] initWithString:json error:nil];
                                        [hud hide:YES];
                                        [self.navigationController popToRootViewControllerAnimated:YES];
-                                       [((RootViewController *)self.frostedViewController) trackOrder:@"response"];
+                                       [((RootViewController *)self.frostedViewController) trackOrder:response.order_id];
                                        [self launchAlert:@"Order Submitted!"];
                                    }];
 }
@@ -307,7 +314,33 @@ bool speed_things_up;
 }
 
 - (void) next {
+    
+    // Check Logged In
+    if([[UserSession sharedManager] logged_in]){
+        [progress setValue:@1  forKey:@"login"];
+    } else {
+        [progress setValue:@0  forKey:@"login"];
+    }
+    
+    //Check Address Confirmation
+    if(user_for_order.confirm_address) {
+        [progress setValue:@1  forKey:@"address"];
+    }
+    
+    //Check Address Confirmation
+    if(user_for_order.validCreditCard) {
+        [progress setValue:@1  forKey:@"payment"];
+    }
+    
+    //Check Address Confirmation
+    if(user_for_order.review_confirm) {
+        [progress setValue:@1  forKey:@"review"];
+        self.next_but_label.text = @"Place Order!";
+        [self.next_but_label setNeedsLayout];
+    }
+    
     NSLog(@"next!");
+    
     speed_things_up = YES;
     for(id key in keys){
         if([[progress objectForKey:key]  isEqual: @0]){
@@ -336,7 +369,7 @@ bool speed_things_up;
 
 - (UIView *) setupFooter {
     
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
     
     //    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 38)];
     //    next_but.text = @"Next";
@@ -401,6 +434,7 @@ bool speed_things_up;
         btn.layer.cornerRadius = 3.0f;
         [btn addSubview:next_but];
         [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        self.next_but_label = next_but;
         [next_view addSubview:btn];
     }
 }
@@ -408,8 +442,8 @@ bool speed_things_up;
 - (UIView *) setupHeader {
     
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 25, 100, 100)];
-    [logo setContentMode:UIViewContentModeScaleToFill];
-    logo.image = [UIImage imageNamed:@"logo_black.png"];
+    [logo setContentMode:UIViewContentModeCenter];
+    logo.image = [UIImage imageNamed:@"checkout.png"];
     
     UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 130)];
     
