@@ -14,7 +14,9 @@
 #import <RestKit/RestKit.h>
 #import "Lockbox.h"
 #import "User.h"
+#import "RAppDelegate.h"
 #import <JSONHTTPClient.h>
+#import "RootViewController.h"
 
 static NSString* kFilename = @"TokenInfo.plist";
 
@@ -309,40 +311,52 @@ static NSString* kFilename = @"TokenInfo.plist";
 //    }
 //}
 
+//-(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
+//    
+//    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
+//    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
+//    
+//    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
+//    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
+//    
+//    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
+//    [requestMapping addAttributeMappingsFromArray:@[@"email",@"password"]];
+//    
+//    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
+//    
+//    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+//    
+//    [manager addRequestDescriptor:requestDescriptor];
+//    [manager addResponseDescriptor:tokenDescriptor];
+//    
+//    User *re = [[User alloc] init];
+//    re.email = email;
+//    re.password = password;
+//    
+//    [manager postObject:re path:@"/api/v1/tokens" parameters:nil success:
+//     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+//         main_user = [result firstObject];
+//         NSLog(@"ID: %@", main_user.foodcloud_token);
+//         [self completeLogin:main_user];
+//         block(logged_in, @"Logged in!");
+//     } failure:
+//     ^( RKObjectRequestOperation *operation , NSError *error ){
+//         NSLog(@"%@",error);
+//         block(NO,error.description);
+//     }
+//     ];
+//    
+//}
+
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
-    
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-    
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"email",@"password"]];
-    
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-    
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
-    
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:tokenDescriptor];
-    
-    User *re = [[User alloc] init];
-    re.email = email;
-    re.password = password;
-    
-    [manager postObject:re path:@"/api/v1/tokens" parameters:nil success:
-     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         main_user = [result firstObject];
-         NSLog(@"ID: %@", main_user.foodcloud_token);
-         [self completeLogin:main_user];
-         block(logged_in, @"Logged in!");
-     } failure:
-     ^( RKObjectRequestOperation *operation , NSError *error ){
-         NSLog(@"%@",error);
-         block(NO,error.description);
-     }
-     ];
+    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens"
+                                       params:@{@"email":email,@"password":password}
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       main_user = [[User alloc] initWithDictionary:json error:nil];
+                                       [self completeLogin:main_user];
+                                       block(logged_in,@"Logged in!");
+                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+                                   }];
     
 }
 
@@ -450,6 +464,7 @@ static NSString* kFilename = @"TokenInfo.plist";
         NSMutableDictionary *dic = (NSMutableDictionary *)[self readData];
         [dic setObject:foodcloudToken forKey:@"foodcloud_token"];
         [self writeData:dic];
+        [((RootViewController *)(((RAppDelegate *)([[UIApplication sharedApplication] delegate])).window.rootViewController)) showOldOrders];
     }
 }
 
@@ -489,45 +504,12 @@ static NSString* kFilename = @"TokenInfo.plist";
 //}
 
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
-    
-    //    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    //    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
-    //
-    //    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    //    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-    //
-    //    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    //    [requestMapping addAttributeMappingsFromArray:@[@"facebook_token",@"facebook_id"]];
-    //
-    //    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-    //
-    //    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
-    //
-    //    [manager addRequestDescriptor:requestDescriptor];
-    //    [manager addResponseDescriptor:tokenDescriptor];
-    //
-    //    User *re = [[User alloc] init];
-    //    re.facebook_token = facebookToken;
-    //
-    //    [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
-    //     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-    //         main_user = [result firstObject];
-    //         NSLog(@"ADDRESS: %@",main_user.street_address);
-    //         [self completeLogin:main_user];
-    //         block(YES,@"Good!");
-    //         NSLog(@"ID: %@", main_user.foodcloud_token);
-    //     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
-    //         NSLog(@"%@",error);
-    //         block(NO,error.description);
-    //     }];
-    
-    
-    //make post, get requests
     [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens/create_from_facebook"
                                        params:@{@"facebook_token":facebookToken,@"facebook_id":@""}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
-                                       NSLog(@"ADDRESS: %@",main_user.street_address);
+//                                       NSLog(@"ADDRESS: %@",main_user.street_address);
+//                                       NSLog(@"ORDERS: %d\nJSON:%@",[main_user.current_orders count],json);
                                        [self completeLogin:main_user];
                                        block(YES,@"Good!");
                                        NSLog(@"ID: %@", main_user.foodcloud_token);

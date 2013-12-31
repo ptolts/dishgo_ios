@@ -10,5 +10,6 @@
 #import "CHDraggableView+Avatar.h"
 
 @interface CHDraggableView (OrderTracker)
-    -(void) timer:(NSNumber *)number order_id:(NSString *)order_id;
+    -(void) timer:(NSNumber *)number;
+    -(void) set_order_id:(NSString *)order_id;
 @end

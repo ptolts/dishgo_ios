@@ -10,6 +10,7 @@
 #import "CHDraggingCoordinator.h"
 
 @interface RootViewController : REFrostedViewController <CHDraggingCoordinatorDelegate>
+    -(void) showOldOrders;
     @property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
     @property (strong, nonatomic) CHDraggingCoordinator *draggingCoordinator;
     - (void) trackOrder:(NSString *)order_id;

@@ -16,9 +16,12 @@
 
     NSTimer *timer;
 
-    -(void)timer:(NSNumber *)number order_id:(NSString *)order_id{
-        NSLog(@"Timer Initiated");
+    -(void) set_order_id:(NSString *)order_id {
         self.order_id = order_id;
+    }
+
+    -(void)timer:(NSNumber *)number{
+        NSLog(@"Timer Initiated");
         timer = [NSTimer scheduledTimerWithTimeInterval:[number floatValue]
                                          target:self
                                        selector:@selector(checkForUpdates)
