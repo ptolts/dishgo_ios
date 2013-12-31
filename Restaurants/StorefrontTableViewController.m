@@ -61,7 +61,7 @@
 }
 
 - (void) startLoading {
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.cart.button.enabled = NO;
     int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
     spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
@@ -85,9 +85,7 @@
                      animations:^{spinnerView.alpha = 0.0;}
                      completion:^(BOOL finished){
                          [spinnerView removeFromSuperview];
-                         self.navigationItem.rightBarButtonItem.enabled = YES;
                      }];
-    
     // THIS ADD STUFF TO THE CART FOR TESTING.
     bool kill = NO;
     for(Sections *sec in sectionsList){
@@ -112,6 +110,7 @@
         if (kill)
             break;
     }
+    self.cart.button.enabled = YES;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation

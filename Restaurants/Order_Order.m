@@ -32,4 +32,10 @@
         self.order = [order_mutable copy];
     }
 
+//    +(BOOL)propertyIsOptional:(NSString*)propertyName
+//    {
+//        NSLog(@"%@",propertyName);
+//        return YES;
+//    }
+
 @end

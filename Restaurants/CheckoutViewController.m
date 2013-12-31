@@ -20,6 +20,7 @@
 #import <ALAlertBanner/ALAlertBanner.h>
 #import <REFrostedViewController/REFrostedViewController.h>
 #import "RootViewController.h"
+#import "Order_Submit_Response.h"
 
 #define CELL_SIZE 34
 
@@ -289,13 +290,12 @@ bool speed_things_up;
     //make post, get requests
     [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/submit_order"
                                        params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
-                                   completion:^(id json, JSONModelError *err) {
-                                       NSLog(@"RESPONSE: %@",json);
-                                       Order_Order *response = [[Order_Order alloc] initWithString:json error:nil];
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       Order_Submit_Response *response = [[Order_Submit_Response alloc] initWithDictionary:json error:nil];
                                        [hud hide:YES];
+                                       [((RootViewController *)self.frostedViewController) trackOrder:response.order_id];                                       
                                        [self.navigationController popToRootViewControllerAnimated:YES];
-                                       [((RootViewController *)self.frostedViewController) trackOrder:response.order_id];
-                                       [self launchAlert:@"Order Submitted!"];
+//                                       [self launchAlert:@"Order Submitted!"];
                                    }];
 }
 

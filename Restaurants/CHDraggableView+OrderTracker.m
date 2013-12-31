@@ -8,18 +8,18 @@
 
 #import "CHDraggableView+OrderTracker.h"
 #import <JSONModel/JSONHTTPClient.h>
-#import "Order_Order.h"
+#import "Order_Status.h"
 #import "CHAvatarView.h"
 #import "UserSession.h"
 
 @implementation CHDraggableView (OrderTracker)
 
-    @dynamic order_id;
-
     NSTimer *timer;
 
-    -(void)timer:(NSNumber *)number{
-        timer = [NSTimer scheduledTimerWithTimeInterval:10.0f
+    -(void)timer:(NSNumber *)number order_id:(NSString *)order_id{
+        NSLog(@"Timer Initiated");
+        self.order_id = order_id;
+        timer = [NSTimer scheduledTimerWithTimeInterval:[number floatValue]
                                          target:self
                                        selector:@selector(checkForUpdates)
                                        userInfo:nil
@@ -27,23 +27,31 @@
     }
 
     -(void) checkForUpdates {
-        Order_Order *json_order = [[Order_Order alloc] init];
+        NSLog(@"Checking Order Status");        
+        Order_Status *json_order = [[Order_Status alloc] init];
         json_order.order_id = self.order_id;
-        json_order.foodcloud_token = [[UserSession sharedManager] foodcloud_token];
+        json_order.foodcloud_token = ((UserSession *)([UserSession sharedManager])).foodcloudToken;
         NSString *json = [json_order toJSONString];
-        
+        NSLog(@"CHECKFORUPDATES: %@",json);
         //make post, get requests
-        [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/submit_order"
+        [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/status"
                                            params:@{@"order":json,@"foodcloud_token":json_order.foodcloud_token}
-                                       completion:^(id json, JSONModelError *err) {
+                                       completion:^(NSDictionary *json, JSONModelError *err) {
                                            NSLog(@"RESPONSE: %@",json);
-                                           Order_Order *response = [[Order_Order alloc] initWithString:json error:nil];
-                                           if(response.confirmed){
+                                           Order_Status *response = [[Order_Status alloc] initWithDictionary:json error:nil];
+                                           NSLog(@"Confirmed: %hhd",response.confirmed);
+                                           if(response.confirmed == 1){
                                                for(CHAvatarView *v in [self subviews]){
                                                    if([v isKindOfClass:[CHAvatarView class]]){
-                                                       [v setImage:];
+                                                       NSLog(@"Setting new image");
+                                                       UIImage *img = [UIImage imageNamed:@"stop_watch_confirmed.png"];
+                                                       v.image_view.image = img;
+//                                                       UIImageView *img_view = [[UIImageView alloc] initWithImage:img];
+//                                                       [v addSubview:img_view];
                                                    }
                                                }
+                                               [timer invalidate];
+                                               timer = nil;
                                            }
                                        }];
     }

@@ -14,6 +14,7 @@
 #import <RestKit/RestKit.h>
 #import "Lockbox.h"
 #import "User.h"
+#import <JSONHTTPClient.h>
 
 static NSString* kFilename = @"TokenInfo.plist";
 
@@ -73,6 +74,11 @@ static NSString* kFilename = @"TokenInfo.plist";
     for(NSString *key in keys){
         [Lockbox setString:@"" forKey:key];
     }
+    if ([FBSession activeSession]){
+        [[FBSession activeSession] closeAndClearTokenInformation];
+    }
+    FBSession *session = [[FBSession alloc] init];
+    [FBSession setActiveSession:session];
 }
 
 - (void) writeData:(NSDictionary *) data {
@@ -141,14 +147,14 @@ static NSString* kFilename = @"TokenInfo.plist";
     if (self = [super init]) {
         main_user = [[User alloc] init];
         logged_in = NO;
-//        self.tokenFilePath = [self filePath];
+        //        self.tokenFilePath = [self filePath];
         if([[[self readData] objectForKey:@"facebook_token"] length] > 0){
             if ([FBSession activeSession]){
                 [[FBSession activeSession] closeAndClearTokenInformation];
             }
             FBSession *session = [[FBSession alloc] init];
             [FBSession setActiveSession:session];
-
+            
             NSLog(@"STATE: %u",session.state);
             if(session.state == FBSessionStateCreated){
                 NSDictionary *dic = [self readData];
@@ -221,7 +227,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 //-(UIImageView *) profilePic:(bool)shopping color:(UIColor *)color rect:(CGRect) rect{
 //    int header_size = 60;
 //    if (FBSession.activeSession.isOpen) {
-//        
+//
 //        UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
 ////        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 //        [imageView setContentMode:UIViewContentModeCenter];
@@ -254,7 +260,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 //                                          }
 //                                      }];
 //        }
-//        
+//
 //        imageView.layer.masksToBounds = YES;
 ////        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
 //        if(shopping){
@@ -427,12 +433,12 @@ static NSString* kFilename = @"TokenInfo.plist";
          block(logged_in, error.description);
      }
      ];
-
+    
 }
 
 -(void) logout {
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-//    [self writeData:dic];
+    //    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    //    [self writeData:dic];
     [self clearToken];
     logged_in = NO;
 }
@@ -447,39 +453,86 @@ static NSString* kFilename = @"TokenInfo.plist";
     }
 }
 
+//-(void) loginWithFacebook:(void (^)(bool, NSString *))block {
+//
+//    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
+//    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
+//
+//    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
+//    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
+//
+//    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
+//    [requestMapping addAttributeMappingsFromArray:@[@"facebook_token",@"facebook_id"]];
+//
+//    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
+//
+//    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+//
+//    [manager addRequestDescriptor:requestDescriptor];
+//    [manager addResponseDescriptor:tokenDescriptor];
+//
+//    User *re = [[User alloc] init];
+//    re.facebook_token = facebookToken;
+//
+//    [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
+//     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+//         main_user = [result firstObject];
+//         NSLog(@"ADDRESS: %@",main_user.street_address);
+//         [self completeLogin:main_user];
+//         block(YES,@"Good!");
+//         NSLog(@"ID: %@", main_user.foodcloud_token);
+//     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
+//         NSLog(@"%@",error);
+//         block(NO,error.description);
+//     }];
+//
+//}
+
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
     
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
+    //    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
+    //    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
+    //
+    //    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
+    //    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
+    //
+    //    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
+    //    [requestMapping addAttributeMappingsFromArray:@[@"facebook_token",@"facebook_id"]];
+    //
+    //    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
+    //
+    //    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+    //
+    //    [manager addRequestDescriptor:requestDescriptor];
+    //    [manager addResponseDescriptor:tokenDescriptor];
+    //
+    //    User *re = [[User alloc] init];
+    //    re.facebook_token = facebookToken;
+    //
+    //    [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
+    //     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+    //         main_user = [result firstObject];
+    //         NSLog(@"ADDRESS: %@",main_user.street_address);
+    //         [self completeLogin:main_user];
+    //         block(YES,@"Good!");
+    //         NSLog(@"ID: %@", main_user.foodcloud_token);
+    //     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
+    //         NSLog(@"%@",error);
+    //         block(NO,error.description);
+    //     }];
     
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
     
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"facebook_token",@"facebook_id"]];
-
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
+    //make post, get requests
+    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens/create_from_facebook"
+                                       params:@{@"facebook_token":facebookToken,@"facebook_id":@""}
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       main_user = [[User alloc] initWithDictionary:json error:nil];
+                                       NSLog(@"ADDRESS: %@",main_user.street_address);
+                                       [self completeLogin:main_user];
+                                       block(YES,@"Good!");
+                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+                                   }];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
-    
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:tokenDescriptor];
-    
-    User *re = [[User alloc] init];
-    re.facebook_token = facebookToken;
-
-    [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
-     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         main_user = [result firstObject];
-         NSLog(@"ADDRESS: %@",main_user.street_address);
-         [self completeLogin:main_user];
-         block(YES,@"Good!");
-         NSLog(@"ID: %@", main_user.foodcloud_token);
-     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
-         NSLog(@"%@",error);
-         block(NO,error.description);
-     }];
-
 }
 
 - (void)sessionStateChanged:(FBSession *)session
@@ -489,13 +542,13 @@ static NSString* kFilename = @"TokenInfo.plist";
 {
     switch (state) {
         case FBSessionStateOpen: {
-//            UIAlertView *alertView = [[UIAlertView alloc]
-//                                      initWithTitle:@"Success"
-//                                      message:@"Logged in!"
-//                                      delegate:nil
-//                                      cancelButtonTitle:@"OK"
-//                                      otherButtonTitles:nil];
-//            [alertView show];
+            //            UIAlertView *alertView = [[UIAlertView alloc]
+            //                                      initWithTitle:@"Success"
+            //                                      message:@"Logged in!"
+            //                                      delegate:nil
+            //                                      cancelButtonTitle:@"OK"
+            //                                      otherButtonTitles:nil];
+            //            [alertView show];
             
             facebookToken = [session accessTokenData].accessToken;
             main_user.facebook_token = facebookToken;
@@ -503,8 +556,8 @@ static NSString* kFilename = @"TokenInfo.plist";
                              [NSString stringWithFormat:@"%@",[session accessTokenData].accessToken],@"facebook_token",
                              [session permissions],@"facebook_permissions",
                              [NSString stringWithFormat:@"%u",[session accessTokenData].loginType],@"facebook_login_type",
-             
-             nil]];
+                             
+                             nil]];
             
             [self updateFacebookCred];
             [self loginWithFacebook:block];
@@ -515,26 +568,26 @@ static NSString* kFilename = @"TokenInfo.plist";
             
             [FBSession.activeSession closeAndClearTokenInformation];
             
-//            UIAlertView *alertView = [[UIAlertView alloc]
-//                                      initWithTitle:@"Closed"
-//                                      message:@"Login closed"
-//                                      delegate:nil
-//                                      cancelButtonTitle:@"OK"
-//                                      otherButtonTitles:nil];
-//            [alertView show];
+            //            UIAlertView *alertView = [[UIAlertView alloc]
+            //                                      initWithTitle:@"Closed"
+            //                                      message:@"Login closed"
+            //                                      delegate:nil
+            //                                      cancelButtonTitle:@"OK"
+            //                                      otherButtonTitles:nil];
+            //            [alertView show];
             break;
         }
         case FBSessionStateClosedLoginFailed: {
             
             [FBSession.activeSession closeAndClearTokenInformation];
             
-//            UIAlertView *alertView = [[UIAlertView alloc]
-//                                      initWithTitle:@"Error"
-//                                      message:@"Login failed"
-//                                      delegate:nil
-//                                      cancelButtonTitle:@"OK"
-//                                      otherButtonTitles:nil];
-//            [alertView show];
+            //            UIAlertView *alertView = [[UIAlertView alloc]
+            //                                      initWithTitle:@"Error"
+            //                                      message:@"Login failed"
+            //                                      delegate:nil
+            //                                      cancelButtonTitle:@"OK"
+            //                                      otherButtonTitles:nil];
+            //            [alertView show];
             break;
         }
         default: {
@@ -543,13 +596,13 @@ static NSString* kFilename = @"TokenInfo.plist";
     }
     
     if (error) {
-//        UIAlertView *alertView = [[UIAlertView alloc]
-//                                  initWithTitle:@"Error"
-//                                  message:error.localizedDescription
-//                                  delegate:nil
-//                                  cancelButtonTitle:@"OK"
-//                                  otherButtonTitles:nil];
-//        [alertView show];
+        //        UIAlertView *alertView = [[UIAlertView alloc]
+        //                                  initWithTitle:@"Error"
+        //                                  message:error.localizedDescription
+        //                                  delegate:nil
+        //                                  cancelButtonTitle:@"OK"
+        //                                  otherButtonTitles:nil];
+        //        [alertView show];
     }
 }
 
@@ -560,7 +613,7 @@ static NSString* kFilename = @"TokenInfo.plist";
                                   completionHandler:
      ^(FBSession *session,
        FBSessionState state, NSError *error) {
-//         NSLog(@"result.... %@",error);
+         //         NSLog(@"result.... %@",error);
          [self sessionStateChanged:session state:state error:error block:block];
      }];
 }

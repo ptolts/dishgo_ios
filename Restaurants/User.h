@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <Stripe/Stripe.h>
+#import <JSONModel.h>
+#import "Order_Status.h"
 
-@interface User : NSObject
+@interface User  : JSONModel
     @property (nonatomic, copy) NSString *facebook_token;
     @property (nonatomic, copy) NSString *facebook_id;
     @property (nonatomic, copy) NSString *facebook_name;
@@ -25,6 +27,7 @@
     @property (nonatomic, copy) NSString *province;
     @property (nonatomic, copy) NSString *first_name;
     @property (nonatomic, copy) NSString *last_name;
+    @property (nonatomic, copy) NSArray<Order_Status> *current_orders;
     @property BOOL confirm_address;
     @property BOOL payment_details;
     @property BOOL confirm_billing;
@@ -38,4 +41,5 @@
     @property User *billing_user;
     @property NSMutableArray *shopping_cart;
     -(NSString *) get_full_name;
+    +(BOOL)propertyIsOptional:(NSString*)propertyName;
 @end

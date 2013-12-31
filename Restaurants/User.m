@@ -12,4 +12,8 @@
 - (NSString *) get_full_name {
     return [NSString stringWithFormat:@"%@ %@",self.first_name, self.last_name];
 }
++(BOOL)propertyIsOptional:(NSString*)propertyName
+{
+    return YES;
+}
 @end

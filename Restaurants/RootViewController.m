@@ -8,8 +8,9 @@
 
 #import "RootViewController.h"
 #import "REFrostedViewController.h"
-#import "CHDraggableView.h"
-#import "CHDraggableView+Avatar.h"
+//#import "CHDraggableView.h"
+//#import "CHDraggableView+Avatar.h"
+#import "CHDraggableView+OrderTracker.h"
 #import "AddressForDeliveryViewController.h"
 #import "RAppDelegate.h"
 
@@ -58,11 +59,13 @@
     
     CHDraggableView *draggableView = [CHDraggableView draggableViewWithImage:[UIImage imageNamed:@"stop_watch.png"] size:CGSizeMake(100, 100)];
     draggableView.tag = 1;
+    [draggableView timer:[NSNumber numberWithInt:10] order_id:order_id];
     
     _draggingCoordinator = [[CHDraggingCoordinator alloc] initWithWindow:win draggableViewBounds:draggableView.bounds];
     _draggingCoordinator.delegate = self;
     _draggingCoordinator.snappingEdge = CHSnappingEdgeBoth;
     draggableView.delegate = _draggingCoordinator;
+    
     
     [win addSubview:draggableView];
 }
