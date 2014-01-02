@@ -128,7 +128,7 @@
 {
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = self.shoppingCart;
-    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
 }

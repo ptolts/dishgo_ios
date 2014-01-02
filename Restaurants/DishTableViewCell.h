@@ -24,6 +24,7 @@
     @property (nonatomic, strong) DishCellViewLowerHalf *lower_half;
     @property (nonatomic, strong) DishFooterView *dishFooterView;
     @property (nonatomic, strong) CartRowCell *shoppingCartCell;
+    @property (nonatomic, strong) CartRowCell *reviewCartCell;
     @property (nonatomic, strong) Dishes *dish;
     @property NSMutableArray *option_views;
     @property DishTableViewController *parent;

@@ -50,6 +50,9 @@
 		B7B7445418341CBF001DFC49 /* CheckoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445318341CBF001DFC49 /* CheckoutView.m */; };
 		B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B7445518341CCE001DFC49 /* CheckoutView.xib */; };
 		B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7445C183532EE001DFC49 /* OptionsView.m */; };
+		B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD2187620EF003E661F /* heart@2x.png */; };
+		B7BDFBD6187620EF003E661F /* loc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD3187620EF003E661F /* loc@2x.png */; };
+		B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD4187620EF003E661F /* tele@2x.png */; };
 		B7BE3606185A34F000D55ED8 /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3605185A34F000D55ED8 /* PaymentViewController.m */; };
 		B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360A185A42D700D55ED8 /* secure@2x.png */; };
 		B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360C185A493D00D55ED8 /* BillingView.xib */; };
@@ -248,6 +251,9 @@
 		B7B7445518341CCE001DFC49 /* CheckoutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutView.xib; sourceTree = "<group>"; };
 		B7B7445B183532EE001DFC49 /* OptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsView.h; sourceTree = "<group>"; };
 		B7B7445C183532EE001DFC49 /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsView.m; sourceTree = "<group>"; };
+		B7BDFBD2187620EF003E661F /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBD3187620EF003E661F /* loc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loc@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBD4187620EF003E661F /* tele@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tele@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7BE3604185A34F000D55ED8 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
 		B7BE3605185A34F000D55ED8 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
 		B7BE360A185A42D700D55ED8 /* secure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secure@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -690,6 +696,9 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7BDFBD2187620EF003E661F /* heart@2x.png */,
+				B7BDFBD3187620EF003E661F /* loc@2x.png */,
+				B7BDFBD4187620EF003E661F /* tele@2x.png */,
 				B721D6721872200800D41957 /* stop_watch_confirmed@2x.png */,
 				B721D67018720B6500D41957 /* checkout@2x.png */,
 				B721D66E1872074500D41957 /* cancel@2x.png */,
@@ -1162,8 +1171,10 @@
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B721D66D186A439D00D41957 /* cloud@2x.png in Resources */,
+				B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
+				B7BDFBD6187620EF003E661F /* loc@2x.png in Resources */,
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
 				B7CF7B821852E522000D326F /* info@2x.png in Resources */,
@@ -1185,6 +1196,7 @@
 				B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */,
 				B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */,
 				B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */,
+				B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */,
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B75DA1F81860CDA100803AF5 /* earth@2x.png in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
@@ -1489,7 +1501,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "CB06B516-F702-4C42-9E68-B126B7017D0A";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1505,7 +1517,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "CB06B516-F702-4C42-9E68-B126B7017D0A";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
-@interface ReviewViewController : UIViewController
+@interface ReviewViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
     @property UITableView *tableViewController;
     @property (strong, nonatomic) IBOutlet UITableView *tableView;

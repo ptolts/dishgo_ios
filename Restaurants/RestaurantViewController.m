@@ -45,7 +45,7 @@
 {
     self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = NO;
-    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     [self.frostedViewController presentMenuViewController];
 }
 

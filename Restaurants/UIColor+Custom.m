@@ -31,7 +31,7 @@
     }
 
     + (UIColor*)creditCardColor {
-        return [UIColor colorWithRed:0.0/255.0 green:32.0/255.0 blue:117.0/255.0 alpha:1];
+        return [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:25.0/255.0 alpha:1];
     }
 
     + (UIColor*)titleRed {

@@ -9,6 +9,10 @@
 #import "ReviewViewController.h"
 #import "ShoppingCartTableView.h"
 #import <ALAlertBanner/ALAlertBanner.h>
+#import "DishTableViewCell.h"
+
+#define DEFAULT_SIZE 43
+#define LARGE_SIZE 86
 
 @interface ReviewViewController ()
 
@@ -16,7 +20,8 @@
 
 @implementation ReviewViewController
 
-    ShoppingCartTableView *shop;
+    NSMutableDictionary *heights;
+//    ShoppingCartTableView *shop;
     @synthesize main_user;
     @synthesize next_view;
 
@@ -91,13 +96,22 @@
 {
     [super viewDidLoad];
     [self setupBackButton];
-    shop = [[ShoppingCartTableView alloc] init];
-    shop.junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-    shop.frame = self.tableView.frame;
-    shop.tableViewController = self.tableView;
-    shop.shopping_cart = self.shopping_cart;
-    self.tableView.delegate = shop;
-    self.tableView.dataSource = shop;
+    [self setupHeight];
+//    shop = [[ShoppingCartTableView alloc] init];
+//    shop.junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+//    shop.frame = self.tableView.frame;
+//    shop.tableViewController = self.tableView;
+//    shop.shopping_cart = self.shopping_cart;
+//    self.tableView.delegate = shop;
+//    self.tableView.dataSource = shop;
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    CGRect frame = self.tableView.frame;
+    frame.origin.x = (self.view.frame.size.width - ((DishTableViewCell *)[self.shopping_cart firstObject]).shoppingCartCell.frame.size.width) / 2;
+    self.tableView.frame = frame;
+    
     self.tableView.backgroundColor = [UIColor bgColor];
     self.view.backgroundColor = [UIColor bgColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -144,9 +158,9 @@
     [logo setContentMode:UIViewContentModeScaleToFill];
     logo.image = [UIImage imageNamed:@"logo_black.png"];
     
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     
-    [head addSubview:logo];
+//    [head addSubview:logo];
     
     //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
     //    text_header.text = @"Progress";
@@ -164,40 +178,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-
-//-(void) viewWillDisappear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    [next_view removeFromSuperview];
-//}
-//
-//-(void) viewDidDisappear:(BOOL)animated {
-//    [super viewDidDisappear:animated];
-//    setup_the_next_button = NO;
-//}
 
 - (void) viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -237,5 +217,116 @@
         [next_view addSubview:btn];
     }
 }
+
+-(void) setupHeight {
+    heights = [[NSMutableDictionary alloc] init];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (heights == nil){
+        NSLog(@"Setting up height dict");
+        [self setupHeight];
+    }
+    
+    [self.tableView beginUpdates];
+    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
+    if([[heights valueForKey:key] integerValue] == DEFAULT_SIZE){
+        //        DishTableViewCell *c = (DishTableViewCell *)[self cellForRowAtIndexPath:indexPath];
+        int size = LARGE_SIZE;
+        for(id kkey in [heights allKeys]) {
+            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
+        }
+        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
+    } else {
+        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+    }
+    [self.tableView endUpdates];
+    
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    NSLog(@"HIEGHT FOR ROW: %ld",(long)indexPath.row);
+    
+//    if([self.shopping_cart count] == 0){
+//        return self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+//    }
+//    
+//    if([self.shopping_cart count] == (int)indexPath.row){
+//        NSLog(@"it equals count");
+//        if (heights == nil){
+//            [self setupHeight];
+//        }
+//        int height = self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
+//        for(id val in heights){
+//            //            NSLog(@"height: %d",[((NSNumber *)[heights objectForKey:val]) intValue]);
+//            height -= [((NSNumber *)[heights objectForKey:val]) intValue];
+//        }
+//        if(height < 0){
+//            height = 0;
+//        }
+//        NSLog(@"RETURNING SPACER CELL OF HEIGHT: %d", height);
+//        return height;
+//    }
+    
+//    NSLog(@"DIDNT RETURN SPACER CELL");
+    
+    if (heights == nil){
+        NSLog(@"Setting up height dict");
+        [self setupHeight];
+    }
+    
+    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
+    if([heights valueForKey:key]){
+        NSLog(@"%f",[[heights valueForKey:key] doubleValue]);
+        return [[heights valueForKey:key] doubleValue];
+    } else {
+        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+        return DEFAULT_SIZE;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return [self.shopping_cart count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+//    UIView *offset_view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, dish_view.shoppingCartCell.frame.size.width, dish_view.shoppingCartCell.frame.size.height)];
+//
+//    CGRect frame = dish_view.shoppingCartCell.frame;
+//    frame.origin.y = 0;
+//    dish_view.shoppingCartCell.frame = frame;
+//    
+//    [offset_view addSubview:dish_view.shoppingCartCell];
+//    
+//    frame = offset_view.frame;
+//    frame.size.width = self.view.frame.size.width;
+//    cell.frame = frame;
+//    
+//    frame = offset_view.frame;
+//    frame.origin.x = (cell.frame.size.width - offset_view.frame.size.width) / 2;
+//    offset_view.frame = frame;
+//    
+//    [cell addSubview:offset_view];
+//    
+//    NSLog(@"Cell Frame: %@\nOffsetViewFrame: %@\nDishCellTableViewFrame: %@\n",CGRectCreateDictionaryRepresentation(cell.frame),CGRectCreateDictionaryRepresentation(offset_view.frame),CGRectCreateDictionaryRepresentation(dish_view.shoppingCartCell.frame));
+    
+//    return cell;
+//    dish_view.shoppingCartCell.backgroundColor = [UIColor redColor];
+    return dish_view.shoppingCartCell;
+}
+
 
 @end

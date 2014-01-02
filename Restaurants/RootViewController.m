@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "REFrostedViewController.h"
+#import <REFrostedContainerViewController.h>
 //#import "CHDraggableView.h"
 //#import "CHDraggableView+Avatar.h"
 #import "CHDraggableView+OrderTracker.h"
@@ -23,6 +24,8 @@
 
     CGSize avatar_size;
     UIWindow *win;
+    int tag_number;
+    NSMutableArray *chatHeadsArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    chatHeadsArray = [[NSMutableArray alloc] init];
+    tag_number = 1;
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -69,29 +74,39 @@
 
 - (void)awakeFromNib
 {
+    self.limitMenuViewSize = YES;
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentViewController"];
-    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuViewController"];
+    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"cartViewController"];
+    
+}
+
+-(NSArray *) chatHeads {
+    return [chatHeadsArray copy];
 }
 
 - (void) trackOrder:(NSString *)order_id {
     CHDraggableView *draggableView = [CHDraggableView draggableViewWithImage:[UIImage imageNamed:@"stop_watch.png"] size:avatar_size];
-    draggableView.tag = 1;
+    draggableView.tag = tag_number;
+    tag_number++;
     [draggableView set_order_id:order_id];
     [draggableView timer:[NSNumber numberWithInt:10]];
     draggableView.delegate = _draggingCoordinator;
     [win addSubview:draggableView];
+    [chatHeadsArray addObject:draggableView];
 }
 
 - (void) trackOrder:(NSString *)order_id confirmed:(int) confirmed {
     UIWindow *win = self.view.window;
     CHDraggableView *draggableView = [CHDraggableView draggableViewWithImage:[UIImage imageNamed:@"stop_watch_confirmed.png"] size:avatar_size];
-    draggableView.tag = 1;
+    draggableView.tag = tag_number;
+    tag_number++;
     [draggableView set_order_id:order_id];
-    if(confirmed != 0){
+    if(confirmed != 1){
         [draggableView timer:[NSNumber numberWithInt:10]];
     }
     draggableView.delegate = _draggingCoordinator;
     [win addSubview:draggableView];
+    [chatHeadsArray addObject:draggableView];
 }
 
 @end

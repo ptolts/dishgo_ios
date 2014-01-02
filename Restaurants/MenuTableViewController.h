@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MenuTableViewController : UITableViewController
+@interface MenuTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
     @property (nonatomic, assign) BOOL shopping;
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
+    @property (nonatomic, strong) IBOutlet UITableView *tableView;
+    @property (nonatomic, strong) IBOutlet UIView *checkout_view;
     -(void) setupMenu;
     -(void) checkout;
 @end

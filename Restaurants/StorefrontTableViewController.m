@@ -43,6 +43,7 @@
     MKMapView *mapView;
     UIView *spinnerView;
     UIWindow  *mainWindow;
+    BOOL enableCart;
 
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -61,7 +62,7 @@
 }
 
 - (void) startLoading {
-    self.cart.button.enabled = NO;
+    enableCart = NO;
     int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
     spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
@@ -99,7 +100,7 @@
                 [dish_logic setupLowerHalf];
                 [dish_logic setupShoppingCart];
                 [shoppingCart addObject:dish_logic];
-                if([shoppingCart count] > 5){
+                if([shoppingCart count] > 15){
                     kill = YES;
                     break;
                 }
@@ -110,7 +111,7 @@
         if (kill)
             break;
     }
-    self.cart.button.enabled = YES;
+    enableCart = YES;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -216,6 +217,7 @@
 {
     [super viewDidLoad];
     [self startLoading];
+    enableCart = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.autoresizingMask = UIViewAutoresizingNone;
     
@@ -238,6 +240,7 @@
     [header.scroll_view setupImages];
     header.autoresizingMask = UIViewAutoresizingNone;
     header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
+    header.backgroundColor = [UIColor bgColor];
     self.tableView.tableHeaderView = header;
     
     Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
@@ -274,9 +277,13 @@
 
 - (void)cartClick:sender
 {
+    if(!enableCart){
+        return;
+    }
+    
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = shoppingCart;
-    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
 }

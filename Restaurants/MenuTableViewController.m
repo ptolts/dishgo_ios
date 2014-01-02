@@ -28,6 +28,7 @@
     ShoppingCartTableView *shop;
     UIColor *mainColor;
     UIColor *sign_in_color;
+    CheckoutView *checkoutView;
 }
 
 -(void) edit:(ButtonCartRow *) dish_button {
@@ -118,9 +119,33 @@
     [banner show];
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setupMenu];
+}
+
 -(void)setupMenu {
     
-    self.tableView.tableFooterView = nil;
+    NSLog(@"Loop?");
+    
+//    self.tableView = nil;
+//    self.tableView = [[UITableView alloc] init];
+//    self.tableView.tableHeaderView = nil;
+//    self.tableView.tableFooterView = nil;
+//    
+//    [self.checkout_view removeFromSuperview];    
+    
+    CGRect frame = self.tableView.frame;
+    frame.size.height = self.view.frame.size.height;
+    frame.size.width = self.view.frame.size.width;
+    frame.origin.x = 0;
+    frame.origin.y = 0;
+    self.tableView.frame = frame;
+    
+    frame = self.checkout_view.frame;
+    frame.size.height = 0;
+    frame.origin.y = self.view.frame.size.height;
+    self.checkout_view.frame = frame;
     
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
@@ -130,7 +155,7 @@
         shop.shopping_cart = self.shopping_cart;
         self.tableView.delegate = shop;
         self.tableView.dataSource = shop;
-        CheckoutView *checkoutView = [[CheckoutView alloc] init];
+        checkoutView = [[CheckoutView alloc] init];
         checkoutView.checkout.backgroundColor = [UIColor nextColor];
         float tot = 0.0f;
         for(DishTableViewCell *dish_cell in self.shopping_cart){
@@ -145,12 +170,30 @@
         } else {
             checkoutView.checkout.enabled = YES;
         }
-        self.tableView.tableFooterView = checkoutView;
+        
+        int total_height = self.view.frame.size.height;
+        int view_height = checkoutView.frame.size.height;
+        int view_position = total_height - view_height;
+        
+        CGRect frame = checkoutView.frame;
+        frame.origin.y = view_position;
+//        frame.size.height = view_height;
+        checkoutView.frame = frame;
+        
+        frame = self.tableView.frame;
+        frame.size.height = self.view.frame.size.height - view_height;
+        self.tableView.frame = frame;
+        
+        self.checkout_view = checkoutView;
+        [self.view addSubview:self.checkout_view];
+        
+//        self.tableView.tableFooterView = checkoutView;
         self.tableView.opaque = NO;
         [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         self.tableView.backgroundColor = [UIColor clearColor];
         sign_in_color = [UIColor almostBlackColor];
         self.tableView.tableHeaderView = [self setupHeader];
+        
     } else {
         self.tableView.separatorColor = [UIColor clearColor];
         self.tableView.delegate = self;
@@ -304,7 +347,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85f];
+    mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
 }
 
 #pragma mark -
@@ -491,7 +534,7 @@
             tot += dish_cell.getPrice;
             [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
         }
-        ((CheckoutView *)self.tableView.tableFooterView).total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+        checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
     }
     [self.tableView reloadData];
 }
