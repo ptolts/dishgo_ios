@@ -53,6 +53,11 @@
         [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
     }
     [self.tableViewController endUpdates];
+    
+
+    if(((int)indexPath.row + 1) == [self.shopping_cart count]){
+        [self.tableViewController scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated: YES];
+    }
 
 }
 
@@ -64,39 +69,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//        NSLog(@"HIEGHT FOR ROW: %ld",(long)indexPath.row);
-//    
-//    if([self.shopping_cart count] == 0){
-//        return self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
-//    }
-//    
-//    if([self.shopping_cart count] == (int)indexPath.row){
-//        NSLog(@"it equals count");
-//        if (heights == nil){
-//            [self setupHeight];
-//        }
-//        int height = self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
-//        for(id val in heights){
-////            NSLog(@"height: %d",[((NSNumber *)[heights objectForKey:val]) intValue]);
-//            height -= [((NSNumber *)[heights objectForKey:val]) intValue];
-//        }
-//        if(height < 0){
-//            height = 0;
-//        }
-//        NSLog(@"RETURNING SPACER CELL OF HEIGHT: %d", height);
-//        return height;
-//    }
-    
-    NSLog(@"DIDNT RETURN SPACER CELL");
-
     if (heights == nil){
-        NSLog(@"Setting up height dict");
+//        NSLog(@"Setting up height dict");
         [self setupHeight];
     }
     
     NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
     if([heights valueForKey:key]){
-        NSLog(@"%f",[[heights valueForKey:key] doubleValue]);
+//        NSLog(@"%f",[[heights valueForKey:key] doubleValue]);
         return [[heights valueForKey:key] doubleValue];
     } else {
         [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];

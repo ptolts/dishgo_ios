@@ -53,6 +53,12 @@
 		B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD2187620EF003E661F /* heart@2x.png */; };
 		B7BDFBD6187620EF003E661F /* loc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD3187620EF003E661F /* loc@2x.png */; };
 		B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD4187620EF003E661F /* tele@2x.png */; };
+		B7BDFBD9187623C2003E661F /* more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBD8187623C2003E661F /* more@2x.png */; };
+		B7BDFBDE18773BEF003E661F /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBDC18773BEF003E661F /* left_arrow@2x.png */; };
+		B7BDFBDF18773BEF003E661F /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BDFBDD18773BEF003E661F /* right_arrow@2x.png */; };
+		B7BDFBE318774506003E661F /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BDFBE218774506003E661F /* ContactViewController.m */; };
+		B7BDFBE918776822003E661F /* LEColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BDFBE618776822003E661F /* LEColorPicker.m */; };
+		B7BDFBEA18776822003E661F /* UIColor+YUVSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BDFBE818776822003E661F /* UIColor+YUVSpace.m */; };
 		B7BE3606185A34F000D55ED8 /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3605185A34F000D55ED8 /* PaymentViewController.m */; };
 		B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360A185A42D700D55ED8 /* secure@2x.png */; };
 		B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7BE360C185A493D00D55ED8 /* BillingView.xib */; };
@@ -148,8 +154,6 @@
 		B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B62184938A1003EE5B8 /* avatar@2x.png */; };
 		B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B6418493DB6003EE5B8 /* back@2x.png */; };
 		B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EE7B68184CE412003EE5B8 /* UIColor+Custom.m */; };
-		B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B6E184D09F6003EE5B8 /* left_arrow@2x.png */; };
-		B7EE7B71184D0A2E003EE5B8 /* right_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B70184D0A2E003EE5B8 /* right_arrow@2x.png */; };
 		B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B72184D3135003EE5B8 /* receipt_font.ttf */; };
 		B7EE7B75184D349F003EE5B8 /* 6809CHAR.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */; };
 		B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */; };
@@ -254,6 +258,15 @@
 		B7BDFBD2187620EF003E661F /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7BDFBD3187620EF003E661F /* loc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loc@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7BDFBD4187620EF003E661F /* tele@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tele@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBD8187623C2003E661F /* more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBDC18773BEF003E661F /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left_arrow@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBDD18773BEF003E661F /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_arrow@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7BDFBE118774506003E661F /* ContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
+		B7BDFBE218774506003E661F /* ContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
+		B7BDFBE518776822003E661F /* LEColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEColorPicker.h; path = ../../LEColorPicker/LEColorPicker/LEColorPicker.h; sourceTree = "<group>"; };
+		B7BDFBE618776822003E661F /* LEColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEColorPicker.m; path = ../../LEColorPicker/LEColorPicker/LEColorPicker.m; sourceTree = "<group>"; };
+		B7BDFBE718776822003E661F /* UIColor+YUVSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+YUVSpace.h"; path = "../../LEColorPicker/LEColorPicker/UIColor+YUVSpace.h"; sourceTree = "<group>"; };
+		B7BDFBE818776822003E661F /* UIColor+YUVSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+YUVSpace.m"; path = "../../LEColorPicker/LEColorPicker/UIColor+YUVSpace.m"; sourceTree = "<group>"; };
 		B7BE3604185A34F000D55ED8 /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
 		B7BE3605185A34F000D55ED8 /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
 		B7BE360A185A42D700D55ED8 /* secure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secure@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -398,8 +411,6 @@
 		B7EE7B6418493DB6003EE5B8 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		B7EE7B67184CE412003EE5B8 /* UIColor+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Custom.h"; sourceTree = "<group>"; };
 		B7EE7B68184CE412003EE5B8 /* UIColor+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Custom.m"; sourceTree = "<group>"; };
-		B7EE7B6E184D09F6003EE5B8 /* left_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left_arrow@2x.png"; sourceTree = "<group>"; };
-		B7EE7B70184D0A2E003EE5B8 /* right_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_arrow@2x.png"; sourceTree = "<group>"; };
 		B7EE7B72184D3135003EE5B8 /* receipt_font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = receipt_font.ttf; sourceTree = "<group>"; };
 		B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = 6809CHAR.TTF; sourceTree = "<group>"; };
 		B7EE7B76184D3ED7003EE5B8 /* avatar_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar_black@2x.png"; sourceTree = "<group>"; };
@@ -644,6 +655,26 @@
 			name = Options;
 			sourceTree = "<group>";
 		};
+		B7BDFBE0187744EE003E661F /* Contact View */ = {
+			isa = PBXGroup;
+			children = (
+				B7BDFBE118774506003E661F /* ContactViewController.h */,
+				B7BDFBE218774506003E661F /* ContactViewController.m */,
+			);
+			name = "Contact View";
+			sourceTree = "<group>";
+		};
+		B7BDFBE41877680B003E661F /* Color Picker */ = {
+			isa = PBXGroup;
+			children = (
+				B7BDFBE518776822003E661F /* LEColorPicker.h */,
+				B7BDFBE618776822003E661F /* LEColorPicker.m */,
+				B7BDFBE718776822003E661F /* UIColor+YUVSpace.h */,
+				B7BDFBE818776822003E661F /* UIColor+YUVSpace.m */,
+			);
+			name = "Color Picker";
+			sourceTree = "<group>";
+		};
 		B7CC196318047D92003C71B9 = {
 			isa = PBXGroup;
 			children = (
@@ -696,6 +727,9 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7BDFBDC18773BEF003E661F /* left_arrow@2x.png */,
+				B7BDFBDD18773BEF003E661F /* right_arrow@2x.png */,
+				B7BDFBD8187623C2003E661F /* more@2x.png */,
 				B7BDFBD2187620EF003E661F /* heart@2x.png */,
 				B7BDFBD3187620EF003E661F /* loc@2x.png */,
 				B7BDFBD4187620EF003E661F /* tele@2x.png */,
@@ -729,8 +763,6 @@
 				B7EE7B77184D3ED7003EE5B8 /* avatar_white@2x.png */,
 				B7EE7B74184D349F003EE5B8 /* 6809CHAR.TTF */,
 				B7EE7B72184D3135003EE5B8 /* receipt_font.ttf */,
-				B7EE7B70184D0A2E003EE5B8 /* right_arrow@2x.png */,
-				B7EE7B6E184D09F6003EE5B8 /* left_arrow@2x.png */,
 				B7EE7B6418493DB6003EE5B8 /* back@2x.png */,
 				B7EE7B62184938A1003EE5B8 /* avatar@2x.png */,
 				B7EE7B5E1849292A003EE5B8 /* background_signup@2x.jpg */,
@@ -774,6 +806,7 @@
 		B7CC19AD18047DA0003C71B9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				B7BDFBE41877680B003E661F /* Color Picker */,
 				B7EE7B971850F9FB003EE5B8 /* Keychain */,
 				B7EE7B7E184E5669003EE5B8 /* Custom Alert */,
 				B7EE7B7A184E4558003EE5B8 /* Custom Back Button */,
@@ -969,6 +1002,7 @@
 		B7E4B84018087E46006896D8 /* Storefront */ = {
 			isa = PBXGroup;
 			children = (
+				B7BDFBE0187744EE003E661F /* Contact View */,
 				B7B74419182BFA2A001DFC49 /* Sections */,
 				B7E20F22182042D700791BEB /* Subviews */,
 				B7E20F1B18203C1E00791BEB /* StorefrontTableViewController.h */,
@@ -1145,13 +1179,13 @@
 				B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
 				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
-				B7EE7B6F184D09F6003EE5B8 /* left_arrow@2x.png in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
 				B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */,
 				B75DA1F4185FB00B00803AF5 /* camera@2x.png in Resources */,
 				B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
+				B7BDFBD9187623C2003E661F /* more@2x.png in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
 				B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
@@ -1181,13 +1215,13 @@
 				B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
-				B7EE7B71184D0A2E003EE5B8 /* right_arrow@2x.png in Resources */,
 				B7EE7B85184E74DF003EE5B8 /* avatar_logged_white@2x.png in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
 				B7D47F991864F70500DD3C99 /* edit@2x.png in Resources */,
+				B7BDFBDF18773BEF003E661F /* right_arrow@2x.png in Resources */,
 				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
@@ -1197,6 +1231,7 @@
 				B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */,
 				B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */,
 				B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */,
+				B7BDFBDE18773BEF003E661F /* left_arrow@2x.png in Resources */,
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B75DA1F81860CDA100803AF5 /* earth@2x.png in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
@@ -1285,6 +1320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7EE7B7D184E4570003EE5B8 /* UINavigationItem+iOS7Spacing.m in Sources */,
+				B7BDFBEA18776822003E661F /* UIColor+YUVSpace.m in Sources */,
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
 				B7D47F7B18624D5400DD3C99 /* ReviewViewController.m in Sources */,
 				B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */,
@@ -1299,6 +1335,7 @@
 				B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */,
 				B721D6771872240700D41957 /* CHDraggableView+OrderTracker.m in Sources */,
 				B7CC19B518047E3D003C71B9 /* RestaurantCells.m in Sources */,
+				B7BDFBE918776822003E661F /* LEColorPicker.m in Sources */,
 				B7E20F461820560100791BEB /* _Options.m in Sources */,
 				B7E6C299183BF927005E8598 /* CartRowCell.m in Sources */,
 				B7E20F3F1820560100791BEB /* _Sections.m in Sources */,
@@ -1329,6 +1366,7 @@
 				B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */,
 				B7CF7B87185644B6000D326F /* AddressView.m in Sources */,
 				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
+				B7BDFBE318774506003E661F /* ContactViewController.m in Sources */,
 				B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */,
 				B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */,
 				B74AC377183E751C00A89616 /* CartButton.m in Sources */,

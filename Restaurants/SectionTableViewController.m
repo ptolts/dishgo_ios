@@ -243,7 +243,7 @@
     view.headerTitle.text = section.name;
     view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
     view.headerTitle.textColor = [UIColor whiteColor];
-    view.backgroundColor = [UIColor almostBlackColor];
+    view.backgroundColor = [UIColor complimentaryRed];
     return view;
     
 }

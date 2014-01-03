@@ -24,33 +24,116 @@
 #import "DishScrollView.h"
 #import "DishTableViewCell.h"
 #import "UIColor+Custom.h"
+#import "StorefrontImageView.h"
+#import "ContactViewController.h"
+#import "LEColorPicker.h"
 
 #define DEFAULT_SIZE 148
 #define HEADER_DEFAULT_SIZE 44
 
 @interface StorefrontTableViewController ()
+    @property (nonatomic, strong) UIView *backgroundView;
+    @property (nonatomic, strong) UINavigationController *presentedNavigationController;
 @end
 
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
     NSMutableArray *shoppingCart;
     NSMutableArray *cellList;
+    int initialFrame;
     NSArray *fetchedRestaurants;
     int current_page = 0;
     NSSet *defaultSectionsList;
     // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
-    CLLocationManager *locationManager;
-    MKMapView *mapView;
+//    CLLocationManager *locationManager;
+//    MKMapView *mapView;
     UIView *spinnerView;
     UIWindow  *mainWindow;
     BOOL enableCart;
+    int initialImageHeight;
+    StorefrontImageView *scroll_image_view;
 
-
-- (void) viewDidDisappear:(BOOL)animated {
-    [locationManager stopMonitoringSignificantLocationChanges];
-    [locationManager stopUpdatingLocation];
-    [mapView setDelegate:nil];
+- (void)showModalView
+{
+    [self showModal];
 }
+
+- (CGRect)_navigationControllerFrame
+{
+    CGRect slice;
+    CGRect remainder;
+    CGRectDivide([mainWindow.screen applicationFrame], &slice, &remainder, 75, CGRectMinYEdge);
+    remainder.size.height -= 20;
+    return remainder;
+}
+
+- (void) showModal {
+    ContactViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contactView"];
+    viewController.restaurant = self.restaurant;
+    _presentedNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    _presentedNavigationController.navigationBar.hidden = YES;
+    _presentedNavigationController.view.layer.cornerRadius = 3;
+    _presentedNavigationController.view.layer.masksToBounds = YES;
+    _presentedNavigationController.view.layer.anchorPoint = CGPointMake(0.5f, 0);
+    _presentedNavigationController.view.frame = [self _navigationControllerFrame];
+    _presentedNavigationController.view.transform = CGAffineTransformMakeScale(0, 0);
+    
+    [mainWindow addSubview:_presentedNavigationController.view];
+    [self unhidePresentedNavigationControllerCompletion:^{}];
+
+}
+
+- (void)dismissPresentedNavigationController {
+    UINavigationController *reference = _presentedNavigationController;
+    [self hidePresentedNavigationControllerCompletion:^{
+        [reference.view removeFromSuperview];
+    }];
+    _presentedNavigationController = nil;
+}
+
+- (void)unhidePresentedNavigationControllerCompletion:(void(^)())completionBlock
+{
+    CGAffineTransform transformStep1 = CGAffineTransformMakeScale(1.1f, 1.1f);
+    CGAffineTransform transformStep2 = CGAffineTransformMakeScale(1, 1);
+    
+    _backgroundView = [[UIView alloc] initWithFrame:[mainWindow bounds]];
+    _backgroundView.backgroundColor = [UIColor colorWithWhite:0.000 alpha:0.5f];
+    _backgroundView.alpha = 0.0f;
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPresentedNavigationController)];
+    [_backgroundView addGestureRecognizer:tgr];
+                                   
+    [mainWindow insertSubview:_backgroundView belowSubview:_presentedNavigationController.view];
+    
+    [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _presentedNavigationController.view.layer.affineTransform = transformStep1;
+        _backgroundView.alpha = 1.0f;
+    }completion:^(BOOL finished){
+        if (finished) {
+            [UIView animateWithDuration:0.3f animations:^{
+                _presentedNavigationController.view.layer.affineTransform = transformStep2;
+            }];
+        }
+    }];
+}
+
+- (void)hidePresentedNavigationControllerCompletion:(void(^)())completionBlock
+{
+    UIView *viewToDisplay = _backgroundView;
+    [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        _presentedNavigationController.view.transform = CGAffineTransformMakeScale(0, 0);
+        _presentedNavigationController.view.alpha = 0.0f;
+        _backgroundView.alpha = 0.0f;
+    } completion:^(BOOL finished){
+        if (finished) {
+            [viewToDisplay removeFromSuperview];
+            if (viewToDisplay == _backgroundView) {
+                _backgroundView = nil;
+            }
+            completionBlock();
+        }
+    }];
+}
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -114,65 +197,66 @@
     enableCart = YES;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    
-    if (newLocation.coordinate.latitude == oldLocation.coordinate.latitude){
-        return;
-    }
-    
-    CLLocation *currentLocation = newLocation;
-    double lat = [self.restaurant.lat doubleValue];
-    double lon = [self.restaurant.lon doubleValue];
-    CLLocationCoordinate2D dest = CLLocationCoordinate2DMake(lat, lon);
-    
-    if (currentLocation != nil) {
-        NSLog(@"Lat: %f",newLocation.coordinate.latitude);
-        
-        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-        request.source = [MKMapItem mapItemForCurrentLocation];
-        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:dest addressDictionary:nil];
-        MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
-        [destination setName:@"Destination"];
-        //        [destination openInMapsWithLaunchOptions:nil];
-        request.destination = destination;
-        request.requestsAlternateRoutes = NO;
-        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-        
-        [directions calculateDirectionsWithCompletionHandler:
-         ^(MKDirectionsResponse *response, NSError *error) {
-             if (error) {
-                 //bla
-                 NSLog(@"Error");
-             } else {
-                 int dist = 0;
-                 for (MKRoute *route in response.routes)
-                 {
-                     dist = route.distance;
-                     [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
-                     for (MKRouteStep *step in route.steps)
-                     {
-                         NSLog(@"%@", step.instructions);
-                     }
-                     break;
-                 }
-                 CLLocationCoordinate2D centerCoord = CLLocationCoordinate2DMake((newLocation.coordinate.latitude + dest.latitude)/2,(newLocation.coordinate.longitude + dest.longitude)/2);
-                 CLLocationDistance centerToBorderMeters = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:dest.latitude longitude:dest.longitude]];
-                 if (dist > centerToBorderMeters){
-                     centerToBorderMeters = dist * 0.6;
-                 }
-                 MKCoordinateRegion rgn = MKCoordinateRegionMakeWithDistance
-                 (centerCoord,
-                  centerToBorderMeters + 10,   //vertical span
-                  centerToBorderMeters + 10);  //horizontal span
-                 [mapView setRegion:rgn animated:YES];
-                 [locationManager stopUpdatingLocation];
-             }
-         }];
-    }
-}
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    
+//    if (newLocation.coordinate.latitude == oldLocation.coordinate.latitude){
+//        return;
+//    }
+//    
+//    CLLocation *currentLocation = newLocation;
+//    double lat = [self.restaurant.lat doubleValue];
+//    double lon = [self.restaurant.lon doubleValue];
+//    CLLocationCoordinate2D dest = CLLocationCoordinate2DMake(lat, lon);
+//    
+//    if (currentLocation != nil) {
+//        NSLog(@"Lat: %f",newLocation.coordinate.latitude);
+//        
+//        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
+//        request.source = [MKMapItem mapItemForCurrentLocation];
+//        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:dest addressDictionary:nil];
+//        MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
+//        [destination setName:@"Destination"];
+//        //        [destination openInMapsWithLaunchOptions:nil];
+//        request.destination = destination;
+//        request.requestsAlternateRoutes = NO;
+//        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+//        
+//        [directions calculateDirectionsWithCompletionHandler:
+//         ^(MKDirectionsResponse *response, NSError *error) {
+//             if (error) {
+//                 //bla
+//                 NSLog(@"Error");
+//             } else {
+//                 int dist = 0;
+//                 for (MKRoute *route in response.routes)
+//                 {
+//                     dist = route.distance;
+//                     [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
+//                     for (MKRouteStep *step in route.steps)
+//                     {
+//                         NSLog(@"%@", step.instructions);
+//                     }
+//                     break;
+//                 }
+//                 CLLocationCoordinate2D centerCoord = CLLocationCoordinate2DMake((newLocation.coordinate.latitude + dest.latitude)/2,(newLocation.coordinate.longitude + dest.longitude)/2);
+//                 CLLocationDistance centerToBorderMeters = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:dest.latitude longitude:dest.longitude]];
+//                 if (dist > centerToBorderMeters){
+//                     centerToBorderMeters = dist * 0.6;
+//                 }
+//                 MKCoordinateRegion rgn = MKCoordinateRegionMakeWithDistance
+//                 (centerCoord,
+//                  centerToBorderMeters + 10,   //vertical span
+//                  centerToBorderMeters + 10);  //horizontal span
+//                 [mapView setRegion:rgn animated:YES];
+//                 [locationManager stopUpdatingLocation];
+//             }
+//         }];
+//    }
+//}
 
 -(void) viewDidAppear:(BOOL)animated {
+    [self matchColor];
     if([shoppingCart count] != 0){
         int tots = 0;
         for(DishTableViewCell *d in shoppingCart){
@@ -237,36 +321,40 @@
     header.label.text = self.restaurant.name;
 //    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
     header.scroll_view.restaurant = self.restaurant;
+    header.scroll_view.img_delegate = self;
     [header.scroll_view setupImages];
     header.autoresizingMask = UIViewAutoresizingNone;
     header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
+    header.button_view.backgroundColor = [UIColor complimentaryBg];
+    header.spacer.backgroundColor = [UIColor seperatorColor];
+    header.spacer2.backgroundColor = [UIColor seperatorColor];
     header.backgroundColor = [UIColor bgColor];
     self.tableView.tableHeaderView = header;
-    
-    Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
-    
-    footer.phone.text = self.restaurant.phone;
-    footer.address.text = self.restaurant.address;
-    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
-    footer.backgroundColor = [UIColor bgColor];
-    for (UIView * txt in footer.subviews){
-        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
-            ((UILabel *)txt).textColor = [UIColor textColor];
-        }
-    }
-    mapView = footer.mapView;
-    self.tableView.tableFooterView = footer;
+    [header.tap_info addTarget:self action:@selector(showModalView)];
+//    Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
+//    
+//    footer.phone.text = self.restaurant.phone;
+//    footer.address.text = self.restaurant.address;
+//    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+//    footer.backgroundColor = [UIColor bgColor];
+//    for (UIView * txt in footer.subviews){
+//        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+//            ((UILabel *)txt).textColor = [UIColor textColor];
+//        }
+//    }
+//    mapView = footer.mapView;
+//    self.tableView.tableFooterView = footer;
     
     self.tableView.backgroundColor = [UIColor bgColor];
     
     [self loadMenu];
-    
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager startUpdatingLocation];
-    footer.mapView.delegate = self;
-    NSLog(@"StoreFrontLoaded");
+//    
+//    locationManager = [[CLLocationManager alloc] init];
+//    locationManager.delegate = self;
+//    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [locationManager startUpdatingLocation];
+//    footer.mapView.delegate = self;
+//    NSLog(@"StoreFrontLoaded");
 	// Do any additional setup after loading the view.
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -286,6 +374,131 @@
 //    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
+}
+
+- (void) currentImageView:(StorefrontImageView *)current {
+    
+    if(current == scroll_image_view){
+        return;
+    }
+    
+    scroll_image_view = current;
+    initialImageHeight = current.frame.size.height;
+    
+    [self matchColor];
+    
+}
+
+-(void) matchColor {
+    LEColorPicker *colorPicker = [[LEColorPicker alloc] init];
+    LEColorScheme *colorScheme = [colorPicker colorSchemeFromImage:scroll_image_view.image];
+    
+    Header *head = (Header *)self.tableView.tableHeaderView;
+    
+    [head.button_view.layer removeAllAnimations];
+    
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         head.button_view.backgroundColor = [colorScheme backgroundColor];
+                         for(UIImageView *i in [head.button_view subviews]){
+                             if([i isKindOfClass:[UIImageView class]]){
+                                 UIColor *color = [colorScheme primaryTextColor];
+                                 if(i.tag == 1){
+                                     i.image = [self ipMaskedImageNamed:@"tele.png" color:color];
+                                 } else if(i.tag == 2){
+                                     i.image = [self ipMaskedImageNamed:@"loc.png" color:color];
+                                 } else if(i.tag == 3){
+                                     i.image = [self ipMaskedImageNamed:@"heart.png" color:color];
+                                 }
+                             }
+                         }
+                     }];
+}
+
+- (UIImage *)ipMaskedImageNamed:(NSString *)name color:(UIColor *)color
+{
+	UIImage *image = [UIImage imageNamed:name];
+	CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+	UIGraphicsBeginImageContextWithOptions(rect.size, NO, image.scale);
+	CGContextRef c = UIGraphicsGetCurrentContext();
+	[image drawInRect:rect];
+	CGContextSetFillColorWithColor(c, [color CGColor]);
+	CGContextSetBlendMode(c, kCGBlendModeSourceAtop);
+	CGContextFillRect(c, rect);
+	UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return result;
+}
+
+
+
+- (UIImage*) maskImage:(UIImage *)image withMask:(UIImage *)maskImage
+{
+    CGImageRef imgRef = [image CGImage];
+    CGImageRef maskRef = [maskImage CGImage];
+    CGImageRef actualMask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                              CGImageGetHeight(maskRef),
+                                              CGImageGetBitsPerComponent(maskRef),
+                                              CGImageGetBitsPerPixel(maskRef),
+                                              CGImageGetBytesPerRow(maskRef),
+                                              CGImageGetDataProvider(maskRef), NULL, false);
+    CGImageRef masked = CGImageCreateWithMask(imgRef, actualMask);
+    return [UIImage imageWithCGImage:masked];
+}
+
+- (UIImage *)imageWithColor:(UIColor *)color rect:(CGRect)rect {
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    Header *head = (Header *)self.tableView.tableHeaderView;
+    
+    head.backgroundColor = [UIColor clearColor];
+    
+    if(head.button_view_original_frame.size.height == 0){
+        head.button_view_original_frame = CGRectMake(head.button_view.frame.origin.x,head.button_view.frame.origin.y,head.button_view.frame.size.width,head.button_view.frame.size.height);
+    }
+    
+    if(head.scroll_view_original_frame.size.height == 0){
+        head.scroll_view_original_frame = CGRectMake(head.scroll_view.frame.origin.x,head.scroll_view.frame.origin.y,head.scroll_view.frame.size.width,head.scroll_view.frame.size.height);
+    }
+    
+    if(initialFrame == 0){
+        initialFrame = self.tableView.tableHeaderView.frame.size.height;
+    }
+    
+    scroll_image_view.contentMode = UIViewContentModeScaleAspectFill;
+    
+    CGFloat yPos = -scrollView.contentOffset.y;
+    if (yPos > 0) {
+        CGRect imgRect = head.frame;
+        imgRect.origin.y = scrollView.contentOffset.y;
+        imgRect.size.height = initialFrame+yPos;
+        head.frame = imgRect;
+     
+        imgRect = head.scroll_view_original_frame;
+        imgRect.size.height += yPos;
+        imgRect.origin.y = scrollView.contentOffset.y;
+        head.scroll_view.frame = imgRect;
+
+        imgRect = scroll_image_view.frame;
+        imgRect.size.height = initialImageHeight + yPos;
+        scroll_image_view.frame = imgRect;
+        
+        imgRect = head.button_view_original_frame;
+        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height;
+        head.button_view.frame = imgRect;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -647,13 +860,13 @@
     
 }
 
-- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
-{
-    MKPolylineRenderer *renderer =
-    [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-    renderer.strokeColor = [UIColor blueColor];
-    renderer.lineWidth = 1.0;
-    return renderer;
-}
+//- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
+//{
+//    MKPolylineRenderer *renderer =
+//    [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+//    renderer.strokeColor = [UIColor blueColor];
+//    renderer.lineWidth = 1.0;
+//    return renderer;
+//}
 
 @end

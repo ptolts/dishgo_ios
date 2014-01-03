@@ -18,5 +18,6 @@
     + (UIColor*)creditCardColor;
     + (UIColor*)complimentaryBlue;
     + (UIColor*)complimentaryRed;
+    + (UIColor*)complimentaryBg;
     + (UIColor*)nextColor;
 @end

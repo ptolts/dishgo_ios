@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
 #import "StorefrontScrollView.h"
 #import "StorefrontLabel.h"
 #import <RestKit/RestKit.h>
 #import "CartButton.h"
 
-@interface StorefrontTableViewController : UITableViewController <CLLocationManagerDelegate, MKMapViewDelegate>
+@interface StorefrontTableViewController : UITableViewController <StoreFrontScrollViewDelegate>
     @property (nonatomic, strong) Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
     @property (nonatomic, strong) CartButton *cart;

@@ -33,6 +33,24 @@
             </objects>
             <point key="canvasLocation" x="-511" y="680"/>
         </scene>
+        <!--Contact View Controller-->
+        <scene sceneID="3b8-fc-VQS">
+            <objects>
+                <viewController storyboardIdentifier="contactView" id="U2W-Dz-NNF" customClass="ContactViewController" sceneMemberID="viewController">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="eKT-WB-QX0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FhI-Ga-CWD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="486" y="-630"/>
+        </scene>
         <!--Restaurant View Controller - FoodCloud-->
         <scene sceneID="VgW-fR-Quf">
             <objects>

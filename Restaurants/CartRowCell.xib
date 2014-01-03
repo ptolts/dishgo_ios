@@ -62,6 +62,10 @@
                         <rect key="frame" x="230" y="43" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="more.png" translatesAutoresizingMaskIntoConstraints="NO" id="jE7-XE-zcD">
+                        <rect key="frame" x="115" y="11" width="50" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -75,6 +79,7 @@
     </objects>
     <resources>
         <image name="edit.png" width="15" height="15"/>
+        <image name="more.png" width="25" height="25"/>
         <image name="remove.png" width="15" height="15"/>
     </resources>
 </document>

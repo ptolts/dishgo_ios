@@ -57,7 +57,8 @@
      {
 
      }];
-    [[((UINavigationController *)self.frostedViewController.contentViewController) topViewController] viewDidAppear:NO];
+    [self updatePrice];
+//    [[((UINavigationController *)self.frostedViewController.contentViewController) topViewController] viewDidAppear:NO];
 }
 
 -(void) checkout {
@@ -527,14 +528,18 @@
     return cell;
 }
 
+-(void) updatePrice {
+    float tot = 0.0;
+    for(DishTableViewCell *dish_cell in self.shopping_cart){
+        tot += dish_cell.getPrice;
+        [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+}
+
 -(void) viewDidAppear:(BOOL)animated {
     if(self.tableView.tableFooterView){
-        float tot = 0.0;
-        for(DishTableViewCell *dish_cell in self.shopping_cart){
-            tot += dish_cell.getPrice;
-            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
+        [self updatePrice];
     }
     [self.tableView reloadData];
 }
