@@ -7,23 +7,23 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1" customClass="Header">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="254"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" id="WWh-UQ-Yp5" customClass="StorefrontScrollView">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </scrollView>
                 <view contentMode="scaleToFill" id="2Oe-zu-axq">
-                    <rect key="frame" x="0.0" y="214" width="320" height="40"/>
+                    <rect key="frame" x="0.0" y="200" width="320" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" tag="3" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.png" id="aZ1-5o-a1j">
-                            <rect key="frame" x="255" y="0.0" width="45" height="45"/>
+                            <rect key="frame" x="265" y="2" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" tag="1" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tele.png" id="suJ-9R-mUo">
-                            <rect key="frame" x="20" y="0.0" width="45" height="45"/>
+                            <rect key="frame" x="20" y="2" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Cw2-fr-eAw">
@@ -37,11 +37,11 @@
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <imageView userInteractionEnabled="NO" tag="2" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc.png" id="gGG-za-hVO">
-                            <rect key="frame" x="138" y="0.0" width="45" height="45"/>
+                            <rect key="frame" x="143" y="2" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="8cy-GO-eig" appends="YES" id="KQn-ka-R2K"/>

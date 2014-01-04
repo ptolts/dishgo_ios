@@ -104,14 +104,14 @@ MKMapView *mapView;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor bgColor];
+    self.view.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.95f];
     
     Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
     
     footer.phone.text = self.restaurant.phone;
     footer.address.text = self.restaurant.address;
     footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
-    footer.backgroundColor = [UIColor bgColor];
+
     for (UIView * txt in footer.subviews){
         if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
             ((UILabel *)txt).textColor = [UIColor textColor];
@@ -124,6 +124,9 @@ MKMapView *mapView;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     [locationManager startUpdatingLocation];
     footer.mapView.delegate = self;
+    self.footer = footer;
+    [footer setNeedsLayout];
+    self.view.frame = CGRectMake(0, 0, footer.frame.size.height, footer.frame.size.width);
     [self.view addSubview:footer];
 }
 

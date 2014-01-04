@@ -658,6 +658,9 @@
 		B7BDFBE0187744EE003E661F /* Contact View */ = {
 			isa = PBXGroup;
 			children = (
+				B7E20F261820459500791BEB /* Footer.h */,
+				B7E20F271820459500791BEB /* Footer.m */,
+				B7E20F2018203FEC00791BEB /* Footer.xib */,
 				B7BDFBE118774506003E661F /* ContactViewController.h */,
 				B7BDFBE218774506003E661F /* ContactViewController.m */,
 			);
@@ -959,11 +962,8 @@
 				B7E20F1818202EE200791BEB /* StorefrontGradientView.h */,
 				B7E20F1918202EE200791BEB /* StorefrontGradientView.m */,
 				B7E20F1E18203FB900791BEB /* Header.xib */,
-				B7E20F2018203FEC00791BEB /* Footer.xib */,
 				B7E20F23182042F800791BEB /* Header.h */,
 				B7E20F24182042F800791BEB /* Header.m */,
-				B7E20F261820459500791BEB /* Footer.h */,
-				B7E20F271820459500791BEB /* Footer.m */,
 			);
 			name = Subviews;
 			sourceTree = "<group>";
@@ -1539,7 +1539,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CB06B516-F702-4C42-9E68-B126B7017D0A";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1555,7 +1555,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "CB06B516-F702-4C42-9E68-B126B7017D0A";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

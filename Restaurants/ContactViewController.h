@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "Footer.h"
 
 @interface ContactViewController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate>
     @property Restaurant *restaurant;
+    @property Footer *footer;
 @end

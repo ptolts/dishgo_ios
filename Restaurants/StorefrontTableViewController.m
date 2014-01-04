@@ -58,15 +58,6 @@
     [self showModal];
 }
 
-- (CGRect)_navigationControllerFrame
-{
-    CGRect slice;
-    CGRect remainder;
-    CGRectDivide([mainWindow.screen applicationFrame], &slice, &remainder, 75, CGRectMinYEdge);
-    remainder.size.height -= 20;
-    return remainder;
-}
-
 - (void) showModal {
     ContactViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contactView"];
     viewController.restaurant = self.restaurant;
@@ -75,7 +66,13 @@
     _presentedNavigationController.view.layer.cornerRadius = 3;
     _presentedNavigationController.view.layer.masksToBounds = YES;
     _presentedNavigationController.view.layer.anchorPoint = CGPointMake(0.5f, 0);
-    _presentedNavigationController.view.frame = [self _navigationControllerFrame];
+//    _presentedNavigationController.view.frame = [self _navigationControllerFrame];
+    _presentedNavigationController.view.frame = CGRectMake(0, 0, viewController.view.frame.size.height, viewController.view.frame.size.width);
+//    _presentedNavigationController.view.center = [self.view convertPoint:self.view.center fromView:self.view.superview];
+    CGRect frame = _presentedNavigationController.view.frame;
+    frame.origin.y = (self.view.frame.size.height - frame.size.height) / 2;
+    frame.origin.x = (self.view.frame.size.width - frame.size.width) / 2;
+    _presentedNavigationController.view.frame = frame;
     _presentedNavigationController.view.transform = CGAffineTransformMakeScale(0, 0);
     
     [mainWindow addSubview:_presentedNavigationController.view];
@@ -197,63 +194,7 @@
     enableCart = YES;
 }
 
-//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-//{
-//    
-//    if (newLocation.coordinate.latitude == oldLocation.coordinate.latitude){
-//        return;
-//    }
-//    
-//    CLLocation *currentLocation = newLocation;
-//    double lat = [self.restaurant.lat doubleValue];
-//    double lon = [self.restaurant.lon doubleValue];
-//    CLLocationCoordinate2D dest = CLLocationCoordinate2DMake(lat, lon);
-//    
-//    if (currentLocation != nil) {
-//        NSLog(@"Lat: %f",newLocation.coordinate.latitude);
-//        
-//        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-//        request.source = [MKMapItem mapItemForCurrentLocation];
-//        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:dest addressDictionary:nil];
-//        MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
-//        [destination setName:@"Destination"];
-//        //        [destination openInMapsWithLaunchOptions:nil];
-//        request.destination = destination;
-//        request.requestsAlternateRoutes = NO;
-//        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-//        
-//        [directions calculateDirectionsWithCompletionHandler:
-//         ^(MKDirectionsResponse *response, NSError *error) {
-//             if (error) {
-//                 //bla
-//                 NSLog(@"Error");
-//             } else {
-//                 int dist = 0;
-//                 for (MKRoute *route in response.routes)
-//                 {
-//                     dist = route.distance;
-//                     [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
-//                     for (MKRouteStep *step in route.steps)
-//                     {
-//                         NSLog(@"%@", step.instructions);
-//                     }
-//                     break;
-//                 }
-//                 CLLocationCoordinate2D centerCoord = CLLocationCoordinate2DMake((newLocation.coordinate.latitude + dest.latitude)/2,(newLocation.coordinate.longitude + dest.longitude)/2);
-//                 CLLocationDistance centerToBorderMeters = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:dest.latitude longitude:dest.longitude]];
-//                 if (dist > centerToBorderMeters){
-//                     centerToBorderMeters = dist * 0.6;
-//                 }
-//                 MKCoordinateRegion rgn = MKCoordinateRegionMakeWithDistance
-//                 (centerCoord,
-//                  centerToBorderMeters + 10,   //vertical span
-//                  centerToBorderMeters + 10);  //horizontal span
-//                 [mapView setRegion:rgn animated:YES];
-//                 [locationManager stopUpdatingLocation];
-//             }
-//         }];
-//    }
-//}
+
 
 -(void) viewDidAppear:(BOOL)animated {
     [self matchColor];
@@ -278,21 +219,14 @@
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                       target:nil action:nil];
-//    negativeSpacer.width = -16;// it was -6 in iOS 6
-//    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
+
     [self.navigationItem setLeftBarButtonItem:backBtn];
-    //	self.navigationItem.leftBarButtonItem = backBtn;
     
     shoppingCart = [[NSMutableArray alloc] init];
     CartButton *cartButton = [[CartButton alloc] init];
     [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-//    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
     [self.navigationItem setRightBarButtonItem:customItem];
-    //    self.navigationItem.rightBarButtonItem = customItem;
     self.cart = cartButton;
     [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
 }
@@ -331,36 +265,10 @@
     header.backgroundColor = [UIColor bgColor];
     self.tableView.tableHeaderView = header;
     [header.tap_info addTarget:self action:@selector(showModalView)];
-//    Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
-//    
-//    footer.phone.text = self.restaurant.phone;
-//    footer.address.text = self.restaurant.address;
-//    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
-//    footer.backgroundColor = [UIColor bgColor];
-//    for (UIView * txt in footer.subviews){
-//        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
-//            ((UILabel *)txt).textColor = [UIColor textColor];
-//        }
-//    }
-//    mapView = footer.mapView;
-//    self.tableView.tableFooterView = footer;
     
     self.tableView.backgroundColor = [UIColor bgColor];
     
     [self loadMenu];
-//    
-//    locationManager = [[CLLocationManager alloc] init];
-//    locationManager.delegate = self;
-//    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-//    [locationManager startUpdatingLocation];
-//    footer.mapView.delegate = self;
-//    NSLog(@"StoreFrontLoaded");
-	// Do any additional setup after loading the view.
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)cartClick:sender
@@ -399,7 +307,7 @@
     
     [UIView animateWithDuration:0.5
                      animations:^{
-                         head.button_view.backgroundColor = [colorScheme backgroundColor];
+                         head.button_view.backgroundColor = [[colorScheme backgroundColor] colorWithAlphaComponent:0.8f];
                          for(UIImageView *i in [head.button_view subviews]){
                              if([i isKindOfClass:[UIImageView class]]){
                                  UIColor *color = [colorScheme primaryTextColor];
@@ -496,7 +404,7 @@
         scroll_image_view.frame = imgRect;
         
         imgRect = head.button_view_original_frame;
-        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height;
+        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
         head.button_view.frame = imgRect;
     }
 }
@@ -560,26 +468,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    static NSString *CellIdentifier = @"DishViewCell";
-//
-//    DishViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//
-//    // Configure the cell...
-//    if (cell == nil) {
-//        cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
-//    } else {
-//        for (UIView *aView in [NSArray arrayWithArray:cell.dishScrollView.subviews]) {
-//            [aView removeFromSuperview];
-//        }
-//    }
-//    
-//
-//    cell.dishScrollView.section = [sectionsList objectAtIndex:indexPath.section];
-////    [cell.dishScrollView setupViews:indexPath];
-//    cell.backgroundColor = [UIColor bgColor];
-    
-//    return cell;
-
     return [cellList objectAtIndex:indexPath.section];
 }
 
@@ -606,17 +494,6 @@
     if([section.name length] == 0){
         return nil;
     }
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-//    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
-//    
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-//    label.text = section.name;
-//    label.font = [UIFont systemFontOfSize:15];
-//    label.textColor = [UIColor whiteColor];
-//    label.backgroundColor = [UIColor clearColor];
-//    [label sizeToFit];
-//    [view addSubview:label];
-//    NSLog(@"FONT FAMILIES\n%@",[UIFont familyNames]);
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
@@ -638,15 +515,6 @@
     if([section.name length] == 0){
         return nil;
     }
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-//    view.backgroundColor = [UIColor colorWithRed:0.863 green:0.863 blue:0.863 alpha:1.0];
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-//    label.text = section.name;
-//    label.font = [UIFont systemFontOfSize:15];
-//    label.textColor = [UIColor whiteColor];
-//    label.backgroundColor = [UIColor clearColor];
-//    [label sizeToFit];
-//    [view addSubview:label];
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
@@ -659,46 +527,6 @@
     }
     return view;
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -728,21 +556,8 @@
 - (void) loadMenu {
     
     NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
-//    sectionsList = [[NSMutableArray alloc] init];
     sectionsList = (NSMutableArray *)[self.restaurant.menu array];
-    
-//    fetchedRestaurants = [self.restaurant.menu allObjects];
-    
-//    sectionsList = [[NSMutableArray alloc] init];
-//    
-//    for(Sections *sec in fetchedRestaurants){
-//        [sectionsList addObject:sec];
-//        for(Subsections *sub in sec.subsections){
-//            [sectionsList addObject:sub];
-//        }
-//    }
-    
-//    [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
+
     [self buildCells];
     [self.tableView reloadData];
     
@@ -813,26 +628,6 @@
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
-//        NSLog(@"Total Sections: %d",[result.array count]);
-        
-//        defaultSectionsList = [result set];
-//        fetchedRestaurants = [result array];
-//        
-//        sectionsList = [[NSMutableArray alloc] init];
-//        for(Sections *sec in fetchedRestaurants){
-//            [sectionsList addObject:sec];
-//            for(Subsections *sub in sec.subsections){
-//                [sectionsList addObject:sub];
-//            }
-//        }
-        
-//        for(Sections *sec in [result array]){
-//            for(Subsections *sub in sec.subsections){
-//                for(Dishes *di in sub.dishes){
-//                    NSLog(@"%.02f",[di.price floatValue]);
-//                }
-//            }
-//        }
         
         sectionsList = (NSMutableArray *)[result array];
         
@@ -860,13 +655,5 @@
     
 }
 
-//- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
-//{
-//    MKPolylineRenderer *renderer =
-//    [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-//    renderer.strokeColor = [UIColor blueColor];
-//    renderer.lineWidth = 1.0;
-//    return renderer;
-//}
 
 @end
