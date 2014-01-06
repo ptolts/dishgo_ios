@@ -69,4 +69,9 @@
     self.priceLabel.text = [self getPrice];
 }
 
+
+- (void) layoutSubviews {
+    [super layoutSubviews];
+//    NSLog(@"FRAME: %@",CGRectCreateDictionaryRepresentation(self.dishImage.frame));
+}
 @end

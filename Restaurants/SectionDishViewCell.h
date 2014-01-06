@@ -11,6 +11,7 @@
 @interface SectionDishViewCell : UITableViewCell
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
+    @property (strong, nonatomic) IBOutlet UIImageView *dishImage;
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
     @property (nonatomic, nonatomic) IBOutlet UIView *seperator;
     @property (nonatomic, strong) Dishes *dish;

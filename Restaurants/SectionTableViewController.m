@@ -18,13 +18,17 @@
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
 #import "OptionsView.h"
+#import "DishView.h"
 #import "DishTableViewController.h"
 #import "SectionDishViewCell.h"
 #import "CartButton.h"
+#import "Images.h"
 #import "UIColor+Custom.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
-#define DEFAULT_SIZE 75
-#define HEADER_DEFAULT_SIZE 44
+#define DEFAULT_SIZE 193
+#define SECOND_SIZE 133
+#define HEADER_DEFAULT_SIZE 35
 
 @interface SectionTableViewController ()
 
@@ -160,39 +164,53 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
-//    NSLog(@"%d %d",indexPath.row, indexPath.section);
-    if (indexPath.row == 0 && indexPath.section == 1){
-        [cell.seperator removeFromSuperview];
-    }
-//    NSLog(@"class: %@ index: %ld",[[subsectionList objectAtIndex:indexPath.section] class],(long)indexPath.section);
     Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+    SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     cell.dish = dish;
-//    NSLog(@"%@",dish.name);
+
     cell.dishTitle.text = dish.name;
     cell.dishDescription.text = dish.description_text;
     
     cell.dishTitle.textColor = [UIColor textColor];
     cell.seperator.backgroundColor = [UIColor seperatorColor];
-    
-    if([dish.description_text length] == 0){
-        CGRect f = cell.contentView.frame;
-        f.size.height = f.size.height - 65;
-        cell.contentView.frame = f;
-    }
-    
-    
+
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
     cell.dish = dish;
+    cell.dishImage.clipsToBounds = YES;
     cell.full_height = cell.contentView.frame.size.height;
     cell.backgroundColor = [UIColor bgColor];
+    if([dish.images count] > 0){
+        [cell.dishDescription removeFromSuperview];
+        [cell.seperator removeFromSuperview];
+        Images *img = [dish.images firstObject];
+        __weak typeof(cell.dishImage) weakImage = cell.dishImage;
+        [cell.dishImage          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+                           placeholderImage:[UIImage imageNamed:@"camera_mark.png"]
+                                  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                      if (image && cacheType == SDImageCacheTypeNone)
+                                      {
+                                          weakImage.alpha = 0.0;
+                                          [UIView animateWithDuration:1.0
+                                                           animations:^{
+                                                               weakImage.alpha = 1.0;
+                                                           }];
+                                      }
+                                  }
+         ];
+    } else {
+        [cell.dishImage removeFromSuperview];
+    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DishTableViewCell *c = (DishTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    SectionDishViewCell *c = (SectionDishViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     selected_dish = c.dish;
+    NSLog(@"FRAME: %@",CGRectCreateDictionaryRepresentation(c.dishImage.frame));
     [self performSegueWithIdentifier:@"dishSelectClick" sender:self];
 //    [tableView beginUpdates];
 //    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
@@ -207,7 +225,7 @@
 //        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
 //    }
 //    [tableView endUpdates];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
@@ -241,9 +259,21 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
-    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
-    view.headerTitle.textColor = [UIColor whiteColor];
-    view.backgroundColor = [UIColor complimentaryRed];
+    //    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    view.headerTitle.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
+    view.headerTitle.textColor = [UIColor textColor];
+    view.headerTitle.backgroundColor = [UIColor bgColor];
+    [view.headerTitle sizeToFit];
+    CGRect frame = view.headerTitle.frame;
+    frame.size.width += 20;
+    view.headerTitle.frame = frame;
+    view.headerTitle.center = view.center;
+    view.backgroundColor = [UIColor bgColor];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line.png"]];
+    
+    [view addSubview:imageView ];
+    [view sendSubviewToBack:imageView ];
     return view;
     
 }
@@ -272,12 +302,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *key = [NSString stringWithFormat:@"%d-%d",indexPath.section,indexPath.row];
-    if([heights objectForKey:key]){
-        return [[heights valueForKey:key] doubleValue];
-    } else {
-        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+    if([dish.images count] > 0){
+        NSLog(@"DEFAULT SIZE %d", DEFAULT_SIZE);
         return DEFAULT_SIZE;
+    } else {
+        NSLog(@"NON DEFAULT SIZE");
+        return SECOND_SIZE;
     }
 }
 

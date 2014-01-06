@@ -65,6 +65,10 @@
 		B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE360F185A4A5F00D55ED8 /* BillingView.m */; };
 		B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */; };
 		B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE3614185F91B500D55ED8 /* edit_address@2x.png */; };
+		B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38243187B0F49001FD092 /* more_dish@2x.png */; };
+		B7C38246187B1842001FD092 /* EastMarketNF.otf in Resources */ = {isa = PBXBuildFile; fileRef = B7C38245187B1842001FD092 /* EastMarketNF.otf */; };
+		B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38247187B1CEC001FD092 /* header_line@2x.png */; };
+		B7C3824A187B2B3B001FD092 /* camera_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38249187B2B3B001FD092 /* camera_mark@2x.png */; };
 		B7CC197018047D92003C71B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC196F18047D92003C71B9 /* Foundation.framework */; };
 		B7CC197218047D92003C71B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC197118047D92003C71B9 /* CoreGraphics.framework */; };
 		B7CC197418047D92003C71B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC197318047D92003C71B9 /* UIKit.framework */; };
@@ -276,6 +280,10 @@
 		B7BE3611185F766F00D55ED8 /* DismissKeyboardScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissKeyboardScrollview.h; sourceTree = "<group>"; };
 		B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissKeyboardScrollview.m; sourceTree = "<group>"; };
 		B7BE3614185F91B500D55ED8 /* edit_address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_address@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7C38243187B0F49001FD092 /* more_dish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_dish@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7C38245187B1842001FD092 /* EastMarketNF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.otf; path = ../../../Downloads/eastmarket/EastMarketNF.otf; sourceTree = "<group>"; };
+		B7C38247187B1CEC001FD092 /* header_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header_line@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7C38249187B2B3B001FD092 /* camera_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_mark@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7CC196C18047D92003C71B9 /* Restaurants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restaurants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CC196F18047D92003C71B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7CC197118047D92003C71B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -730,6 +738,10 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7C38249187B2B3B001FD092 /* camera_mark@2x.png */,
+				B7C38247187B1CEC001FD092 /* header_line@2x.png */,
+				B7C38245187B1842001FD092 /* EastMarketNF.otf */,
+				B7C38243187B0F49001FD092 /* more_dish@2x.png */,
 				B7BDFBDC18773BEF003E661F /* left_arrow@2x.png */,
 				B7BDFBDD18773BEF003E661F /* right_arrow@2x.png */,
 				B7BDFBD8187623C2003E661F /* more@2x.png */,
@@ -1172,14 +1184,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
+				B7C38246187B1842001FD092 /* EastMarketNF.otf in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
 				B721D67118720B6500D41957 /* checkout@2x.png in Resources */,
 				B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */,
 				B7D47F7718622C5200DD3C99 /* fork@2x.png in Resources */,
 				B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */,
+				B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
 				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
+				B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */,
+				B7C3824A187B2B3B001FD092 /* camera_mark@2x.png in Resources */,
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
 				B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */,
 				B75DA1F4185FB00B00803AF5 /* camera@2x.png in Resources */,

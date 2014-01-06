@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface DishView : UIView
+    @property (strong, nonatomic) IBOutlet UIImageView *more;
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
     @property (nonatomic, strong) IBOutlet UILabel *read_more;
     @property (nonatomic, strong) IBOutlet UIImageView *left_arrow;
     @property (nonatomic, strong) IBOutlet UIImageView *right_arrow;
-    @property IBOutletCollection(UIView) NSArray *seperator;
+    @property IBOutlet UIView *seperator;
 @end

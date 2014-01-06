@@ -10,6 +10,7 @@
 
 @implementation UIColor (Custom)
 
+    //title red
     + (UIColor*)scarletColor {
         return [UIColor colorWithRed:207.0/255.0 green:47.0/255.0 blue:40.0/255.0 alpha:1];
     }

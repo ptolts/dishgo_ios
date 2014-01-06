@@ -28,8 +28,8 @@
 #import "ContactViewController.h"
 #import "LEColorPicker.h"
 
-#define DEFAULT_SIZE 148
-#define HEADER_DEFAULT_SIZE 44
+#define DEFAULT_SIZE 124
+#define HEADER_DEFAULT_SIZE 35
 
 @interface StorefrontTableViewController ()
     @property (nonatomic, strong) UIView *backgroundView;
@@ -253,7 +253,7 @@
     
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
-//    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
+    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
     header.scroll_view.restaurant = self.restaurant;
     header.scroll_view.img_delegate = self;
     [header.scroll_view setupImages];
@@ -497,14 +497,27 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
-    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+//    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    view.headerTitle.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
     view.headerTitle.textColor = [UIColor textColor];
+    view.headerTitle.backgroundColor = [UIColor bgColor];
+    [view.headerTitle sizeToFit];
+    CGRect frame = view.headerTitle.frame;
+    frame.size.width += 20;
+    view.headerTitle.frame = frame;
+    view.headerTitle.center = view.center;
     view.backgroundColor = [UIColor bgColor];
-    for (UIView * txt in view.subviews){
-        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
-            ((UILabel *)txt).textColor = [UIColor textColor];
-        }
-    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line.png"]];
+    
+    [view addSubview:imageView ];
+    [view sendSubviewToBack:imageView ];
+    
+//    for (UIView * txt in view.subviews){
+//        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+//            ((UILabel *)txt).textColor = [UIColor textColor];
+//        }
+//    }
     return view;
     
 }
@@ -608,12 +621,17 @@
                                                          @"type": @"type",
                                                          }];
     optionsMapping.identificationAttributes = @[ @"id" ];
-
     
+    RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
+    [imagesMapping addAttributeMappingsFromDictionary:@{
+                                                        @"local_file": @"url",
+                                                        }];
+    imagesMapping.identificationAttributes = @[ @"url" ];
     
     [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"subsection" toKeyPath:@"subsections" withMapping:subsectionsMapping]];
     [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dish" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
+    [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_option" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
