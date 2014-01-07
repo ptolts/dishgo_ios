@@ -12,4 +12,5 @@
     @property (nonatomic, strong) Sections *section;
     -(void)setupViews;
     -(int) currentPage;
+    @property int total_pages;
 @end

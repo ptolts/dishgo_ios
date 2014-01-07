@@ -60,19 +60,19 @@
 
 - (void) showModal {
     ContactViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contactView"];
+    [viewController.view setNeedsLayout];
     viewController.restaurant = self.restaurant;
     _presentedNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     _presentedNavigationController.navigationBar.hidden = YES;
     _presentedNavigationController.view.layer.cornerRadius = 3;
     _presentedNavigationController.view.layer.masksToBounds = YES;
     _presentedNavigationController.view.layer.anchorPoint = CGPointMake(0.5f, 0);
-//    _presentedNavigationController.view.frame = [self _navigationControllerFrame];
-    _presentedNavigationController.view.frame = CGRectMake(0, 0, viewController.view.frame.size.height, viewController.view.frame.size.width);
-//    _presentedNavigationController.view.center = [self.view convertPoint:self.view.center fromView:self.view.superview];
+    _presentedNavigationController.view.frame = CGRectMake(0, 0, viewController.view.frame.size.width, viewController.view.frame.size.height);
     CGRect frame = _presentedNavigationController.view.frame;
-    frame.origin.y = (self.view.frame.size.height - frame.size.height) / 2;
-    frame.origin.x = (self.view.frame.size.width - frame.size.width) / 2;
+    frame.origin.y = (self.view.window.frame.size.height - frame.size.height) / 2;
+    frame.origin.x = (self.view.window.frame.size.width - frame.size.width) / 2;
     _presentedNavigationController.view.frame = frame;
+    _presentedNavigationController.view.backgroundColor = [UIColor bgColor];
     _presentedNavigationController.view.transform = CGAffineTransformMakeScale(0, 0);
     
     [mainWindow addSubview:_presentedNavigationController.view];
@@ -461,6 +461,7 @@
         [cell setRestorationIdentifier:@"DishViewCell"];
         cell.dishScrollView.section = section;
         [cell.dishScrollView setupViews];
+        [cell trackPage];
         cell.backgroundColor = [UIColor bgColor];
         [cellList addObject:cell];
     }

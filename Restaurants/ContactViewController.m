@@ -8,6 +8,7 @@
 
 #import "ContactViewController.h"
 #import "Footer.h"
+#import "PinsView.h"
 
 
 @interface ContactViewController ()
@@ -76,23 +77,20 @@ MKMapView *mapView;
                  for (MKRoute *route in response.routes)
                  {
                      dist = route.distance;
+                     MKMapRect rect = route.polyline.boundingMapRect;
+                     UIEdgeInsets insets = UIEdgeInsetsMake(25, 25, 25, 25);
+                     MKMapRect biggerRect = [self.footer.mapView mapRectThatFits:rect edgePadding:insets];
                      [mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
-                     for (MKRouteStep *step in route.steps)
-                     {
-                         NSLog(@"%@", step.instructions);
-                     }
+                     [self.footer.mapView setVisibleMapRect:biggerRect animated:YES];
+
+                     PinsView *addAnnotation = [[PinsView alloc] initWithCoordinate:newLocation.coordinate];
+                     [self.footer.mapView addAnnotation:addAnnotation];
+                     PinsView *adddAnnotation = [[PinsView alloc] initWithCoordinate:dest];
+                     [self.footer.mapView addAnnotation:adddAnnotation];
+                     
                      break;
                  }
-                 CLLocationCoordinate2D centerCoord = CLLocationCoordinate2DMake((newLocation.coordinate.latitude + dest.latitude)/2,(newLocation.coordinate.longitude + dest.longitude)/2);
-                 CLLocationDistance centerToBorderMeters = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:dest.latitude longitude:dest.longitude]];
-                 if (dist > centerToBorderMeters){
-                     centerToBorderMeters = dist * 0.6;
-                 }
-                 MKCoordinateRegion rgn = MKCoordinateRegionMakeWithDistance
-                 (centerCoord,
-                  centerToBorderMeters + 10,   //vertical span
-                  centerToBorderMeters + 10);  //horizontal span
-                 [mapView setRegion:rgn animated:YES];
+                 
                  [locationManager stopUpdatingLocation];
              }
          }];
@@ -110,14 +108,32 @@ MKMapView *mapView;
     
     footer.phone.text = self.restaurant.phone;
     footer.address.text = self.restaurant.address;
-    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+//    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
 
+    footer.contact_title.backgroundColor = [UIColor bgColor];
+    footer.contact_title.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
+    [footer.contact_title sizeToFit];
+    CGRect frame = footer.contact_title.frame;
+    frame.size.width += 20;
+    NSLog(@"Width :%@",CGRectCreateDictionaryRepresentation(frame));
+    footer.contact_title.frame = frame;
+    footer.contact_title.center = footer.contact_title_background.center;
+    footer.backgroundColor = [UIColor bgColor];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line_300.png"]];
+
+    [footer.contact_title_background addSubview:imageView];
+    [footer.contact_title_background sendSubviewToBack:imageView ];
+    
     for (UIView * txt in footer.subviews){
         if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
             ((UILabel *)txt).textColor = [UIColor textColor];
         }
     }
+    
     mapView = footer.mapView;
+    
+    footer.mapView.autoresizingMask = UIViewAutoresizingNone;
     
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -126,7 +142,7 @@ MKMapView *mapView;
     footer.mapView.delegate = self;
     self.footer = footer;
     [footer setNeedsLayout];
-    self.view.frame = CGRectMake(0, 0, footer.frame.size.height, footer.frame.size.width);
+    self.view.frame = CGRectMake(0, 0, footer.frame.size.width, footer.frame.size.height);
     [self.view addSubview:footer];
 }
 

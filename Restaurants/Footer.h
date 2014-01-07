@@ -11,6 +11,7 @@
 #import "TableHeaderView.h"
 
 @interface Footer : UIView
+    @property (strong, nonatomic) IBOutlet UIView *contact_title_background;
     @property (nonatomic, strong) IBOutlet MKMapView *mapView;
     @property (nonatomic, strong) IBOutlet UILabel *phone;
     @property (nonatomic, strong) IBOutlet UILabel *address;

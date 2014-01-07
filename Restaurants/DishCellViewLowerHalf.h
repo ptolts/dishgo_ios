@@ -13,5 +13,6 @@
     @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
     @property (strong, nonatomic) IBOutlet UILabel *optionLabel;
     @property float full_height;
+    @property (strong, nonatomic) IBOutlet UIImageView *dishImage;
     @property (nonatomic, strong) Dishes *dish;
 @end

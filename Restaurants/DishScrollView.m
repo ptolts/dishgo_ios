@@ -50,9 +50,11 @@
             dish_view.frame = frame;
             dish_view.dishDescription.text = dish.description_text;
             [dish_view.dishDescription sizeToFit];
+            dish_view.dishDescription.font = [UIFont fontWithName:@"Newtext RG Bt" size:16.0f];
             dish_view.dishDescription.textColor = [UIColor textColor];
             dish_view.dishTitle.text = dish.name;
             dish_view.dishTitle.textColor = [UIColor textColor];
+            [dish_view.more removeFromSuperview];
             dish_view.seperator.backgroundColor = [UIColor seperatorColor];
             dish_view.backgroundColor = [UIColor bgColor];
             
@@ -61,6 +63,7 @@
         }
         i++;
     }
+    _total_pages = dd;
     NSLog(@"Secion: %@ Dishes: %d Subviews: %d",self.section.name,dd,[self.subviews count]);
     self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;

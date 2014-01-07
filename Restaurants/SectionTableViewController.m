@@ -175,6 +175,7 @@
     
     cell.dishTitle.textColor = [UIColor textColor];
     cell.seperator.backgroundColor = [UIColor seperatorColor];
+    cell.seperator2.backgroundColor = [UIColor seperatorColor];
 
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
@@ -304,10 +305,8 @@
 {
     Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
     if([dish.images count] > 0){
-        NSLog(@"DEFAULT SIZE %d", DEFAULT_SIZE);
         return DEFAULT_SIZE;
     } else {
-        NSLog(@"NON DEFAULT SIZE");
         return SECOND_SIZE;
     }
 }

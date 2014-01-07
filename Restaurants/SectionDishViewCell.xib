@@ -61,6 +61,7 @@
                 <outlet property="dishTitle" destination="mro-CQ-jWH" id="LKG-ae-Mec"/>
                 <outlet property="priceLabel" destination="nVq-lE-jP3" id="Gii-QV-wQA"/>
                 <outlet property="seperator" destination="t2E-nO-mIa" id="x65-WA-tj6"/>
+                <outlet property="seperator2" destination="oIr-Iq-J9B" id="mpe-bN-NbV"/>
             </connections>
         </view>
     </objects>

@@ -204,7 +204,7 @@ bool speed_things_up;
     NSString *key = [keys objectAtIndex:indexPath.row];
     cell.label.text = [titles objectForKey:key];
     cell.label.textColor = [UIColor textColor];
-    cell.label.font = [UIFont fontWithName:@"DamascusBold" size:14.0f];
+    cell.label.font = [UIFont fontWithName:@"Copperplate" size:18.0f];
     cell.backgroundColor = [UIColor bgColor];
     
     //    NSLog(@"%@",[[progress objectForKey:key] class]);

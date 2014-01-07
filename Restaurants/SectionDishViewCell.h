@@ -12,6 +12,7 @@
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *dishDescription;
     @property (strong, nonatomic) IBOutlet UIImageView *dishImage;
+    @property (strong, nonatomic) IBOutlet UIView *seperator2;
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
     @property (nonatomic, nonatomic) IBOutlet UIView *seperator;
     @property (nonatomic, strong) Dishes *dish;

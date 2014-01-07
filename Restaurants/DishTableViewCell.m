@@ -13,6 +13,7 @@
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
 #import "UIColor+Custom.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation DishTableViewCell {
     float totalPrice;
@@ -60,42 +61,81 @@
 -(void) setupLowerHalf {
     self.autoresizingMask = UIViewAutoresizingNone;
     DishCellViewLowerHalf *cell = [[DishCellViewLowerHalf alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
-//    cell.autoresizingMask = UIViewAutoresizingNone;
-//    cell.contentView.autoresizingMask = UIViewAutoresizingNone;
-    cell.frame = CGRectMake(10, 0, 300, 0);
-    cell.contentView.frame = CGRectMake(10, 0, 300, 0);
-    NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
+//    [cell setNeedsLayout];
+//    cell.frame = CGRectMake(10, 0, 300, 0);
+//    cell.contentView.frame = CGRectMake(10, 0, 300, 0);
+    NSLog(@"DESCRIPTION PAGE FRAME%@\nCONTENTVIEWFRAME: %@\n%u",CGRectCreateDictionaryRepresentation(cell.frame),CGRectCreateDictionaryRepresentation(cell.contentView.frame),cell.autoresizingMask);
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.backgroundColor = [UIColor bgColor];
     cell.contentView.backgroundColor = [UIColor bgColor];
     Dishes *dish = self.dish;
 
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 200)];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.autoresizingMask = UIViewAutoresizingNone;
+    imageView.clipsToBounds = YES;
+    
+    cell.dishImage = imageView;
+    [cell.contentView addSubview:imageView];
+    cell.dishImage.image = [UIImage imageNamed:@"camera_mark.png"];
+    
+    CGRect f = cell.contentView.frame;
+    f.size.height = imageView.frame.size.height;
+    cell.contentView.frame = f;
+    
+    if([dish.images count] > 0){
+        Images *img = [dish.images firstObject];
+        __weak typeof(cell.dishImage) weakImage = cell.dishImage;
+        [cell.dishImage          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+                                placeholderImage:[UIImage imageNamed:@"camera_mark.png"]
+                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                           if (image && cacheType == SDImageCacheTypeNone)
+                                           {
+                                               weakImage.alpha = 0.0;
+                                               [UIView animateWithDuration:1.0
+                                                                animations:^{
+                                                                    weakImage.alpha = 1.0;
+                                                                }];
+                                           }
+                                       }
+         ];
+    } else {
+        
+    }
     
     if([dish.description_text length] != 0){
         
-        cell.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, 300, 50)];
+        cell.descriptionLabel = [[UILabel alloc] init];
         cell.descriptionLabel.autoresizingMask = UIViewAutoresizingNone;
         cell.descriptionLabel.backgroundColor = [UIColor clearColor];
         cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
         cell.descriptionLabel.textColor = [UIColor textColor];
         cell.descriptionLabel.text = @"Description";
-        cell.descriptionLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18.0f];
+        cell.descriptionLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        [cell.descriptionLabel sizeToFit];
+        cell.descriptionLabel.frame = CGRectMake(10, cell.contentView.frame.size.height, 300, cell.descriptionLabel.frame.size.height);
+        
         CGRect f = cell.contentView.frame;
-        f.size.height = cell.contentView.frame.size.height + 50;
+        f.size.height = cell.contentView.frame.size.height + cell.descriptionLabel.frame.size.height + 10;
         cell.contentView.frame = f;
+        
         [cell.contentView addSubview:cell.descriptionLabel];
         
-        cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, 300, 100)];
+        cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(0,0,500,500)];
         cell.dishDescription.autoresizingMask = UIViewAutoresizingNone;
         cell.dishDescription.backgroundColor = [UIColor clearColor];
         cell.dishDescription.textAlignment = NSTextAlignmentLeft;
         cell.dishDescription.textColor = [UIColor textColor];
         cell.dishDescription.text = dish.description_text;
-        cell.dishDescription.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16.0f];
-        [cell.dishDescription setNumberOfLines:6];
+        cell.dishDescription.font = [UIFont fontWithName:@"Copperplate" size:16.0f];
+        cell.dishDescription.numberOfLines = 0;
+        [cell.dishDescription sizeToFit];
+        cell.dishDescription.frame = CGRectMake(10, cell.contentView.frame.size.height, 300, cell.dishDescription.frame.size.height + 20);
+        
         f = cell.contentView.frame;
-        f.size.height = cell.contentView.frame.size.height + 100;
+        f.size.height = cell.contentView.frame.size.height + cell.dishDescription.frame.size.height + 10;
         cell.contentView.frame = f;
+        
         [cell.contentView addSubview:cell.dishDescription];
         
         NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
@@ -110,7 +150,7 @@
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentCenter;
         option_view.optionTitle.textColor=[UIColor blackColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"Helvetica-Bold" size:16.0f];
+        option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
         [option_view addSubview:option_view.optionTitle];
 
         option_view.parent = self;
@@ -132,7 +172,7 @@
     }
     
     cell.dish = dish;
-    CGRect f = cell.contentView.frame;
+    f = cell.contentView.frame;
     f.size.height = cell.contentView.frame.size.height + 50;
     cell.contentView.frame = f;
     cell.full_height = cell.contentView.frame.size.height;
