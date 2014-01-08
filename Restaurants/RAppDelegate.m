@@ -11,6 +11,7 @@
 #import "RootViewController.h"
 #import "RestaurantViewController.h"
 #import "UserSession.h"
+#import "CancelKeyboard.h"
 
 
 @implementation RAppDelegate
@@ -27,7 +28,12 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
-
+- (CancelKeyboard *)window
+{
+    static CancelKeyboard *customWindow = nil;
+    if (!customWindow) customWindow = [[CancelKeyboard alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    return customWindow;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    

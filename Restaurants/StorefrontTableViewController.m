@@ -179,6 +179,7 @@
                 dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
                 [dish_logic setupLowerHalf];
                 [dish_logic setupShoppingCart];
+                [dish_logic setupReviewCell];
                 [shoppingCart addObject:dish_logic];
                 if([shoppingCart count] > 15){
                     kill = YES;

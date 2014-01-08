@@ -36,6 +36,11 @@
 		B78FB11118200CE40063E6C4 /* StorefrontLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11018200CE40063E6C4 /* StorefrontLabel.m */; };
 		B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */; };
 		B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB119182010E80063E6C4 /* StorefrontImageView.m */; };
+		B7921632187DB79A00BC7BF2 /* CancelKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921631187DB79A00BC7BF2 /* CancelKeyboard.m */; };
+		B7921635187DCD2200BC7BF2 /* ReviewTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7921634187DCD2200BC7BF2 /* ReviewTableCell.m */; };
+		B7921637187DCD3100BC7BF2 /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7921636187DCD3100BC7BF2 /* ReviewCell.xib */; };
+		B792163A187DF23A00BC7BF2 /* ReviewTotal.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7921639187DF23A00BC7BF2 /* ReviewTotal.xib */; };
+		B792163D187DF3F100BC7BF2 /* ReviewTotal.m in Sources */ = {isa = PBXBuildFile; fileRef = B792163C187DF3F100BC7BF2 /* ReviewTotal.m */; };
 		B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F691847DF2D00BF4F3F /* facebook@2x.png */; };
 		B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */; };
 		B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */; };
@@ -240,6 +245,14 @@
 		B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontScrollView.m; sourceTree = "<group>"; };
 		B78FB118182010E80063E6C4 /* StorefrontImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontImageView.h; sourceTree = "<group>"; };
 		B78FB119182010E80063E6C4 /* StorefrontImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontImageView.m; sourceTree = "<group>"; };
+		B7921630187DB79A00BC7BF2 /* CancelKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelKeyboard.h; sourceTree = "<group>"; };
+		B7921631187DB79A00BC7BF2 /* CancelKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelKeyboard.m; sourceTree = "<group>"; };
+		B7921633187DCD2200BC7BF2 /* ReviewTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTableCell.h; sourceTree = "<group>"; };
+		B7921634187DCD2200BC7BF2 /* ReviewTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTableCell.m; sourceTree = "<group>"; };
+		B7921636187DCD3100BC7BF2 /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
+		B7921639187DF23A00BC7BF2 /* ReviewTotal.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTotal.xib; sourceTree = "<group>"; };
+		B792163B187DF3F100BC7BF2 /* ReviewTotal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewTotal.h; sourceTree = "<group>"; };
+		B792163C187DF3F100BC7BF2 /* ReviewTotal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewTotal.m; sourceTree = "<group>"; };
 		B79E8F691847DF2D00BF4F3F /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foodcloud_icon@2x.png"; sourceTree = "<group>"; };
 		B7B7441A182BFAA2001DFC49 /* SectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionTableViewController.h; sourceTree = "<group>"; };
@@ -594,6 +607,30 @@
 			name = "Cart Row";
 			sourceTree = "<group>";
 		};
+		B792162C187DB67700BC7BF2 /* Address View */ = {
+			isa = PBXGroup;
+			children = (
+				B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */,
+				B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */,
+				B7921630187DB79A00BC7BF2 /* CancelKeyboard.h */,
+				B7921631187DB79A00BC7BF2 /* CancelKeyboard.m */,
+			);
+			name = "Address View";
+			sourceTree = "<group>";
+		};
+		B7921638187DF21300BC7BF2 /* Total Cost */ = {
+			isa = PBXGroup;
+			children = (
+				B7B7445218341CBF001DFC49 /* CheckoutView.h */,
+				B7B7445318341CBF001DFC49 /* CheckoutView.m */,
+				B7B7445518341CCE001DFC49 /* CheckoutView.xib */,
+				B7921639187DF23A00BC7BF2 /* ReviewTotal.xib */,
+				B792163B187DF3F100BC7BF2 /* ReviewTotal.h */,
+				B792163C187DF3F100BC7BF2 /* ReviewTotal.m */,
+			);
+			name = "Total Cost";
+			sourceTree = "<group>";
+		};
 		B7B74419182BFA2A001DFC49 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,9 +691,6 @@
 				B74AC374183E74C600A89616 /* Shopping Cart Button */,
 				B7B7444F1833EFE5001DFC49 /* ShoppingCartTableView.h */,
 				B7B744501833EFE5001DFC49 /* ShoppingCartTableView.m */,
-				B7B7445218341CBF001DFC49 /* CheckoutView.h */,
-				B7B7445318341CBF001DFC49 /* CheckoutView.m */,
-				B7B7445518341CCE001DFC49 /* CheckoutView.xib */,
 			);
 			name = "Shopping Cart";
 			sourceTree = "<group>";
@@ -867,14 +901,14 @@
 		B7CF7B8F18566253000D326F /* Checkout Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B7921638187DF21300BC7BF2 /* Total Cost */,
+				B792162C187DB67700BC7BF2 /* Address View */,
 				B7D47F841864A85A00DD3C99 /* Order Models */,
 				B7CF7B901856627F000D326F /* CheckoutViewController.h */,
 				B7CF7B911856627F000D326F /* CheckoutViewController.m */,
 				B7CF7B9518567050000D326F /* CheckoutCell.h */,
 				B7CF7B9618567050000D326F /* CheckoutCell.m */,
 				B7CF7B9818567063000D326F /* CheckoutCell.xib */,
-				B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */,
-				B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */,
 			);
 			name = "Checkout Controller";
 			sourceTree = "<group>";
@@ -884,6 +918,9 @@
 			children = (
 				B7D47F7918624D5400DD3C99 /* ReviewViewController.h */,
 				B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */,
+				B7921633187DCD2200BC7BF2 /* ReviewTableCell.h */,
+				B7921634187DCD2200BC7BF2 /* ReviewTableCell.m */,
+				B7921636187DCD3100BC7BF2 /* ReviewCell.xib */,
 			);
 			name = "Review Confirm";
 			sourceTree = "<group>";
@@ -1263,12 +1300,14 @@
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B75DA1F81860CDA100803AF5 /* earth@2x.png in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
+				B7921637187DCD3100BC7BF2 /* ReviewCell.xib in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
 				B7EE7B87184FB821003EE5B8 /* logo@2x.png in Resources */,
 				B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */,
 				B7D47F951864D3F400DD3C99 /* remove@2x.png in Resources */,
 				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
 				B7C38251187B7528001FD092 /* Newtext Regular BT.ttf in Resources */,
+				B792163A187DF23A00BC7BF2 /* ReviewTotal.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,8 +1435,10 @@
 				B7CF7B87185644B6000D326F /* AddressView.m in Sources */,
 				B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */,
 				B7BDFBE318774506003E661F /* ContactViewController.m in Sources */,
+				B792163D187DF3F100BC7BF2 /* ReviewTotal.m in Sources */,
 				B7B7445D183532EE001DFC49 /* OptionsView.m in Sources */,
 				B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */,
+				B7921632187DB79A00BC7BF2 /* CancelKeyboard.m in Sources */,
 				B74AC377183E751C00A89616 /* CartButton.m in Sources */,
 				B7D47F871864A8B900DD3C99 /* Dish_Order.m in Sources */,
 				B7E20F421820560100791BEB /* Sections.m in Sources */,
@@ -1430,6 +1471,7 @@
 				B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */,
 				B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */,
 				B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */,
+				B7921635187DCD2200BC7BF2 /* ReviewTableCell.m in Sources */,
 				B7D47F901864A90F00DD3C99 /* Address_Order.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

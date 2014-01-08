@@ -21,6 +21,7 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     NSLog(@"Skippin Touch");
+    [self endEditing:YES];
     [self.nextResponder touchesBegan: touches withEvent:event];
 }
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{

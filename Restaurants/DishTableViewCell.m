@@ -30,6 +30,7 @@
 -(void) setupShoppingCart {
     
     CartRowCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"CartRowCell" owner:self options:nil] objectAtIndex:0];
+
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.dishTitle.text = self.dish.name;
     cell.priceLabel.text = [self getPriceString];
@@ -56,6 +57,40 @@
     [cell.remove.layer setCornerRadius:5.0f];
     
     self.shoppingCartCell = cell;
+}
+
+-(void) setupReviewCell {
+    
+    ReviewTableCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"ReviewCell" owner:self options:nil] objectAtIndex:0];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    cell.dishTitle.text = self.dish.name;
+    cell.priceLabel.text = [self getPriceString];
+    
+//    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
+//    cell.dishTitle.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+    
+    cell.backgroundColor = [UIColor clearColor];
+    [cell.quantity.layer setCornerRadius:5.0f];
+    cell.quantity.text = [NSString stringWithFormat:@"%dx", (int) self.dishFooterView.stepper.value];
+    NSLog(@"INITIAL CARTROWCELL HEIGHT: %f",cell.frame.size.height);
+//    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
+    cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
+    cell.parent = self;
+    cell.edit.parent = self;
+    cell.remove.parent = self;
+    
+    cell.separator1.backgroundColor = [UIColor seperatorColor];
+    cell.separator2.backgroundColor = [UIColor seperatorColor];
+    
+    [cell.edit.layer setBorderColor:[UIColor seperatorColor].CGColor];
+    [cell.edit.layer setBorderWidth:1.0f];
+    [cell.edit.layer setCornerRadius:5.0f];
+    
+    [cell.remove.layer setBorderColor:[UIColor seperatorColor].CGColor];
+    [cell.remove.layer setBorderWidth:1.0f];
+    [cell.remove.layer setCornerRadius:5.0f];
+    
+    self.reviewCartCell = cell;
 }
 
 -(void) setupLowerHalf {
@@ -200,15 +235,23 @@
 -(void)addDish:(id)sender
 {
     if(self.editing){
+        self.editing = NO;
         [self.parent.navigationController popViewControllerAnimated:YES];
         REFrostedViewController *cu = (REFrostedViewController *)[self.parent.navigationController topViewController];
         ((MenuTableViewController *)(cu.frostedViewController.menuViewController)).shopping = YES;
         [((MenuTableViewController *)(cu.frostedViewController.menuViewController)).tableView reloadData];
         [cu.frostedViewController presentMenuViewController];
+        return;
+    } else if(self.final_editing){
+        self.final_editing = NO;
+        [self.parent.navigationController popViewControllerAnimated:YES];
+        return;
     } else {
         [self setupShoppingCart];
+        [self setupReviewCell];
         [self.parent addDish:self];
         [self.parent.navigationController popViewControllerAnimated:YES];
+        return;
     }
 }
 
@@ -264,6 +307,7 @@
     if(self.shoppingCartCell){
 //        self.shoppingCartCell.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
         [self setupShoppingCart];
+        [self setupReviewCell];
     }
 }
 

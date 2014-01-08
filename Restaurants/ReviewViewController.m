@@ -10,9 +10,12 @@
 #import "ShoppingCartTableView.h"
 #import <ALAlertBanner/ALAlertBanner.h>
 #import "DishTableViewCell.h"
+#import "ReviewTotal.h"
+#import "ReviewTableCell.h"
+#import <REFrostedViewController/REFrostedViewController.h>
 
-#define DEFAULT_SIZE 43
-#define LARGE_SIZE 86
+#define DEFAULT_SIZE 60
+#define LARGE_SIZE 100
 
 @interface ReviewViewController ()
 
@@ -24,6 +27,7 @@
 //    ShoppingCartTableView *shop;
     @synthesize main_user;
     @synthesize next_view;
+    float tot;
 
 -(void) myCustomBack {
 	// Some anything you need to do before leaving
@@ -69,6 +73,14 @@
     [banner show];
 }
 
+-(void) updatePrice {
+    float tot = 0.0;
+    for(DishTableViewCell *dish_cell in self.shopping_cart){
+        tot += dish_cell.getPrice;
+    }
+    self.total_view.price_label.text = [NSString stringWithFormat:@"%.02f",tot];
+}
+
 - (void) setupBackButton {
 	self.navigationItem.hidesBackButton = YES; // Important
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
@@ -108,17 +120,52 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    CGRect frame = self.tableView.frame;
-    frame.origin.x = (self.view.frame.size.width - ((DishTableViewCell *)[self.shopping_cart firstObject]).shoppingCartCell.frame.size.width) / 2;
-    self.tableView.frame = frame;
+//    CGRect frame = self.tableView.frame;
+//    frame.origin.x = (self.view.frame.size.width - ((DishTableViewCell *)[self.shopping_cart firstObject]).shoppingCartCell.frame.size.width) / 2;
+//    self.tableView.frame = frame;
     
     self.tableView.backgroundColor = [UIColor bgColor];
     self.view.backgroundColor = [UIColor bgColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.tableHeaderView = [self setupHeader];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;    
+
     self.tableView.tableFooterView = [self setupFooter];
     [self.tableView reloadData];
     
+    for(DishTableViewCell *dish_cell in self.shopping_cart){
+        tot += dish_cell.getPrice;
+        [dish_cell.reviewCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        [dish_cell.reviewCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+        dish_cell.reviewCartCell.priceLabel.textColor = [UIColor scarletColor];
+    }
+    
+}
+
+-(void) remove:(ButtonCartRow *) dish_button {
+    DishTableViewCell *dish_cell = dish_button.parent;
+    [self.shopping_cart removeObject:dish_cell];
+    [self setupHeight];
+    [UIView transitionWithView: self.tableView
+                      duration: 0.5f
+                       options: UIViewAnimationOptionTransitionFlipFromRight
+                    animations: ^(void)
+     {
+         [self.tableView reloadData];
+     }
+                    completion: ^(BOOL isFinished)
+     {
+         
+     }];
+    [self updatePrice];
+}
+
+-(void) edit:(ButtonCartRow *) dish_button {
+    DishTableViewCell *dish_cell = dish_button.parent;
+    [dish_cell.dishFooterView.add setTitle:@"Save" forState:UIControlStateNormal];
+    dish_cell.final_editing = YES;
+    DishTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"dishEditViewController"];
+    vc.shoppingCart = self.shopping_cart;
+    [vc preloadDishCell:dish_cell];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UIView *) setupFooter {
@@ -152,26 +199,30 @@
     
 }
 
-- (UIView *) setupHeader {
-    
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 25, 100, 100)];
-    [logo setContentMode:UIViewContentModeScaleToFill];
-    logo.image = [UIImage imageNamed:@"logo_black.png"];
-    
-    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    
-//    [head addSubview:logo];
-    
-    //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
-    //    text_header.text = @"Progress";
-    //    text_header.textAlignment = NSTextAlignmentCenter;
-    //    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
-    //    text_header.textColor = [UIColor textColor];
-    //    [head addSubview:text_header];
-    
-    return head;
-    
-}
+//- (void) setupHeader {
+//    
+//    ReviewTotal *cell = [[[NSBundle mainBundle] loadNibNamed:@"ReviewTotal" owner:self options:nil] objectAtIndex:0];
+//    
+////    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 25, 100, 100)];
+////    [logo setContentMode:UIViewContentModeScaleToFill];
+////    logo.image = [UIImage imageNamed:@"logo_black.png"];
+////    
+////    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+//    
+////    [head addSubview:logo];
+//    
+//    //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
+//    //    text_header.text = @"Progress";
+//    //    text_header.textAlignment = NSTextAlignmentCenter;
+//    //    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
+//    //    text_header.textColor = [UIColor textColor];
+//    //    [head addSubview:text_header];
+//    
+////    return head;
+//    
+//
+//    
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -193,13 +244,24 @@
         int button_height = 38;
         int view_position = total_height - view_height;
         
+        ReviewTotal *cell = [[[NSBundle mainBundle] loadNibNamed:@"ReviewTotal" owner:self options:nil] objectAtIndex:0];
+        cell.backgroundColor = [UIColor textColor];
+        cell.price_label.backgroundColor = [UIColor whiteColor];
+        cell.price_label.textColor = [UIColor scarletColor];
+        [cell.price_label.layer setCornerRadius:5.0f];
+        cell.total_label.textColor = [UIColor whiteColor];
+        [self.total_view removeFromSuperview];
+        [self.view addSubview:cell];
+        self.total_view = cell;
+        
         CGRect frame = next_view.frame;
         frame.origin.y = view_position;
         frame.size.height = view_height;
         next_view.frame = frame;
         
         frame = self.tableView.frame;
-        frame.size.height = self.view.frame.size.height - view_height;
+        frame.origin.y = self.total_view.frame.size.height;
+        frame.size.height = self.view.frame.size.height - view_height - self.total_view.frame.size.height;
         self.tableView.frame = frame;
         
         UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, button_height)];
@@ -220,9 +282,16 @@
 
 -(void) setupHeight {
     heights = [[NSMutableDictionary alloc] init];
+    for(DishTableViewCell *dish_cell in self.shopping_cart){
+        dish_cell.reviewCartCell.separator1.hidden = NO;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+    ReviewTableCell *r = dish_view.reviewCartCell;
+    r.separator1.hidden = !r.separator1.hidden;
     
     if (heights == nil){
         NSLog(@"Setting up height dict");
@@ -232,7 +301,7 @@
     [self.tableView beginUpdates];
     NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
     if([[heights valueForKey:key] integerValue] == DEFAULT_SIZE){
-        //        DishTableViewCell *c = (DishTableViewCell *)[self cellForRowAtIndexPath:indexPath];
+//        DishTableViewCell *c = (DishTableViewCell *)[self cellForRowAtIndexPath:indexPath];
         int size = LARGE_SIZE;
         for(id kkey in [heights allKeys]) {
             [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
@@ -253,31 +322,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"HIEGHT FOR ROW: %ld",(long)indexPath.row);
-    
-//    if([self.shopping_cart count] == 0){
-//        return self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
-//    }
-//    
-//    if([self.shopping_cart count] == (int)indexPath.row){
-//        NSLog(@"it equals count");
-//        if (heights == nil){
-//            [self setupHeight];
-//        }
-//        int height = self.tableViewController.frame.size.height - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height;
-//        for(id val in heights){
-//            //            NSLog(@"height: %d",[((NSNumber *)[heights objectForKey:val]) intValue]);
-//            height -= [((NSNumber *)[heights objectForKey:val]) intValue];
-//        }
-//        if(height < 0){
-//            height = 0;
-//        }
-//        NSLog(@"RETURNING SPACER CELL OF HEIGHT: %d", height);
-//        return height;
-//    }
-    
-//    NSLog(@"DIDNT RETURN SPACER CELL");
-    
     if (heights == nil){
         NSLog(@"Setting up height dict");
         [self setupHeight];
@@ -301,32 +345,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell *cell = [[UITableViewCell alloc] init];
     DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
-//    UIView *offset_view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, dish_view.shoppingCartCell.frame.size.width, dish_view.shoppingCartCell.frame.size.height)];
-//
-//    CGRect frame = dish_view.shoppingCartCell.frame;
-//    frame.origin.y = 0;
-//    dish_view.shoppingCartCell.frame = frame;
-//    
-//    [offset_view addSubview:dish_view.shoppingCartCell];
-//    
-//    frame = offset_view.frame;
-//    frame.size.width = self.view.frame.size.width;
-//    cell.frame = frame;
-//    
-//    frame = offset_view.frame;
-//    frame.origin.x = (cell.frame.size.width - offset_view.frame.size.width) / 2;
-//    offset_view.frame = frame;
-//    
-//    [cell addSubview:offset_view];
-//    
-//    NSLog(@"Cell Frame: %@\nOffsetViewFrame: %@\nDishCellTableViewFrame: %@\n",CGRectCreateDictionaryRepresentation(cell.frame),CGRectCreateDictionaryRepresentation(offset_view.frame),CGRectCreateDictionaryRepresentation(dish_view.shoppingCartCell.frame));
-    
-//    return cell;
-//    dish_view.shoppingCartCell.backgroundColor = [UIColor redColor];
-    return dish_view.shoppingCartCell;
+    return dish_view.reviewCartCell;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [self setupHeight];
+    [self.tableView reloadData];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self updatePrice];
+}
 
 @end

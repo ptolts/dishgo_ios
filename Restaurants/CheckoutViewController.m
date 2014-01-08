@@ -194,6 +194,14 @@ bool speed_things_up;
     return [keys count];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *key = [keys objectAtIndex:indexPath.row];
+    if(![key isEqualToString:@"order"] && [[progress objectForKey:key] isEqual:@1]){
+        [self performSelector:NSSelectorFromString(key)];
+    }
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CheckoutCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"CheckoutCell" owner:self options:nil] objectAtIndex:0];
@@ -359,7 +367,14 @@ bool speed_things_up;
                 [self review];
                 return;
             } else {
-                [self place_order];
+                if(self.view.window != nil){
+                    [self place_order];
+                } else {
+                    self.view.alpha = 0.0f;
+                    [UIView animateWithDuration:1.0f animations:^() {
+                        self.view.alpha = 1.0f;
+                    }];
+                }
                 return;
             }
         }

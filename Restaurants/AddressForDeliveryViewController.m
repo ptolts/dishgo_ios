@@ -8,6 +8,7 @@
 
 #import "AddressForDeliveryViewController.h"
 #import <ALAlertBanner/ALAlertBanner.h>
+#import "CheckoutViewController.h"
 
 @interface AddressForDeliveryViewController ()
 
@@ -98,13 +99,22 @@
 
     UINavigationController *n = self.navigationController;
     [self.navigationController popViewControllerAnimated:NO];
-    [n.topViewController performSelector:NSSelectorFromString(@"next")];
-//    [self launchAlert:@"Address Confirmed!"];    
+    
+    if([n.topViewController isKindOfClass:[CheckoutViewController class]]){
+        [n.topViewController performSelector:NSSelectorFromString(@"next")];
+        return;
+    }
+
+    [self launchAlert:@"Address Confirmed!" view:n.topViewController.view];
+    n.topViewController.view.alpha = 0.0f;
+    [UIView animateWithDuration:1.0 animations:^() {
+        n.topViewController.view.alpha = 1.0f;
+    }];
 }
 
-- (void)launchAlert:(NSString *)msg
+- (void)launchAlert:(NSString *)msg view:(UIView *) view
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.topViewController.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionTop
                                                         title:@"Success!"
@@ -180,29 +190,23 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"End Editing!!");
+    [self.view endEditing:YES];
     [sub_textfield resignFirstResponder];
 }
 
 - (void)keyboardWasShown:(NSNotification *)notification
 {
-    // Step 1: Get the size of the keyboard.
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    // Step 2: Adjust the bottom content inset of your scroll view by the keyboard height.
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
-    // Step 3: Scroll the target text field into view.
     CGRect aRect = self.scroll_view.frame;
     aRect.size.height -= keyboardSize.height;
     CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.view];
-
-//    NSLog(@"view minus keyboard: %@",CGRectCreateDictionaryRepresentation(aRect));
-//    NSLog(@"text_view in parent: %@",CGRectCreateDictionaryRepresentation(textFrame));
     
     if (!CGRectContainsRect(aRect, textFrame)) {
-//        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
         CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
-//        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
         originalScrollerOffsetY = self.scroll_view.contentOffset.y;
         [self.scroll_view setContentOffset:scrollPoint animated:YES];
     }
@@ -213,6 +217,7 @@
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
     [self.scroll_view setContentOffset:CGPointMake(0.0, originalScrollerOffsetY) animated:YES];
+    sub_textfield = nil;
 }
 
 - (void)didReceiveMemoryWarning

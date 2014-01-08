@@ -38,6 +38,10 @@ int cellHeight;
     [sender resignFirstResponder];
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+    [self setup];
+}
+
 - (void) setup
 {
     [self.scan_card addTarget:self action:@selector(scanCardMethod:) forControlEvents:UIControlEventTouchUpInside];
@@ -271,7 +275,7 @@ int cellHeight;
 - (void) viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;    
-    [self setup];
+//    [self setup];
     [self setupBackButtonAndCart];
     self.view.backgroundColor = [UIColor bgColor];
     self.next_view.backgroundColor = [UIColor bgColor];
