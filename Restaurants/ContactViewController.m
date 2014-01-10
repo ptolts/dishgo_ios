@@ -54,6 +54,9 @@ MKMapView *mapView;
     double lon = [self.restaurant.lon doubleValue];
     CLLocationCoordinate2D dest = CLLocationCoordinate2DMake(lat, lon);
     
+    [locationManager stopMonitoringSignificantLocationChanges];
+    [locationManager stopUpdatingLocation];
+    
     if (currentLocation != nil) {
         NSLog(@"Lat: %f",newLocation.coordinate.latitude);
         
@@ -91,7 +94,6 @@ MKMapView *mapView;
                      break;
                  }
                  
-                 [locationManager stopUpdatingLocation];
              }
          }];
     }
@@ -108,7 +110,7 @@ MKMapView *mapView;
     
     footer.phone.text = self.restaurant.phone;
     footer.address.text = self.restaurant.address;
-//    footer.contact_title.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+//    footer.contact_title.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
 
     footer.contact_title.backgroundColor = [UIColor bgColor];
     footer.contact_title.font = [UIFont fontWithName:@"East Market NF" size:22.0f];

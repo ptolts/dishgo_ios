@@ -26,4 +26,9 @@
     // Configure the view for the selected state
 }
 
+-(void)layoutSubviews {
+    NSLog(@"FRAME %@",CGRectCreateDictionaryRepresentation(self.bounds));
+    [super layoutSubviews];
+}
+
 @end

@@ -17,6 +17,8 @@
 
 @implementation DishTableViewCell {
     float totalPrice;
+    NSString *old_text;
+    CGRect original_fucking_frame;
 }
 
 @synthesize option_views;
@@ -25,6 +27,50 @@
 {
     NSLog(@"%@", NSStringFromCGRect(frame));
     [super setFrame:frame];
+}
+
+- (ReviewTableCell *) reviewCartCell {
+    
+    
+    NSString *opt_text = @"";
+    for(OptionsView *o in option_views){
+        for(Option_Order *oo in o.option_order_json){
+            if(oo.selected){
+                if([opt_text length] == 0){
+                    opt_text = [NSString stringWithFormat:@"%@",oo.name];
+                } else {
+                    opt_text = [NSString stringWithFormat:@"%@, %@",opt_text,oo.name];
+                }
+            }
+        }
+    }
+    
+    _reviewCartCell.dish_options.text = opt_text;
+//    
+//    if([old_text isEqualToString:opt_text]){
+//        NSLog(@"Not Modifying");
+//        return _reviewCartCell;
+//    }
+//    
+//    NSLog(@"Modifying[%@] [%@] = [%@]",self,old_text,opt_text);
+//    if([opt_text length] == 0){
+//        CGRect frame = _reviewCartCell.move_me_up_and_down.frame;
+//        frame.origin.y -= _reviewCartCell.dish_options.frame.size.height;
+//        _reviewCartCell.move_me_up_and_down.frame = frame;
+////        frame = _reviewCartCell.contentView.frame;
+////        frame.size.height -= _reviewCartCell.dish_options.frame.size.height;
+////        _reviewCartCell.contentView.frame = frame;
+//    } else {
+//        CGRect frame = _reviewCartCell.move_me_up_and_down.frame;
+//        frame.origin.y += _reviewCartCell.dish_options.frame.size.height;
+//        _reviewCartCell.move_me_up_and_down.frame = frame;
+////        frame = _reviewCartCell.contentView.frame;
+////        frame.size.height += _reviewCartCell.dish_options.frame.size.height;
+////        _reviewCartCell.contentView.frame = frame;
+//    }
+//    
+//    old_text = [opt_text copy];
+    return _reviewCartCell;
 }
 
 -(void) setupShoppingCart {
@@ -82,6 +128,8 @@
     cell.separator1.backgroundColor = [UIColor seperatorColor];
     cell.separator2.backgroundColor = [UIColor seperatorColor];
     
+    cell.priceLabel.textColor = [UIColor scarletColor];
+    
     [cell.edit.layer setBorderColor:[UIColor seperatorColor].CGColor];
     [cell.edit.layer setBorderWidth:1.0f];
     [cell.edit.layer setCornerRadius:5.0f];
@@ -89,6 +137,8 @@
     [cell.remove.layer setBorderColor:[UIColor seperatorColor].CGColor];
     [cell.remove.layer setBorderWidth:1.0f];
     [cell.remove.layer setCornerRadius:5.0f];
+    
+    original_fucking_frame = cell.frame;
     
     self.reviewCartCell = cell;
 }
@@ -177,6 +227,7 @@
     }
     
     self.option_views = [[NSMutableArray alloc] init];
+    _optionViews = [[NSMutableDictionary alloc] init];
     
     for(Options *options in dish.options){
         
@@ -200,6 +251,7 @@
         [cell.contentView addSubview:option_view];
         
         [option_views addObject:option_view];
+        [_optionViews setObject:option_view forKey:options.id];
         
         frame = cell.contentView.frame;
         frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
@@ -265,7 +317,7 @@
     
     if(self.lower_half){
         for (OptionsView *priceView in [self.lower_half.contentView subviews]){
-            NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
+//            NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
             if (priceView.tag == 12347){
                 totalPrice += [priceView getPrice];
             }

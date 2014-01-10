@@ -11,6 +11,7 @@
 #import <JSONModel.h>
 #import "Order_Status.h"
 
+
 @interface User  : JSONModel
     @property (nonatomic, copy) NSString *facebook_token;
     @property (nonatomic, copy) NSString *facebook_id;

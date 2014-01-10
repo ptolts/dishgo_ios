@@ -54,9 +54,9 @@
 
 -(void) showOldOrders {
     User *main = [[UserSession sharedManager] fetchUser];
-    NSLog(@"Putting old orders out");
+//    NSLog(@"Putting old orders out");
     for(Order_Status *o in main.current_orders){
-        NSLog(@"Tracking old order: %@",o.order_id);
+//        NSLog(@"Tracking old order: %@",o.order_id);
         [self trackOrder:o.order_id confirmed:o.confirmed];
     }
 }

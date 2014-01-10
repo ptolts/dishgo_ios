@@ -103,7 +103,7 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -351,7 +351,7 @@
 //    [cell.scrollView scroll];
     
     cell.restaurantLabel.text = resto.name;
-    cell.restaurantLabel.font = [UIFont fontWithName:@"Freestyle Script Bold" size:28.0f];
+    cell.restaurantLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     [cellList addObject:cell];
     cell.scrollView.currentPage = 1;
     return cell;

@@ -64,7 +64,7 @@
         i++;
     }
     _total_pages = dd;
-    NSLog(@"Secion: %@ Dishes: %d Subviews: %d",self.section.name,dd,[self.subviews count]);
+//    NSLog(@"Secion: %@ Dishes: %d Subviews: %d",self.section.name,dd,[self.subviews count]);
     self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;
 }

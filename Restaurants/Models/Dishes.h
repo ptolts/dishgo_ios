@@ -1,5 +1,6 @@
 #import "_Dishes.h"
 
 @interface Dishes : _Dishes {}
-// Custom logic goes here.
+    // Custom logic goes here.
+    @property Restaurant *restaurant;
 @end

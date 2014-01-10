@@ -38,6 +38,7 @@
 - (void) preloadDishCell:(DishTableViewCell *) d{
     dish_logic = d;
     dish_logic.parent = self;
+    self.restaurant = d.restaurant;
     dish = dish_logic.dish;
     editing = YES;
 }
@@ -90,6 +91,10 @@
     [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
 }
 
+//-(void) viewDidAppear:(BOOL)animated {
+//    [self.shoppingCart saveShoppingCart];
+//}
+
 -(void) setupViews{
     
     int junkHeight = self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -97,14 +102,15 @@
     if(dish_logic == nil) {
         dish = self.dish;
         dish_logic = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
-        [dish_logic.priceLabel.layer setCornerRadius:5.0f];
         dish_logic.dish = dish;
+        dish_logic.restaurant = self.restaurant;
         dish_logic.dishTitle.text = dish.name;
         dish_logic.parent = self;
         dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
         [dish_logic setupLowerHalf];
     }
     
+    [dish_logic.priceLabel.layer setCornerRadius:5.0f];    
     CGRect frame = dish_logic.dishFooterView.frame;
     frame.origin.y = junkHeight - frame.size.height;
     dish_logic.dishFooterView.frame = frame;
@@ -170,9 +176,8 @@
 
 -(void)addDish:(DishTableViewCell *)dish_cell
 {
-    NSLog(@"SC Count Before: %d",[self.shoppingCart count]);
-    [self.shoppingCart addObject:dish_cell];
-    NSLog(@"SC Count After: %d",[self.shoppingCart count]);    
+    [self.shoppingCart addObjectThenSave:dish_cell];
+//    [self.shoppingCart saveShoppingCart];
     [self.cart setCount:[NSString stringWithFormat:@"%lu", (unsigned long)[self.shoppingCart count]]];
 }
 
@@ -180,7 +185,7 @@
 {
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = self.shoppingCart;
-//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
 }

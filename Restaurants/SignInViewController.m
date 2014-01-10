@@ -32,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [self.signupHeader setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+//    [self.signupHeader setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     [self setupBackButton];
     
     UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
@@ -64,7 +64,7 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;

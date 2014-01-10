@@ -18,5 +18,6 @@
     #import "UINavigationItem+iOS7Spacing.h"
     #import <CoreData/CoreData.h>
     #import "UIColor+Custom.h"
+    #import "NSMutableArray+ShoppingCartArray.h"
     #import "CustomIOS7AlertView.h"
 #endif

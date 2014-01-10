@@ -36,7 +36,7 @@
     self.page_tracker.pageIndicatorTintColor = [UIColor textColor];
     self.page_tracker.currentPageIndicatorTintColor = [UIColor scarletColor];
     self.page_tracker.numberOfPages = self.dishScrollView.total_pages;
-    NSLog(@"Total Pages: %d",self.dishScrollView.total_pages);
+//    NSLog(@"Total Pages: %d",self.dishScrollView.total_pages);
     self.page_tracker.currentPage = 0;
     self.dishScrollView.delegate = self;
     [self addSubview:self.page_tracker];

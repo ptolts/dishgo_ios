@@ -25,6 +25,8 @@
         frame.size = self.frame.size;
         
         StorefrontImageView *image = [[StorefrontImageView alloc] initWithFrame:frame];
+        image.clipsToBounds = YES;
+        image.autoresizingMask = UIViewAutoresizingNone;
         [imageViews addObject:image];
         image.userInteractionEnabled = NO;
         [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]

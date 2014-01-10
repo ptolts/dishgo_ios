@@ -27,6 +27,7 @@
         oo.ident = o.op.id;
         [opts addObject:oo];
     }
+    _quantity = [[NSNumber numberWithDouble:dish_cell.dishFooterView.stepper.value] intValue];
     _options = [opts copy];
     return self;
 }

@@ -12,8 +12,14 @@
 #import "Option_Order.h"
 
 @implementation OptionsView {
+    
     NSMutableArray *option_values;
     NSMutableArray *buttonList;
+    
+//    NSMutableDictionary *option_values_dict;
+    NSMutableDictionary *buttonList_dict;
+    NSMutableDictionary *option_order_json_dict;
+    
     float totalPrice;
     UIColor *mainColor;
     struct CGColor *mainCGColor;
@@ -21,6 +27,7 @@
 }
 
 @synthesize option_order_json;
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -72,14 +79,14 @@
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(5, self.frame.size.height + 5, self.frame.size.width - 10, 50);
     
-    int i;
-    for (i = (segmentedControl.numberOfSegments - 1); i >= 0; i--) {
-        CGSize size = [[segmentedControl titleForSegmentAtIndex:i] sizeWithAttributes: @{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:10]}];
-        if (size.width > [segmentedControl widthForSegmentAtIndex:i]) {
-            useButton = YES;
-        }
-    }
-    
+//    int i;
+//    for (i = (segmentedControl.numberOfSegments - 1); i >= 0; i--) {
+//        CGSize size = [[segmentedControl titleForSegmentAtIndex:i] sizeWithAttributes: @{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:10]}];
+//        if (size.width > [segmentedControl widthForSegmentAtIndex:i]) {
+//            useButton = YES;
+//        }
+//    }
+    useButton = YES;
     
     if(useButton){
         [self setupBut];
@@ -98,6 +105,8 @@
 - (void)setupBut
 {
     buttonList = [[NSMutableArray alloc] init];
+    buttonList_dict = [[NSMutableDictionary alloc] init];
+    
     self.optionTitle.text = self.op.name;
     mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9];
     mainCGColor = mainColor.CGColor;
@@ -107,6 +116,7 @@
     int last = [option_values count] - 1;
     for(NSMutableArray *option in option_values){
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [buttonList_dict setObject:button forKey:option[2]];
         [button addTarget:self action:@selector(addOpt:) forControlEvents:UIControlEventTouchUpInside];
         
         int buttonSize = 40;
@@ -123,7 +133,7 @@
         }
         
         button.layer.borderColor = mainCGColor;
-        button.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        button.layer.backgroundColor = [UIColor bgColor].CGColor;
         button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         button.titleLabel.numberOfLines = 2;
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -132,12 +142,16 @@
         button.layer.borderWidth=1.0f;
         [button.layer setCornerRadius:3.0f];
         
+        button.adjustsImageWhenHighlighted = NO;
+        button.clipsToBounds = YES;
+        
         if (index % 2 == 1 || (index + 1) == [option_values count]){
             CGRect frame = self.frame;
             frame.size.height = self.frame.size.height + (buttonSize + 10);
             self.frame = frame;
         }
-
+        
+        
         button.tag = index;
         [buttonList addObject:button];
         button.adjustsImageWhenHighlighted = NO;
@@ -148,19 +162,36 @@
 //    self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
 }
 
+- (void) setupFromJson:(NSMutableArray<Option_Order> *)json {
+    for(Option_Order *o in json){
+        Option_Order *new_opt_order = [option_order_json_dict objectForKey:o.ident];
+        UIButton *button = [buttonList_dict objectForKey:o.ident];
+        if(o.selected){
+            [self addOpt:(id)button];
+            new_opt_order.selected = YES;
+        }
+    }
+}
+
 - (void)setupOption
 {
     option_order_json = [[NSMutableArray alloc] init];
     option_values = [[NSMutableArray alloc] init];
+
+    option_order_json_dict = [[NSMutableDictionary alloc] init];
+//    option_values_dict = [[NSMutableDictionary alloc] init];
+    
     for(Option *option in self.op.list){
         Option_Order *opt = [[Option_Order alloc] init];
         opt.name = option.name;
         opt.selected = NO;
         opt.ident = option.id;
         [option_order_json addObject:opt];
+        [option_order_json_dict setObject:opt forKey:opt.ident];
         NSMutableArray *currentItem = [[NSMutableArray alloc] init];
         [currentItem addObject:option.name];
         [currentItem addObject:option.price];
+        [currentItem addObject:option.id];
         [option_values addObject:currentItem];
     }
     

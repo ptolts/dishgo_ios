@@ -132,7 +132,7 @@
 {
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = self.shoppingCart;
-//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
 }
@@ -151,6 +151,7 @@
     if ([segue.destinationViewController isKindOfClass:[DishTableViewController class]]) {
         DishTableViewController *vc = (DishTableViewController *)controller;
         vc.shoppingCart = self.shoppingCart;
+        vc.restaurant = self.restaurant;
         vc.dish = selected_dish;
     } else {
         NSLog(@"Class: %@",segue.destinationViewController);
@@ -260,7 +261,7 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
-    //    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+    //    view.headerTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     view.headerTitle.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
     view.headerTitle.textColor = [UIColor textColor];
     view.headerTitle.backgroundColor = [UIColor bgColor];

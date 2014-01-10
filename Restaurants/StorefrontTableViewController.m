@@ -16,6 +16,8 @@
 #import "Options.h"
 #import "Sections.h"
 #import "Subsections.h"
+#import "User.h"
+#import "Order_Order.h"
 #import "DishViewCell.h"
 #import "TableHeaderView.h"
 #import "SectionTableViewController.h"
@@ -27,6 +29,7 @@
 #import "StorefrontImageView.h"
 #import "ContactViewController.h"
 #import "LEColorPicker.h"
+
 
 #define DEFAULT_SIZE 124
 #define HEADER_DEFAULT_SIZE 35
@@ -40,6 +43,7 @@
     NSMutableArray *sectionsList;
     NSMutableArray *shoppingCart;
     NSMutableArray *cellList;
+    NSMutableDictionary *cart_save;
     int initialFrame;
     NSArray *fetchedRestaurants;
     int current_page = 0;
@@ -168,30 +172,30 @@
                          [spinnerView removeFromSuperview];
                      }];
     // THIS ADD STUFF TO THE CART FOR TESTING.
-    bool kill = NO;
-    for(Sections *sec in sectionsList){
-        for(Subsections *subsec in sec.subsections){
-            for(Dishes *d in subsec.dishes){
-                DishTableViewCell *dish_logic = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
-                dish_logic.dish = d;
-                dish_logic.dishTitle.text = d.name;
-                dish_logic.parent = self;
-                dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
-                [dish_logic setupLowerHalf];
-                [dish_logic setupShoppingCart];
-                [dish_logic setupReviewCell];
-                [shoppingCart addObject:dish_logic];
-                if([shoppingCart count] > 15){
-                    kill = YES;
-                    break;
-                }
-            }
-            if (kill)
-                break;
-        }
-        if (kill)
-            break;
-    }
+//    bool kill = NO;
+//    for(Sections *sec in sectionsList){
+//        for(Subsections *subsec in sec.subsections){
+//            for(Dishes *d in subsec.dishes){
+//                DishTableViewCell *dish_logic = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
+//                dish_logic.dish = d;
+//                dish_logic.dishTitle.text = d.name;
+//                dish_logic.parent = self;
+//                dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
+//                [dish_logic setupLowerHalf];
+//                [dish_logic setupShoppingCart];
+//                [dish_logic setupReviewCell];
+//                [shoppingCart addObject:dish_logic];
+//                if([shoppingCart count] > 3){
+//                    kill = YES;
+//                    break;
+//                }
+//            }
+//            if (kill)
+//                break;
+//        }
+//        if (kill)
+//            break;
+//    }
     enableCart = YES;
 }
 
@@ -224,6 +228,8 @@
     [self.navigationItem setLeftBarButtonItem:backBtn];
     
     shoppingCart = [[NSMutableArray alloc] init];
+    [shoppingCart setIdent:self.restaurant.id];
+    
     CartButton *cartButton = [[CartButton alloc] init];
     [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
@@ -245,7 +251,7 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -254,7 +260,7 @@
     
     Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
-    header.label.font = [UIFont fontWithName:@"Freestyle Script Bold" size:40.0f];
+    header.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:25.0f];
     header.scroll_view.restaurant = self.restaurant;
     header.scroll_view.img_delegate = self;
     [header.scroll_view setupImages];
@@ -272,6 +278,31 @@
     [self loadMenu];
 }
 
+- (void) loadCart {
+    RAppDelegate *del = (RAppDelegate *)[UIApplication sharedApplication].delegate;
+    cart_save = del.cart_save;
+//    NSLog(@"LOADED DEFAULTS: %@",cart_save);
+    if([cart_save objectForKey:self.restaurant.id] != nil){
+        NSString *json = [cart_save objectForKey:self.restaurant.id];
+        NSError* err = nil;
+        NSLog(@"Json from defaults: %@",json);
+        Order_Order *object_order = [[Order_Order alloc] initWithString:json error:&err];
+//        NSLog(@"ERROR LOADING CART FROM NSUSERDEFAULTS: %@",err);
+        shoppingCart = [object_order reverseJsonWithRestaurant:self.restaurant];
+        [shoppingCart setIdent:self.restaurant.id];
+//        NSLog(@"CART SIZE: %d",[shoppingCart count]);
+    }
+    if([shoppingCart count] != 0){
+        int tots = 0;
+        for(DishTableViewCell *d in shoppingCart){
+            tots += (int) d.dishFooterView.stepper.value;
+        }
+        [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
+    } else {
+        [self.cart setCount:@"0"];
+    }
+}
+
 - (void)cartClick:sender
 {
     if(!enableCart){
@@ -280,10 +311,12 @@
     
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = shoppingCart;
-//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
+    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
     self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
     [self.frostedViewController presentMenuViewController];
 }
+
+
 
 - (void) currentImageView:(StorefrontImageView *)current {
     
@@ -499,7 +532,7 @@
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
-//    view.headerTitle.font = [UIFont fontWithName:@"Freestyle Script Bold" size:30.0f];
+//    view.headerTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     view.headerTitle.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
     view.headerTitle.textColor = [UIColor textColor];
     view.headerTitle.backgroundColor = [UIColor bgColor];
@@ -560,6 +593,7 @@
         NSLog(@"Section ID: %@",[[sectionsList objectAtIndex:indexPath.row] objectID]);
         vc.section = [sectionsList objectAtIndex:indexPath.section];
         vc.current_page = current_page;
+        vc.restaurant = self.restaurant;
         vc.shoppingCart = shoppingCart;
         vc.managedObjectStore = self.managedObjectStore;
     } else {
@@ -665,6 +699,7 @@
             [self.tableView reloadData];
         }
         
+        [self loadCart];        
         [self stopLoading];
         
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {

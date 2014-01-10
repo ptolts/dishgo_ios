@@ -17,8 +17,10 @@
     @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
     @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
     @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    @property NSMutableDictionary *cart_save;
 
     - (void)saveContext;
+    - (void) saveCart;
     - (NSURL *)applicationDocumentsDirectory;
 
 @end

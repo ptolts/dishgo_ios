@@ -19,6 +19,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize cart_save;
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -36,9 +37,24 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
+    [self loadCart];
     UserSession *sharedManager = [UserSession sharedManager];
     return YES;
+}
+
+- (void) saveCart {
+    [[NSUserDefaults standardUserDefaults] setObject:cart_save forKey:@"cart_save"];
+    NSLog(@"SAVING USER DEFAULTS");
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void) loadCart {
+    NSMutableDictionary *retrieved_dict = [[NSUserDefaults standardUserDefaults] objectForKey:@"cart_save"];
+    if (retrieved_dict == nil) {
+        retrieved_dict = [[NSMutableDictionary alloc] init];
+    }
+    cart_save = [retrieved_dict mutableCopy];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -66,6 +82,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    [self saveCart];
     [self saveContext];
 }
 

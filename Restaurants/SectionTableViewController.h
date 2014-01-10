@@ -10,8 +10,10 @@
 #import <RestKit/RestKit.h>
 #import "CartButton.h"
 
+
 @interface SectionTableViewController : UITableViewController
     @property(nonatomic, strong) Sections *section;
+    @property Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
     @property int current_page;
     @property (nonatomic, strong) NSMutableArray *shoppingCart;

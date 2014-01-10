@@ -39,7 +39,7 @@
     }
     
     for (OptionsView *priceView in [self.contentView subviews]){
-        NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
+//        NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
         if (priceView.tag == 12347){
             totalPrice += [priceView getPrice];
         }

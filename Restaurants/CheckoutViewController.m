@@ -22,6 +22,7 @@
 #import "RootViewController.h"
 #import "Order_Submit_Response.h"
 
+
 #define CELL_SIZE 34
 
 @interface CheckoutViewController ()
@@ -49,7 +50,7 @@ bool speed_things_up;
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -124,6 +125,16 @@ bool speed_things_up;
 
 -(void) viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
+    if([self.shoppingCart count] == 0){
+        if(self.next_but_label){
+            [self.next_but_label setText:@"Return To Menu"];
+            [self.next_but  removeTarget:nil
+                            action:NULL
+                            forControlEvents:UIControlEventAllEvents];
+            [self.next_but addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+        }
+        [self launchError:@"Your Cart is now empty. Please add food!"];
+    }
 }
 
 
@@ -166,12 +177,6 @@ bool speed_things_up;
     
     self.tableView.tableHeaderView = [self setupHeader];
     self.tableView.tableFooterView = [self setupFooter];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -309,7 +314,7 @@ bool speed_things_up;
 
 - (void)launchAlert:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.topViewController.view
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.view
                                                         style:ALAlertBannerStyleNotify
                                                      position:ALAlertBannerPositionTop
                                                         title:@"Success!"
@@ -317,6 +322,20 @@ bool speed_things_up;
     
     
     banner.secondsToShow = 3.0f;
+    
+    [banner show];
+}
+
+- (void)launchError:(NSString *)msg
+{
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.view
+                                                        style:ALAlertBannerStyleWarning
+                                                     position:ALAlertBannerPositionTop
+                                                        title:@"Cart Empty!"
+                                                     subtitle:msg];
+    
+    
+    banner.secondsToShow = 15.0f;
     
     [banner show];
 }
@@ -386,30 +405,6 @@ bool speed_things_up;
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
     
-    //    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 38)];
-    //    next_but.text = @"Next";
-    //    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
-    //    next_but.textColor = [UIColor bgColor];
-    //    next_but.textAlignment = NSTextAlignmentCenter;
-    //    [next_but setUserInteractionEnabled:NO];
-    //
-    //    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //
-    //    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 38)];
-    //    btn.backgroundColor = [UIColor nextColor];
-    //    btn.layer.cornerRadius = 3.0f;
-    ////    btn.layer.borderColor = [UIColor blackColor].CGColor;
-    ////    btn.layer.borderWidth = 1.0f;
-    //    self.next_but = btn;
-    //    [btn addSubview:next_but];
-    //
-    //    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-    //
-    //    [footer addSubview:btn];
-    
-    //    footer.layer.borderColor = [UIColor blackColor].CGColor;
-    //    footer.layer.borderWidth = 1.0f;
-    
     return footer;
     
 }
@@ -451,6 +446,7 @@ bool speed_things_up;
         [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
         self.next_but_label = next_but;
         [next_view addSubview:btn];
+        self.next_but = btn;
     }
 }
 
@@ -470,10 +466,31 @@ bool speed_things_up;
     //    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
     //    text_header.textColor = [UIColor textColor];
     //    [head addSubview:text_header];
+    logo.userInteractionEnabled = YES;
+    UITapGestureRecognizer *pgr = [[UITapGestureRecognizer alloc]
+                                     initWithTarget:self action:@selector(output_json)];
+    pgr.delegate = self;
+    [logo addGestureRecognizer:pgr];
     
     return head;
     
 }
+
+-(void) output_json {
+    NSLog(@"output_json");
+    user_for_order.billing_user = user_for_billing;
+    user_for_order.shopping_cart = self.shoppingCart;
+    Order_Order *json_order = [[Order_Order alloc] init];
+    [json_order setupJsonWithUser:user_for_order];
+    
+    NSString *json = [json_order toJSONString];
+    NSError* err = nil;
+    Order_Order *object_order = [[Order_Order alloc] initWithString:json error:&err];
+    NSLog(@"%@",err);
+    self.shoppingCart = [object_order reverseJsonWithRestaurant:self.restaurant];
+}
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

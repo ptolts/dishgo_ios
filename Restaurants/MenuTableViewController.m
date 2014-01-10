@@ -64,6 +64,7 @@
 -(void) checkout {
     CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"checkoutTableViewController"];
     vc.shoppingCart = self.shopping_cart;
+    vc.restaurant = self.restaurant;
     UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
     [navigationController pushViewController:vc animated:YES];
     [self.frostedViewController hideMenuViewController];
@@ -538,6 +539,7 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
+    [self.shopping_cart saveShoppingCart];
     if(self.tableView.tableFooterView){
         [self updatePrice];
     }

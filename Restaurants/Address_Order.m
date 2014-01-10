@@ -32,4 +32,10 @@
         _first_name = user.first_name;
         return self;
     }
+
+    +(BOOL)propertyIsOptional:(NSString*)propertyName
+    {
+//        NSLog(@"Optional Property: %@",propertyName);
+        return YES;
+    }
 @end

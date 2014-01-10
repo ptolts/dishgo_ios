@@ -67,6 +67,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if([self.shopping_cart count] == 0){
+        return (self.tableViewController.frame.size.height - junk - self.tableViewController.tableHeaderView.frame.size.height - self.tableViewController.tableFooterView.frame.size.height);
+    }
+    
     if (heights == nil){
         [self setupHeight];
     }
@@ -82,6 +86,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([self.shopping_cart count] == 0){
+        return 1;
+    }
     return [self.shopping_cart count];// + 1;
 }
 

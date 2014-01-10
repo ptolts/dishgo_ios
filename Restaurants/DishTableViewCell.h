@@ -27,7 +27,9 @@
     @property (nonatomic, strong) DishFooterView *dishFooterView;
     @property (nonatomic, strong) CartRowCell *shoppingCartCell;
     @property (nonatomic, strong) ReviewTableCell *reviewCartCell;
+    @property NSMutableDictionary *optionViews;
     @property (nonatomic, strong) Dishes *dish;
+    @property Restaurant *restaurant;
     @property NSMutableArray *option_views;
     @property DishTableViewController *parent;
     @property int full_height;

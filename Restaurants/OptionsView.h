@@ -16,6 +16,7 @@
     @property (weak, nonatomic) Options *op;
     @property (weak, nonatomic) DishTableViewCell *parent;
     @property NSMutableArray<Option_Order> *option_order_json;
+    - (void) setupFromJson:(NSMutableArray<Option_Order> *)json;
     -(void) setupOption;
     -(float) getPrice;
     @property int full_height;

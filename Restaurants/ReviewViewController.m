@@ -14,8 +14,8 @@
 #import "ReviewTableCell.h"
 #import <REFrostedViewController/REFrostedViewController.h>
 
-#define DEFAULT_SIZE 60
-#define LARGE_SIZE 100
+#define DEFAULT_SIZE 100
+#define LARGE_SIZE 131
 
 @interface ReviewViewController ()
 
@@ -28,6 +28,7 @@
     @synthesize main_user;
     @synthesize next_view;
     float tot;
+    ReviewTableCell *r_cell;
 
 -(void) myCustomBack {
 	// Some anything you need to do before leaving
@@ -45,7 +46,7 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -56,7 +57,7 @@
 - (void) next {
     main_user.review_confirm = YES;
     [self.navigationController popViewControllerAnimated:YES];
-    [self launchAlert:@"Order Review Confirmed!"];
+//    [self launchAlert:@"Order Review Confirmed!"];
 }
 
 - (void)launchAlert:(NSString *)msg
@@ -96,7 +97,7 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Freestyle Script Bold" size:30.0f]];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -109,20 +110,9 @@
     [super viewDidLoad];
     [self setupBackButton];
     [self setupHeight];
-//    shop = [[ShoppingCartTableView alloc] init];
-//    shop.junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
-//    shop.frame = self.tableView.frame;
-//    shop.tableViewController = self.tableView;
-//    shop.shopping_cart = self.shopping_cart;
-//    self.tableView.delegate = shop;
-//    self.tableView.dataSource = shop;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-//    CGRect frame = self.tableView.frame;
-//    frame.origin.x = (self.view.frame.size.width - ((DishTableViewCell *)[self.shopping_cart firstObject]).shoppingCartCell.frame.size.width) / 2;
-//    self.tableView.frame = frame;
     
     self.tableView.backgroundColor = [UIColor bgColor];
     self.view.backgroundColor = [UIColor bgColor];
@@ -130,13 +120,6 @@
 
     self.tableView.tableFooterView = [self setupFooter];
     [self.tableView reloadData];
-    
-    for(DishTableViewCell *dish_cell in self.shopping_cart){
-        tot += dish_cell.getPrice;
-        [dish_cell.reviewCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-        [dish_cell.reviewCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
-        dish_cell.reviewCartCell.priceLabel.textColor = [UIColor scarletColor];
-    }
     
 }
 
@@ -171,58 +154,10 @@
 - (UIView *) setupFooter {
     
     UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    
-//    UILabel *next_but = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 35)];
-//    next_but.text = @"Next";
-//    [next_but setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17.0f]];
-//    next_but.textColor = [UIColor bgColor];
-//    next_but.textAlignment = NSTextAlignmentCenter;
-//    [next_but setUserInteractionEnabled:NO];
-//    next_but.layer.cornerRadius = 3.0f;
-//    
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn setFrame:CGRectMake(20, 40, self.view.frame.size.width - 40, 35)];
-//    btn.backgroundColor = [UIColor nextColor];
-//    //    btn.layer.borderColor = [UIColor blackColor].CGColor;
-//    //    btn.layer.borderWidth = 1.0f;
-////    self.next_but = btn;
-//    [btn addSubview:next_but];
-//    
-//    [btn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    [footer addSubview:btn];
-//    
-//    //    footer.layer.borderColor = [UIColor blackColor].CGColor;
-//    //    footer.layer.borderWidth = 1.0f;
-    
     return footer;
     
 }
 
-//- (void) setupHeader {
-//    
-//    ReviewTotal *cell = [[[NSBundle mainBundle] loadNibNamed:@"ReviewTotal" owner:self options:nil] objectAtIndex:0];
-//    
-////    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((320.0/2.0) - 50, 25, 100, 100)];
-////    [logo setContentMode:UIViewContentModeScaleToFill];
-////    logo.image = [UIImage imageNamed:@"logo_black.png"];
-////    
-////    UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-//    
-////    [head addSubview:logo];
-//    
-//    //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
-//    //    text_header.text = @"Progress";
-//    //    text_header.textAlignment = NSTextAlignmentCenter;
-//    //    text_header.font = [UIFont fontWithName:@"DamascusBold" size:18.0f];
-//    //    text_header.textColor = [UIColor textColor];
-//    //    [head addSubview:text_header];
-//    
-////    return head;
-//    
-//
-//    
-//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -282,34 +217,74 @@
 
 -(void) setupHeight {
     heights = [[NSMutableDictionary alloc] init];
-    for(DishTableViewCell *dish_cell in self.shopping_cart){
-        dish_cell.reviewCartCell.separator1.hidden = NO;
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
-    ReviewTableCell *r = dish_view.reviewCartCell;
-    r.separator1.hidden = !r.separator1.hidden;
-    
-    if (heights == nil){
-        NSLog(@"Setting up height dict");
-        [self setupHeight];
-    }
+//    if (heights == nil){
+//        NSLog(@"Setting up height dict");
+//        [self setupHeight];
+//    }
+//    
+//    [self.tableView beginUpdates];
+//    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
+//    for(DishTableViewCell *dish_cell in self.shopping_cart){
+//        dish_cell.reviewCartCell.separator1.hidden = NO;
+//    }
+//    DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+//    ReviewTableCell *r = dish_view.reviewCartCell;
+//    if([[heights valueForKey:key] integerValue] == DEFAULT_SIZE){
+//        r.separator1.hidden = YES;
+//        r.more_image.hidden = YES;
+//        int size = LARGE_SIZE;
+//        for(id kkey in [heights allKeys]) {
+//            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
+//        }
+//        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
+//    } else {
+//        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+//
+//        [UIView transitionWithView: r
+//                          duration: 0.35f
+//                           options: UIViewAnimationOptionTransitionCrossDissolve
+//                        animations: ^(void)
+//         {
+//             r.separator1.hidden = NO;
+//             r.more_image.hidden = NO;
+//         }
+//                        completion: ^(BOOL isFinished){}
+//         ];
+//
+//    }
+//    [self.tableView endUpdates];
     
     [self.tableView beginUpdates];
-    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
-    if([[heights valueForKey:key] integerValue] == DEFAULT_SIZE){
-//        DishTableViewCell *c = (DishTableViewCell *)[self cellForRowAtIndexPath:indexPath];
-        int size = LARGE_SIZE;
-        for(id kkey in [heights allKeys]) {
-            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
+
+        for(DishTableViewCell *dish_cell in self.shopping_cart){
+            dish_cell.reviewCartCell.separator1.hidden = NO;
+            dish_cell.reviewCartCell.more_image.hidden = NO;
         }
-        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
-    } else {
-        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
-    }
+    
+        DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+    
+        if([r_cell isEqual: dish_view.reviewCartCell]){
+            [UIView transitionWithView: r_cell
+                              duration: 0.35f
+                               options: UIViewAnimationOptionTransitionCrossDissolve
+                            animations: ^(void)
+             {
+                 r_cell.separator1.hidden = NO;
+                 r_cell.more_image.hidden = NO;
+             }
+                            completion: ^(BOOL isFinished){}
+             ];
+            r_cell = nil;
+        } else {
+            r_cell = dish_view.reviewCartCell;
+            r_cell.separator1.hidden = YES;
+            r_cell.more_image.hidden = YES;
+        }
+    
     [self.tableView endUpdates];
     
 }
@@ -322,18 +297,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (heights == nil){
-        NSLog(@"Setting up height dict");
-        [self setupHeight];
-    }
-    
-    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
-    if([heights valueForKey:key]){
-        NSLog(@"%f",[[heights valueForKey:key] doubleValue]);
-        return [[heights valueForKey:key] doubleValue];
+    NSLog(@"r_cell: %@",r_cell);
+    DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+    if([r_cell isEqual: dish_view.reviewCartCell]){
+        [dish_view.reviewCartCell setNeedsLayout];
+        NSLog(@"Full Height: %f",dish_view.reviewCartCell.frame.size.height);
+        return LARGE_SIZE;
     } else {
-        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
-        return DEFAULT_SIZE;
+        NSLog(@"Half Height: %f",dish_view.reviewCartCell.move_me_up_and_down.frame.origin.y);
+        return dish_view.reviewCartCell.move_me_up_and_down.frame.origin.y + dish_view.reviewCartCell.separator1.frame.origin.y + 1;
     }
 }
 
@@ -356,6 +328,17 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [self updatePrice];
+    for(DishTableViewCell *dish_cell in self.shopping_cart){
+        tot += dish_cell.getPrice;
+        [dish_cell.reviewCartCell.edit  removeTarget:nil
+                                        action:NULL
+                                        forControlEvents:UIControlEventAllEvents];
+        [dish_cell.reviewCartCell.remove  removeTarget:nil
+                                              action:NULL
+                                    forControlEvents:UIControlEventAllEvents];
+        [dish_cell.reviewCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        [dish_cell.reviewCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 @end

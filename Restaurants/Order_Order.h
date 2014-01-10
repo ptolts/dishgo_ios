@@ -21,4 +21,5 @@
     @property (strong, nonatomic) NSArray<Dish_Order>* order;
     - (void) setupJsonWithUser:(User *) user;
     +(BOOL)propertyIsOptional:(NSString*)propertyName;
+    -(NSMutableArray *)reverseJsonWithRestaurant:(Restaurant *)resto;
 @end

@@ -21,12 +21,28 @@
 }
 
 - (void) setCount:(NSString *)newText {
-    [UIView animateWithDuration:1.0
-                     animations:^{
-                         self.cart_count.alpha = 0.0f;
-                         self.cart_count.text = newText;
-                         self.cart_count.alpha = 1.0f;
-                     }];
+    if([newText isEqualToString:self.cart_count.text]){
+        return;
+    }
+//    [UIView animateWithDuration:1.0
+//                     animations:^{
+//                         self.cart_count.alpha = 0.0f;
+//                         self.cart_count.text = newText;
+//                         self.cart_count.alpha = 1.0f;
+//                     }];
+    [UIView transitionWithView: self.cart_count
+                      duration: 0.5f
+                       options: UIViewAnimationOptionTransitionFlipFromRight
+                    animations: ^(void)
+     {
+         self.cart_count.text = newText;
+     }
+                    completion: ^(BOOL isFinished)
+     {
+         
+     }];
+    
+    
 }
 
 - (id)init {

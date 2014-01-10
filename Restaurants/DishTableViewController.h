@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DishTableViewCell.h"
 #import "CartButton.h"
+
 #import "DishTableViewCell.h"
 
 @class DishTableViewCell;
@@ -17,6 +18,7 @@
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     @property (nonatomic, strong) Dishes *dish;
     @property (nonatomic, strong) CartButton *cart;
+    @property Restaurant *restaurant;
     @property (nonatomic, strong) IBOutlet UITableView *tableView;
     -(void)addDish:dish_cell;
     - (void) preloadDishCell:(DishTableViewCell *) d;
