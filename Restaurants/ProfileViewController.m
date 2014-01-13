@@ -24,7 +24,9 @@
 //    CLLocationManager *locationManager;
     MBProgressHUD *hud;
     float originalScrollerOffsetY;
+    NSNumber *activeTextField;
     UITextField *sub_textfield;
+    BOOL setup_equal;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -72,32 +74,31 @@
 }
 
 
+
 - (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     if ([keyPath isEqual:@"current_textfield"]) {
         sub_textfield = [change objectForKey:NSKeyValueChangeNewKey];
     }
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"End Editing!!");
+    [self.scroll_view endEditing:YES];
+    [sub_textfield resignFirstResponder];
+}
+
 - (void)keyboardWasShown:(NSNotification *)notification
 {
-    // Step 1: Get the size of the keyboard.
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    // Step 2: Adjust the bottom content inset of your scroll view by the keyboard height.
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
-    // Step 3: Scroll the target text field into view.
     CGRect aRect = self.scroll_view.frame;
     aRect.size.height -= keyboardSize.height;
-    CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.view];
-    
-    //    NSLog(@"view minus keyboard: %@",CGRectCreateDictionaryRepresentation(aRect));
-    //    NSLog(@"text_view in parent: %@",CGRectCreateDictionaryRepresentation(textFrame));
-    
+    CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.scroll_view];
+//    NSLog(@"View Frame: %@\nScrollview Frame: %@\nSubfieldview Frame: %@\n",CGRectCreateDictionaryRepresentation(self.view.frame),CGRectCreateDictionaryRepresentation(self.scroll_view.frame),CGRectCreateDictionaryRepresentation(textFrame));
     if (!CGRectContainsRect(aRect, textFrame)) {
-        //        NSLog(@"%@",CGPointCreateDictionaryRepresentation([sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view]));
-        CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
-        //        NSLog(@"%@",CGPointCreateDictionaryRepresentation(scrollPoint));
+        CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.scroll_view].y - (keyboardSize.height-55));
         originalScrollerOffsetY = self.scroll_view.contentOffset.y;
         [self.scroll_view setContentOffset:scrollPoint animated:YES];
     }
@@ -108,6 +109,7 @@
     self.scroll_view.contentInset = contentInsets;
     self.scroll_view.scrollIndicatorInsets = contentInsets;
     [self.scroll_view setContentOffset:CGPointMake(0.0, originalScrollerOffsetY) animated:YES];
+    sub_textfield = nil;
 }
 
 - (void)viewDidLoad
@@ -129,8 +131,9 @@
     addy_view.frame = self.address_view.frame;
     [self.address_view removeFromSuperview];
     self.address_view = addy_view;
-    [self.view addSubview:addy_view];
+    [self.scroll_view addSubview:addy_view];
     self.address_view = addy_view;
+    addy_view.controller = self;
     [addy_view.save addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     
     ProfileView *prof_view = [[ProfileView alloc] init];
@@ -138,8 +141,17 @@
     prof_view.frame = self.profile_view.frame;
     [self.profile_view removeFromSuperview];
     self.profile_view = prof_view;
-    [self.view addSubview:prof_view];
+    [self.scroll_view addSubview:prof_view];
     self.profile_view = prof_view;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
     [addy_view addObserver:self forKeyPath:@"current_textfield" options:NSKeyValueObservingOptionNew context:NULL];
     
@@ -203,22 +215,22 @@
 //
 //}
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    for (UIView * txt in self.address_view.subviews){
-        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
-            [txt resignFirstResponder];
-        }
-    }
-    
-    for (UIView * txt in self.profile_view.subviews){
-        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
-            [txt resignFirstResponder];
-        }
-    }
-    
-    [self.view endEditing:YES];
-}
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    
+//    for (UIView * txt in self.address_view.subviews){
+//        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
+//            [txt resignFirstResponder];
+//        }
+//    }
+//    
+//    for (UIView * txt in self.profile_view.subviews){
+//        if ([txt isKindOfClass:[UITextField class]] && [txt isFirstResponder]) {
+//            [txt resignFirstResponder];
+//        }
+//    }
+//    
+//    [self.view endEditing:YES];
+//}
 
 -(IBAction)dissmissKeyboard:(id)sender{
     [sender resignFirstResponder];
@@ -436,4 +448,50 @@
         }
     }];
 }
+
+- (void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self setupNextButton];
+}
+
+- (void) setupNextButton {
+    if(!setup_equal){
+        [self equalSpace];
+        setup_equal = YES;
+    }
+}
+
+- (void) equalSpace {
+    
+    int available = self.scroll_view.frame.size.height;
+    
+    int subcount = [[self.scroll_view subviews] count];
+    for(UIView *v in [self.scroll_view subviews]){
+        available -= v.frame.size.height;
+    }
+    
+    NSComparator comparatorBlock = ^(UIView *obj1, UIView *obj2) {
+        if (obj1.frame.origin.y > obj2.frame.origin.y) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if (obj1.frame.origin.y < obj2.frame.origin.y) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    };
+    
+    int new_offset = 0;
+    int add_offset = (int)(available / subcount);
+    
+    NSLog(@"Add_offset: %d",add_offset);
+    
+    for(UIView *v in [[self.scroll_view subviews] sortedArrayUsingComparator:comparatorBlock]){
+        new_offset += add_offset;
+        CGRect frame = v.frame;
+        frame.origin.y += new_offset;
+        v.frame = frame;
+    }
+}
+
 @end

@@ -19,6 +19,7 @@
 
 CLLocationManager *locationManager;
 MKMapView *mapView;
+UIView *loading;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -45,9 +46,11 @@ MKMapView *mapView;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     
-    if (newLocation.coordinate.latitude == oldLocation.coordinate.latitude){
+    if (newLocation.coordinate.latitude != oldLocation.coordinate.latitude){
         return;
     }
+    
+    [loading removeFromSuperview];
     
     CLLocation *currentLocation = newLocation;
     double lat = [self.restaurant.lat doubleValue];
@@ -146,6 +149,14 @@ MKMapView *mapView;
     [footer setNeedsLayout];
     self.view.frame = CGRectMake(0, 0, footer.frame.size.width, footer.frame.size.height);
     [self.view addSubview:footer];
+    
+    
+    loading = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.footer.mapView.frame.size.width, self.footer.mapView.frame.size.height)];
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityView.center=loading.center;
+    [activityView startAnimating];
+    [loading addSubview:activityView];
+    [self.footer.mapView addSubview:loading];
 }
 
 

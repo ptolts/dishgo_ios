@@ -20,12 +20,14 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize cart_save;
+BOOL attemptingFacebookLogin;
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+    attemptingFacebookLogin = YES;
     return [FBSession.activeSession handleOpenURL:url];
 }
 
@@ -76,7 +78,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if(!attemptingFacebookLogin){
+        [[NSNotificationCenter defaultCenter]   postNotificationName:@"attemptingFacebookLogin"
+                                                object:self];
+    }
+    attemptingFacebookLogin = NO;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

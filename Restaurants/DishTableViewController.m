@@ -57,13 +57,13 @@
     [self.navigationItem setLeftBarButtonItem:backBtn];
     
     
-    CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    //    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
-    [self.navigationItem setRightBarButtonItem:customItem];
-    //    self.navigationItem.rightBarButtonItem = customItem;
-    self.cart = cartButton;
+//    CartButton *cartButton = [[CartButton alloc] init];
+//    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+//    //    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
+//    [self.navigationItem setRightBarButtonItem:customItem];
+//    //    self.navigationItem.rightBarButtonItem = customItem;
+//    self.cart = cartButton;
 }
 
 -(void) myCustomBack {

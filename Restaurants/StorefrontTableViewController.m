@@ -342,6 +342,9 @@
     [UIView animateWithDuration:0.5
                      animations:^{
                          head.button_view.backgroundColor = [[colorScheme backgroundColor] colorWithAlphaComponent:0.8f];
+                         head.map_label.textColor = [colorScheme primaryTextColor];
+                         head.phone_label.textColor = [colorScheme primaryTextColor];
+                         head.favorite_label.textColor = [colorScheme primaryTextColor];
                          for(UIImageView *i in [head.button_view subviews]){
                              if([i isKindOfClass:[UIImageView class]]){
                                  UIColor *color = [colorScheme primaryTextColor];

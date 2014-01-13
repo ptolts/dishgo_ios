@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 #import "AddressView.h"
 #import "ProfileView.h"
 
-@interface ProfileViewController : UIViewController //<CLLocationManagerDelegate, UITextFieldDelegate>
+@interface ProfileViewController : UIViewController <UITextFieldDelegate>
 //    - (IBAction)save:(UIButton *)sender;
 //    @property (strong, nonatomic) IBOutlet UITextField *street_number;
 //    - (IBAction)load_current_location:(id)sender;

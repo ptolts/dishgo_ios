@@ -204,7 +204,7 @@
     CGRect aRect = self.scroll_view.frame;
     aRect.size.height -= keyboardSize.height;
     CGRect textFrame = [sub_textfield.superview convertRect:sub_textfield.frame toView:self.view];
-    
+//    NSLog(@"View Frame: %@\nScrollview Frame: %@\nSubfieldview Frame: %@\n",CGRectCreateDictionaryRepresentation(self.view.frame),CGRectCreateDictionaryRepresentation(self.scroll_view.frame),CGRectCreateDictionaryRepresentation(textFrame));
     if (!CGRectContainsRect(aRect, textFrame)) {
         CGPoint scrollPoint = CGPointMake(0.0, [sub_textfield.superview convertPoint:sub_textfield.frame.origin toView:self.view].y - (keyboardSize.height-55));
         originalScrollerOffsetY = self.scroll_view.contentOffset.y;

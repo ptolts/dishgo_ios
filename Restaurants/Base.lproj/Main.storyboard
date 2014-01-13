@@ -468,6 +468,43 @@
             </objects>
             <point key="canvasLocation" x="2032" y="1852"/>
         </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="Lix-9M-v7G">
+            <objects>
+                <viewController storyboardIdentifier="profileViewController" id="2k5-vb-eoG" customClass="ProfileViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="T2c-by-OaA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="6Fr-nt-w4q">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="c39-RM-9Fl" customClass="AddressView">
+                                        <rect key="frame" x="29" y="146" width="263" height="276"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="hcG-Dr-gPh" customClass="ProfileView">
+                                        <rect key="frame" x="29" y="29" width="263" height="108"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="address_view" destination="c39-RM-9Fl" id="2Tu-7j-pIY"/>
+                        <outlet property="profile_view" destination="hcG-Dr-gPh" id="a6g-5S-cFC"/>
+                        <outlet property="scroll_view" destination="6Fr-nt-w4q" id="Fyc-xx-sfy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RV1-hy-yyb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1267" y="1115"/>
+        </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="ggA-IE-lGB">
             <objects>
@@ -559,7 +596,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dSb-Zq-m87" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1637" y="1115"/>
+            <point key="canvasLocation" x="1653" y="1115"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="KOV-H5-sp9">
@@ -702,36 +739,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wTy-bs-g8Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="865" y="1115"/>
-        </scene>
-        <!--Profile View Controller-->
-        <scene sceneID="4nh-Vw-mDw">
-            <objects>
-                <viewController storyboardIdentifier="profileViewController" id="nTF-49-gd1" customClass="ProfileViewController" sceneMemberID="viewController">
-                    <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4FE-xC-sFV" customClass="DismissKeyboardScrollview">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" id="c39-RM-9Fl" customClass="AddressView">
-                                <rect key="frame" x="29" y="130" width="263" height="276"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="hcG-Dr-gPh" customClass="ProfileView">
-                                <rect key="frame" x="29" y="14" width="263" height="108"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                    </scrollView>
-                    <connections>
-                        <outlet property="address_view" destination="c39-RM-9Fl" id="gQm-xT-YDq"/>
-                        <outlet property="profile_view" destination="hcG-Dr-gPh" id="Ycd-rQ-1ii"/>
-                        <outlet property="scroll_view" destination="4FE-xC-sFV" id="Ulu-aC-Evp"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S4x-TW-Bff" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1267" y="1115"/>
         </scene>
     </scenes>
     <resources>

@@ -28,6 +28,8 @@ static NSString* kFilename = @"TokenInfo.plist";
 @synthesize foodcloudToken;
 @synthesize main_user;
 
+void (^ block_pointer)(bool, NSString *);
+
 //- (void)cacheFBAccessTokenData:(FBAccessTokenData *)accessToken {
 //    NSDictionary *tokenInformation = [accessToken dictionary];
 //    [self writeData:tokenInformation];
@@ -226,127 +228,7 @@ static NSString* kFilename = @"TokenInfo.plist";
 }
 
 
-//-(UIImageView *) profilePic:(bool)shopping color:(UIColor *)color rect:(CGRect) rect{
-//    int header_size = 60;
-//    if (FBSession.activeSession.isOpen) {
-//
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
-////        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-//        [imageView setContentMode:UIViewContentModeCenter];
-//        if(shopping){
-//            __weak typeof(imageView) weakImage = imageView;
-//            [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
-//                               placeholderImage:[UIImage imageNamed:@"avatar_logged_black.png"]
-//                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//                                          if (image && cacheType == SDImageCacheTypeNone)
-//                                          {
-//                                              weakImage.alpha = 0.0;
-//                                              [UIView animateWithDuration:1.0
-//                                                               animations:^{
-//                                                                   weakImage.alpha = 1.0;
-//                                                               }];
-//                                          }
-//                                      }];
-//        } else {
-//            __weak typeof(imageView) weakImage = imageView;
-//            [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=normal",facebookId]]
-//                               placeholderImage:[UIImage imageNamed:@"avatar_logged_white.png"]
-//                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-//                                          if (image && cacheType == SDImageCacheTypeNone)
-//                                          {
-//                                              weakImage.alpha = 0.0;
-//                                              [UIView animateWithDuration:1.0
-//                                                               animations:^{
-//                                                                   weakImage.alpha = 1.0;
-//                                                               }];
-//                                          }
-//                                      }];
-//        }
-//
-//        imageView.layer.masksToBounds = YES;
-////        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-//        if(shopping){
-//            CGRect frame = imageView.frame;
-//            frame.origin.x = 220;
-//            imageView.frame = frame;
-//            imageView.layer.borderColor = color.CGColor;
-//        } else {
-//            CGRect frame = imageView.frame;
-//            frame.origin.x = -1;
-//            imageView.frame = frame;
-//            imageView.layer.borderColor = color.CGColor;
-//        }
-//        imageView.layer.borderWidth = 1.0f;
-//        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//        imageView.layer.shouldRasterize = YES;
-//        imageView.clipsToBounds = YES;
-//        return imageView;
-//    } else {
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
-////        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-//        [imageView setContentMode:UIViewContentModeCenter];
-//        if(shopping){
-//            CGRect frame = imageView.frame;
-//            frame.origin.x = 220;
-//            imageView.frame = frame;
-//            imageView.image = [UIImage imageNamed:@"avatar_logged_black.png"];
-//        } else {
-//            CGRect frame = imageView.frame;
-//            frame.origin.x = -1;
-//            imageView.frame = frame;
-//            imageView.image = [UIImage imageNamed:@"avatar_logged_white.png"];
-//        }
-//        imageView.layer.masksToBounds = YES;
-////        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-//        if(shopping){
-//            imageView.layer.borderColor = color.CGColor;
-//        } else {
-//            imageView.layer.borderColor = color.CGColor;
-//        }
-//        imageView.layer.borderWidth = 1.0f;
-//        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//        imageView.layer.shouldRasterize = YES;
-//        imageView.clipsToBounds = YES;
-//        return imageView;
-//    }
-//}
 
-//-(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-//    
-//    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-//    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
-//    
-//    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-//    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-//    
-//    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-//    [requestMapping addAttributeMappingsFromArray:@[@"email",@"password"]];
-//    
-//    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-//    
-//    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
-//    
-//    [manager addRequestDescriptor:requestDescriptor];
-//    [manager addResponseDescriptor:tokenDescriptor];
-//    
-//    User *re = [[User alloc] init];
-//    re.email = email;
-//    re.password = password;
-//    
-//    [manager postObject:re path:@"/api/v1/tokens" parameters:nil success:
-//     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-//         main_user = [result firstObject];
-//         NSLog(@"ID: %@", main_user.foodcloud_token);
-//         [self completeLogin:main_user];
-//         block(logged_in, @"Logged in!");
-//     } failure:
-//     ^( RKObjectRequestOperation *operation , NSError *error ){
-//         NSLog(@"%@",error);
-//         block(NO,error.description);
-//     }
-//     ];
-//    
-//}
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
     [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens"
@@ -522,6 +404,7 @@ static NSString* kFilename = @"TokenInfo.plist";
                       error:(NSError *)error
                       block:(void (^)(bool, NSString *))block
 {
+    NSLog(@"Session state: %u",state);
     switch (state) {
         case FBSessionStateOpen: {
             //            UIAlertView *alertView = [[UIAlertView alloc]
@@ -590,14 +473,28 @@ static NSString* kFilename = @"TokenInfo.plist";
 
 - (void)openSession:(void (^)(bool, NSString *))block
 {
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(cancelHud)
+                                                name:@"attemptingFacebookLogin"
+                                              object:nil];
+    
+    block_pointer = block;
+    
     [FBSession openActiveSessionWithReadPermissions:nil
                                        allowLoginUI:YES
                                   completionHandler:
      ^(FBSession *session,
        FBSessionState state, NSError *error) {
-         //         NSLog(@"result.... %@",error);
+         NSLog(@"result.... %@",error);
          [self sessionStateChanged:session state:state error:error block:block];
-     }];
+     }];    
+}
+
+- (void) cancelHud {
+    NSLog(@"Canceling Facebook Login!");
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"attemptingFacebookLogin" object:nil];
+    block_pointer(NO,@"Please try again");
 }
 
 @end

@@ -20,6 +20,8 @@
 
 @implementation SignInViewController
 
+    MBProgressHUD *hud;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -165,7 +167,7 @@
         }
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Working...";
     
     [[UserSession sharedManager] openSession:^(bool obj, NSString *result) {
@@ -210,7 +212,7 @@
         return;
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Working...";
     
     [[UserSession sharedManager] signIn:self.username.text password:self.password.text block:^(bool obj, NSString *result) {

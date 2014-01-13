@@ -18,5 +18,8 @@
     @property (nonatomic, strong) IBOutlet UIView *spacer;
     @property (nonatomic, strong) IBOutlet UIView *spacer2;
     @property CGRect scroll_view_original_frame;
+@property (strong, nonatomic) IBOutlet UILabel *phone_label;
+@property (strong, nonatomic) IBOutlet UILabel *map_label;
+@property (strong, nonatomic) IBOutlet UILabel *favorite_label;
     @property CGRect button_view_original_frame;
 @end

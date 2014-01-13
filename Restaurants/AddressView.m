@@ -210,27 +210,27 @@
     
     if([self.street_number.text length] == 0){
         [self launchDialog:@"Street Number required.\nIf you don't have one, enter 0."];
-        return YES;
+        return NO;
     }
     
     if([self.street_address.text length] == 0){
         [self launchDialog:@"Street required."];
-        return YES;
+        return NO;
     }
     
     if([self.city.text length] == 0){
         [self launchDialog:@"City required."];
-        return YES;
+        return NO;
     }
     
     if([self.postal_code.text length] == 0){
         [self launchDialog:@"Postal Code required."];
-        return YES;
+        return NO;
     }
     
     if([self.province.text length] == 0){
         [self launchDialog:@"Province required."];
-        return YES;
+        return NO;
     }
     
 //    if([self.first_name.text length] == 0){
