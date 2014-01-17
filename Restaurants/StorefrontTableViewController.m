@@ -31,7 +31,7 @@
 #import "LEColorPicker.h"
 
 
-#define DEFAULT_SIZE 159
+#define DEFAULT_SIZE 148
 #define HEADER_DEFAULT_SIZE 45
 
 @interface StorefrontTableViewController ()
@@ -456,10 +456,29 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
     if([sectionsList count] == 0){
-        return 0;
+        return 0.1;
+    }
+    
+    Sections *section = [sectionsList objectAtIndex:sectionIndex];
+    if([section.name length] == 0){
+        NSLog(@"Zero Height!");
+        return 0.1;
     }
     return HEADER_DEFAULT_SIZE;
 }
+
+
+//////////////////////
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+///////////////////////
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -515,9 +534,10 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
+    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
     
     if([sectionsList count] == 0){
-        return nil;
+        return blank;
     }
     
     if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
@@ -525,15 +545,17 @@
     } else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
         return [self subheaderView:sectionIndex tableView:tableView];
     } else {
-        return nil;
+        return blank;
     }
 }
 
 - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
 {
+    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
+    
     Sections *section = [sectionsList objectAtIndex:sectionIndex];
     if([section.name length] == 0){
-        return nil;
+        return blank;
     }
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
@@ -565,9 +587,10 @@
 
 - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
 {
+    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
     Subsections *section = [sectionsList objectAtIndex:sectionIndex];
     if([section.name length] == 0){
-        return nil;
+        return blank;
     }
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];

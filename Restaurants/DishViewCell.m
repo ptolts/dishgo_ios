@@ -42,7 +42,7 @@
     [self.page_tracker sizeToFit];
     self.page_tracker.center = self.contentView.center;
     CGRect frame = self.page_tracker.frame;
-    frame.origin.y = self.frame.size.height - 3 - frame.size.height;
+    frame.origin.y = self.frame.size.height - frame.size.height + 2;
     self.page_tracker.userInteractionEnabled = NO;
     self.page_tracker.frame = frame;
     self.page_tracker.pageIndicatorTintColor = [UIColor textColor];
