@@ -44,6 +44,7 @@
 		B79216431880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */; };
 		B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F691847DF2D00BF4F3F /* facebook@2x.png */; };
 		B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */; };
+		B7B488EC1889817000054314 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B488EB1889817000054314 /* add@2x.png */; };
 		B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */; };
 		B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441F182C0D13001DFC49 /* DishTableViewCell.m */; };
 		B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7B74421182C0D26001DFC49 /* DishTableViewCell.xib */; };
@@ -258,6 +259,7 @@
 		B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+ShoppingCartArray.m"; sourceTree = "<group>"; };
 		B79E8F691847DF2D00BF4F3F /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foodcloud_icon@2x.png"; sourceTree = "<group>"; };
+		B7B488EB1889817000054314 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7B7441A182BFAA2001DFC49 /* SectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionTableViewController.h; sourceTree = "<group>"; };
 		B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SectionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B7B7441E182C0D13001DFC49 /* DishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishTableViewCell.h; sourceTree = "<group>"; };
@@ -786,6 +788,7 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7B488EB1889817000054314 /* add@2x.png */,
 				B7C38252187C6C93001FD092 /* header_line_300@2x.png */,
 				B7C38250187B7528001FD092 /* Newtext Regular BT.ttf */,
 				B7C38249187B2B3B001FD092 /* camera_mark@2x.png */,
@@ -1298,6 +1301,7 @@
 				B75DA1FF1860FCC500803AF5 /* loading@2x.png in Resources */,
 				B7E6C296183BF909005E8598 /* CartRowCell.xib in Resources */,
 				B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */,
+				B7B488EC1889817000054314 /* add@2x.png in Resources */,
 				B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */,
 				B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */,
 				B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */,

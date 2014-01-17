@@ -31,8 +31,8 @@
 #import "LEColorPicker.h"
 
 
-#define DEFAULT_SIZE 124
-#define HEADER_DEFAULT_SIZE 35
+#define DEFAULT_SIZE 159
+#define HEADER_DEFAULT_SIZE 45
 
 @interface StorefrontTableViewController ()
     @property (nonatomic, strong) UIView *backgroundView;
@@ -41,7 +41,8 @@
 
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
-    NSMutableArray *shoppingCart;
+//    NSMutableArray *shoppingCart;
+    @synthesize shoppingCart;
     NSMutableArray *cellList;
     NSMutableDictionary *cart_save;
     int initialFrame;
@@ -496,7 +497,9 @@
     for(Sections *section in sectionsList){
         DishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
         [cell setRestorationIdentifier:@"DishViewCell"];
+        cell.controller = self;
         cell.dishScrollView.section = section;
+        cell.dishScrollView.controller = self;
         [cell.dishScrollView setupViews];
         [cell trackPage];
         cell.backgroundColor = [UIColor bgColor];

@@ -26,9 +26,9 @@
 #import "UIColor+Custom.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define DEFAULT_SIZE 193
-#define SECOND_SIZE 133
-#define HEADER_DEFAULT_SIZE 35
+#define DEFAULT_SIZE 218
+#define SECOND_SIZE 160
+#define HEADER_DEFAULT_SIZE 45
 
 @interface SectionTableViewController ()
 
@@ -177,6 +177,12 @@
     cell.dishTitle.textColor = [UIColor textColor];
     cell.seperator.backgroundColor = [UIColor seperatorColor];
     cell.seperator2.backgroundColor = [UIColor seperatorColor];
+    
+    cell.plus.layer.cornerRadius = 5.0f;
+    cell.plus.backgroundColor = [UIColor textColor];
+    cell.plus.layer.borderWidth = 1.0f;
+    cell.plus.clipsToBounds = YES;
+    cell.plus.layer.borderColor = [UIColor textColor].CGColor;
 
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;

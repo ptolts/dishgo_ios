@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class StorefrontTableViewController;
+
 @interface DishScrollView : UIScrollView
     @property (nonatomic, strong) Sections *section;
     -(void)setupViews;
     -(int) currentPage;
+    -(Dishes *) currentDish;
     @property int total_pages;
+    @property NSMutableArray *dishArray;
+    @property StorefrontTableViewController *controller;
 @end

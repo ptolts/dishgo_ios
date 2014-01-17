@@ -7,6 +7,8 @@
 //
 
 #import "DishView.h"
+#import "DishTableViewController.h"
+#import "StorefrontTableViewController.h"
 
 @implementation DishView
 
@@ -18,6 +20,5 @@
     }
     return self;
 }
-
 
 @end

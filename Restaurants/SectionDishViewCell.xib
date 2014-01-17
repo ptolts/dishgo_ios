@@ -7,21 +7,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="center" restorationIdentifier="DishTableViewCell" id="DSJ-dU-0Ds" customClass="SectionDishViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="193"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="218"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view alpha="0.29999999999999966" contentMode="scaleToFill" id="t2E-nO-mIa">
-                    <rect key="frame" x="0.0" y="132" width="250" height="1"/>
+                    <rect key="frame" x="0.0" y="159" width="250" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.14901961389999999" green="0.14901961389999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
                 </view>
                 <view alpha="0.30000001192092896" contentMode="scaleToFill" id="oIr-Iq-J9B">
-                    <rect key="frame" x="0.0" y="190" width="250" height="1"/>
+                    <rect key="frame" x="0.0" y="217" width="250" height="1"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.14901961389999999" green="0.14901961389999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_mark.png" id="pov-wg-FeJ">
-                    <rect key="frame" x="7" y="39" width="306" height="145"/>
+                    <rect key="frame" x="7" y="39" width="306" height="135"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nVq-lE-jP3">
@@ -51,6 +51,14 @@
                     <color key="textColor" red="0.09803922474" green="0.09803922474" blue="0.09803922474" alpha="1" colorSpace="deviceRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1gq-Qw-l7M">
+                    <rect key="frame" x="198" y="182" width="102" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -59,6 +67,7 @@
                 <outlet property="dishDescription" destination="jjm-D0-WLH" id="qSG-WY-8xc"/>
                 <outlet property="dishImage" destination="pov-wg-FeJ" id="WRB-2L-5aZ"/>
                 <outlet property="dishTitle" destination="mro-CQ-jWH" id="LKG-ae-Mec"/>
+                <outlet property="plus" destination="1gq-Qw-l7M" id="kfO-sc-RSn"/>
                 <outlet property="priceLabel" destination="nVq-lE-jP3" id="Gii-QV-wQA"/>
                 <outlet property="seperator" destination="t2E-nO-mIa" id="x65-WA-tj6"/>
                 <outlet property="seperator2" destination="oIr-Iq-J9B" id="mpe-bN-NbV"/>

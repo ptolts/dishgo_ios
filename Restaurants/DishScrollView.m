@@ -15,6 +15,8 @@
 
 @implementation DishScrollView
 
+    @synthesize dishArray;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -25,12 +27,13 @@
 }
 
 -(void)setupViews {
+    dishArray = [[NSMutableArray alloc] init];
     int i = 0;
     int dd = 0;
     for (Subsections *sec in self.section.subsections) {
         int d = 0;
         for (Dishes *dish in sec.dishes) {
-            
+            [dishArray addObject:dish];
             DishView *dish_view = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
             
             CGRect frame = dish_view.frame;
@@ -57,6 +60,8 @@
             [dish_view.more removeFromSuperview];
             dish_view.seperator.backgroundColor = [UIColor seperatorColor];
             dish_view.backgroundColor = [UIColor bgColor];
+            
+            dish_view.controller = self.controller;
             
             [self addSubview:dish_view];
             
@@ -100,6 +105,10 @@
 -(int) currentPage{
     CGFloat pageWidth = self.frame.size.width;
     return floor((self.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+}
+
+-(Dishes *) currentDish {
+    return [dishArray objectAtIndex:[self currentPage]];
 }
 
 /*

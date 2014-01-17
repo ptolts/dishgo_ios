@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SMPageControl.h>
 #import "DishScrollView.h"
 
+@class DishTableViewController;
+
 @interface DishViewCell : UITableViewCell <UIScrollViewDelegate>
-    @property (strong, nonatomic) IBOutlet UIPageControl *page_tracker;
+    @property (strong, nonatomic) IBOutlet SMPageControl *page_tracker;
+    @property (strong, nonatomic) IBOutlet UIView *plus_area;
+    @property (strong, nonatomic) IBOutlet UILabel *plus;
+    @property (strong, nonatomic) IBOutlet UILabel *see_more;
     @property (nonatomic, strong) IBOutlet DishScrollView *dishScrollView;
+    @property StorefrontTableViewController *controller;
     -(void) trackPage;
 @end

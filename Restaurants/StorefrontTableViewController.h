@@ -16,7 +16,7 @@
     @property (nonatomic, strong) Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;
     @property (nonatomic, strong) CartButton *cart;
-//    @property (nonatomic, strong) NSMutableArray *shoppingCart;
+    @property (nonatomic, strong) NSMutableArray *shoppingCart;
     - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
 @end
