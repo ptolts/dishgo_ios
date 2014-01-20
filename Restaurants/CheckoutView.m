@@ -27,10 +27,14 @@
     if (self) {
         self = [[[NSBundle mainBundle] loadNibNamed:@"CheckoutView" owner:self options:nil] objectAtIndex:0];
         [self.checkout.layer setCornerRadius:2.0f];
-        self.total_cost.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
-        self.total_label.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
-        self.tax_amount.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
-        self.tax_label.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+//        self.total_cost.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
+//        self.total_label.font = [UIFont fontWithName:@"6809 Chargen" size:18.0f];
+//        self.tax_amount.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+//        self.tax_label.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+        self.total_cost.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        self.total_label.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        self.tax_amount.font = [UIFont fontWithName:@"Copperplate-Bold" size:14.0f];
+        self.tax_label.font = [UIFont fontWithName:@"Copperplate-Bold" size:14.0f];
     }
     return self;
 }

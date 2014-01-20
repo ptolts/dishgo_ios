@@ -31,7 +31,8 @@
     CheckoutView *checkoutView;
 }
 
--(void) edit:(ButtonCartRow *) dish_button {
+-(void) edit:(UIGestureRecognizer *) recognizer {
+    ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
     DishTableViewCell *dish_cell = dish_button.parent;
     [dish_cell.dishFooterView.add setTitle:@"Save" forState:UIControlStateNormal];
     dish_cell.editing = YES;
@@ -43,7 +44,8 @@
     [self.frostedViewController hideMenuViewController];
 }
 
--(void) remove:(ButtonCartRow *) dish_button {
+-(void) remove:(UIGestureRecognizer *) recognizer {
+    ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
     DishTableViewCell *dish_cell = dish_button.parent;
     [self.shopping_cart removeObject:dish_cell];
     [UIView transitionWithView: self.tableView
@@ -58,7 +60,7 @@
 
      }];
     [self updatePrice];
-//    [[((UINavigationController *)self.frostedViewController.contentViewController) topViewController] viewDidAppear:NO];
+    [[((UINavigationController *)self.frostedViewController.contentViewController) topViewController] viewDidAppear:NO];
 }
 
 -(void) checkout {
@@ -162,8 +164,19 @@
         float tot = 0.0f;
         for(DishTableViewCell *dish_cell in self.shopping_cart){
             tot += dish_cell.getPrice;
-            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-            [dish_cell.shoppingCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+            
+            UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(edit:)];
+            singleTap.numberOfTapsRequired = 1;
+            dish_cell.shoppingCartCell.edit.userInteractionEnabled = YES;
+            [dish_cell.shoppingCartCell.edit addGestureRecognizer:singleTap];
+            
+            UITapGestureRecognizer *singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remove:)];
+            singleTap2.numberOfTapsRequired = 1;
+            dish_cell.shoppingCartCell.remove.userInteractionEnabled = YES;
+            [dish_cell.shoppingCartCell.remove addGestureRecognizer:singleTap2];
+            
+//            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+//            [dish_cell.shoppingCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
         [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
@@ -533,7 +546,16 @@
     float tot = 0.0;
     for(DishTableViewCell *dish_cell in self.shopping_cart){
         tot += dish_cell.getPrice;
-        [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+//        [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(edit:)];
+        singleTap.numberOfTapsRequired = 1;
+        dish_cell.shoppingCartCell.edit.userInteractionEnabled = YES;
+        [dish_cell.shoppingCartCell.edit addGestureRecognizer:singleTap];
+        
+        UITapGestureRecognizer *singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remove:)];
+        singleTap2.numberOfTapsRequired = 1;
+        dish_cell.shoppingCartCell.remove.userInteractionEnabled = YES;
+        [dish_cell.shoppingCartCell.remove addGestureRecognizer:singleTap2];
     }
     checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
 }

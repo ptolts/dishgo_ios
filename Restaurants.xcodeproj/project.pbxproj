@@ -629,9 +629,6 @@
 				B7B7445218341CBF001DFC49 /* CheckoutView.h */,
 				B7B7445318341CBF001DFC49 /* CheckoutView.m */,
 				B7B7445518341CCE001DFC49 /* CheckoutView.xib */,
-				B7921639187DF23A00BC7BF2 /* ReviewTotal.xib */,
-				B792163B187DF3F100BC7BF2 /* ReviewTotal.h */,
-				B792163C187DF3F100BC7BF2 /* ReviewTotal.m */,
 			);
 			name = "Total Cost";
 			sourceTree = "<group>";
@@ -924,6 +921,9 @@
 		B7D47F7818624D3700DD3C99 /* Review Confirm */ = {
 			isa = PBXGroup;
 			children = (
+				B7921639187DF23A00BC7BF2 /* ReviewTotal.xib */,
+				B792163B187DF3F100BC7BF2 /* ReviewTotal.h */,
+				B792163C187DF3F100BC7BF2 /* ReviewTotal.m */,
 				B7D47F7918624D5400DD3C99 /* ReviewViewController.h */,
 				B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */,
 				B7921633187DCD2200BC7BF2 /* ReviewTableCell.h */,
@@ -1621,7 +1621,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
+				PROVISIONING_PROFILE = "9AFF309A-2D54-4202-9E72-ADFB51387793";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1637,7 +1637,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
+				PROVISIONING_PROFILE = "9AFF309A-2D54-4202-9E72-ADFB51387793";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

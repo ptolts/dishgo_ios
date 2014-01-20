@@ -458,7 +458,7 @@ bool speed_things_up;
     
     UIView *head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 130)];
     
-    [head addSubview:logo];
+//    [head addSubview:logo];
     
     //    UILabel *text_header = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 320, 25)];
     //    text_header.text = @"Progress";

@@ -81,26 +81,35 @@
     cell.dishTitle.text = self.dish.name;
     cell.priceLabel.text = [self getPriceString];
     
-    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
-    cell.dishTitle.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+//    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
+//    cell.dishTitle.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
+    cell.priceLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:13.0f];
+    cell.dishTitle.font = [UIFont fontWithName:@"Copperplate" size:14.0f];
+    
     
     cell.backgroundColor = [UIColor clearColor];
+    cell.seperator.backgroundColor = [UIColor seperatorColor];
     [cell.quantity.layer setCornerRadius:5.0f];
     cell.quantity.text = [NSString stringWithFormat:@"%dx", (int) self.dishFooterView.stepper.value];
     NSLog(@"INITIAL CARTROWCELL HEIGHT: %f",cell.frame.size.height);
-    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
+//    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
+    cell.quantity.font = [UIFont fontWithName:@"Copperplate-Bold" size:13.0f];
     cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
     cell.parent = self;
     cell.edit.parent = self;
     cell.remove.parent = self;
     
-    [cell.edit.layer setBorderColor:[UIColor seperatorColor].CGColor];
-    [cell.edit.layer setBorderWidth:1.0f];
-    [cell.edit.layer setCornerRadius:5.0f];
+    [cell.edit_label.layer setBorderColor:[UIColor textColor].CGColor];
+    [cell.edit_label.layer setBorderWidth:1.0f];
+    [cell.edit_label.layer setCornerRadius:5.0f];
+    cell.edit_label.backgroundColor = [UIColor textColor];
+    cell.edit_label.textColor = [UIColor bgColor];
     
-    [cell.remove.layer setBorderColor:[UIColor seperatorColor].CGColor];
-    [cell.remove.layer setBorderWidth:1.0f];
-    [cell.remove.layer setCornerRadius:5.0f];
+    [cell.remove_label.layer setBorderColor:[UIColor textColor].CGColor];
+    [cell.remove_label.layer setBorderWidth:1.0f];
+    [cell.remove_label.layer setCornerRadius:5.0f];
+    cell.remove_label.backgroundColor = [UIColor textColor];
+    cell.remove_label.textColor = [UIColor bgColor];
     
     self.shoppingCartCell = cell;
 }
@@ -130,13 +139,25 @@
     
     cell.priceLabel.textColor = [UIColor scarletColor];
     
-    [cell.edit.layer setBorderColor:[UIColor seperatorColor].CGColor];
-    [cell.edit.layer setBorderWidth:1.0f];
-    [cell.edit.layer setCornerRadius:5.0f];
+//    [cell.edit.layer setBorderColor:[UIColor seperatorColor].CGColor];
+//    [cell.edit.layer setBorderWidth:1.0f];
+//    [cell.edit.layer setCornerRadius:5.0f];
+//    
+//    [cell.remove.layer setBorderColor:[UIColor seperatorColor].CGColor];
+//    [cell.remove.layer setBorderWidth:1.0f];
+//    [cell.remove.layer setCornerRadius:5.0f];
     
-    [cell.remove.layer setBorderColor:[UIColor seperatorColor].CGColor];
-    [cell.remove.layer setBorderWidth:1.0f];
-    [cell.remove.layer setCornerRadius:5.0f];
+    [cell.edit_label.layer setBorderColor:[UIColor textColor].CGColor];
+    [cell.edit_label.layer setBorderWidth:1.0f];
+    [cell.edit_label.layer setCornerRadius:5.0f];
+    cell.edit_label.backgroundColor = [UIColor textColor];
+    cell.edit_label.textColor = [UIColor bgColor];
+    
+    [cell.remove_label.layer setBorderColor:[UIColor textColor].CGColor];
+    [cell.remove_label.layer setBorderWidth:1.0f];
+    [cell.remove_label.layer setCornerRadius:5.0f];
+    cell.remove_label.backgroundColor = [UIColor textColor];
+    cell.remove_label.textColor = [UIColor bgColor];
     
     original_fucking_frame = cell.frame;
     

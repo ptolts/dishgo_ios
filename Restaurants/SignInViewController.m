@@ -125,9 +125,15 @@
 
 - (void)launchAlert:(NSString *)msg
 {
-    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:self.navigationController.view
+    return;
+    
+    NSArray *controllers = self.navigationController.viewControllers;
+    UIViewController *cont = controllers[([controllers count]-1)];
+    UIView *v = cont.view;
+    
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:v
                                                         style:ALAlertBannerStyleNotify
-                                                     position:ALAlertBannerPositionBottom
+                                                     position:ALAlertBannerPositionTop
                                                         title:@"Success!"
                                                      subtitle:msg];
 

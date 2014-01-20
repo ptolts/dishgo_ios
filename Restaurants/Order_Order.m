@@ -50,6 +50,7 @@
             [dish_logic setupLowerHalf];
             [dish_logic setupShoppingCart];
             [dish_logic.dishFooterView.stepper setValue:dish.quantity];
+            [dish_logic.dishFooterView stepperValueChanged:dish_logic.dishFooterView.stepper];
 //            NSLog(@"Quantity: %d",dish.quantity);
             [dish_logic setupReviewCell];
             for(Options_Order *o_item in dish.options){

@@ -10,11 +10,13 @@
 #import "ButtonCartRow.h"
 
 @interface ReviewTableCell : UITableViewCell
+    @property (strong, nonatomic) IBOutlet UILabel *remove_label;
     @property (nonatomic, strong) IBOutlet UILabel *dishTitle;
     @property (nonatomic, strong) IBOutlet UILabel *priceLabel;
     @property (strong, nonatomic) IBOutlet UIView *move_me_up_and_down;
     @property (nonatomic, strong) IBOutlet UILabel *quantity;
     @property (strong, nonatomic) IBOutlet UILabel *dish_options;
+    @property (strong, nonatomic) IBOutlet UILabel *edit_label;
     @property (nonatomic, strong) IBOutlet ButtonCartRow *edit;
     @property (strong, nonatomic) IBOutlet UIImageView *more_image;
     @property (nonatomic, strong) IBOutlet ButtonCartRow *remove;

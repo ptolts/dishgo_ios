@@ -11,6 +11,6 @@
 
 @class DishTableViewCell;
 
-@interface ButtonCartRow : UIButton
+@interface ButtonCartRow : UIView
     @property (strong,nonatomic) DishTableViewCell *parent;
 @end

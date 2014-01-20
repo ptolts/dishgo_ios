@@ -11,8 +11,8 @@
 #import "DishViewCell.h"
 #import "Dishes.h"
 
-#define DEFAULT_SIZE 43
-#define LARGE_SIZE 86
+#define DEFAULT_SIZE 50
+#define LARGE_SIZE 101
 
 @implementation ShoppingCartTableView {
     NSMutableDictionary *heights;
@@ -39,17 +39,26 @@
         NSLog(@"Setting up height dict");
         [self setupHeight];
     }
-
+    
+    for(DishTableViewCell *d in _shopping_cart){
+        d.shoppingCartCell.more.hidden = NO;
+    }
+    
     [self.tableViewController beginUpdates];
     NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
     if([[heights valueForKey:key] integerValue] == DEFAULT_SIZE){
         int size = LARGE_SIZE;
+        DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+        dish_view.shoppingCartCell.more.hidden = YES;
         for(id kkey in [heights allKeys]) {
             [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
+            
         }
         [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
     } else {
         [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
+        DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+        dish_view.shoppingCartCell.more.hidden = NO;
     }
     [self.tableViewController endUpdates];
     

@@ -15,7 +15,7 @@
 #import <REFrostedViewController/REFrostedViewController.h>
 
 #define DEFAULT_SIZE 100
-#define LARGE_SIZE 131
+#define LARGE_SIZE 151
 
 @interface ReviewViewController ()
 
@@ -123,7 +123,8 @@
     
 }
 
--(void) remove:(ButtonCartRow *) dish_button {
+-(void) remove:(UIGestureRecognizer *) recognizer {
+    ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
     DishTableViewCell *dish_cell = dish_button.parent;
     [self.shopping_cart removeObject:dish_cell];
     [self setupHeight];
@@ -141,7 +142,8 @@
     [self updatePrice];
 }
 
--(void) edit:(ButtonCartRow *) dish_button {
+-(void) edit:(UIGestureRecognizer *) recognizer {
+    ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
     DishTableViewCell *dish_cell = dish_button.parent;
     [dish_cell.dishFooterView.add setTitle:@"Save" forState:UIControlStateNormal];
     dish_cell.final_editing = YES;
@@ -330,14 +332,31 @@
     [self updatePrice];
     for(DishTableViewCell *dish_cell in self.shopping_cart){
         tot += dish_cell.getPrice;
-        [dish_cell.reviewCartCell.edit  removeTarget:nil
-                                        action:NULL
-                                        forControlEvents:UIControlEventAllEvents];
-        [dish_cell.reviewCartCell.remove  removeTarget:nil
-                                              action:NULL
-                                    forControlEvents:UIControlEventAllEvents];
-        [dish_cell.reviewCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-        [dish_cell.reviewCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+//        [dish_cell.reviewCartCell.edit  removeTarget:nil
+//                                        action:NULL
+//                                        forControlEvents:UIControlEventAllEvents];
+//        [dish_cell.reviewCartCell.remove  removeTarget:nil
+//                                              action:NULL
+//                                    forControlEvents:UIControlEventAllEvents];
+//        [dish_cell.reviewCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
+//        [dish_cell.reviewCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+        for (UIGestureRecognizer *recognizer in dish_cell.shoppingCartCell.edit.gestureRecognizers) {
+            [dish_cell.reviewCartCell.edit removeGestureRecognizer:recognizer];
+        }
+        
+        for (UIGestureRecognizer *recognizer in dish_cell.shoppingCartCell.remove.gestureRecognizers) {
+            [dish_cell.reviewCartCell.remove removeGestureRecognizer:recognizer];
+        }
+        
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(edit:)];
+        singleTap.numberOfTapsRequired = 1;
+        dish_cell.reviewCartCell.edit.userInteractionEnabled = YES;
+        [dish_cell.reviewCartCell.edit addGestureRecognizer:singleTap];
+        
+        UITapGestureRecognizer *singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(remove:)];
+        singleTap2.numberOfTapsRequired = 1;
+        dish_cell.reviewCartCell.remove.userInteractionEnabled = YES;
+        [dish_cell.reviewCartCell.remove addGestureRecognizer:singleTap2];
     }
 }
 
