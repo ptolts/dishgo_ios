@@ -1621,7 +1621,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9AFF309A-2D54-4202-9E72-ADFB51387793";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1637,7 +1637,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
 				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9AFF309A-2D54-4202-9E72-ADFB51387793";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

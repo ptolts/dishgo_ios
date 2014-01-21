@@ -18,6 +18,7 @@
 //    @property (strong, nonatomic) NSString *order_id;
 //    @property BOOL confirmed;
     @property (strong, nonatomic) NSString *foodcloud_token;
+    @property float total_cost;
     @property (strong, nonatomic) NSArray<Dish_Order>* order;
     - (void) setupJsonWithUser:(User *) user;
     +(BOOL)propertyIsOptional:(NSString*)propertyName;

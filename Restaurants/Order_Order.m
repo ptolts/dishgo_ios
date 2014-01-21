@@ -18,6 +18,7 @@
 @synthesize billing_address;
 @synthesize delivery_address;
 @synthesize order;
+@synthesize total_cost;
 @synthesize foodcloud_token;
 
     -(void)setupJsonWithUser:(User *)user {
@@ -26,9 +27,11 @@
         foodcloud_token = user.foodcloud_token;
         
         NSMutableArray *order_mutable = [[NSMutableArray alloc] init];
+        total_cost = 0.0f;
         
         for(DishTableViewCell *dish_cell in user.shopping_cart){
             Dish_Order *dish = [[Dish_Order alloc] initWithDishCell:dish_cell];
+            total_cost += dish_cell.getPrice;
             [order_mutable addObject:dish];
         }
         
