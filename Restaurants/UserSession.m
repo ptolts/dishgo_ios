@@ -231,7 +231,7 @@ void (^ block_pointer)(bool, NSString *);
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens"
+    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
@@ -255,7 +255,7 @@ void (^ block_pointer)(bool, NSString *);
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/app"]];
     
     [manager addRequestDescriptor:requestDescriptor];
     [manager addResponseDescriptor:tokenDescriptor];
@@ -308,7 +308,7 @@ void (^ block_pointer)(bool, NSString *);
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/app"]];
     
     [manager addRequestDescriptor:requestDescriptor];
     [manager addResponseDescriptor:tokenDescriptor];
@@ -386,7 +386,7 @@ void (^ block_pointer)(bool, NSString *);
 //}
 
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/tokens/create_from_facebook"
+    [JSONHTTPClient postJSONFromURLWithString:@"https:/dishgo.io/app/api/v1/tokens/create_from_facebook"
                                        params:@{@"facebook_token":facebookToken,@"facebook_id":@""}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];

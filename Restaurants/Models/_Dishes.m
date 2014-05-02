@@ -14,7 +14,7 @@ const struct DishesAttributes DishesAttributes = {
 const struct DishesRelationships DishesRelationships = {
 	.images = @"images",
 	.options = @"options",
-	.subsection = @"subsection",
+	.sections = @"sections",
 };
 
 const struct DishesFetchedProperties DishesFetchedProperties = {
@@ -162,7 +162,7 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 }
 	
 
-@dynamic subsection;
+@dynamic sections;
 
 	
 

@@ -152,6 +152,8 @@ bool speed_things_up;
     user_for_order.confirm_address = NO;
     user_for_order.foodcloud_token = [[UserSession sharedManager] fetchUser].foodcloud_token;
     
+    user_for_order.restaurant = _restaurant;
+    
     user_for_billing = [[User alloc] init];
     user_for_billing.confirm_billing = NO;
     
@@ -301,7 +303,7 @@ bool speed_things_up;
     hud.labelText = @"Placing Order...";
     
     //make post, get requests
-    [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/submit_order"
+    [JSONHTTPClient postJSONFromURLWithString:@"http://dishgo.io/app/api/v1/order/submit_order"
                                        params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        Order_Submit_Response *response = [[Order_Submit_Response alloc] initWithDictionary:json error:nil];

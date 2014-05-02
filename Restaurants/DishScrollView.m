@@ -8,7 +8,7 @@
 
 #import "DishScrollView.h"
 #import "Sections.h"
-#import "Subsections.h"
+//#import "Subsections.h"
 #import "DishView.h"
 #import "Dishes.h"
 #import "UIColor+Custom.h"
@@ -30,9 +30,9 @@
     dishArray = [[NSMutableArray alloc] init];
     int i = 0;
     int dd = 0;
-    for (Subsections *sec in self.section.subsections) {
+//    for (Subsections *sec in self.section.subsections) {
         int d = 0;
-        for (Dishes *dish in sec.dishes) {
+        for (Dishes *dish in _section.dishes) {
             [dishArray addObject:dish];
             DishView *dish_view = [[[NSBundle mainBundle] loadNibNamed:@"DishView" owner:self options:nil] objectAtIndex:0];
             
@@ -44,7 +44,8 @@
                 [dish_view.right_arrow removeFromSuperview];
             }
             
-            if ((i + 1) == [self.section.subsections count] && (d + 1) == [sec.dishes count]) {
+//            if ((i + 1) == [self.section.subsections count] && (d + 1) == [_section.dishes count]) {
+            if ((d + 1) == [_section.dishes count]) {
                 [dish_view.left_arrow removeFromSuperview];
             }
             
@@ -66,9 +67,9 @@
             [self addSubview:dish_view];
             
         }
-        i++;
-    }
-    _total_pages = dd;
+//        i++;
+//    }
+    _total_pages = d;
 //    NSLog(@"Secion: %@ Dishes: %d Subviews: %d",self.section.name,dd,[self.subviews count]);
     self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;

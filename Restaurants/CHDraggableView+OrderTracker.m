@@ -37,7 +37,7 @@
         NSString *json = [json_order toJSONString];
         NSLog(@"CHECKFORUPDATES: %@",json);
         //make post, get requests
-        [JSONHTTPClient postJSONFromURLWithString:@"http://dev.foodcloud.ca:3000/api/v1/order/status"
+        [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/order/status"
                                            params:@{@"order":json,@"foodcloud_token":json_order.foodcloud_token}
                                        completion:^(NSDictionary *json, JSONModelError *err) {
                                            NSLog(@"RESPONSE: %@",json);

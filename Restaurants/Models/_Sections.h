@@ -11,15 +11,15 @@ extern const struct SectionsAttributes {
 } SectionsAttributes;
 
 extern const struct SectionsRelationships {
+	__unsafe_unretained NSString *dishes;
 	__unsafe_unretained NSString *restaurant;
-	__unsafe_unretained NSString *subsections;
 } SectionsRelationships;
 
 extern const struct SectionsFetchedProperties {
 } SectionsFetchedProperties;
 
+@class Dishes;
 @class Restaurant;
-@class Subsections;
 
 
 
@@ -72,16 +72,16 @@ extern const struct SectionsFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSOrderedSet *dishes;
+
+- (NSMutableOrderedSet*)dishesSet;
+
+
+
+
 @property (nonatomic, strong) Restaurant *restaurant;
 
 //- (BOOL)validateRestaurant:(id*)value_ error:(NSError**)error_;
-
-
-
-
-@property (nonatomic, strong) NSOrderedSet *subsections;
-
-- (NSMutableOrderedSet*)subsectionsSet;
 
 
 
@@ -91,10 +91,10 @@ extern const struct SectionsFetchedProperties {
 
 @interface _Sections (CoreDataGeneratedAccessors)
 
-- (void)addSubsections:(NSOrderedSet*)value_;
-- (void)removeSubsections:(NSOrderedSet*)value_;
-- (void)addSubsectionsObject:(Subsections*)value_;
-- (void)removeSubsectionsObject:(Subsections*)value_;
+- (void)addDishes:(NSOrderedSet*)value_;
+- (void)removeDishes:(NSOrderedSet*)value_;
+- (void)addDishesObject:(Dishes*)value_;
+- (void)removeDishesObject:(Dishes*)value_;
 
 @end
 
@@ -123,13 +123,13 @@ extern const struct SectionsFetchedProperties {
 
 
 
+- (NSMutableOrderedSet*)primitiveDishes;
+- (void)setPrimitiveDishes:(NSMutableOrderedSet*)value;
+
+
+
 - (Restaurant*)primitiveRestaurant;
 - (void)setPrimitiveRestaurant:(Restaurant*)value;
-
-
-
-- (NSMutableOrderedSet*)primitiveSubsections;
-- (void)setPrimitiveSubsections:(NSMutableOrderedSet*)value;
 
 
 @end

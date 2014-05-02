@@ -107,7 +107,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"FoodCloud";
+    label.text = @"DishGo";
     self.navigationItem.titleView = label;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
@@ -178,9 +178,9 @@
     [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000/api/v1/restaurants"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://dishgo.io/app/api/v1/restaurants"]];
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
@@ -326,7 +326,7 @@
         imageView.userInteractionEnabled = YES;
         
         __weak typeof(imageView) weakImage = imageView;
-        [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+        [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
                             placeholderImage:[UIImage imageNamed:@"Default.png"]
                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                               if (image && cacheType == SDImageCacheTypeNone)

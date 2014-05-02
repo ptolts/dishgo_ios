@@ -10,8 +10,8 @@ const struct SectionsAttributes SectionsAttributes = {
 };
 
 const struct SectionsRelationships SectionsRelationships = {
+	.dishes = @"dishes",
 	.restaurant = @"restaurant",
-	.subsections = @"subsections",
 };
 
 const struct SectionsFetchedProperties SectionsFetchedProperties = {
@@ -95,21 +95,21 @@ const struct SectionsFetchedProperties SectionsFetchedProperties = {
 
 
 
-@dynamic restaurant;
+@dynamic dishes;
 
 	
-
-@dynamic subsections;
-
-	
-- (NSMutableOrderedSet*)subsectionsSet {
-	[self willAccessValueForKey:@"subsections"];
+- (NSMutableOrderedSet*)dishesSet {
+	[self willAccessValueForKey:@"dishes"];
   
-	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"subsections"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"dishes"];
   
-	[self didAccessValueForKey:@"subsections"];
+	[self didAccessValueForKey:@"dishes"];
 	return result;
 }
+	
+
+@dynamic restaurant;
+
 	
 
 

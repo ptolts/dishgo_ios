@@ -8,7 +8,7 @@
 
 #import "SectionTableViewController.h"
 #import "Sections.h"
-#import "Subsections.h"
+//#import "Subsections.h"
 #import "Options.h"
 #import "TableHeaderView.h"
 #import "Dishes.h"
@@ -95,15 +95,15 @@
     
     // THIS COULD CAUSE BUGS IF DISHES ARE DISPLAYED DIFFERENTLY.
     
-    for(Subsections *sub in self.section.subsections){
-        if(current_page_dish_count <= self.current_page && self.current_page < current_page_dish_count + [sub.dishes count] + 1){
-            current_page_section = counter;
-            row = self.current_page - current_page_dish_count;
-        }
-        counter++;
-        current_page_dish_count += [sub.dishes count];
-        [subsectionList addObject:sub];
-    }
+//    for(Subsections *sub in self.section.subsections){
+//        if(current_page_dish_count <= self.current_page && self.current_page < current_page_dish_count + [sub.dishes count] + 1){
+//            current_page_section = counter;
+//            row = self.current_page - current_page_dish_count;
+//        }
+//        counter++;
+//        current_page_dish_count += [sub.dishes count];
+//        [subsectionList addObject:sub];
+//    }
     
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
@@ -165,7 +165,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+//    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+    Dishes *dish = [_section.dishes.array objectAtIndex:indexPath.row];
     SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -195,7 +196,7 @@
         [cell.seperator removeFromSuperview];
         Images *img = [dish.images firstObject];
         __weak typeof(cell.dishImage) weakImage = cell.dishImage;
-        [cell.dishImage          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+        [cell.dishImage          setImageWithURL:[NSURL URLWithString:img.url]
                            placeholderImage:[UIImage imageNamed:@"camera_mark.png"]
                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                       if (image && cacheType == SDImageCacheTypeNone)
@@ -241,9 +242,11 @@
 {
     if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
         return [self headerView:sectionIndex tableView:tableView];
-    } else if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
-        return [self subheaderView:sectionIndex tableView:tableView];
-    } else {
+    }
+//    else if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
+//        return [self subheaderView:sectionIndex tableView:tableView];
+//    }
+    else {
         return nil;
     }
 }
@@ -286,31 +289,32 @@
     
 }
 
-- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
-{
-    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
-    if([section.name length] == 0){
-        return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-    }
-    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-    //    view.backgroundColor = [UIColor colorWithRed:0.863 green:0.863 blue:0.863 alpha:1.0];
-    //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-    //    label.text = section.name;
-    //    label.font = [UIFont systemFontOfSize:15];
-    //    label.textColor = [UIColor whiteColor];
-    //    label.backgroundColor = [UIColor clearColor];
-    //    [label sizeToFit];
-    //    [view addSubview:label];
-    
-    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
-    view.headerTitle.text = section.name;
-    return view;
-}
+//- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
+//{
+//    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
+//    if([section.name length] == 0){
+//        return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
+//    }
+//    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
+//    //    view.backgroundColor = [UIColor colorWithRed:0.863 green:0.863 blue:0.863 alpha:1.0];
+//    //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
+//    //    label.text = section.name;
+//    //    label.font = [UIFont systemFontOfSize:15];
+//    //    label.textColor = [UIColor whiteColor];
+//    //    label.backgroundColor = [UIColor clearColor];
+//    //    [label sizeToFit];
+//    //    [view addSubview:label];
+//    
+//    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
+//    view.headerTitle.text = section.name;
+//    return view;
+//}
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+//    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
+    Dishes *dish = [_section.dishes.array objectAtIndex:indexPath.row];
     if([dish.images count] > 0){
         return DEFAULT_SIZE;
     } else {
@@ -320,10 +324,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
-    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
-    if([section.name length] == 0){
-        return 0;
-    }
+//    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
+//    if([section.name length] == 0){
+//        return 0;
+//    }
     
     return HEADER_DEFAULT_SIZE;
 }
@@ -335,13 +339,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    
-    if([[subsectionList objectAtIndex:section] isKindOfClass:[Subsections class]]){
-        return [((Subsections *)[subsectionList objectAtIndex:section]).dishes count];
-    }
+//    // Return the number of rows in the section.
+//    
+//    if([[subsectionList objectAtIndex:section] isKindOfClass:[Subsections class]]){
+//        return [((Subsections *)[subsectionList objectAtIndex:section]).dishes count];
+//    }
 
-    return 0;
+    return [_section.dishes count];
+    
+//    return 0;
 
     
 }

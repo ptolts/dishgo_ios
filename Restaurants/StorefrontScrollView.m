@@ -29,7 +29,7 @@
         image.autoresizingMask = UIViewAutoresizingNone;
         [imageViews addObject:image];
         image.userInteractionEnabled = NO;
-        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
               placeholderImage:[UIImage imageNamed:@"Default.png"]];
         image.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:image];

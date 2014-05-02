@@ -15,7 +15,7 @@ extern const struct DishesAttributes {
 extern const struct DishesRelationships {
 	__unsafe_unretained NSString *images;
 	__unsafe_unretained NSString *options;
-	__unsafe_unretained NSString *subsection;
+	__unsafe_unretained NSString *sections;
 } DishesRelationships;
 
 extern const struct DishesFetchedProperties {
@@ -23,7 +23,7 @@ extern const struct DishesFetchedProperties {
 
 @class Images;
 @class Options;
-@class Subsections;
+@class Sections;
 
 
 
@@ -116,9 +116,9 @@ extern const struct DishesFetchedProperties {
 
 
 
-@property (nonatomic, strong) Subsections *subsection;
+@property (nonatomic, strong) Sections *sections;
 
-//- (BOOL)validateSubsection:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSections:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -190,8 +190,8 @@ extern const struct DishesFetchedProperties {
 
 
 
-- (Subsections*)primitiveSubsection;
-- (void)setPrimitiveSubsection:(Subsections*)value;
+- (Sections*)primitiveSections;
+- (void)setPrimitiveSections:(Sections*)value;
 
 
 @end

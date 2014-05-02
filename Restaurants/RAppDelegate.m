@@ -12,6 +12,7 @@
 #import "RestaurantViewController.h"
 #import "UserSession.h"
 #import "CancelKeyboard.h"
+#import <Appsee/Appsee.h>
 
 
 @implementation RAppDelegate
@@ -41,6 +42,7 @@ BOOL attemptingFacebookLogin;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self loadCart];
+    [Appsee start:@"8fef0cad79c04e569d06b0a46d0eca71"];
     UserSession *sharedManager = [UserSession sharedManager];
     return YES;
 }
@@ -131,7 +133,7 @@ BOOL attemptingFacebookLogin;
     if (_managedObjectModel != nil) {
         return _managedObjectModel;
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Restaurants" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"DishGo" withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }

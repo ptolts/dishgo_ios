@@ -22,14 +22,15 @@
 		B721D67D187334AF00D41957 /* Order_Submit_Response.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D67C187334AF00D41957 /* Order_Submit_Response.m */; };
 		B721D68018735BDD00D41957 /* User_Orders.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D67F18735BDD00D41957 /* User_Orders.m */; };
 		B721D68418737A7100D41957 /* OrderTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D68318737A7100D41957 /* OrderTrackerViewController.m */; };
+		B727D9631911904200BB8F41 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B727D9621911904200BB8F41 /* icon@2x.png */; };
 		B74AC373183E737A00A89616 /* CartButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74AC372183E737A00A89616 /* CartButton.xib */; };
 		B74AC377183E751C00A89616 /* CartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B74AC376183E751C00A89616 /* CartButton.m */; };
+		B75B6413191416F500D717C7 /* loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75B6412191416F500D717C7 /* loading@2x.png */; };
 		B75DA1F4185FB00B00803AF5 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F3185FB00B00803AF5 /* camera@2x.png */; };
 		B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F51860A94000803AF5 /* chip@2x.png */; };
 		B75DA1F81860CDA100803AF5 /* earth@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F71860CDA100803AF5 /* earth@2x.png */; };
 		B75DA1FA1860D3DC00803AF5 /* billing_address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F91860D3DC00803AF5 /* billing_address@2x.png */; };
 		B75DA1FD1860E4E500803AF5 /* SkipTouchesUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = B75DA1FC1860E4E500803AF5 /* SkipTouchesUIView.m */; };
-		B75DA1FF1860FCC500803AF5 /* loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1FE1860FCC500803AF5 /* loading@2x.png */; };
 		B77A8D05183FDFCB00AFBAEE /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A8D04183FDFCB00AFBAEE /* SignInViewController.m */; };
 		B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A8D08183FFD3A00AFBAEE /* ButtonCartRow.m */; };
 		B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B77A8D0C1843AAF900AFBAEE /* FREESCPT.TTF */; };
@@ -73,10 +74,8 @@
 		B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */; };
 		B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE3614185F91B500D55ED8 /* edit_address@2x.png */; };
 		B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38243187B0F49001FD092 /* more_dish@2x.png */; };
-		B7C38246187B1842001FD092 /* EastMarketNF.otf in Resources */ = {isa = PBXBuildFile; fileRef = B7C38245187B1842001FD092 /* EastMarketNF.otf */; };
 		B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38247187B1CEC001FD092 /* header_line@2x.png */; };
 		B7C3824A187B2B3B001FD092 /* camera_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38249187B2B3B001FD092 /* camera_mark@2x.png */; };
-		B7C38251187B7528001FD092 /* Newtext Regular BT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7C38250187B7528001FD092 /* Newtext Regular BT.ttf */; };
 		B7C38253187C6C93001FD092 /* header_line_300@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38252187C6C93001FD092 /* header_line_300@2x.png */; };
 		B7C38256187C7E02001FD092 /* PinsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C38255187C7E02001FD092 /* PinsView.m */; };
 		B7CC197018047D92003C71B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC196F18047D92003C71B9 /* Foundation.framework */; };
@@ -87,7 +86,7 @@
 		B7CC197E18047D92003C71B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC197D18047D92003C71B9 /* main.m */; };
 		B7CC198218047D92003C71B9 /* RAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7CC198118047D92003C71B9 /* RAppDelegate.m */; };
 		B7CC198518047D92003C71B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7CC198318047D92003C71B9 /* Main.storyboard */; };
-		B7CC198818047D92003C71B9 /* Restaurants.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B7CC198618047D92003C71B9 /* Restaurants.xcdatamodeld */; };
+		B7CC198818047D92003C71B9 /* DishGo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B7CC198618047D92003C71B9 /* DishGo.xcdatamodeld */; };
 		B7CC199018047D92003C71B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7CC198F18047D92003C71B9 /* Images.xcassets */; };
 		B7CC199718047D92003C71B9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC199618047D92003C71B9 /* XCTest.framework */; };
 		B7CC199818047D92003C71B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CC196F18047D92003C71B9 /* Foundation.framework */; };
@@ -125,7 +124,6 @@
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
 		B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D951843E3CC0072AD47 /* arrow@2x.png */; };
 		B7DA9D99184545220072AD47 /* UserSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9D98184545220072AD47 /* UserSession.m */; };
-		B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D9E184670EC0072AD47 /* icon@2x.png */; };
 		B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */; };
 		B7DA9DA61847B34E0072AD47 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DA9DA51847B34E0072AD47 /* User.m */; };
 		B7E12848183BB2980079B5E9 /* DishTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E12847183BB2980079B5E9 /* DishTableViewController.m */; };
@@ -149,8 +147,6 @@
 		B7E20F461820560100791BEB /* _Options.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F3A1820560100791BEB /* _Options.m */; };
 		B7E20F471820560100791BEB /* Option.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F3C1820560100791BEB /* Option.m */; };
 		B7E20F481820560100791BEB /* Options.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F3E1820560100791BEB /* Options.m */; };
-		B7E20F4D182182ED00791BEB /* _Subsections.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F4A182182ED00791BEB /* _Subsections.m */; };
-		B7E20F4E182182ED00791BEB /* Subsections.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F4C182182ED00791BEB /* Subsections.m */; };
 		B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E20F4F1822F91600791BEB /* DishViewCell.xib */; };
 		B7E20F56182302CB00791BEB /* DishViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E20F55182302CB00791BEB /* DishViewCell.m */; };
 		B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7E20F571824046600791BEB /* TableHeaderView.xib */; };
@@ -226,16 +222,17 @@
 		B721D67F18735BDD00D41957 /* User_Orders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User_Orders.m; sourceTree = "<group>"; };
 		B721D68218737A7100D41957 /* OrderTrackerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTrackerViewController.h; sourceTree = "<group>"; };
 		B721D68318737A7100D41957 /* OrderTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTrackerViewController.m; sourceTree = "<group>"; };
+		B727D9621911904200BB8F41 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../../../Pictures/icon@2x.png"; sourceTree = "<group>"; };
 		B74AC372183E737A00A89616 /* CartButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CartButton.xib; sourceTree = "<group>"; };
 		B74AC375183E751C00A89616 /* CartButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartButton.h; sourceTree = "<group>"; };
 		B74AC376183E751C00A89616 /* CartButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartButton.m; sourceTree = "<group>"; };
+		B75B6412191416F500D717C7 /* loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F3185FB00B00803AF5 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F51860A94000803AF5 /* chip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chip@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F71860CDA100803AF5 /* earth@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F91860D3DC00803AF5 /* billing_address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "billing_address@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1FB1860E4E500803AF5 /* SkipTouchesUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkipTouchesUIView.h; sourceTree = "<group>"; };
 		B75DA1FC1860E4E500803AF5 /* SkipTouchesUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkipTouchesUIView.m; sourceTree = "<group>"; };
-		B75DA1FE1860FCC500803AF5 /* loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading@2x.png"; sourceTree = SOURCE_ROOT; };
 		B77A8D03183FDFCB00AFBAEE /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		B77A8D04183FDFCB00AFBAEE /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SignInViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B77A8D07183FFD3A00AFBAEE /* ButtonCartRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCartRow.h; sourceTree = "<group>"; };
@@ -302,30 +299,28 @@
 		B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissKeyboardScrollview.m; sourceTree = "<group>"; };
 		B7BE3614185F91B500D55ED8 /* edit_address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_address@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7C38243187B0F49001FD092 /* more_dish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_dish@2x.png"; sourceTree = SOURCE_ROOT; };
-		B7C38245187B1842001FD092 /* EastMarketNF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.otf; path = ../../../Downloads/eastmarket/EastMarketNF.otf; sourceTree = "<group>"; };
 		B7C38247187B1CEC001FD092 /* header_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header_line@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7C38249187B2B3B001FD092 /* camera_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_mark@2x.png"; sourceTree = SOURCE_ROOT; };
-		B7C38250187B7528001FD092 /* Newtext Regular BT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Newtext Regular BT.ttf"; path = "../../../Downloads/Newtext Regular BT.ttf"; sourceTree = "<group>"; };
 		B7C38252187C6C93001FD092 /* header_line_300@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header_line_300@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7C38254187C7E02001FD092 /* PinsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinsView.h; sourceTree = "<group>"; };
 		B7C38255187C7E02001FD092 /* PinsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinsView.m; sourceTree = "<group>"; };
-		B7CC196C18047D92003C71B9 /* Restaurants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restaurants.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7CC196C18047D92003C71B9 /* DishGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DishGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CC196F18047D92003C71B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B7CC197118047D92003C71B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B7CC197318047D92003C71B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B7CC197518047D92003C71B9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		B7CC197918047D92003C71B9 /* Restaurants-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Restaurants-Info.plist"; sourceTree = "<group>"; };
+		B7CC197918047D92003C71B9 /* DishGo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DishGo-Info.plist"; sourceTree = "<group>"; };
 		B7CC197B18047D92003C71B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7CC197D18047D92003C71B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		B7CC197F18047D92003C71B9 /* Restaurants-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Restaurants-Prefix.pch"; sourceTree = "<group>"; };
+		B7CC197F18047D92003C71B9 /* DishGo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DishGo-Prefix.pch"; sourceTree = "<group>"; };
 		B7CC198018047D92003C71B9 /* RAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RAppDelegate.h; sourceTree = "<group>"; };
 		B7CC198118047D92003C71B9 /* RAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RAppDelegate.m; sourceTree = "<group>"; };
 		B7CC198418047D92003C71B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B7CC198718047D92003C71B9 /* Restaurants.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Restaurants.xcdatamodel; sourceTree = "<group>"; };
+		B7CC198718047D92003C71B9 /* DishGo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DishGo.xcdatamodel; sourceTree = "<group>"; };
 		B7CC198F18047D92003C71B9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		B7CC199518047D92003C71B9 /* RestaurantsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7CC199518047D92003C71B9 /* DishGoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DishGoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7CC199618047D92003C71B9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		B7CC199F18047D92003C71B9 /* RestaurantsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RestaurantsTests-Info.plist"; sourceTree = "<group>"; };
+		B7CC199F18047D92003C71B9 /* DishGoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DishGoTests-Info.plist"; sourceTree = "<group>"; };
 		B7CC19A118047D92003C71B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7CC19A318047D92003C71B9 /* RestaurantsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantsTests.m; sourceTree = "<group>"; };
 		B7CC19B318047E3D003C71B9 /* RestaurantCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantCells.h; sourceTree = "<group>"; };
@@ -373,7 +368,6 @@
 		B7DA9D951843E3CC0072AD47 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		B7DA9D97184545220072AD47 /* UserSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSession.h; sourceTree = "<group>"; };
 		B7DA9D98184545220072AD47 /* UserSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSession.m; sourceTree = "<group>"; };
-		B7DA9D9E184670EC0072AD47 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		B7DA9DA11846A62E0072AD47 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SignUpViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B7DA9DA41847B34E0072AD47 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -415,10 +409,6 @@
 		B7E20F3C1820560100791BEB /* Option.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Option.m; sourceTree = "<group>"; };
 		B7E20F3D1820560100791BEB /* Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
 		B7E20F3E1820560100791BEB /* Options.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Options.m; sourceTree = "<group>"; };
-		B7E20F49182182ED00791BEB /* _Subsections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Subsections.h; sourceTree = "<group>"; };
-		B7E20F4A182182ED00791BEB /* _Subsections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Subsections.m; sourceTree = "<group>"; };
-		B7E20F4B182182ED00791BEB /* Subsections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subsections.h; sourceTree = "<group>"; };
-		B7E20F4C182182ED00791BEB /* Subsections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subsections.m; sourceTree = "<group>"; };
 		B7E20F4F1822F91600791BEB /* DishViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishViewCell.xib; sourceTree = "<group>"; };
 		B7E20F54182302CB00791BEB /* DishViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishViewCell.h; sourceTree = "<group>"; };
 		B7E20F55182302CB00791BEB /* DishViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishViewCell.m; sourceTree = "<group>"; };
@@ -501,10 +491,6 @@
 		B70C333E1805A28B0045183F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B7E20F49182182ED00791BEB /* _Subsections.h */,
-				B7E20F4A182182ED00791BEB /* _Subsections.m */,
-				B7E20F4B182182ED00791BEB /* Subsections.h */,
-				B7E20F4C182182ED00791BEB /* Subsections.m */,
 				B7E20F2B1820560100791BEB /* _Dishes.h */,
 				B7E20F2C1820560100791BEB /* _Menu.h */,
 				B7E20F2D1820560100791BEB /* _Sections.h */,
@@ -736,8 +722,8 @@
 		B7CC196318047D92003C71B9 = {
 			isa = PBXGroup;
 			children = (
-				B7CC197718047D92003C71B9 /* Restaurants */,
-				B7CC199D18047D92003C71B9 /* RestaurantsTests */,
+				B7CC197718047D92003C71B9 /* DishGo */,
+				B7CC199D18047D92003C71B9 /* DishGoTests */,
 				B7CC196E18047D92003C71B9 /* Frameworks */,
 				B7CC196D18047D92003C71B9 /* Products */,
 				21643D1EDB914A93936A017C /* Pods.xcconfig */,
@@ -747,8 +733,8 @@
 		B7CC196D18047D92003C71B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B7CC196C18047D92003C71B9 /* Restaurants.app */,
-				B7CC199518047D92003C71B9 /* RestaurantsTests.xctest */,
+				B7CC196C18047D92003C71B9 /* DishGo.app */,
+				B7CC199518047D92003C71B9 /* DishGoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,28 +755,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B7CC197718047D92003C71B9 /* Restaurants */ = {
+		B7CC197718047D92003C71B9 /* DishGo */ = {
 			isa = PBXGroup;
 			children = (
 				B7CC19AE18047DAB003C71B9 /* ViewControllers */,
 				B7CC19AD18047DA0003C71B9 /* Delegates */,
 				B7CC198318047D92003C71B9 /* Main.storyboard */,
 				B7CC198F18047D92003C71B9 /* Images.xcassets */,
-				B7CC198618047D92003C71B9 /* Restaurants.xcdatamodeld */,
+				B7CC198618047D92003C71B9 /* DishGo.xcdatamodeld */,
 				B7CC197818047D92003C71B9 /* Supporting Files */,
 			);
+			name = DishGo;
 			path = Restaurants;
 			sourceTree = "<group>";
 		};
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B75B6412191416F500D717C7 /* loading@2x.png */,
+				B727D9621911904200BB8F41 /* icon@2x.png */,
 				B7B488EB1889817000054314 /* add@2x.png */,
 				B7C38252187C6C93001FD092 /* header_line_300@2x.png */,
-				B7C38250187B7528001FD092 /* Newtext Regular BT.ttf */,
 				B7C38249187B2B3B001FD092 /* camera_mark@2x.png */,
 				B7C38247187B1CEC001FD092 /* header_line@2x.png */,
-				B7C38245187B1842001FD092 /* EastMarketNF.otf */,
 				B7C38243187B0F49001FD092 /* more_dish@2x.png */,
 				B7BDFBDC18773BEF003E661F /* left_arrow@2x.png */,
 				B7BDFBDD18773BEF003E661F /* right_arrow@2x.png */,
@@ -808,7 +795,6 @@
 				B7D47F821863702B00DD3C99 /* large_cart@2x.png */,
 				B7D47F7C1863436D00DD3C99 /* location@2x.png */,
 				B7D47F7618622C5200DD3C99 /* fork@2x.png */,
-				B75DA1FE1860FCC500803AF5 /* loading@2x.png */,
 				B75DA1F91860D3DC00803AF5 /* billing_address@2x.png */,
 				B75DA1F71860CDA100803AF5 /* earth@2x.png */,
 				B75DA1F51860A94000803AF5 /* chip@2x.png */,
@@ -833,7 +819,6 @@
 				B7EE7B5E1849292A003EE5B8 /* background_signup@2x.jpg */,
 				B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */,
 				B79E8F691847DF2D00BF4F3F /* facebook@2x.png */,
-				B7DA9D9E184670EC0072AD47 /* icon@2x.png */,
 				B7DA9D951843E3CC0072AD47 /* arrow@2x.png */,
 				B7DA9D8F1843DFAF0072AD47 /* control@2x.png */,
 				B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */,
@@ -842,27 +827,28 @@
 				B7B744401832AF5C001DFC49 /* gear-32x32.png */,
 				B7E43067181EF7A6002B6867 /* logo.png */,
 				B70C335B1806F5F70045183F /* Default.png */,
-				B7CC197918047D92003C71B9 /* Restaurants-Info.plist */,
+				B7CC197918047D92003C71B9 /* DishGo-Info.plist */,
 				B7CC197A18047D92003C71B9 /* InfoPlist.strings */,
 				B7CC197D18047D92003C71B9 /* main.m */,
-				B7CC197F18047D92003C71B9 /* Restaurants-Prefix.pch */,
+				B7CC197F18047D92003C71B9 /* DishGo-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B7CC199D18047D92003C71B9 /* RestaurantsTests */ = {
+		B7CC199D18047D92003C71B9 /* DishGoTests */ = {
 			isa = PBXGroup;
 			children = (
 				B7CC19A318047D92003C71B9 /* RestaurantsTests.m */,
 				B7CC199E18047D92003C71B9 /* Supporting Files */,
 			);
+			name = DishGoTests;
 			path = RestaurantsTests;
 			sourceTree = "<group>";
 		};
 		B7CC199E18047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B7CC199F18047D92003C71B9 /* RestaurantsTests-Info.plist */,
+				B7CC199F18047D92003C71B9 /* DishGoTests-Info.plist */,
 				B7CC19A018047D92003C71B9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -1158,9 +1144,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B7CC196B18047D92003C71B9 /* Restaurants */ = {
+		B7CC196B18047D92003C71B9 /* DishGo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7CC19A718047D92003C71B9 /* Build configuration list for PBXNativeTarget "Restaurants" */;
+			buildConfigurationList = B7CC19A718047D92003C71B9 /* Build configuration list for PBXNativeTarget "DishGo" */;
 			buildPhases = (
 				B70C333D1805A2380045183F /* Run Script */,
 				278D1C011CD645AD8A13EA85 /* Check Pods Manifest.lock */,
@@ -1174,14 +1160,14 @@
 			);
 			dependencies = (
 			);
-			name = Restaurants;
+			name = DishGo;
 			productName = Restaurants;
-			productReference = B7CC196C18047D92003C71B9 /* Restaurants.app */;
+			productReference = B7CC196C18047D92003C71B9 /* DishGo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B7CC199418047D92003C71B9 /* RestaurantsTests */ = {
+		B7CC199418047D92003C71B9 /* DishGoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7CC19AA18047D92003C71B9 /* Build configuration list for PBXNativeTarget "RestaurantsTests" */;
+			buildConfigurationList = B7CC19AA18047D92003C71B9 /* Build configuration list for PBXNativeTarget "DishGoTests" */;
 			buildPhases = (
 				B7CC199118047D92003C71B9 /* Sources */,
 				B7CC199218047D92003C71B9 /* Frameworks */,
@@ -1192,9 +1178,9 @@
 			dependencies = (
 				B7CC199C18047D92003C71B9 /* PBXTargetDependency */,
 			);
-			name = RestaurantsTests;
+			name = DishGoTests;
 			productName = RestaurantsTests;
-			productReference = B7CC199518047D92003C71B9 /* RestaurantsTests.xctest */;
+			productReference = B7CC199518047D92003C71B9 /* DishGoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1215,7 +1201,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B7CC196718047D92003C71B9 /* Build configuration list for PBXProject "Restaurants" */;
+			buildConfigurationList = B7CC196718047D92003C71B9 /* Build configuration list for PBXProject "DishGo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1228,8 +1214,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B7CC196B18047D92003C71B9 /* Restaurants */,
-				B7CC199418047D92003C71B9 /* RestaurantsTests */,
+				B7CC196B18047D92003C71B9 /* DishGo */,
+				B7CC199418047D92003C71B9 /* DishGoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1240,7 +1226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
-				B7C38246187B1842001FD092 /* EastMarketNF.otf in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
 				B721D67118720B6500D41957 /* checkout@2x.png in Resources */,
 				B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */,
@@ -1285,11 +1270,13 @@
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
 				B7CF7B821852E522000D326F /* info@2x.png in Resources */,
+				B75B6413191416F500D717C7 /* loading@2x.png in Resources */,
 				B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
 				B74AC373183E737A00A89616 /* CartButton.xib in Resources */,
 				B7EE7B85184E74DF003EE5B8 /* avatar_logged_white@2x.png in Resources */,
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
+				B727D9631911904200BB8F41 /* icon@2x.png in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
 				B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
@@ -1298,7 +1285,6 @@
 				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
-				B75DA1FF1860FCC500803AF5 /* loading@2x.png in Resources */,
 				B7E6C296183BF909005E8598 /* CartRowCell.xib in Resources */,
 				B7DA9D961843E3CC0072AD47 /* arrow@2x.png in Resources */,
 				B7B488EC1889817000054314 /* add@2x.png in Resources */,
@@ -1312,10 +1298,8 @@
 				B7921637187DCD3100BC7BF2 /* ReviewCell.xib in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
 				B7EE7B87184FB821003EE5B8 /* logo@2x.png in Resources */,
-				B7DA9D9F184670EC0072AD47 /* icon@2x.png in Resources */,
 				B7D47F951864D3F400DD3C99 /* remove@2x.png in Resources */,
 				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
-				B7C38251187B7528001FD092 /* Newtext Regular BT.ttf in Resources */,
 				B792163A187DF23A00BC7BF2 /* ReviewTotal.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1358,7 +1342,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mogenerator -m Restaurants/Restaurants.xcdatamodeld -O Restaurants/Models --template-var arc=true";
+			shellScript = "mogenerator -m Restaurants/DishGo.xcdatamodeld -O Restaurants/Models --template-var arc=true";
 		};
 		B7DA9DA0184674CB0072AD47 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1458,14 +1442,12 @@
 				B7E4305C181ED388002B6867 /* RootViewController.m in Sources */,
 				B721D67D187334AF00D41957 /* Order_Submit_Response.m in Sources */,
 				B7E20F5B1824053600791BEB /* TableHeaderView.m in Sources */,
-				B7E20F4D182182ED00791BEB /* _Subsections.m in Sources */,
-				B7E20F4E182182ED00791BEB /* Subsections.m in Sources */,
 				B7E12854183BE3020079B5E9 /* DishCellViewLowerHalf.m in Sources */,
 				B7CC198218047D92003C71B9 /* RAppDelegate.m in Sources */,
 				B70C33431805A3270045183F /* Images.m in Sources */,
 				B77A8D05183FDFCB00AFBAEE /* SignInViewController.m in Sources */,
 				B7B7443118328437001DFC49 /* TableHeaderViewGradient.m in Sources */,
-				B7CC198818047D92003C71B9 /* Restaurants.xcdatamodeld in Sources */,
+				B7CC198818047D92003C71B9 /* DishGo.xcdatamodeld in Sources */,
 				B7CC19B818047FE9003C71B9 /* RestaurantViewController.m in Sources */,
 				B7EE7B9D1851020E003EE5B8 /* Lockbox.m in Sources */,
 				B75DA1FD1860E4E500803AF5 /* SkipTouchesUIView.m in Sources */,
@@ -1499,7 +1481,7 @@
 /* Begin PBXTargetDependency section */
 		B7CC199C18047D92003C71B9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B7CC196B18047D92003C71B9 /* Restaurants */;
+			target = B7CC196B18047D92003C71B9 /* DishGo */;
 			targetProxy = B7CC199B18047D92003C71B9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1618,9 +1600,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
-				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
+				PRODUCT_NAME = DishGo;
 				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1634,9 +1616,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
-				INFOPLIST_FILE = "Restaurants/Restaurants-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
+				PRODUCT_NAME = DishGo;
 				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1658,8 +1640,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "RestaurantsTests/RestaurantsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "RestaurantsTests/DishGoTests-Info.plist";
+				PRODUCT_NAME = DishGoTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1677,8 +1659,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Restaurants/Restaurants-Prefix.pch";
-				INFOPLIST_FILE = "RestaurantsTests/RestaurantsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "RestaurantsTests/DishGoTests-Info.plist";
+				PRODUCT_NAME = DishGoTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1687,7 +1669,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B7CC196718047D92003C71B9 /* Build configuration list for PBXProject "Restaurants" */ = {
+		B7CC196718047D92003C71B9 /* Build configuration list for PBXProject "DishGo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B7CC19A518047D92003C71B9 /* Debug */,
@@ -1696,7 +1678,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7CC19A718047D92003C71B9 /* Build configuration list for PBXNativeTarget "Restaurants" */ = {
+		B7CC19A718047D92003C71B9 /* Build configuration list for PBXNativeTarget "DishGo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B7CC19A818047D92003C71B9 /* Debug */,
@@ -1705,7 +1687,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7CC19AA18047D92003C71B9 /* Build configuration list for PBXNativeTarget "RestaurantsTests" */ = {
+		B7CC19AA18047D92003C71B9 /* Build configuration list for PBXNativeTarget "DishGoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B7CC19AB18047D92003C71B9 /* Debug */,
@@ -1717,13 +1699,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B7CC198618047D92003C71B9 /* Restaurants.xcdatamodeld */ = {
+		B7CC198618047D92003C71B9 /* DishGo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B7CC198718047D92003C71B9 /* Restaurants.xcdatamodel */,
+				B7CC198718047D92003C71B9 /* DishGo.xcdatamodel */,
 			);
-			currentVersion = B7CC198718047D92003C71B9 /* Restaurants.xcdatamodel */;
-			path = Restaurants.xcdatamodeld;
+			currentVersion = B7CC198718047D92003C71B9 /* DishGo.xcdatamodel */;
+			path = DishGo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

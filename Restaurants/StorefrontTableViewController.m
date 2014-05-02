@@ -15,7 +15,6 @@
 #import "Option.h"
 #import "Options.h"
 #import "Sections.h"
-#import "Subsections.h"
 #import "User.h"
 #import "Order_Order.h"
 #import "DishViewCell.h"
@@ -542,9 +541,11 @@
     
     if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
         return [self headerView:sectionIndex tableView:tableView];
-    } else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
-        return [self subheaderView:sectionIndex tableView:tableView];
-    } else {
+    }
+//    else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
+//        return [self subheaderView:sectionIndex tableView:tableView];
+//    }
+    else {
         return blank;
     }
 }
@@ -585,25 +586,25 @@
     
 }
 
-- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
-{
-    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
-    Subsections *section = [sectionsList objectAtIndex:sectionIndex];
-    if([section.name length] == 0){
-        return blank;
-    }
-    
-    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
-    view.headerTitle.text = section.name;
-    view.headerTitle.textColor = [UIColor textColor];    
-    view.backgroundColor = [UIColor bgColor];
-    for (UIView * txt in view.subviews){
-        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
-            ((UILabel *)txt).textColor = [UIColor textColor];
-        }
-    }
-    return view;
-}
+//- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
+//{
+//    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
+//    Subsections *section = [sectionsList objectAtIndex:sectionIndex];
+//    if([section.name length] == 0){
+//        return blank;
+//    }
+//    
+//    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
+//    view.headerTitle.text = section.name;
+//    view.headerTitle.textColor = [UIColor textColor];    
+//    view.backgroundColor = [UIColor bgColor];
+//    for (UIView * txt in view.subviews){
+//        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
+//            ((UILabel *)txt).textColor = [UIColor textColor];
+//        }
+//    }
+//    return view;
+//}
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -663,13 +664,13 @@
                                                           }];
     sectionsMapping.identificationAttributes = @[ @"id" ];
     
-    RKEntityMapping *subsectionsMapping = [RKEntityMapping mappingForEntityForName:@"Subsections" inManagedObjectStore:managedObjectStore];
-    [subsectionsMapping addAttributeMappingsFromDictionary:@{
-                                                             @"name": @"name",
-                                                             @"_id": @"id",
-                                                             @"index":@"position",
-                                                             }];
-    subsectionsMapping.identificationAttributes = @[ @"id" ];
+//    RKEntityMapping *subsectionsMapping = [RKEntityMapping mappingForEntityForName:@"Subsections" inManagedObjectStore:managedObjectStore];
+//    [subsectionsMapping addAttributeMappingsFromDictionary:@{
+//                                                             @"name": @"name",
+//                                                             @"_id": @"id",
+//                                                             @"index":@"position",
+//                                                             }];
+//    subsectionsMapping.identificationAttributes = @[ @"id" ];
     
     RKEntityMapping *optionMapping = [RKEntityMapping mappingForEntityForName:@"Option" inManagedObjectStore:managedObjectStore];
     [optionMapping addAttributeMappingsFromDictionary:@{
@@ -693,14 +694,14 @@
                                                         }];
     imagesMapping.identificationAttributes = @[ @"url" ];
     
-    [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"subsection" toKeyPath:@"subsections" withMapping:subsectionsMapping]];
-    [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dish" toKeyPath:@"dishes" withMapping:dishesMapping]];
+    [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
+//    [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dish" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
-    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_option" toKeyPath:@"list" withMapping:optionMapping]];
+    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
-    NSString *query = [NSString stringWithFormat:@"/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+    NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
+    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

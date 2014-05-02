@@ -10,6 +10,7 @@
 #import <Stripe/Stripe.h>
 #import <JSONModel.h>
 #import "Order_Status.h"
+#import "Restaurant.h"
 
 
 @interface User  : JSONModel
@@ -40,6 +41,7 @@
     @property (nonatomic, copy) NSString *secret_number;
     @property STPCard *stripeCard;
     @property User *billing_user;
+    @property Restaurant *restaurant;
     @property NSMutableArray *shopping_cart;
     -(NSString *) get_full_name;
     +(BOOL)propertyIsOptional:(NSString*)propertyName;

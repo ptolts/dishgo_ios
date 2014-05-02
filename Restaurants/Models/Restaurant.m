@@ -1,7 +1,7 @@
 #import "Restaurant.h"
 #import "Sections.h"
 #import "Dishes.h"
-#import "Subsections.h"
+//#import "Subsections.h"
 
 
 @interface Restaurant ()
@@ -15,11 +15,11 @@
 - (NSMutableDictionary *) dishDictionary {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     for(Sections *sec in self.menu){
-        for(Subsections *subsec in sec.subsections){
-            for(Dishes *d in subsec.dishes){
+//        for(Subsections *subsec in sec.subsections){
+            for(Dishes *d in sec.dishes){
                 [dict setObject:d forKey:d.id];
             }
-        }
+//        }
     }
     return dict;
 }

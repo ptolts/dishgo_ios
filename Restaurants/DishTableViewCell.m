@@ -192,7 +192,7 @@
     if([dish.images count] > 0){
         Images *img = [dish.images firstObject];
         __weak typeof(cell.dishImage) weakImage = cell.dishImage;
-        [cell.dishImage          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://dev.foodcloud.ca:3000/assets/sources/%@",img.url]]
+        [cell.dishImage          setImageWithURL:[NSURL URLWithString:img.url]
                                 placeholderImage:[UIImage imageNamed:@"camera_mark.png"]
                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                            if (image && cacheType == SDImageCacheTypeNone)

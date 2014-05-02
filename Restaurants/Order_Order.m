@@ -17,6 +17,7 @@
 
 @synthesize billing_address;
 @synthesize delivery_address;
+@synthesize restaurant_id;
 @synthesize order;
 @synthesize total_cost;
 @synthesize foodcloud_token;
@@ -25,6 +26,7 @@
         billing_address = [[Address_Order alloc] initBillingWithUser:user];
         delivery_address = [[Address_Order alloc] initDeliveryWithUser:user];
         foodcloud_token = user.foodcloud_token;
+        restaurant_id = user.restaurant.id;
         
         NSMutableArray *order_mutable = [[NSMutableArray alloc] init];
         total_cost = 0.0f;
