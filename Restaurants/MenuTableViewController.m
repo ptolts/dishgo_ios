@@ -180,11 +180,13 @@
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
         [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
-        if([self.shopping_cart count] == 0) {
+
+// THIS BELOW ALLOWS THEM TO CLICK ORDER
+//        if([self.shopping_cart count] == 0) {
             checkoutView.checkout.enabled = NO;
-        } else {
-            checkoutView.checkout.enabled = YES;
-        }
+//        } else {
+//            checkoutView.checkout.enabled = YES;
+//        }
         
         int total_height = self.view.frame.size.height;
         int view_height = checkoutView.frame.size.height;
@@ -397,11 +399,11 @@
             [self signin];
         }
     } else if (indexPath.row == 1){
-        [self settings];
+        [self logout];
     } else if (indexPath.row == 2){
         [self favorites];
     } else if (indexPath.row == 3){
-        [self logout];
+        [self settings];
     }
 }
 
@@ -418,8 +420,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     if([[UserSession sharedManager] logged_in]){
+        return 2;
         return 4;
     } else {
+        return 1;
         return 3;
     }
 }
@@ -501,7 +505,7 @@
         }
     } else if (indexPath.section == 0) {
         
-        NSArray *titles = @[@"Settings",@"Favorites",@"Logout"];
+        NSArray *titles = @[@"Logout",@"Favorites",@"Settings"];
         
         NSString *title = titles[indexPath.row - 1];
         

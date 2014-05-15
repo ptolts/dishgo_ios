@@ -122,6 +122,7 @@
     }
     
     DishTableViewCell *dish_view = [self.shopping_cart objectAtIndex:indexPath.row];
+    dish_view.shoppingCartCell.clipsToBounds = YES;
     return dish_view.shoppingCartCell;
 }
 

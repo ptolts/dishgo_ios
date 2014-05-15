@@ -303,7 +303,7 @@ bool speed_things_up;
     hud.labelText = @"Placing Order...";
     
     //make post, get requests
-    [JSONHTTPClient postJSONFromURLWithString:@"http://dishgo.io/app/api/v1/order/submit_order"
+    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/order/submit_order"
                                        params:@{@"order":json,@"foodcloud_token":user_for_order.foodcloud_token}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        Order_Submit_Response *response = [[Order_Submit_Response alloc] initWithDictionary:json error:nil];

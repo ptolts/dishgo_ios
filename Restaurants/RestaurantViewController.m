@@ -12,6 +12,7 @@
 #import "Images.h"
 #import <RestKit/RestKit.h>
 #import "RestaurantCells.h"
+#import "noRestaurants.h"
 #import "ImagesInScroll.h"
 #import "RootViewController.h"
 #import "StorefrontTableViewController.h"
@@ -24,11 +25,14 @@
 
 @implementation RestaurantViewController {
     NSArray *restaurantList;
+    CLLocationManager *locationManager;
     RKManagedObjectStore *managedObjectStore;
     NSMutableArray *cellList;
     NSTimer *scroll_timer;
     UIView *spinnerView;
+    noRestaurants *noRestoView;
     UIWindow  *mainWindow;
+    CLLocation *currentLocation;
     int scroll_count;
 }
 
@@ -39,6 +43,26 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    
+    if (newLocation.coordinate.latitude != oldLocation.coordinate.latitude){
+        return;
+    }
+    
+    currentLocation = newLocation;
+    
+    [locationManager stopMonitoringSignificantLocationChanges];
+    [locationManager stopUpdatingLocation];
+    [self fetchRestaurants];
+}
+
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [locationManager stopMonitoringSignificantLocationChanges];
+    [locationManager stopUpdatingLocation];
 }
 
 - (void)menuClick:sender
@@ -79,6 +103,29 @@
     [mainWindow addSubview:spinnerView];
 }
 
+- (void) noRestaurants {
+    // Get main window reference
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
+    
+    noRestoView = [[[NSBundle mainBundle] loadNibNamed:@"noRestaurants" owner:self options:nil] objectAtIndex:0];
+    [noRestoView.demo addTarget:self action:@selector(launchDemo:) forControlEvents:UIControlEventTouchUpInside];
+    [noRestoView.viewSite addTarget:self action:@selector(launchSite:) forControlEvents:UIControlEventTouchUpInside];
+    [mainWindow addSubview:noRestoView];
+}
+
+-(void) launchSite:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://dishgo.io"]];
+}
+
+-(void) launchDemo:(id)sender {
+    double your_latitiude_value = 45.455448;
+    double your_longitude_value = -74.144368;
+    currentLocation = [[CLLocation alloc] initWithLatitude:your_latitiude_value longitude:your_longitude_value];
+    [noRestoView removeFromSuperview];
+    [self startLoading];
+    [self fetchRestaurants];
+}
+
 - (void) stopLoading{
     [UIView animateWithDuration:0.5
                      animations:^{spinnerView.alpha = 0.0;}
@@ -92,6 +139,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager startUpdatingLocation];
     scroll_count = 0;
     [self startLoading];
     cellList = [[NSMutableArray alloc] init];
@@ -111,37 +162,41 @@
     self.navigationItem.titleView = label;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+
+}
+
+- (void) fetchRestaurants {
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     // Test listing all FailedBankInfos from the store
     self.managedObjectContext = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-
+    
     NSError *error;
-   
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Restaurant"
-                                              inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    NSArray *fetchedRestaurants = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    NSLog(@"Fetched: %d\n\n\n", [fetchedRestaurants count]);
-    restaurantList = [fetchedRestaurants sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
-    {
-        return [obj2.images count] - [obj1.images count];
-    }];
-
-    [self.tableView reloadData];
+    
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Restaurant"
+//                                              inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//    NSArray *fetchedRestaurants = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//    NSLog(@"Fetched: %d\n\n\n", [fetchedRestaurants count]);
+//    restaurantList = [fetchedRestaurants sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+//                      {
+//                          return [obj2.images count] - [obj1.images count];
+//                      }];
+//    
+//    [self.tableView reloadData];
     
     self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
     ////////// QUERY NEW DATA AND UPDATE TABLE.
     
-
-//    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    
+    //    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     NSManagedObjectModel *managedObjectModel = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectModel];
-
+    
     managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
     error = nil;
     BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
@@ -164,23 +219,24 @@
     
     RKEntityMapping *restaurantMapping = [RKEntityMapping mappingForEntityForName:@"Restaurant" inManagedObjectStore:managedObjectStore];
     [restaurantMapping addAttributeMappingsFromDictionary:@{
-                                                          @"_id": @"id",
-                                                          @"name": @"name",
-                                                          @"phone": @"phone",
-                                                          @"address": @"address",
-                                                          @"lat": @"lat",
-                                                          @"lon": @"lon",
-                                                        }];
+                                                            @"_id": @"id",
+                                                            @"name": @"name",
+                                                            @"phone": @"phone",
+                                                            @"address": @"address",
+                                                            @"lat": @"lat",
+                                                            @"lon": @"lon",
+                                                            }];
     
     
     restaurantMapping.identificationAttributes = @[ @"id" ];
-
+    
     [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://dishgo.io/app/api/v1/restaurants"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
@@ -193,19 +249,21 @@
                           }];
         
         NSLog(@"Attempting save...\n\n\n");
-        NSError *err;
-        if (![self.managedObjectContext save:&err]) {
-            NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
-        }
+//        NSError *err;
+//        if (![self.managedObjectContext save:&err]) {
+//            NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
+//        }
         
         [self.tableView reloadData];
         [self stopLoading];
+        if([restaurantList count] == 0){
+            [self noRestaurants];
+        }
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);
     }];
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];
-
 }
 
 - (void)didReceiveMemoryWarning

@@ -149,11 +149,12 @@
     enableCart = NO;
     int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
-    spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
+    spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, junk, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
     spinnerView.backgroundColor = [UIColor whiteColor];
     UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake((mainWindow.frame.size.width/2.0) - 75, ((mainWindow.frame.size.height - junk)/2.0) - 95, 150, 150)];
     [logo setContentMode:UIViewContentModeCenter];
     logo.image = [UIImage imageNamed:@"loading.png"];
+    logo.backgroundColor = [UIColor whiteColor];
     [spinnerView addSubview:logo];
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -162,7 +163,7 @@
     [spinnerView addSubview:spinner];
     [spinner startAnimating];
     
-    [self.view addSubview:spinnerView];
+    [mainWindow addSubview:spinnerView];
 }
 
 - (void) stopLoading{
@@ -702,6 +703,7 @@
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
     NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+//    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

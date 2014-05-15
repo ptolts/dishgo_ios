@@ -212,7 +212,7 @@
     } else {
         [cell.dishImage removeFromSuperview];
     }
-    
+    cell.clipsToBounds = YES;
     return cell;
 }
 

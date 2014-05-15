@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoreLocation/CoreLocation.h"
 
-@interface RestaurantViewController : UITableViewController 
+@interface RestaurantViewController : UITableViewController <CLLocationManagerDelegate>
     @property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
     @property (nonatomic, strong) IBOutlet UIButton *menu;
 @end

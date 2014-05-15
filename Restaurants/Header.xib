@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -18,12 +18,8 @@
                     <rect key="frame" x="0.0" y="240" width="320" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" tag="3" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.png" id="aZ1-5o-a1j">
-                            <rect key="frame" x="218" y="6" width="35" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <imageView userInteractionEnabled="NO" tag="1" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tele.png" id="suJ-9R-mUo">
-                            <rect key="frame" x="0.0" y="6" width="35" height="28"/>
+                            <rect key="frame" x="60" y="7" width="35" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view contentMode="scaleToFill" id="Cw2-fr-eAw">
@@ -37,25 +33,18 @@
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <imageView userInteractionEnabled="NO" tag="2" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc.png" id="gGG-za-hVO">
-                            <rect key="frame" x="119" y="6" width="35" height="28"/>
+                            <rect key="frame" x="179" y="7" width="35" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SQu-62-oor">
-                            <rect key="frame" x="34" y="6" width="50" height="28"/>
+                            <rect key="frame" x="94" y="7" width="50" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="map" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tRj-2i-gH0">
-                            <rect key="frame" x="151" y="6" width="50" height="28"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="13"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="favorite" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k6e-Kf-zMY">
-                            <rect key="frame" x="252" y="6" width="62" height="28"/>
+                            <rect key="frame" x="211" y="7" width="50" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -74,7 +63,6 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="button_view" destination="2Oe-zu-axq" id="KMN-DL-FZY"/>
-                <outlet property="favorite_label" destination="k6e-Kf-zMY" id="QZq-R2-sfw"/>
                 <outlet property="map_label" destination="tRj-2i-gH0" id="ztO-0r-Fbg"/>
                 <outlet property="phone_label" destination="SQu-62-oor" id="H92-kN-W8U"/>
                 <outlet property="scroll_view" destination="WWh-UQ-Yp5" id="Huf-EU-ScS"/>
@@ -86,7 +74,6 @@
         <tapGestureRecognizer id="8cy-GO-eig"/>
     </objects>
     <resources>
-        <image name="heart.png" width="27" height="27"/>
         <image name="loc.png" width="27" height="27"/>
         <image name="tele.png" width="27" height="27"/>
     </resources>

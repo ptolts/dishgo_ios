@@ -23,8 +23,12 @@
 		B721D68018735BDD00D41957 /* User_Orders.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D67F18735BDD00D41957 /* User_Orders.m */; };
 		B721D68418737A7100D41957 /* OrderTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D68318737A7100D41957 /* OrderTrackerViewController.m */; };
 		B727D9631911904200BB8F41 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B727D9621911904200BB8F41 /* icon@2x.png */; };
+		B7310664191921190054AF25 /* EastMarketNF.otf in Resources */ = {isa = PBXBuildFile; fileRef = B7310663191921190054AF25 /* EastMarketNF.otf */; };
+		B7310666191921880054AF25 /* EastMarketNF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7310665191921880054AF25 /* EastMarketNF.ttf */; };
 		B74AC373183E737A00A89616 /* CartButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74AC372183E737A00A89616 /* CartButton.xib */; };
 		B74AC377183E751C00A89616 /* CartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B74AC376183E751C00A89616 /* CartButton.m */; };
+		B74E6B62192547CF004ACA63 /* noRestaurants.xib in Resources */ = {isa = PBXBuildFile; fileRef = B74E6B61192547CF004ACA63 /* noRestaurants.xib */; };
+		B74E6B65192549B6004ACA63 /* noRestaurants.m in Sources */ = {isa = PBXBuildFile; fileRef = B74E6B64192549B6004ACA63 /* noRestaurants.m */; };
 		B75B6413191416F500D717C7 /* loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75B6412191416F500D717C7 /* loading@2x.png */; };
 		B75DA1F4185FB00B00803AF5 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F3185FB00B00803AF5 /* camera@2x.png */; };
 		B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75DA1F51860A94000803AF5 /* chip@2x.png */; };
@@ -223,9 +227,14 @@
 		B721D68218737A7100D41957 /* OrderTrackerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTrackerViewController.h; sourceTree = "<group>"; };
 		B721D68318737A7100D41957 /* OrderTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTrackerViewController.m; sourceTree = "<group>"; };
 		B727D9621911904200BB8F41 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../../../Pictures/icon@2x.png"; sourceTree = "<group>"; };
+		B7310663191921190054AF25 /* EastMarketNF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.otf; path = ../../../Downloads/EastMarketNF.otf; sourceTree = "<group>"; };
+		B7310665191921880054AF25 /* EastMarketNF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.ttf; path = ../../../Downloads/EastMarketNF.ttf; sourceTree = "<group>"; };
 		B74AC372183E737A00A89616 /* CartButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CartButton.xib; sourceTree = "<group>"; };
 		B74AC375183E751C00A89616 /* CartButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartButton.h; sourceTree = "<group>"; };
 		B74AC376183E751C00A89616 /* CartButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartButton.m; sourceTree = "<group>"; };
+		B74E6B61192547CF004ACA63 /* noRestaurants.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noRestaurants.xib; sourceTree = "<group>"; };
+		B74E6B63192549B6004ACA63 /* noRestaurants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noRestaurants.h; sourceTree = "<group>"; };
+		B74E6B64192549B6004ACA63 /* noRestaurants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noRestaurants.m; sourceTree = "<group>"; };
 		B75B6412191416F500D717C7 /* loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F3185FB00B00803AF5 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F51860A94000803AF5 /* chip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chip@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -772,6 +781,8 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7310665191921880054AF25 /* EastMarketNF.ttf */,
+				B7310663191921190054AF25 /* EastMarketNF.otf */,
 				B75B6412191416F500D717C7 /* loading@2x.png */,
 				B727D9621911904200BB8F41 /* icon@2x.png */,
 				B7B488EB1889817000054314 /* add@2x.png */,
@@ -1071,6 +1082,9 @@
 				B7CC19AF18047DEF003C71B9 /* Cells */,
 				B7CC19B618047FE9003C71B9 /* RestaurantViewController.h */,
 				B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */,
+				B74E6B61192547CF004ACA63 /* noRestaurants.xib */,
+				B74E6B63192549B6004ACA63 /* noRestaurants.h */,
+				B74E6B64192549B6004ACA63 /* noRestaurants.m */,
 			);
 			name = "Restaurant List";
 			sourceTree = "<group>";
@@ -1226,6 +1240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E12851183BE2E70079B5E9 /* DishCellViewLowerHalf.xib in Resources */,
+				B7310666191921880054AF25 /* EastMarketNF.ttf in Resources */,
 				B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */,
 				B721D67118720B6500D41957 /* checkout@2x.png in Resources */,
 				B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */,
@@ -1245,6 +1260,7 @@
 				B7BDFBD9187623C2003E661F /* more@2x.png in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
 				B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */,
+				B74E6B62192547CF004ACA63 /* noRestaurants.xib in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
 				B7C38253187C6C93001FD092 /* header_line_300@2x.png in Resources */,
 				B7EE7B5F1849292A003EE5B8 /* background_signup@2x.jpg in Resources */,
@@ -1261,6 +1277,7 @@
 				B7EE7B75184D349F003EE5B8 /* 6809CHAR.TTF in Resources */,
 				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
+				B7310664191921190054AF25 /* EastMarketNF.otf in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B721D66D186A439D00D41957 /* cloud@2x.png in Resources */,
 				B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */,
@@ -1356,7 +1373,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/Users/philiptolton/.rbenv/versions/1.9.3-p286/bin/ruby";
-			shellScript = "def get_file_as_string(filename)\ndata = ''\nf = File.open(filename, \"r\")\nf.each_line do |line|\ndata += line\nend\nreturn data\nend\n\n\ndef handle_alpha_beta(old_value, letter, infoplist, start_of_value, end_of_value)\nparts = old_value.split(letter)\nversion_num = parts[0]\nalpha_num = parts[1].to_i\n\nalpha_num = alpha_num + 1\nnew_version = version_num.to_s + letter + alpha_num.to_s\nprint \"Assigning new version: \" + new_version + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\n\npart_1 = infoplist[0, start_of_value - '<string>'.length];\npart_2 = new_key\npart_3 = infoplist[end_of_value + \"</string>\".length, infoplist.length - (end_of_value - start_of_value + (new_key.length - 1))]\n\nnew_info_plist = part_1 + part_2 + part_3\nnew_info_plist\nend\n\ndef find_and_increment_version_number_with_key(key, infoplist)\n\nstart_of_key = infoplist.index(key)\nstart_of_value = infoplist.index(\"<string>\", start_of_key) + \"<string>\".length\nend_of_value = infoplist.index(\"</string>\", start_of_value)\nold_value = infoplist[start_of_value, end_of_value - start_of_value]\n\nprint \"Old version for \" + key + \": \" + old_value + \"\\n\"\nprint old_value.class.to_s + \"\\n\"\nold_value_int = old_value.to_i\nprint old_value_int.class.to_s + \"\\n\"\nif (old_value.index(\"a\") != nil) # alpha\ninfoplist = handle_alpha_beta(old_value, \"a\", infoplist, start_of_value, end_of_value)\nelsif (old_value.index(\"b\") != nil) # beta\ninfoplist = handle_alpha_beta(old_value, \"b\", infoplist, start_of_value, end_of_value)\nelsif (old_value.index(\".\") != nil) # release dot version\nparts = old_value.split(\".\")\nlast_part = parts.last.to_i\nlast_part = last_part + 1\nparts.delete(parts.last)\n\nnew_version = \"\"\nfirst = true\nparts.each do |one_part|\nif (first)\nfirst = false\nelse\nnew_version = new_version + \".\"\nend\nnew_version = new_version + one_part\nend\nnew_version = new_version.to_s + \".\" + last_part.to_s\nprint \"New version: \" + new_version.to_s + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\ninfoplist = \"#{infoplist[0, start_of_value - '<string>'.length]}#{new_key}#{infoplist[end_of_value + '</string>'.length, infoplist.length - (end_of_value+1)]}\"\nelsif (old_value.to_i != nil) # straight integer build number\nnew_version = old_value.to_i + 1\nprint \"New version: \" + new_version.to_s + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\n\npart_1 = infoplist[0, start_of_value - '<string>'.length]\npart_2 = new_key\npart_3 = infoplist[end_of_value + \"</string>\".length, infoplist.length - (end_of_value+1)]\ninfoplist = part_1 + part_2 + part_3\nend\ninfoplist\nend\n\n\n\nconfig = ENV['CONFIGURATION'].upcase\nconfig_build_dir = ENV['CONFIGURATION_BUILD_DIR']\n\narchive_action = false\nif (config_build_dir.include?(\"ArchiveIntermediates\"))\narchive_action = true\nend\n\nprint \"Archive: \" + archive_action.to_s + \"\\n\"\n\n\nprint config\n\nif (config == \"RELEASE\")\nprint \" incrementing build numbers\\n\"\nproject_dir = ENV['PROJECT_DIR']\ninfoplist_file = ENV['INFOPLIST_FILE']\nplist_filename = \"#{project_dir}/#{infoplist_file}\"\n\ninfoplist = get_file_as_string(plist_filename)\ninfoplist = find_and_increment_version_number_with_key(\"CFBundleVersion\", infoplist)\nif (archive_action)\ninfoplist = find_and_increment_version_number_with_key(\"CFBundleShortVersionString\", infoplist)\nend\nFile.open(plist_filename, 'w') {|f| f.write(infoplist) }\nelse\nprint \" not incrementing build numbers\"\nend";
+			shellScript = "def get_file_as_string(filename)\ndata = ''\nf = File.open(filename, \"r\")\nf.each_line do |line|\ndata += line\nend\nreturn data\nend\n\n\ndef handle_alpha_beta(old_value, letter, infoplist, start_of_value, end_of_value)\nparts = old_value.split(letter)\nversion_num = parts[0]\nalpha_num = parts[1].to_i\n\nalpha_num = alpha_num + 1\nnew_version = version_num.to_s + letter + alpha_num.to_s\nprint \"Assigning new version: \" + new_version + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\n\npart_1 = infoplist[0, start_of_value - '<string>'.length];\npart_2 = new_key\npart_3 = infoplist[end_of_value + \"</string>\".length, infoplist.length - (end_of_value - start_of_value + (new_key.length - 1))]\n\nnew_info_plist = part_1 + part_2 + part_3\nnew_info_plist\nend\n\ndef find_and_increment_version_number_with_key(key, infoplist)\n\nstart_of_key = infoplist.index(key)\nstart_of_value = infoplist.index(\"<string>\", start_of_key) + \"<string>\".length\nend_of_value = infoplist.index(\"</string>\", start_of_value)\nold_value = infoplist[start_of_value, end_of_value - start_of_value]\n\nprint \"Old version for \" + key + \": \" + old_value + \"\\n\"\nprint old_value.class.to_s + \"\\n\"\nold_value_int = old_value.to_i\nprint old_value_int.class.to_s + \"\\n\"\nif (old_value.index(\"a\") != nil) # alpha\ninfoplist = handle_alpha_beta(old_value, \"a\", infoplist, start_of_value, end_of_value)\nelsif (old_value.index(\"b\") != nil) # beta\ninfoplist = handle_alpha_beta(old_value, \"b\", infoplist, start_of_value, end_of_value)\nelsif (old_value.index(\".\") != nil) # release dot version\nparts = old_value.split(\".\")\nlast_part = parts.last.to_i\nlast_part = last_part + 1\nparts.delete(parts.last)\n\nnew_version = \"\"\nfirst = true\nparts.each do |one_part|\nif (first)\nfirst = false\nelse\nnew_version = new_version + \".\"\nend\nnew_version = new_version + one_part\nend\nnew_version = new_version.to_s + \".\" + last_part.to_s\nprint \"New version: \" + new_version.to_s + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\ninfoplist = \"#{infoplist[0, start_of_value - '<string>'.length]}#{new_key}#{infoplist[end_of_value + '</string>'.length, infoplist.length - (end_of_value+1)]}\"\nelsif (old_value.to_i != nil) # straight integer build number\nnew_version = old_value.to_i + 1\nprint \"New version: \" + new_version.to_s + \"\\n\"\nnew_key = \"<string>#{new_version}</string>\"\n\npart_1 = infoplist[0, start_of_value - '<string>'.length]\npart_2 = new_key\npart_3 = infoplist[end_of_value + \"</string>\".length, infoplist.length - (end_of_value+1)]\ninfoplist = part_1 + part_2 + part_3\nend\ninfoplist\nend\n\n\n\nconfig = ENV['CONFIGURATION'].upcase\nconfig_build_dir = ENV['CONFIGURATION_BUILD_DIR']\n\narchive_action = false\nif (config_build_dir.include?(\"ArchiveIntermediates\"))\narchive_action = true\nend\n\nprint \"Archive: \" + archive_action.to_s + \"\\n\"\n\n\nprint config\n\nif (config == \"RELEASE\")\nprint \" incrementing build numbers\\n\"\nproject_dir = ENV['PROJECT_DIR']\ninfoplist_file = ENV['INFOPLIST_FILE']\nplist_filename = \"#{infoplist_file}\"\n\ninfoplist = get_file_as_string(plist_filename)\ninfoplist = find_and_increment_version_number_with_key(\"CFBundleVersion\", infoplist)\nif (archive_action)\ninfoplist = find_and_increment_version_number_with_key(\"CFBundleShortVersionString\", infoplist)\nend\nFile.open(plist_filename, 'w') {|f| f.write(infoplist) }\nelse\nprint \" not incrementing build numbers\"\nend";
 		};
 		EEAC1F83958B4D6E92742F48 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1423,6 +1440,7 @@
 				B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */,
 				B70C334A1805B2A70045183F /* _Images.m in Sources */,
 				B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */,
+				B74E6B65192549B6004ACA63 /* noRestaurants.m in Sources */,
 				B7FB3F92181B1A9700AD6036 /* RestoScrollView.m in Sources */,
 				B7E20F451820560100791BEB /* _Option.m in Sources */,
 				B7CF7B9C1858E49A000D326F /* AddressForDeliveryViewController.m in Sources */,
