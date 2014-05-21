@@ -11,7 +11,7 @@
 #import "CartButton.h"
 
 
-@interface SectionTableViewController : UITableViewController
+@interface SectionTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
     @property(nonatomic, strong) Sections *section;
     @property Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;

@@ -235,8 +235,8 @@
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://127.0.0.1:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;

@@ -17,6 +17,7 @@
     @property (nonatomic, copy) NSString *facebook_token;
     @property (nonatomic, copy) NSString *facebook_id;
     @property (nonatomic, copy) NSString *facebook_name;
+    @property (nonatomic, copy) NSString *owns_restaurant_id;
     @property (nonatomic, copy) NSString *foodcloud_token;
     @property (nonatomic, copy) NSString *password;
     @property (nonatomic, copy) NSString *email;

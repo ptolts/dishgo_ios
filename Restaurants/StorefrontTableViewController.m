@@ -702,8 +702,8 @@
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
-//    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+//    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+    NSString *url = [NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

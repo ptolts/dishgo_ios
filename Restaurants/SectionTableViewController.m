@@ -22,8 +22,11 @@
 #import "DishTableViewController.h"
 #import "SectionDishViewCell.h"
 #import "CartButton.h"
+#import "UserSession.h"
 #import "Images.h"
 #import "UIColor+Custom.h"
+#import "User.h"
+#import "NSData+Base64.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 #define DEFAULT_SIZE 218
@@ -39,6 +42,7 @@
     NSMutableArray *subsectionList;
     NSMutableDictionary *heights;
     Dishes *selected_dish;
+    User *user;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,6 +51,28 @@
 
     }
     return self;
+}
+
+- (IBAction)takePhoto:(UIButton *)sender {
+    
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+    
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    NSData *imageData = UIImagePNGRepresentation(chosenImage);
+    NSString *imageDataEncodedeString = [imageData base64EncodedString];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void) setupBackButtonAndCart {
@@ -83,6 +109,7 @@
     
     [self setupBackButtonAndCart];
     
+    user = [[UserSession sharedManager] fetchUser];
     heights = [[NSMutableDictionary alloc] init];
     subsectionList = [[NSMutableArray alloc] init];
     [subsectionList addObject:self.section];
@@ -179,12 +206,22 @@
     cell.seperator.backgroundColor = [UIColor seperatorColor];
     cell.seperator2.backgroundColor = [UIColor seperatorColor];
     
+    NSLog(@"owned_resto_id: %@",user.owns_restaurant_id);
+    NSLog(@"resto_id: %@",self.restaurant.id);
+    
+    if([user.owns_restaurant_id isEqualToString:self.restaurant.id]){
+        [cell.camera removeFromSuperview];
+    }
+    
     cell.plus.layer.cornerRadius = 5.0f;
     cell.plus.backgroundColor = [UIColor textColor];
     cell.plus.layer.borderWidth = 1.0f;
     cell.plus.clipsToBounds = YES;
     cell.plus.layer.borderColor = [UIColor textColor].CGColor;
 
+    [cell.camera addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [cell bringSubviewToFront:cell.camera];
+    
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
     cell.dish = dish;

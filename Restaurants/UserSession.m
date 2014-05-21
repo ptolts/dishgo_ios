@@ -178,6 +178,7 @@ void (^ block_pointer)(bool, NSString *);
             NSDictionary *dic = [self readData];
             NSString *tok = [dic objectForKey:@"foodcloud_token"];
             foodcloudToken = tok;
+            main_user.owns_restaurant_id = [dic objectForKey:@"owns_restaurant_id"];
             main_user.foodcloud_token = foodcloudToken;
             logged_in = YES;
         }
@@ -231,7 +232,16 @@ void (^ block_pointer)(bool, NSString *);
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
+//    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
+//                                       params:@{@"email":email,@"password":password}
+//                                   completion:^(NSDictionary *json, JSONModelError *err) {
+//                                       main_user = [[User alloc] initWithDictionary:json error:nil];
+//                                       [self completeLogin:main_user];
+//                                       block(logged_in,@"Logged in!");
+//                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+//                                   }];
+    
+    [JSONHTTPClient postJSONFromURLWithString:@"http://192.168.1.132:3000/app/api/v1/tokens"
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
@@ -255,7 +265,7 @@ void (^ block_pointer)(bool, NSString *);
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/app"]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/"]];
     
     [manager addRequestDescriptor:requestDescriptor];
     [manager addResponseDescriptor:tokenDescriptor];
@@ -271,7 +281,7 @@ void (^ block_pointer)(bool, NSString *);
     main_user.first_name = dict[@"first_name"];
     main_user.last_name = dict[@"last_name"];
     
-    [manager postObject:main_user path:@"/api/v1/user/add_address" parameters:nil success:
+    [manager postObject:main_user path:@"/app/api/v1/user/add_address" parameters:nil success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
          NSLog(@"SAVED ADDRESS!");
          block(YES, @"Good!");

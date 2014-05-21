@@ -49,6 +49,7 @@
 		B79216431880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */; };
 		B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F691847DF2D00BF4F3F /* facebook@2x.png */; };
 		B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */; };
+		B7A54C16192D426C007C8D31 /* UploadImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A54C15192D426C007C8D31 /* UploadImage.m */; };
 		B7B488EC1889817000054314 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B488EB1889817000054314 /* add@2x.png */; };
 		B7B7441C182BFAA2001DFC49 /* SectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */; };
 		B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B7441F182C0D13001DFC49 /* DishTableViewCell.m */; };
@@ -235,6 +236,9 @@
 		B74E6B61192547CF004ACA63 /* noRestaurants.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noRestaurants.xib; sourceTree = "<group>"; };
 		B74E6B63192549B6004ACA63 /* noRestaurants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noRestaurants.h; sourceTree = "<group>"; };
 		B74E6B64192549B6004ACA63 /* noRestaurants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noRestaurants.m; sourceTree = "<group>"; };
+		B74E6B6619255F31004ACA63 /* relaease_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "relaease_icon@2x.png"; sourceTree = "<group>"; };
+		B74E6B6719255F58004ACA63 /* spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotlight.png; sourceTree = "<group>"; };
+		B74E6B6819255F74004ACA63 /* retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retina.png; sourceTree = "<group>"; };
 		B75B6412191416F500D717C7 /* loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F3185FB00B00803AF5 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = SOURCE_ROOT; };
 		B75DA1F51860A94000803AF5 /* chip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chip@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -265,6 +269,8 @@
 		B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+ShoppingCartArray.m"; sourceTree = "<group>"; };
 		B79E8F691847DF2D00BF4F3F /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foodcloud_icon@2x.png"; sourceTree = "<group>"; };
+		B7A54C14192D426C007C8D31 /* UploadImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImage.h; sourceTree = "<group>"; };
+		B7A54C15192D426C007C8D31 /* UploadImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImage.m; sourceTree = "<group>"; };
 		B7B488EB1889817000054314 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7B7441A182BFAA2001DFC49 /* SectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionTableViewController.h; sourceTree = "<group>"; };
 		B7B7441B182BFAA2001DFC49 /* SectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SectionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -591,6 +597,8 @@
 				B7DA9DA21846A62E0072AD47 /* SignUpViewController.m */,
 				B7DA9DA41847B34E0072AD47 /* User.h */,
 				B7DA9DA51847B34E0072AD47 /* User.m */,
+				B7A54C14192D426C007C8D31 /* UploadImage.h */,
+				B7A54C15192D426C007C8D31 /* UploadImage.m */,
 			);
 			name = "Sign In / Up";
 			sourceTree = "<group>";
@@ -731,6 +739,9 @@
 		B7CC196318047D92003C71B9 = {
 			isa = PBXGroup;
 			children = (
+				B74E6B6819255F74004ACA63 /* retina.png */,
+				B74E6B6719255F58004ACA63 /* spotlight.png */,
+				B74E6B6619255F31004ACA63 /* relaease_icon@2x.png */,
 				B7CC197718047D92003C71B9 /* DishGo */,
 				B7CC199D18047D92003C71B9 /* DishGoTests */,
 				B7CC196E18047D92003C71B9 /* Frameworks */,
@@ -1205,7 +1216,7 @@
 			attributes = {
 				CLASSPREFIX = R;
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = "Philip Tolton";
+				ORGANIZATIONNAME = "DishGo Inc.";
 				TargetAttributes = {
 					B7CC196B18047D92003C71B9 = {
 						DevelopmentTeam = U4269RL7Y9;
@@ -1478,6 +1489,7 @@
 				B7E6C29D183C0F38005E8598 /* DishFooterView.m in Sources */,
 				B7B744511833EFE5001DFC49 /* ShoppingCartTableView.m in Sources */,
 				B7C38256187C7E02001FD092 /* PinsView.m in Sources */,
+				B7A54C16192D426C007C8D31 /* UploadImage.m in Sources */,
 				B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */,
 				B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */,
 				B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */,
@@ -1614,6 +1626,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 21643D1EDB914A93936A017C /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1630,6 +1643,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 21643D1EDB914A93936A017C /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
