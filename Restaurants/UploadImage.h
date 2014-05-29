@@ -10,7 +10,9 @@
 #import <JSONModel.h>
 
 @interface UploadImage : JSONModel
-    @property (nonatomic, copy) NSString *facebook_token;
-    @property (nonatomic, copy) NSString *image;
+    @property (nonatomic, copy) NSString *dishgo_token;
+    @property (nonatomic, copy) NSString *image_data;
     @property (nonatomic, copy) NSString *dish_id;
+    @property (nonatomic, copy) NSString *restaurant_id;
+    -(void) startUpload;
 @end

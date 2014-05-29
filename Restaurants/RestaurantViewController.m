@@ -34,6 +34,10 @@
     UIWindow  *mainWindow;
     CLLocation *currentLocation;
     int scroll_count;
+    UILabel *progress;
+    UIButton *retryFetch;
+    int location_attempts;
+    UIActivityIndicatorView *spinner;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,15 +51,27 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    
-    if (newLocation.coordinate.latitude != oldLocation.coordinate.latitude){
+    NSLog(@"HI");
+    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
+    if (locationAge > 5.0){
+        NSLog(@"Skipping location because its most likely cached.");
         return;
     }
+    
+    NSLog(@"new: %f old: %f accuracy desired: %f obtained: %f",newLocation.coordinate.latitude,oldLocation.coordinate.latitude,locationManager.desiredAccuracy,newLocation.horizontalAccuracy);
+    
+    if (newLocation.horizontalAccuracy > locationManager.desiredAccuracy) {
+        return;
+    }
+    
+    NSLog(@"Done Location");
     
     currentLocation = newLocation;
     
     [locationManager stopMonitoringSignificantLocationChanges];
     [locationManager stopUpdatingLocation];
+    
+    
     [self fetchRestaurants];
 }
 
@@ -93,14 +109,52 @@
     
     [spinnerView addSubview:logo];
     // Add the subview to the main window
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setColor:[UIColor almostBlackColor]];
     spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
     [spinnerView addSubview:spinner];
+    
+    progress = [[UILabel alloc] init];
+    [progress setText: @"FINDING LOCATION"];
+    [progress setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    progress.textAlignment = NSTextAlignmentCenter;
+    [progress setTextColor:[UIColor blackColor]];
+    CGRect rect = progress.frame;
+    rect.origin.y = logo.frame.origin.y + 210;
+    rect.size.width = mainWindow.frame.size.width;
+    rect.size.height = 30;
+    progress.frame = rect;
+    [spinnerView addSubview:progress];
+    
+    retryFetch = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [retryFetch addTarget:self
+               action:@selector(restartFetch:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
+    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
+    retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 240, 220.0 , 30.0);
+    retryFetch.backgroundColor = [UIColor blackColor];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    retryFetch.hidden = YES;
+    [spinnerView addSubview:retryFetch];
+    
     [spinner startAnimating];
-    
-    
     [mainWindow addSubview:spinnerView];
+}
+
+- (void) restartFetch:(id) sender {
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                         retryFetch.alpha = 1.0f;
+                         retryFetch.alpha = 0.0f;
+                         retryFetch.hidden = YES;
+                         spinner.alpha = 1.0;
+                         spinner.hidden = NO;
+                     }];
+    [self fetchRestaurants];
 }
 
 - (void) noRestaurants {
@@ -127,7 +181,7 @@
 }
 
 - (void) stopLoading{
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:1.0
                      animations:^{spinnerView.alpha = 0.0;}
                      completion:^(BOOL finished){
                         [spinnerView removeFromSuperview];
@@ -139,9 +193,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locationManager setDesiredAccuracy: 500];
+    locationManager.pausesLocationUpdatesAutomatically = NO;
     [locationManager startUpdatingLocation];
     scroll_count = 0;
     [self startLoading];
@@ -166,35 +222,21 @@
 }
 
 - (void) fetchRestaurants {
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    // Test listing all FailedBankInfos from the store
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                         progress.alpha = 0.0f;
+                         progress.text = @"FETCHING RESTAURANTS";
+                         progress.alpha = 1.0f;
+                     }];
+
     self.managedObjectContext = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     
     NSError *error;
-    
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Restaurant"
-//                                              inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    NSArray *fetchedRestaurants = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-//    NSLog(@"Fetched: %d\n\n\n", [fetchedRestaurants count]);
-//    restaurantList = [fetchedRestaurants sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
-//                      {
-//                          return [obj2.images count] - [obj1.images count];
-//                      }];
-//    
-//    [self.tableView reloadData];
-    
+
     self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
     ////////// QUERY NEW DATA AND UPDATE TABLE.
     
-    
-    //    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     NSManagedObjectModel *managedObjectModel = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectModel];
     
     managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
@@ -222,7 +264,7 @@
                                                             @"_id": @"id",
                                                             @"name": @"name",
                                                             @"phone": @"phone",
-                                                            @"address": @"address",
+                                                            @"address": @"address_line_1",
                                                             @"lat": @"lat",
                                                             @"lon": @"lon",
                                                             }];
@@ -249,10 +291,6 @@
                           }];
         
         NSLog(@"Attempting save...\n\n\n");
-//        NSError *err;
-//        if (![self.managedObjectContext save:&err]) {
-//            NSLog(@"Whoops, couldn't save: %@", [err localizedDescription]);
-//        }
         
         [self.tableView reloadData];
         [self stopLoading];
@@ -261,6 +299,18 @@
         }
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);
+        [UIView animateWithDuration:1.5
+                         animations:^{
+                             retryFetch.alpha = 0.0f;
+                             spinner.alpha = 1.0f;
+                             retryFetch.hidden = NO;
+                             retryFetch.alpha = 1.0f;
+                             spinner.alpha = 0.0f;
+                             spinner.hidden = YES;
+                             progress.alpha = 0.0f;
+                             progress.text = @"NETWORK ERROR";
+                             progress.alpha = 1.0f;
+                         }];
     }];
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];
@@ -295,14 +345,6 @@
     }
     
 }
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSLog(@"Clicked!");
-//    StorefrontViewController *storeFrontController = [[StorefrontViewController alloc] initWithNibName:@"" bundle:<#(NSBundle *)#>];
-//    storeFrontController.restaurant = [restaurantList objectAtIndex:indexPath.row];
-//    [self.navigationController pushViewController:storeFrontController animated:YES];
-//}
 
 #pragma mark - Table view data source
 
@@ -406,7 +448,6 @@
     cell.scrollView.pagingEnabled = YES;
     
     cell.scrollView.numberOfPages = [resto.images count];
-//    [cell.scrollView scroll];
     
     cell.restaurantLabel.text = resto.name;
     cell.restaurantLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
@@ -415,55 +456,5 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end

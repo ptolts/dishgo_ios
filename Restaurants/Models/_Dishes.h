@@ -10,12 +10,14 @@ extern const struct DishesAttributes {
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *position;
 	__unsafe_unretained NSString *price;
+	__unsafe_unretained NSString *sizes;
 } DishesAttributes;
 
 extern const struct DishesRelationships {
 	__unsafe_unretained NSString *images;
 	__unsafe_unretained NSString *options;
 	__unsafe_unretained NSString *sections;
+	__unsafe_unretained NSString *sizes_object;
 } DishesRelationships;
 
 extern const struct DishesFetchedProperties {
@@ -24,6 +26,8 @@ extern const struct DishesFetchedProperties {
 @class Images;
 @class Options;
 @class Sections;
+@class Options;
+
 
 
 
@@ -102,6 +106,20 @@ extern const struct DishesFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* sizes;
+
+
+
+@property BOOL sizesValue;
+- (BOOL)sizesValue;
+- (void)setSizesValue:(BOOL)value_;
+
+//- (BOOL)validateSizes:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSOrderedSet *images;
 
 - (NSMutableOrderedSet*)imagesSet;
@@ -119,6 +137,13 @@ extern const struct DishesFetchedProperties {
 @property (nonatomic, strong) Sections *sections;
 
 //- (BOOL)validateSections:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, strong) Options *sizes_object;
+
+//- (BOOL)validateSizes_object:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -179,6 +204,15 @@ extern const struct DishesFetchedProperties {
 
 
 
+- (NSNumber*)primitiveSizes;
+- (void)setPrimitiveSizes:(NSNumber*)value;
+
+- (BOOL)primitiveSizesValue;
+- (void)setPrimitiveSizesValue:(BOOL)value_;
+
+
+
+
 
 - (NSMutableOrderedSet*)primitiveImages;
 - (void)setPrimitiveImages:(NSMutableOrderedSet*)value;
@@ -192,6 +226,11 @@ extern const struct DishesFetchedProperties {
 
 - (Sections*)primitiveSections;
 - (void)setPrimitiveSections:(Sections*)value;
+
+
+
+- (Options*)primitiveSizes_object;
+- (void)setPrimitiveSizes_object:(Options*)value;
 
 
 @end

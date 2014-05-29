@@ -15,6 +15,7 @@ extern const struct OptionsAttributes {
 extern const struct OptionsRelationships {
 	__unsafe_unretained NSString *dish_owner;
 	__unsafe_unretained NSString *list;
+	__unsafe_unretained NSString *sizes_owner;
 } OptionsRelationships;
 
 extern const struct OptionsFetchedProperties {
@@ -22,6 +23,7 @@ extern const struct OptionsFetchedProperties {
 
 @class Dishes;
 @class Option;
+@class Dishes;
 
 
 
@@ -114,6 +116,13 @@ extern const struct OptionsFetchedProperties {
 
 
 
+@property (nonatomic, strong) Dishes *sizes_owner;
+
+//- (BOOL)validateSizes_owner:(id*)value_ error:(NSError**)error_;
+
+
+
+
 
 @end
 
@@ -173,6 +182,11 @@ extern const struct OptionsFetchedProperties {
 
 - (NSMutableOrderedSet*)primitiveList;
 - (void)setPrimitiveList:(NSMutableOrderedSet*)value;
+
+
+
+- (Dishes*)primitiveSizes_owner;
+- (void)setPrimitiveSizes_owner:(Dishes*)value;
 
 
 @end

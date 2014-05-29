@@ -9,12 +9,14 @@ const struct DishesAttributes DishesAttributes = {
 	.name = @"name",
 	.position = @"position",
 	.price = @"price",
+	.sizes = @"sizes",
 };
 
 const struct DishesRelationships DishesRelationships = {
 	.images = @"images",
 	.options = @"options",
 	.sections = @"sections",
+	.sizes_object = @"sizes_object",
 };
 
 const struct DishesFetchedProperties DishesFetchedProperties = {
@@ -53,6 +55,11 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 	}
 	if ([key isEqualToString:@"priceValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"price"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"sizesValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"sizes"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -136,6 +143,32 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 
 
 
+@dynamic sizes;
+
+
+
+- (BOOL)sizesValue {
+	NSNumber *result = [self sizes];
+	return [result boolValue];
+}
+
+- (void)setSizesValue:(BOOL)value_ {
+	[self setSizes:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveSizesValue {
+	NSNumber *result = [self primitiveSizes];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveSizesValue:(BOOL)value_ {
+	[self setPrimitiveSizes:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic images;
 
 	
@@ -163,6 +196,10 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 	
 
 @dynamic sections;
+
+	
+
+@dynamic sizes_object;
 
 	
 

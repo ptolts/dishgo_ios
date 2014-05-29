@@ -14,6 +14,7 @@ const struct OptionsAttributes OptionsAttributes = {
 const struct OptionsRelationships OptionsRelationships = {
 	.dish_owner = @"dish_owner",
 	.list = @"list",
+	.sizes_owner = @"sizes_owner",
 };
 
 const struct OptionsFetchedProperties OptionsFetchedProperties = {
@@ -150,6 +151,10 @@ const struct OptionsFetchedProperties OptionsFetchedProperties = {
 	[self didAccessValueForKey:@"list"];
 	return result;
 }
+	
+
+@dynamic sizes_owner;
+
 	
 
 

@@ -35,37 +35,8 @@
     if (self) {
         // Initialization code
     }
-//    self.autoresizingMask = UIViewAutoresizingNone;
     return self;
 }
-
-//- (id)init {
-//    self = [super initWithFrame:CGRectMake(0, 0, 0, 0)];
-//    
-//    if (self) {
-//        self = [[[NSBundle mainBundle] loadNibNamed:@"OptionsView" owner:self options:nil] objectAtIndex:0];
-////        self.frame = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
-////        self.bounds = CGRectMake(0,0,CGRectGetWidth(self.bounds),CGRectGetHeight(self.bounds));
-////        self.layer.bounds = self.bounds;
-////        self.layer.frame = self.frame;
-//        self.autoresizingMask = UIViewAutoresizingNone;
-////        self.optionTitle.autoresizingMask = UIViewAutoresizingNone;
-//        totalPrice = 0.0f;
-//    }
-//    
-//    return self;
-//}
-//
-//-(float) size:(Dishes *)dish {
-//    
-//}
-
-//- (void)setFrame:(CGRect)frame;
-//{
-//    NSLog(@"%@", NSStringFromCGRect(frame));
-//    [super setFrame:frame];
-//}
-
 - (void)setupSeg
 {
     NSMutableArray *itemArray = [[NSMutableArray alloc] init];
@@ -79,13 +50,6 @@
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(5, self.frame.size.height + 5, self.frame.size.width - 10, 50);
     
-//    int i;
-//    for (i = (segmentedControl.numberOfSegments - 1); i >= 0; i--) {
-//        CGSize size = [[segmentedControl titleForSegmentAtIndex:i] sizeWithAttributes: @{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:10]}];
-//        if (size.width > [segmentedControl widthForSegmentAtIndex:i]) {
-//            useButton = YES;
-//        }
-//    }
     useButton = YES;
     
     if(useButton){
@@ -195,7 +159,7 @@
         [option_values addObject:currentItem];
     }
     
-    if (([self.op.type isEqual: @"OPTION_CHOOSE"] && [self.op.dish_owner.price floatValue] == 0.0f) || ([self.op.type isEqual: @"OPTION_SELECT_ONE"])){
+    if (([self.op.type isEqual: @"size"])){
         [self setupSeg];
     } else {
         [self setupBut];

@@ -26,15 +26,6 @@
     bool editing;
 }
 
-//- (id)initWithStyle:(UITableViewStyle)style
-//{
-//    self = [super initWithStyle:style];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
-
 - (void) preloadDishCell:(DishTableViewCell *) d{
     dish_logic = d;
     dish_logic.parent = self;
@@ -48,22 +39,7 @@
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
-    //    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-    //                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-    //                                       target:nil action:nil];
-    //    negativeSpacer.width = -16;// it was -6 in iOS 6
-    //    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
-    //	self.navigationItem.leftBarButtonItem = backBtn;
     [self.navigationItem setLeftBarButtonItem:backBtn];
-    
-    
-//    CartButton *cartButton = [[CartButton alloc] init];
-//    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-//    //    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
-//    [self.navigationItem setRightBarButtonItem:customItem];
-//    //    self.navigationItem.rightBarButtonItem = customItem;
-//    self.cart = cartButton;
 }
 
 -(void) myCustomBack {
@@ -123,13 +99,7 @@
     [self.view addSubview:self.tableView];
     [self.view addSubview: dish_logic.dishFooterView];
     [self.view addSubview: dish_logic];
-    
-//    NSLog(@"%@",CGRectCreateDictionaryRepresentation([dish_logic dishFooterView].frame));
-//    NSLog(@"%@",[dish_logic dishFooterView].class);
-//    NSLog(@"%@",CGRectCreateDictionaryRepresentation(self.tableView.frame));
-//    NSLog(@"frame %@",CGRectCreateDictionaryRepresentation(self.view.frame));
-//    NSLog(@"frame b %@",CGRectCreateDictionaryRepresentation(self.view.bounds));
-//    NSLog(@"%@",CGRectCreateDictionaryRepresentation(dish_logic.frame));
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,21 +120,6 @@
     return 1;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
-//{
-//    if (!dish_logic){
-//        [self setupViews];
-//    }
-//    return dish_logic;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
-//{
-//    if (!dish_logic){
-//        [self setupViews];
-//    }
-//    return dish_logic.frame.size.height;
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

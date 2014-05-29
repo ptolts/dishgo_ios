@@ -150,6 +150,10 @@ UIView *loading;
     self.view.frame = CGRectMake(0, 0, footer.frame.size.width, footer.frame.size.height);
     [self.view addSubview:footer];
     
+    UITapGestureRecognizer* phone1LblGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phone1LblTapped)];
+    [self.footer.phone setUserInteractionEnabled:YES];
+    [self.footer.phone addGestureRecognizer:phone1LblGesture];
+    
     
     loading = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.footer.mapView.frame.size.width, self.footer.mapView.frame.size.height)];
     UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -157,6 +161,18 @@ UIView *loading;
     [activityView startAnimating];
     [loading addSubview:activityView];
     [self.footer.mapView addSubview:loading];
+}
+
+- (void)phone1LblTapped
+{
+    UIDevice *device = [UIDevice currentDevice];
+    if ([[device model] isEqualToString:@"iPhone"] ) {
+        NSString *phoneNumber = [@"tel://" stringByAppendingString:self.footer.phone.text];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    } else {
+        UIAlertView *Notpermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [Notpermitted show];
+    }
 }
 
 

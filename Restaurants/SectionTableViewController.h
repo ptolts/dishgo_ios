@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <RestKit/RestKit.h>
 #import "CartButton.h"
+#import "DBCameraViewController.h"
+#import <DBCamera/DBCameraContainerViewController.h>
 
 
-@interface SectionTableViewController : UITableViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SectionTableViewController : UITableViewController <DBCameraViewControllerDelegate>
     @property(nonatomic, strong) Sections *section;
     @property Restaurant *restaurant;
     @property (nonatomic, strong) RKManagedObjectStore *managedObjectStore;

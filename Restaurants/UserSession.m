@@ -74,7 +74,7 @@ void (^ block_pointer)(bool, NSString *);
 
 - (void)clearToken
 {
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions", nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id", nil];
     for(NSString *key in keys){
         [Lockbox setString:@"" forKey:key];
     }
@@ -101,7 +101,7 @@ void (^ block_pointer)(bool, NSString *);
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     
     // These keys are strings
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions", nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id", nil];
     for(NSString *key in keys){
         NSLog(@"Key: %@",key);
         NSString *get = [Lockbox stringForKey:key];
@@ -355,6 +355,7 @@ void (^ block_pointer)(bool, NSString *);
         foodcloudToken = user.foodcloud_token;
         NSMutableDictionary *dic = (NSMutableDictionary *)[self readData];
         [dic setObject:foodcloudToken forKey:@"foodcloud_token"];
+        [dic setObject:user.owns_restaurant_id forKey:@"owns_restaurant_id"];
         [self writeData:dic];
         [((RootViewController *)(((RAppDelegate *)([[UIApplication sharedApplication] delegate])).window.rootViewController)) showOldOrders];
     }

@@ -46,30 +46,7 @@
     }
     
     _reviewCartCell.dish_options.text = opt_text;
-//    
-//    if([old_text isEqualToString:opt_text]){
-//        NSLog(@"Not Modifying");
-//        return _reviewCartCell;
-//    }
-//    
-//    NSLog(@"Modifying[%@] [%@] = [%@]",self,old_text,opt_text);
-//    if([opt_text length] == 0){
-//        CGRect frame = _reviewCartCell.move_me_up_and_down.frame;
-//        frame.origin.y -= _reviewCartCell.dish_options.frame.size.height;
-//        _reviewCartCell.move_me_up_and_down.frame = frame;
-////        frame = _reviewCartCell.contentView.frame;
-////        frame.size.height -= _reviewCartCell.dish_options.frame.size.height;
-////        _reviewCartCell.contentView.frame = frame;
-//    } else {
-//        CGRect frame = _reviewCartCell.move_me_up_and_down.frame;
-//        frame.origin.y += _reviewCartCell.dish_options.frame.size.height;
-//        _reviewCartCell.move_me_up_and_down.frame = frame;
-////        frame = _reviewCartCell.contentView.frame;
-////        frame.size.height += _reviewCartCell.dish_options.frame.size.height;
-////        _reviewCartCell.contentView.frame = frame;
-//    }
-//    
-//    old_text = [opt_text copy];
+
     return _reviewCartCell;
 }
 
@@ -250,8 +227,35 @@
     self.option_views = [[NSMutableArray alloc] init];
     _optionViews = [[NSMutableDictionary alloc] init];
     
-    for(Options *options in dish.options){
+    if(dish.sizes){
+        OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
+        option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
+        option_view.optionTitle.backgroundColor = [UIColor clearColor];
+        option_view.optionTitle.textAlignment = NSTextAlignmentCenter;
+        option_view.optionTitle.textColor=[UIColor blackColor];
+        option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        [option_view addSubview:option_view.optionTitle];
         
+        option_view.parent = self;
+        option_view.tag = 12347;
+        option_view.op = dish.sizes_object;
+        
+        CGRect frame = option_view.frame;
+        frame.origin.y = cell.contentView.frame.size.height + 5;
+        option_view.frame = frame;
+        [option_view setupOption];
+        
+        [cell.contentView addSubview:option_view];
+        
+        [option_views addObject:option_view];
+        [_optionViews setObject:option_view forKey:dish.sizes_object.id];
+        
+        frame = cell.contentView.frame;
+        frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
+        cell.contentView.frame = frame;
+    }
+    
+    for(Options *options in dish.options){
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];

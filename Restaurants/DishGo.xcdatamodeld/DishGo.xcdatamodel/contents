@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Dishes" representedClassName="Dishes" syncable="YES">
         <attribute name="description_text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sizes" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
         <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Options" inverseName="dish_owner" inverseEntity="Options" syncable="YES"/>
         <relationship name="sections" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sections" inverseName="dishes" inverseEntity="Sections" syncable="YES"/>
+        <relationship name="sizes_object" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Options" inverseName="sizes_owner" inverseEntity="Options" syncable="YES"/>
     </entity>
     <entity name="Images" representedClassName="Images" syncable="YES">
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,6 +31,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dish_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="options" inverseEntity="Dishes" syncable="YES"/>
         <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Option" inverseName="option_owner" inverseEntity="Option" syncable="YES"/>
+        <relationship name="sizes_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="sizes_object" inverseEntity="Dishes" syncable="YES"/>
     </entity>
     <entity name="Restaurant" representedClassName="Restaurant" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
@@ -48,11 +51,11 @@
         <relationship name="restaurant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="menu" inverseEntity="Restaurant" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Dishes" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Images" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Option" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Options" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Restaurant" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Sections" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Dishes" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="Images" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Option" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Options" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Restaurant" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Sections" positionX="0" positionY="0" width="128" height="120"/>
     </elements>
 </model>

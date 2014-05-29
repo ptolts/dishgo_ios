@@ -46,6 +46,7 @@
     NSMutableDictionary *cart_save;
     int initialFrame;
     NSArray *fetchedRestaurants;
+    UIActivityIndicatorView *spinner;
     int current_page = 0;
     NSSet *defaultSectionsList;
     // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
@@ -54,6 +55,8 @@
     UIView *spinnerView;
     UIWindow  *mainWindow;
     BOOL enableCart;
+    UIButton *retryFetch;
+    UILabel *progress;
     int initialImageHeight;
     StorefrontImageView *scroll_image_view;
 
@@ -64,8 +67,8 @@
 
 - (void) showModal {
     ContactViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contactView"];
+    viewController.restaurant = self.restaurant;    
     [viewController.view setNeedsLayout];
-    viewController.restaurant = self.restaurant;
     _presentedNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     _presentedNavigationController.navigationBar.hidden = YES;
     _presentedNavigationController.view.layer.cornerRadius = 3;
@@ -157,13 +160,55 @@
     logo.backgroundColor = [UIColor whiteColor];
     [spinnerView addSubview:logo];
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setColor:[UIColor almostBlackColor]];
     spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
     [spinnerView addSubview:spinner];
     [spinner startAnimating];
     
+    progress = [[UILabel alloc] init];
+    [progress setText: @"FETCHING MENU"];
+    [progress setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    progress.textAlignment = NSTextAlignmentCenter;
+    [progress setTextColor:[UIColor blackColor]];
+    CGRect rect = progress.frame;
+    rect.origin.y = logo.frame.origin.y + 210;
+    rect.size.width = mainWindow.frame.size.width;
+    rect.size.height = 30;
+    progress.frame = rect;
+    [spinnerView addSubview:progress];
+    
+    retryFetch = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [retryFetch addTarget:self
+                   action:@selector(restartFetch:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
+    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
+    retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 240, 220.0 , 30.0);
+    retryFetch.backgroundColor = [UIColor blackColor];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    retryFetch.hidden = YES;
+    [spinnerView addSubview:retryFetch];
+    
     [mainWindow addSubview:spinnerView];
+}
+
+- (void) restartFetch:(id) sender {
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                         retryFetch.alpha = 1.0f;
+                         retryFetch.alpha = 0.0f;
+                         retryFetch.hidden = YES;
+                         progress.alpha = 0.0f;
+                         [progress setText: @"FETCHING MENU"];
+                         progress.alpha = 1.0f;
+                         spinner.alpha = 1.0;
+                         spinner.hidden = NO;
+                     }];
+    [self loadMenu];
 }
 
 - (void) stopLoading{
@@ -172,31 +217,6 @@
                      completion:^(BOOL finished){
                          [spinnerView removeFromSuperview];
                      }];
-    // THIS ADD STUFF TO THE CART FOR TESTING.
-//    bool kill = NO;
-//    for(Sections *sec in sectionsList){
-//        for(Subsections *subsec in sec.subsections){
-//            for(Dishes *d in subsec.dishes){
-//                DishTableViewCell *dish_logic = [[[NSBundle mainBundle] loadNibNamed:@"DishTableViewCell" owner:self options:nil] objectAtIndex:0];
-//                dish_logic.dish = d;
-//                dish_logic.dishTitle.text = d.name;
-//                dish_logic.parent = self;
-//                dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
-//                [dish_logic setupLowerHalf];
-//                [dish_logic setupShoppingCart];
-//                [dish_logic setupReviewCell];
-//                [shoppingCart addObject:dish_logic];
-//                if([shoppingCart count] > 3){
-//                    kill = YES;
-//                    break;
-//                }
-//            }
-//            if (kill)
-//                break;
-//        }
-//        if (kill)
-//            break;
-//    }
     enableCart = YES;
 }
 
@@ -654,6 +674,7 @@
                                                         @"price": @"price",
                                                         @"index":@"position",
                                                         @"description": @"description_text",
+                                                        @"has_multiple_sizes":@"sizes",
                                                         }];
     dishesMapping.identificationAttributes = @[ @"id" ];
     
@@ -665,13 +686,6 @@
                                                           }];
     sectionsMapping.identificationAttributes = @[ @"id" ];
     
-//    RKEntityMapping *subsectionsMapping = [RKEntityMapping mappingForEntityForName:@"Subsections" inManagedObjectStore:managedObjectStore];
-//    [subsectionsMapping addAttributeMappingsFromDictionary:@{
-//                                                             @"name": @"name",
-//                                                             @"_id": @"id",
-//                                                             @"index":@"position",
-//                                                             }];
-//    subsectionsMapping.identificationAttributes = @[ @"id" ];
     
     RKEntityMapping *optionMapping = [RKEntityMapping mappingForEntityForName:@"Option" inManagedObjectStore:managedObjectStore];
     [optionMapping addAttributeMappingsFromDictionary:@{
@@ -696,7 +710,7 @@
     imagesMapping.identificationAttributes = @[ @"url" ];
     
     [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
-//    [subsectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dish" toKeyPath:@"dishes" withMapping:dishesMapping]];
+    [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"sizes" toKeyPath:@"sizes_object" withMapping:optionsMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
@@ -736,6 +750,18 @@
         
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"Failed with error: %@", [error localizedDescription]);
+        [UIView animateWithDuration:1.5
+                         animations:^{
+                             retryFetch.alpha = 0.0f;
+                             spinner.alpha = 1.0f;
+                             retryFetch.hidden = NO;
+                             retryFetch.alpha = 1.0f;
+                             spinner.alpha = 0.0f;
+                             spinner.hidden = YES;
+                             progress.alpha = 0.0f;
+                             progress.text = @"NETWORK ERROR";
+                             progress.alpha = 1.0f;
+                         }];
     }];
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];

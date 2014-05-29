@@ -24,12 +24,13 @@
 #import "CartButton.h"
 #import "UserSession.h"
 #import "Images.h"
+#import "CameraButton.h"
 #import "UIColor+Custom.h"
 #import "User.h"
-#import "NSData+Base64.h"
+#import "UploadImage.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-#define DEFAULT_SIZE 218
+#define DEFAULT_SIZE 275
 #define SECOND_SIZE 160
 #define HEADER_DEFAULT_SIZE 45
 
@@ -42,6 +43,8 @@
     NSMutableArray *subsectionList;
     NSMutableDictionary *heights;
     Dishes *selected_dish;
+    Dishes *camera_dish;
+    SectionDishViewCell *camera_cell;
     User *user;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -53,26 +56,36 @@
     return self;
 }
 
-- (IBAction)takePhoto:(UIButton *)sender {
-    
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    [self presentViewController:picker animated:YES completion:NULL];
+
+- (IBAction)takePhoto:(CameraButton *)sender {
+//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    picker.delegate = self;
+//    picker.allowsEditing = YES;
+//    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    camera_dish = sender.dish;
+    camera_cell = sender.parent_cell;
+    DBCameraContainerViewController *cameraContainer = [[DBCameraContainerViewController alloc] initWithDelegate:self];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cameraContainer];
+    [nav setNavigationBarHidden:YES];
+    [self presentViewController:nav animated:YES completion:nil];
+//    [self presentViewController:picker animated:YES completion:NULL];
     
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+- (void) captureImageDidFinish:(UIImage *)chosenImage withMetadata:(NSDictionary *)metadata
+{
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     NSData *imageData = UIImagePNGRepresentation(chosenImage);
-    NSString *imageDataEncodedeString = [imageData base64EncodedString];
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:NULL];
+    NSString *imageDataEncodedeString = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    UploadImage *up_img = [UploadImage alloc];
+    camera_cell.dishImage.image = chosenImage;
+    camera_cell.dishImage.hidden = NO;
+    [camera_cell.dishDescription removeFromSuperview];
+    up_img.dishgo_token = user.foodcloud_token;
+    up_img.restaurant_id = self.restaurant.id;
+    up_img.image_data = imageDataEncodedeString;
+    up_img.dish_id = camera_dish.id;
+    [up_img startUpload];
 }
 
 - (void) setupBackButtonAndCart {
@@ -209,18 +222,27 @@
     NSLog(@"owned_resto_id: %@",user.owns_restaurant_id);
     NSLog(@"resto_id: %@",self.restaurant.id);
     
-    if([user.owns_restaurant_id isEqualToString:self.restaurant.id]){
-        [cell.camera removeFromSuperview];
-    }
     
     cell.plus.layer.cornerRadius = 5.0f;
     cell.plus.backgroundColor = [UIColor textColor];
     cell.plus.layer.borderWidth = 1.0f;
     cell.plus.clipsToBounds = YES;
     cell.plus.layer.borderColor = [UIColor textColor].CGColor;
-
-    [cell.camera addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [cell bringSubviewToFront:cell.camera];
+    
+    cell.camera.layer.cornerRadius = 5.0f;
+    cell.camera.backgroundColor = [UIColor textColor];
+    cell.camera.layer.borderWidth = 1.0f;
+    cell.camera.clipsToBounds = YES;
+    cell.camera.layer.borderColor = [UIColor textColor].CGColor;
+    
+    if([user.owns_restaurant_id isEqualToString:self.restaurant.id]){
+        [cell.camera addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        cell.camera.dish = dish;
+        cell.camera.parent_cell = cell;
+        [cell bringSubviewToFront:cell.camera];
+    } else {
+        [cell.camera removeFromSuperview];
+    }
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.priceLabel.text = cell.getPriceFast;
@@ -247,7 +269,7 @@
                                   }
          ];
     } else {
-        [cell.dishImage removeFromSuperview];
+        cell.dishImage.hidden = YES;
     }
     cell.clipsToBounds = YES;
     return cell;
