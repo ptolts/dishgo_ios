@@ -13,6 +13,7 @@
 #import "CartRowCell.h"
 #import "DishFooterView.h"
 #import "ReviewTableCell.h"
+#import <KVOController/FBKVOController.h>
 
 @class DishTableViewController;
 @class DishFooterView;
@@ -41,4 +42,5 @@
     -(void) setPrice;
     -(void) setupShoppingCart;
     -(void) setupReviewCell;
+    @property FBKVOController *KVOController;
 @end

@@ -29,6 +29,7 @@
 #import "User.h"
 #import "UploadImage.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <AFNetworking/AFNetworking.h>
 
 #define DEFAULT_SIZE 275
 #define SECOND_SIZE 160
@@ -46,6 +47,7 @@
     Dishes *camera_dish;
     SectionDishViewCell *camera_cell;
     User *user;
+    UploadImage *up_img;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -53,6 +55,8 @@
     if (self) {
 
     }
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    _KVOController = KVOController;
     return self;
 }
 
@@ -77,15 +81,20 @@
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     NSData *imageData = UIImagePNGRepresentation(chosenImage);
     NSString *imageDataEncodedeString = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    UploadImage *up_img = [UploadImage alloc];
-    camera_cell.dishImage.image = chosenImage;
-    camera_cell.dishImage.hidden = NO;
+    up_img = [UploadImage alloc];
+    camera_cell.progress.hidden = NO;
+    camera_cell.dishDescription.hidden = YES;
+    [self.KVOController observe:up_img keyPath:@"progress" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(SectionTableViewController *observe, UploadImage *object, NSDictionary *change) {
+        NSLog(@"%f",[change[@"new"] floatValue]);
+        camera_cell.progress.progress = [change[@"new"] floatValue];
+    }];
     [camera_cell.dishDescription removeFromSuperview];
     up_img.dishgo_token = user.foodcloud_token;
+    up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
     up_img.image_data = imageDataEncodedeString;
     up_img.dish_id = camera_dish.id;
-    [up_img startUpload];
+    [up_img startUploadAfn];
 }
 
 - (void) setupBackButtonAndCart {

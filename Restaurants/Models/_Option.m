@@ -7,10 +7,12 @@ const struct OptionAttributes OptionAttributes = {
 	.id = @"id",
 	.name = @"name",
 	.price = @"price",
+	.price_according_to_size = @"price_according_to_size",
 };
 
 const struct OptionRelationships OptionRelationships = {
 	.option_owner = @"option_owner",
+	.size_prices = @"size_prices",
 };
 
 const struct OptionFetchedProperties OptionFetchedProperties = {
@@ -44,6 +46,11 @@ const struct OptionFetchedProperties OptionFetchedProperties = {
 	
 	if ([key isEqualToString:@"priceValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"price"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"price_according_to_sizeValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"price_according_to_size"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -94,8 +101,47 @@ const struct OptionFetchedProperties OptionFetchedProperties = {
 
 
 
+@dynamic price_according_to_size;
+
+
+
+- (BOOL)price_according_to_sizeValue {
+	NSNumber *result = [self price_according_to_size];
+	return [result boolValue];
+}
+
+- (void)setPrice_according_to_sizeValue:(BOOL)value_ {
+	[self setPrice_according_to_size:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitivePrice_according_to_sizeValue {
+	NSNumber *result = [self primitivePrice_according_to_size];
+	return [result boolValue];
+}
+
+- (void)setPrimitivePrice_according_to_sizeValue:(BOOL)value_ {
+	[self setPrimitivePrice_according_to_size:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic option_owner;
 
+	
+
+@dynamic size_prices;
+
+	
+- (NSMutableSet*)size_pricesSet {
+	[self willAccessValueForKey:@"size_prices"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"size_prices"];
+  
+	[self didAccessValueForKey:@"size_prices"];
+	return result;
+}
 	
 
 

@@ -142,6 +142,8 @@
 }
 
 -(void) setupLowerHalf {
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    _KVOController = KVOController;
     self.autoresizingMask = UIViewAutoresizingNone;
     DishCellViewLowerHalf *cell = [[DishCellViewLowerHalf alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
 //    [cell setNeedsLayout];
@@ -227,6 +229,8 @@
     self.option_views = [[NSMutableArray alloc] init];
     _optionViews = [[NSMutableDictionary alloc] init];
     
+    OptionsView *sizeObject;
+    
     if(dish.sizes){
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
@@ -239,6 +243,8 @@
         option_view.parent = self;
         option_view.tag = 12347;
         option_view.op = dish.sizes_object;
+        
+        [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
         
         CGRect frame = option_view.frame;
         frame.origin.y = cell.contentView.frame.size.height + 5;
@@ -253,6 +259,7 @@
         frame = cell.contentView.frame;
         frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
         cell.contentView.frame = frame;
+        sizeObject = option_view;
     }
     
     for(Options *options in dish.options){
@@ -263,6 +270,12 @@
         option_view.optionTitle.textColor=[UIColor blackColor];
         option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
         [option_view addSubview:option_view.optionTitle];
+        
+        [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(setPrice)];
+        
+        if(dish.sizes){
+            option_view.size_prices = sizeObject;
+        }
 
         option_view.parent = self;
         option_view.tag = 12347;
@@ -332,6 +345,33 @@
     }
 }
 
+-(float) getCurrentPrice {
+    
+    float total_price = 0.0f;
+    
+    if(self.dish.price == nil){
+        total_price = 0.0f;
+    } else {
+        total_price = [self.dish.price floatValue];
+    }
+    
+    if(self.lower_half){
+        for (OptionsView *priceView in [self.lower_half.contentView subviews]){
+            if (priceView.tag == 12347){
+                total_price += priceView.total_price;
+            }
+        }
+    }
+    int q = (int) self.dishFooterView.stepper.value;
+    if (q == 0){
+        q = 1;
+    }
+    total_price = total_price * q;
+    NSLog(@"TOTAL DISH PRICE: %f",total_price);
+    totalPrice = total_price;
+    return total_price;
+}
+
 -(float) getPrice {
     
     if(self.dish.price == nil){
@@ -342,7 +382,6 @@
     
     if(self.lower_half){
         for (OptionsView *priceView in [self.lower_half.contentView subviews]){
-//            NSLog(@"Querying price on view with tag %d and class of %@",priceView.tag,priceView.class);
             if (priceView.tag == 12347){
                 totalPrice += [priceView getPrice];
             }
@@ -373,16 +412,8 @@
 }
 
 -(void) setPrice {
-//    NSLog(@"Updating price %@",[self getPrice]);
-//    [UIView animateWithDuration:0.5
-//                     animations:^{
-////                         self.priceLabel.alpha = 0.0f;
-//                         self.priceLabel.text = [self getPrice];
-////                         self.priceLabel.alpha = 1.0f;
-//                     }];
-    self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
+    self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
     if(self.shoppingCartCell){
-//        self.shoppingCartCell.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getPrice]];
         [self setupShoppingCart];
         [self setupReviewCell];
     }

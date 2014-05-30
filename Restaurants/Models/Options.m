@@ -1,6 +1,5 @@
 #import "Options.h"
 
-
 @interface Options ()
 
 // Private interface goes here.
@@ -10,6 +9,6 @@
 
 @implementation Options
 
-// Custom logic goes here.
 
 @end
+

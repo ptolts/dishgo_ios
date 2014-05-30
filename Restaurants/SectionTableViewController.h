@@ -11,7 +11,7 @@
 #import "CartButton.h"
 #import "DBCameraViewController.h"
 #import <DBCamera/DBCameraContainerViewController.h>
-
+#import <KVOController/FBKVOController.h>
 
 @interface SectionTableViewController : UITableViewController <DBCameraViewControllerDelegate>
     @property(nonatomic, strong) Sections *section;
@@ -20,4 +20,5 @@
     @property int current_page;
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     @property (nonatomic, strong) CartButton *cart;
+    @property  FBKVOController *KVOController;
 @end

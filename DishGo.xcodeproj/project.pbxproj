@@ -126,6 +126,9 @@
 		B7D47F971864F0F500DD3C99 /* stop_watch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F961864F0F500DD3C99 /* stop_watch@2x.png */; };
 		B7D47F991864F70500DD3C99 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7D47F981864F70500DD3C99 /* edit@2x.png */; };
 		B7D6DC4A1936719200424BE9 /* Newtext Regular BT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7D6DC491936719200424BE9 /* Newtext Regular BT.ttf */; };
+		B7D6DC4F1938F27400424BE9 /* _SizePrices.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D6DC4C1938F27400424BE9 /* _SizePrices.m */; };
+		B7D6DC501938F27400424BE9 /* SizePrices.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D6DC4E1938F27400424BE9 /* SizePrices.m */; };
+		B7D6DC531938F9D700424BE9 /* OptionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D6DC521938F9D700424BE9 /* OptionButton.m */; };
 		B7DA9D831843B1870072AD47 /* freestylebold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D821843B1870072AD47 /* freestylebold.ttf */; };
 		B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */; };
 		B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7DA9D8F1843DFAF0072AD47 /* control@2x.png */; };
@@ -382,6 +385,12 @@
 		B7D47F961864F0F500DD3C99 /* stop_watch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop_watch@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7D47F981864F70500DD3C99 /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7D6DC491936719200424BE9 /* Newtext Regular BT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Newtext Regular BT.ttf"; sourceTree = "<group>"; };
+		B7D6DC4B1938F27400424BE9 /* _SizePrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SizePrices.h; sourceTree = "<group>"; };
+		B7D6DC4C1938F27400424BE9 /* _SizePrices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SizePrices.m; sourceTree = "<group>"; };
+		B7D6DC4D1938F27400424BE9 /* SizePrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SizePrices.h; sourceTree = "<group>"; };
+		B7D6DC4E1938F27400424BE9 /* SizePrices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SizePrices.m; sourceTree = "<group>"; };
+		B7D6DC511938F9D700424BE9 /* OptionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionButton.h; sourceTree = "<group>"; };
+		B7D6DC521938F9D700424BE9 /* OptionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionButton.m; sourceTree = "<group>"; };
 		B7DA9D821843B1870072AD47 /* freestylebold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = freestylebold.ttf; sourceTree = "<group>"; };
 		B7DA9D8D1843DF2F0072AD47 /* cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cart@2x.png"; sourceTree = "<group>"; };
 		B7DA9D8F1843DFAF0072AD47 /* control@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "control@2x.png"; sourceTree = "<group>"; };
@@ -511,6 +520,10 @@
 		B70C333E1805A28B0045183F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B7D6DC4B1938F27400424BE9 /* _SizePrices.h */,
+				B7D6DC4C1938F27400424BE9 /* _SizePrices.m */,
+				B7D6DC4D1938F27400424BE9 /* SizePrices.h */,
+				B7D6DC4E1938F27400424BE9 /* SizePrices.m */,
 				B7E20F2B1820560100791BEB /* _Dishes.h */,
 				B7E20F2C1820560100791BEB /* _Menu.h */,
 				B7E20F2D1820560100791BEB /* _Sections.h */,
@@ -712,6 +725,8 @@
 			children = (
 				B7B7445B183532EE001DFC49 /* OptionsView.h */,
 				B7B7445C183532EE001DFC49 /* OptionsView.m */,
+				B7D6DC511938F9D700424BE9 /* OptionButton.h */,
+				B7D6DC521938F9D700424BE9 /* OptionButton.m */,
 			);
 			name = Options;
 			sourceTree = "<group>";
@@ -1429,6 +1444,7 @@
 				B7E20F441820560100791BEB /* _Menu.m in Sources */,
 				B7DA9DA61847B34E0072AD47 /* User.m in Sources */,
 				B70C33491805B2A70045183F /* _Restaurant.m in Sources */,
+				B7D6DC501938F27400424BE9 /* SizePrices.m in Sources */,
 				B7EE7B81184E5676003EE5B8 /* CustomIOS7AlertView.m in Sources */,
 				B7E20F1A18202EE200791BEB /* StorefrontGradientView.m in Sources */,
 				B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */,
@@ -1437,6 +1453,7 @@
 				B7BDFBE918776822003E661F /* LEColorPicker.m in Sources */,
 				B7E20F461820560100791BEB /* _Options.m in Sources */,
 				B7E6C299183BF927005E8598 /* CartRowCell.m in Sources */,
+				B7D6DC4F1938F27400424BE9 /* _SizePrices.m in Sources */,
 				B7E20F3F1820560100791BEB /* _Sections.m in Sources */,
 				B7E20F1D18203C1E00791BEB /* StorefrontTableViewController.m in Sources */,
 				B7E20F25182042F800791BEB /* Header.m in Sources */,
@@ -1445,6 +1462,7 @@
 				B7CC197E18047D92003C71B9 /* main.m in Sources */,
 				B7E20F401820560100791BEB /* Dishes.m in Sources */,
 				B721D67A187331EE00D41957 /* Order_Status.m in Sources */,
+				B7D6DC531938F9D700424BE9 /* OptionButton.m in Sources */,
 				B7E20F471820560100791BEB /* Option.m in Sources */,
 				B7D47F931864A9B400DD3C99 /* Order_Order.m in Sources */,
 				B7EE7B91184FD6AB003EE5B8 /* ProfileViewController.m in Sources */,

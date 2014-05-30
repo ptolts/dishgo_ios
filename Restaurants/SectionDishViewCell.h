@@ -17,6 +17,7 @@
     @property (nonatomic, nonatomic) IBOutlet UILabel *priceLabel;
     @property (nonatomic, nonatomic) IBOutlet UIView *seperator;
     @property (strong, nonatomic) IBOutlet CameraButton *camera;
+@property (strong, nonatomic) IBOutlet UIProgressView *progress;
     @property (strong, nonatomic) IBOutlet UILabel *plus;
     @property (nonatomic, strong) Dishes *dish;
     @property int full_height;

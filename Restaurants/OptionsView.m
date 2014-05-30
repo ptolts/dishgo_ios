@@ -10,16 +10,13 @@
 #import "Option.h"
 #import "DishTableViewCell.h"
 #import "Option_Order.h"
+#import "OptionButton.h"
 
 @implementation OptionsView {
-    
     NSMutableArray *option_values;
     NSMutableArray *buttonList;
-    
-//    NSMutableDictionary *option_values_dict;
     NSMutableDictionary *buttonList_dict;
     NSMutableDictionary *option_order_json_dict;
-    
     float totalPrice;
     UIColor *mainColor;
     struct CGColor *mainCGColor;
@@ -35,6 +32,8 @@
     if (self) {
         // Initialization code
     }
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    _KVOController = KVOController;
     return self;
 }
 - (void)setupSeg
@@ -79,8 +78,11 @@
     BOOL odd = ([option_values count] % 2 == 1);
     int last = [option_values count] - 1;
     for(NSMutableArray *option in option_values){
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [buttonList_dict setObject:button forKey:option[2]];
+        Option *option_for_button = option[3];
+        OptionButton *button = [OptionButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.KVOController observe:button keyPath:@"selected" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
+        [self.KVOController observe:button keyPath:@"price" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
+        [buttonList_dict setObject:button forKey:option_for_button.id];
         [button addTarget:self action:@selector(addOpt:) forControlEvents:UIControlEventTouchUpInside];
         
         int buttonSize = 40;
@@ -101,7 +103,7 @@
         button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         button.titleLabel.numberOfLines = 2;
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [button setTitle:[NSString stringWithFormat:@"%@\n$%@",option[0],option[1]] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"%@\n$%@",option_for_button.name,option_for_button.price] forState:UIControlStateNormal];
         [button setTitleColor:mainColor forState:UIControlStateNormal];
         button.layer.borderWidth=1.0f;
         [button.layer setCornerRadius:3.0f];
@@ -115,6 +117,7 @@
             self.frame = frame;
         }
         
+        button.option = option_for_button;
         
         button.tag = index;
         [buttonList addObject:button];
@@ -129,7 +132,7 @@
 - (void) setupFromJson:(NSMutableArray<Option_Order> *)json {
     for(Option_Order *o in json){
         Option_Order *new_opt_order = [option_order_json_dict objectForKey:o.ident];
-        UIButton *button = [buttonList_dict objectForKey:o.ident];
+        OptionButton *button = [buttonList_dict objectForKey:o.ident];
         if(o.selected){
             [self addOpt:(id)button];
             new_opt_order.selected = YES;
@@ -149,6 +152,15 @@
         Option_Order *opt = [[Option_Order alloc] init];
         opt.name = option.name;
         opt.selected = NO;
+        if(option.price_according_to_sizeValue){
+            [self.KVOController observe:self.size_prices keyPath:@"selectedSize" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(OptionsView *observe, OptionsView *object, NSDictionary *change) {
+                for(OptionButton *but in buttonList){
+                    if(but.option.price_according_to_sizeValue){
+                        [but updatePrice:change[@"new"]];
+                    }
+                }
+            }];
+        }
         opt.ident = option.id;
         [option_order_json addObject:opt];
         [option_order_json_dict setObject:opt forKey:opt.ident];
@@ -156,6 +168,8 @@
         [currentItem addObject:option.name];
         [currentItem addObject:option.price];
         [currentItem addObject:option.id];
+        // I have no idea why I didnt use a custom object before. Must have been a newb. No time to rewrite.
+        [currentItem addObject:option];
         [option_values addObject:currentItem];
     }
     
@@ -172,24 +186,18 @@
 -(void)updatePrice:(id)sender {
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:segmentedControl.selectedSegmentIndex];
-    NSLog(@"Selected %f price.",[p[1] floatValue]);
     totalPrice = [p[1] floatValue];
-//    DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
     [self.parent setPrice];
 }
 
 -(void)addOpt:(id)sender {
     
-     NSLog(@"addOpt %hhd...",useButton);
-    
     if(useButton){
-        NSLog(@"Unselecting...");
-        for(UIButton *but in buttonList){
+        for(OptionButton *but in buttonList){
             if(but.selected){
                 NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:but.tag];
                 if(but != sender){
-                    totalPrice -= [p[1] floatValue];
-                    NSLog(@"%@: %hhd",but.titleLabel.text,but.selected);
+                    totalPrice -= [but.option.price floatValue];
                     [but setSelected:![but isSelected]];
                     Option_Order *o = [option_order_json objectAtIndex:but.tag];
                     o.selected = !o.selected;
@@ -200,24 +208,24 @@
         }
     }
     
-    UIButton *but = (UIButton *)sender;
+    OptionButton *but = (OptionButton *)sender;
     NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:but.tag];
     [but setSelected:![but isSelected]];
     
     Option_Order *o = [option_order_json objectAtIndex:but.tag];
     o.selected = !o.selected;
     
+    if([self.op.type isEqualToString:@"size"]){
+        self.selectedSize = but.option.id;
+    }
+    
     if(but.selected){
-        NSLog(@"Selected %f price.",[p[1] floatValue]);
-        totalPrice += [p[1] floatValue];
-//        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
+        totalPrice += [but.option.price floatValue];
         but.layer.backgroundColor = mainCGColor;
         [but setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.parent setPrice];
     } else {
-        NSLog(@"Deselected %f price.",[p[1] floatValue]);
-        totalPrice -= [p[1] floatValue];
-//        DishTableViewCell *oView = (DishTableViewCell *)[[[[sender superview] superview] superview] superview];
+        totalPrice -= [but.option.price floatValue];
         but.layer.backgroundColor = [UIColor whiteColor].CGColor;
         [but setTitleColor:mainColor forState:UIControlStateNormal];
         [self.parent setPrice];
@@ -225,8 +233,18 @@
 }
 
 -(float) getPrice {
-    NSLog(@"Returning %f price.",totalPrice);
     return totalPrice;
+}
+
+-(void) getCurrentPrice {
+    float total_price = 0.0;
+    for(OptionButton *but in buttonList){
+        if(but.selected){
+            total_price += [but.option.price floatValue];
+        }
+    }
+    self.total_price = total_price;
+    NSLog(@"TOTAL PRICE: %f",self.total_price);
 }
 
 @end

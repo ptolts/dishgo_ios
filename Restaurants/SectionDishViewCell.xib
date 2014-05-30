@@ -70,6 +70,10 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="Trg-wg-mfc">
+                    <rect key="frame" x="85" y="71" width="150" height="2"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </progressView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -81,6 +85,7 @@
                 <outlet property="dishTitle" destination="mro-CQ-jWH" id="LKG-ae-Mec"/>
                 <outlet property="plus" destination="1gq-Qw-l7M" id="kfO-sc-RSn"/>
                 <outlet property="priceLabel" destination="nVq-lE-jP3" id="Gii-QV-wQA"/>
+                <outlet property="progress" destination="Trg-wg-mfc" id="iUB-Wp-ayx"/>
                 <outlet property="seperator" destination="t2E-nO-mIa" id="x65-WA-tj6"/>
                 <outlet property="seperator2" destination="oIr-Iq-J9B" id="mpe-bN-NbV"/>
             </connections>

@@ -687,11 +687,21 @@
     sectionsMapping.identificationAttributes = @[ @"id" ];
     
     
+    RKEntityMapping *sizePricesMapping = [RKEntityMapping mappingForEntityForName:@"SizePrices" inManagedObjectStore:managedObjectStore];
+    [sizePricesMapping addAttributeMappingsFromDictionary:@{
+                                                          @"id": @"id",
+                                                          @"price":@"price",
+                                                          @"size_id":@"related_to_size",
+                                                          }];
+    sizePricesMapping.identificationAttributes = @[ @"id" ];
+    
+    
     RKEntityMapping *optionMapping = [RKEntityMapping mappingForEntityForName:@"Option" inManagedObjectStore:managedObjectStore];
     [optionMapping addAttributeMappingsFromDictionary:@{
                                                         @"name": @"name",
                                                         @"price": @"price",
                                                         @"_id": @"id",
+                                                        @"price_according_to_size":@"price_according_to_size",
                                                         }];
     optionMapping.identificationAttributes = @[ @"id" ];
     
@@ -712,6 +722,7 @@
     [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"sizes" toKeyPath:@"sizes_object" withMapping:optionsMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
+    [optionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"size_prices" toKeyPath:@"size_prices" withMapping:sizePricesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
