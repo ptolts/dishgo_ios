@@ -146,54 +146,19 @@
     _KVOController = KVOController;
     self.autoresizingMask = UIViewAutoresizingNone;
     DishCellViewLowerHalf *cell = [[DishCellViewLowerHalf alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
-//    [cell setNeedsLayout];
-//    cell.frame = CGRectMake(10, 0, 300, 0);
-//    cell.contentView.frame = CGRectMake(10, 0, 300, 0);
-    NSLog(@"DESCRIPTION PAGE FRAME%@\nCONTENTVIEWFRAME: %@\n%u",CGRectCreateDictionaryRepresentation(cell.frame),CGRectCreateDictionaryRepresentation(cell.contentView.frame),cell.autoresizingMask);
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     cell.backgroundColor = [UIColor bgColor];
     cell.contentView.backgroundColor = [UIColor bgColor];
     Dishes *dish = self.dish;
-
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 200)];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.autoresizingMask = UIViewAutoresizingNone;
-    imageView.clipsToBounds = YES;
     
-    cell.dishImage = imageView;
-    [cell.contentView addSubview:imageView];
-    cell.dishImage.image = [UIImage imageNamed:@"camera_mark.png"];
-    
-    CGRect f = cell.contentView.frame;
-    f.size.height = imageView.frame.size.height;
-    cell.contentView.frame = f;
-    
-    if([dish.images count] > 0){
-        Images *img = [dish.images firstObject];
-        __weak typeof(cell.dishImage) weakImage = cell.dishImage;
-        [cell.dishImage          setImageWithURL:[NSURL URLWithString:img.url]
-                                placeholderImage:[UIImage imageNamed:@"camera_mark.png"]
-                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                           if (image && cacheType == SDImageCacheTypeNone)
-                                           {
-                                               weakImage.alpha = 0.0;
-                                               [UIView animateWithDuration:1.0
-                                                                animations:^{
-                                                                    weakImage.alpha = 1.0;
-                                                                }];
-                                           }
-                                       }
-         ];
-    } else {
-        
-    }
+    CGRect f;
     
     if([dish.description_text length] != 0){
         
         cell.descriptionLabel = [[UILabel alloc] init];
         cell.descriptionLabel.autoresizingMask = UIViewAutoresizingNone;
         cell.descriptionLabel.backgroundColor = [UIColor clearColor];
-        cell.descriptionLabel.textAlignment = NSTextAlignmentCenter;
+        cell.descriptionLabel.textAlignment = NSTextAlignmentLeft;
         cell.descriptionLabel.textColor = [UIColor textColor];
         cell.descriptionLabel.text = @"Description";
         cell.descriptionLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
@@ -201,7 +166,7 @@
         cell.descriptionLabel.frame = CGRectMake(10, cell.contentView.frame.size.height, 300, cell.descriptionLabel.frame.size.height);
         
         CGRect f = cell.contentView.frame;
-        f.size.height = cell.contentView.frame.size.height + cell.descriptionLabel.frame.size.height + 10;
+        f.size.height = cell.contentView.frame.size.height + cell.descriptionLabel.frame.size.height;
         cell.contentView.frame = f;
         
         [cell.contentView addSubview:cell.descriptionLabel];
@@ -231,11 +196,11 @@
     
     OptionsView *sizeObject;
     
-    if(dish.sizes){
+    if([dish.sizes intValue] == 1){
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
-        option_view.optionTitle.textAlignment = NSTextAlignmentCenter;
+        option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
         option_view.optionTitle.textColor=[UIColor blackColor];
         option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
         [option_view addSubview:option_view.optionTitle];
@@ -266,7 +231,7 @@
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
-        option_view.optionTitle.textAlignment = NSTextAlignmentCenter;
+        option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
         option_view.optionTitle.textColor=[UIColor blackColor];
         option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
         [option_view addSubview:option_view.optionTitle];
@@ -349,7 +314,7 @@
     
     float total_price = 0.0f;
     
-    if(self.dish.price == nil){
+    if(self.dish.price == nil || [self.dish.sizes intValue] == 1){
         total_price = 0.0f;
     } else {
         total_price = [self.dish.price floatValue];
@@ -367,48 +332,17 @@
         q = 1;
     }
     total_price = total_price * q;
-    NSLog(@"TOTAL DISH PRICE: %f",total_price);
     totalPrice = total_price;
     return total_price;
 }
 
--(float) getPrice {
-    
-    if(self.dish.price == nil){
-        totalPrice = 0.0f;
-    } else {
-        totalPrice = [self.dish.price floatValue];
-    }
-    
-    if(self.lower_half){
-        for (OptionsView *priceView in [self.lower_half.contentView subviews]){
-            if (priceView.tag == 12347){
-                totalPrice += [priceView getPrice];
-            }
-        }
-    }
-    int q = (int) self.dishFooterView.stepper.value;
-    if (q == 0){
-        q = 1;
-    }
-    totalPrice = totalPrice * q;
-    
-    return totalPrice;
-}
 
 -(NSString *) getPriceFast {
-    
-    if(self.dish.price == nil){
-        totalPrice = 0.0f;
-    } else {
-        totalPrice = [self.dish.price floatValue];
-    }
-    
-    return [NSString stringWithFormat:@"%.02f", totalPrice];
+    return [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
 }
 
 -(NSString *) getPriceString {
-    return [NSString stringWithFormat:@"%.02f", [self getPrice]];
+    return [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
 }
 
 -(void) setPrice {

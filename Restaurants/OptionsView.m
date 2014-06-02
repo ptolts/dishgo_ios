@@ -192,6 +192,8 @@
 
 -(void)addOpt:(id)sender {
     
+    OptionButton *selected_button = (OptionButton *)sender;
+    
     if(useButton){
         for(OptionButton *but in buttonList){
             if(but.selected){
@@ -206,28 +208,38 @@
                 }
             }
         }
+    } else {
+        int selected_count = 0;
+        for(OptionButton *but in buttonList){
+            if(but.selected){
+                selected_count ++;
+            }
+        }
+        if([self.op.advanced intValue] == 1 && !selected_button.selected && selected_count == [self.op.max_selections intValue]){
+            return;
+        }
     }
     
-    OptionButton *but = (OptionButton *)sender;
-    NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:but.tag];
-    [but setSelected:![but isSelected]];
+
+    NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:selected_button.tag];
+    [selected_button setSelected:![selected_button isSelected]];
     
-    Option_Order *o = [option_order_json objectAtIndex:but.tag];
+    Option_Order *o = [option_order_json objectAtIndex:selected_button.tag];
     o.selected = !o.selected;
     
     if([self.op.type isEqualToString:@"size"]){
-        self.selectedSize = but.option.id;
+        self.selectedSize = selected_button.option.id;
     }
     
-    if(but.selected){
-        totalPrice += [but.option.price floatValue];
-        but.layer.backgroundColor = mainCGColor;
-        [but setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    if(selected_button.selected){
+        totalPrice += [selected_button.option.price floatValue];
+        selected_button.layer.backgroundColor = mainCGColor;
+        [selected_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.parent setPrice];
     } else {
-        totalPrice -= [but.option.price floatValue];
-        but.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        [but setTitleColor:mainColor forState:UIControlStateNormal];
+        totalPrice -= [selected_button.option.price floatValue];
+        selected_button.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        [selected_button setTitleColor:mainColor forState:UIControlStateNormal];
         [self.parent setPrice];
     }
 }
@@ -244,7 +256,7 @@
         }
     }
     self.total_price = total_price;
-    NSLog(@"TOTAL PRICE: %f",self.total_price);
+//    NSLog(@"TOTAL PRICE: %f",self.total_price);
 }
 
 @end

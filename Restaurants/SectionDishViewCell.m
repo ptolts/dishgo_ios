@@ -57,7 +57,7 @@
     }
     
     if(totalPrice == 0.0){
-        return @"-";
+        return @"";
     } else {
         return [NSString stringWithFormat:@"%.02f", totalPrice];
     }

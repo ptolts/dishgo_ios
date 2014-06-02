@@ -76,19 +76,21 @@
     
 }
 
+-(void) test {
+    NSLog(@"boobbbbbs");
+}
+
 - (void) captureImageDidFinish:(UIImage *)chosenImage withMetadata:(NSDictionary *)metadata
 {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-    NSData *imageData = UIImagePNGRepresentation(chosenImage);
+    NSData *imageData = UIImageJPEGRepresentation(chosenImage,1.0);
     NSString *imageDataEncodedeString = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    up_img = [UploadImage alloc];
+    up_img = [[UploadImage alloc] init];
+    up_img.section_dish_view = camera_cell;
     camera_cell.progress.hidden = NO;
     camera_cell.dishDescription.hidden = YES;
-    [self.KVOController observe:up_img keyPath:@"progress" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(SectionTableViewController *observe, UploadImage *object, NSDictionary *change) {
-        NSLog(@"%f",[change[@"new"] floatValue]);
-        camera_cell.progress.progress = [change[@"new"] floatValue];
-    }];
-    [camera_cell.dishDescription removeFromSuperview];
+    camera_cell.dishImage.hidden = YES;
+    camera_cell.dishImage.image = chosenImage;
     up_img.dishgo_token = user.foodcloud_token;
     up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
@@ -141,18 +143,6 @@
     int row = 0;
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    // THIS COULD CAUSE BUGS IF DISHES ARE DISPLAYED DIFFERENTLY.
-    
-//    for(Subsections *sub in self.section.subsections){
-//        if(current_page_dish_count <= self.current_page && self.current_page < current_page_dish_count + [sub.dishes count] + 1){
-//            current_page_section = counter;
-//            row = self.current_page - current_page_dish_count;
-//        }
-//        counter++;
-//        current_page_dish_count += [sub.dishes count];
-//        [subsectionList addObject:sub];
-//    }
     
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 

@@ -36,8 +36,8 @@
     @property int full_height;
     @property BOOL editing;
     @property BOOL final_editing;
-    -(float) getPrice;
     -(NSString *) getPriceFast;
+    -(float) getCurrentPrice;
     -(void) setupLowerHalf;
     -(void) setPrice;
     -(void) setupShoppingCart;

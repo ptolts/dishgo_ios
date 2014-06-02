@@ -74,6 +74,10 @@
                     <rect key="frame" x="85" y="71" width="150" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </progressView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="ZFT-y5-6xc">
+                    <rect key="frame" x="150" y="62" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -88,6 +92,7 @@
                 <outlet property="progress" destination="Trg-wg-mfc" id="iUB-Wp-ayx"/>
                 <outlet property="seperator" destination="t2E-nO-mIa" id="x65-WA-tj6"/>
                 <outlet property="seperator2" destination="oIr-Iq-J9B" id="mpe-bN-NbV"/>
+                <outlet property="spinner" destination="ZFT-y5-6xc" id="p0F-h0-mta"/>
             </connections>
         </view>
     </objects>

@@ -49,18 +49,18 @@
     return self;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     NSLog(@"HI");
+    CLLocation *newLocation = [locations lastObject];
     NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
     if (locationAge > 5.0){
         NSLog(@"Skipping location because its most likely cached.");
         return;
     }
     
-    NSLog(@"new: %f old: %f accuracy desired: %f obtained: %f",newLocation.coordinate.latitude,oldLocation.coordinate.latitude,locationManager.desiredAccuracy,newLocation.horizontalAccuracy);
+    NSLog(@"new: %f accuracy desired: %f obtained: %f",newLocation.coordinate.latitude,locationManager.desiredAccuracy,newLocation.horizontalAccuracy);
     
-    if (newLocation.horizontalAccuracy > locationManager.desiredAccuracy) {
+    if (newLocation.horizontalAccuracy > 500) {
         return;
     }
     
@@ -74,6 +74,32 @@
     
     [self fetchRestaurants];
 }
+
+//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+//{
+//    NSLog(@"HI");
+//    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
+//    if (locationAge > 5.0){
+//        NSLog(@"Skipping location because its most likely cached.");
+//        return;
+//    }
+//    
+//    NSLog(@"new: %f old: %f accuracy desired: %f obtained: %f",newLocation.coordinate.latitude,oldLocation.coordinate.latitude,locationManager.desiredAccuracy,newLocation.horizontalAccuracy);
+//    
+//    if (newLocation.horizontalAccuracy > locationManager.desiredAccuracy) {
+//        return;
+//    }
+//    
+//    NSLog(@"Done Location");
+//    
+//    currentLocation = newLocation;
+//    
+//    [locationManager stopMonitoringSignificantLocationChanges];
+//    [locationManager stopUpdatingLocation];
+//    
+//    
+//    [self fetchRestaurants];
+//}
 
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -196,7 +222,7 @@
     location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    [locationManager setDesiredAccuracy: 500];
+    [locationManager setDesiredAccuracy: 1];
     locationManager.pausesLocationUpdatesAutomatically = NO;
     [locationManager startUpdatingLocation];
     scroll_count = 0;
@@ -277,8 +303,10 @@
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;

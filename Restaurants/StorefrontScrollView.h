@@ -9,14 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "StorefrontLabel.h"
 #import "StorefrontImageView.h"
+#import "Dishes.h"
 
 @protocol StoreFrontScrollViewDelegate;
 
 @interface StorefrontScrollView : UIScrollView <UIScrollViewDelegate>
     @property (nonatomic, strong) Restaurant *restaurant;
+    @property (nonatomic, strong) Dishes *dish;
     @property (nonatomic, strong) StorefrontLabel *label;
     @property (nonatomic, weak) id<StoreFrontScrollViewDelegate> img_delegate;
     -(void)setupImages;
+    -(void)setupDishImages;
 @end
 
 @protocol StoreFrontScrollViewDelegate <NSObject>

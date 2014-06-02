@@ -77,7 +77,7 @@
 -(void) updatePrice {
     float tot = 0.0;
     for(DishTableViewCell *dish_cell in self.shopping_cart){
-        tot += dish_cell.getPrice;
+        tot += dish_cell.getCurrentPrice;
     }
     self.total_view.price_label.text = [NSString stringWithFormat:@"%.02f",tot];
 }
@@ -331,7 +331,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [self updatePrice];
     for(DishTableViewCell *dish_cell in self.shopping_cart){
-        tot += dish_cell.getPrice;
+        tot += dish_cell.getCurrentPrice;
 //        [dish_cell.reviewCartCell.edit  removeTarget:nil
 //                                        action:NULL
 //                                        forControlEvents:UIControlEventAllEvents];

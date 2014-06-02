@@ -232,16 +232,7 @@ void (^ block_pointer)(bool, NSString *);
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-//    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
-//                                       params:@{@"email":email,@"password":password}
-//                                   completion:^(NSDictionary *json, JSONModelError *err) {
-//                                       main_user = [[User alloc] initWithDictionary:json error:nil];
-//                                       [self completeLogin:main_user];
-//                                       block(logged_in,@"Logged in!");
-//                                       NSLog(@"ID: %@", main_user.foodcloud_token);
-//                                   }];
-    
-    [JSONHTTPClient postJSONFromURLWithString:@"http://192.168.1.132:3000/app/api/v1/tokens"
+    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
@@ -249,6 +240,15 @@ void (^ block_pointer)(bool, NSString *);
                                        block(logged_in,@"Logged in!");
                                        NSLog(@"ID: %@", main_user.foodcloud_token);
                                    }];
+    
+//    [JSONHTTPClient postJSONFromURLWithString:@"http://192.168.1.132:3000/app/api/v1/tokens"
+//                                       params:@{@"email":email,@"password":password}
+//                                   completion:^(NSDictionary *json, JSONModelError *err) {
+//                                       main_user = [[User alloc] initWithDictionary:json error:nil];
+//                                       [self completeLogin:main_user];
+//                                       block(logged_in,@"Logged in!");
+//                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+//                                   }];
     
 }
 
@@ -355,7 +355,9 @@ void (^ block_pointer)(bool, NSString *);
         foodcloudToken = user.foodcloud_token;
         NSMutableDictionary *dic = (NSMutableDictionary *)[self readData];
         [dic setObject:foodcloudToken forKey:@"foodcloud_token"];
-        [dic setObject:user.owns_restaurant_id forKey:@"owns_restaurant_id"];
+        if(user.owns_restaurant_id){
+            [dic setObject:user.owns_restaurant_id forKey:@"owns_restaurant_id"];
+        }
         [self writeData:dic];
         [((RootViewController *)(((RAppDelegate *)([[UIApplication sharedApplication] delegate])).window.rootViewController)) showOldOrders];
     }

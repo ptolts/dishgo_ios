@@ -14,6 +14,8 @@
 #import "MenuTableViewController.h"
 #import "UIColor+Custom.h"
 #import "SectionDishViewCell.h"
+#import "Header.h"
+#import "StorefrontImageView.h"
 
 
 @interface DishTableViewController ()
@@ -24,6 +26,9 @@
     Dishes *dish;
     DishTableViewCell *dish_logic;
     bool editing;
+    int initialFrame;
+    int initialImageHeight;
+    StorefrontImageView *scroll_image_view;
 }
 
 - (void) preloadDishCell:(DishTableViewCell *) d{
@@ -47,6 +52,49 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    Header *head = (Header *)self.tableView.tableHeaderView;
+    
+    head.backgroundColor = [UIColor clearColor];
+    
+    if(head.button_view_original_frame.size.height == 0){
+        head.button_view_original_frame = CGRectMake(head.button_view.frame.origin.x,head.button_view.frame.origin.y,head.button_view.frame.size.width,head.button_view.frame.size.height);
+    }
+    
+    if(head.scroll_view_original_frame.size.height == 0){
+        head.scroll_view_original_frame = CGRectMake(head.scroll_view.frame.origin.x,head.scroll_view.frame.origin.y,head.scroll_view.frame.size.width,head.scroll_view.frame.size.height);
+    }
+    
+    if(initialFrame == 0){
+        initialFrame = self.tableView.tableHeaderView.frame.size.height;
+    }
+    
+    scroll_image_view.contentMode = UIViewContentModeScaleAspectFill;
+    
+    CGFloat yPos = -scrollView.contentOffset.y;
+    if (yPos > 0) {
+        CGRect imgRect = head.frame;
+        imgRect.origin.y = scrollView.contentOffset.y;
+        imgRect.size.height = initialFrame+yPos;
+        head.frame = imgRect;
+        
+        imgRect = head.scroll_view_original_frame;
+        imgRect.size.height += yPos;
+        imgRect.origin.y = scrollView.contentOffset.y;
+        head.scroll_view.frame = imgRect;
+        
+        imgRect = scroll_image_view.frame;
+        imgRect.size.height = initialImageHeight + yPos;
+        scroll_image_view.frame = imgRect;
+        
+        imgRect = head.button_view_original_frame;
+        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
+        head.button_view.frame = imgRect;
+    }
+}
+
+
 - (void)viewDidLoad
 {
     self.view.autoresizingMask = UIViewAutoresizingNone;
@@ -65,11 +113,36 @@
         tots += (int) d.dishFooterView.stepper.value;
     }
     [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
+    
+    if([self.dish.images count] > 0){
+        Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
+        header.button_view.hidden = YES;
+        header.label.text = self.restaurant.name;
+        header.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:25.0f];
+        header.scroll_view.dish = self.dish;
+        header.scroll_view.img_delegate = self;
+        [header.scroll_view setupDishImages];
+        header.autoresizingMask = UIViewAutoresizingNone;
+        header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
+        header.button_view.backgroundColor = [UIColor complimentaryBg];
+        header.spacer.backgroundColor = [UIColor seperatorColor];
+        header.spacer2.backgroundColor = [UIColor seperatorColor];
+        header.backgroundColor = [UIColor bgColor];
+        self.tableView.tableHeaderView = header;
+    }
 }
 
 //-(void) viewDidAppear:(BOOL)animated {
 //    [self.shoppingCart saveShoppingCart];
 //}
+
+- (void) currentImageView:(StorefrontImageView *)current {
+    if(current == scroll_image_view){
+        return;
+    }
+    scroll_image_view = current;
+    initialImageHeight = current.frame.size.height;
+}
 
 -(void) setupViews{
     

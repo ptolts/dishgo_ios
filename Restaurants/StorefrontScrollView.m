@@ -43,6 +43,33 @@
     NSLog(@"Total Views: %d",self.subviews.count);
 }
 
+-(void)setupDishImages {
+    self.delegate = self;
+    imageViews = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Images *img in self.dish.images) {
+        CGRect frame;
+        frame.origin.x = self.frame.size.width * i;
+        frame.origin.y = 0;
+        frame.size = self.frame.size;
+        StorefrontImageView *image = [[StorefrontImageView alloc] initWithFrame:frame];
+        image.clipsToBounds = YES;
+        image.autoresizingMask = UIViewAutoresizingNone;
+        [imageViews addObject:image];
+        image.userInteractionEnabled = NO;
+        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
+              placeholderImage:[UIImage imageNamed:@"Default.png"]];
+        image.contentMode = UIViewContentModeScaleAspectFill;
+        [self addSubview:image];
+        if(i==0){
+            [_img_delegate currentImageView:image];
+        }
+        i++;
+    }
+    self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
+    self.pagingEnabled = YES;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

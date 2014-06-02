@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DishTableViewCell.h"
 #import "CartButton.h"
-
+#import "StorefrontScrollView.h"
 #import "DishTableViewCell.h"
 
 @class DishTableViewCell;
 
-@interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, StoreFrontScrollViewDelegate>
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     @property (nonatomic, strong) Dishes *dish;
     @property (nonatomic, strong) CartButton *cart;

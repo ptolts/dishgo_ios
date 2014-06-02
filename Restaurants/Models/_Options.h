@@ -5,9 +5,10 @@
 
 
 extern const struct OptionsAttributes {
+	__unsafe_unretained NSString *advanced;
 	__unsafe_unretained NSString *id;
-	__unsafe_unretained NSString *max;
-	__unsafe_unretained NSString *min;
+	__unsafe_unretained NSString *max_selections;
+	__unsafe_unretained NSString *min_selections;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *type;
 } OptionsAttributes;
@@ -31,6 +32,7 @@ extern const struct OptionsFetchedProperties {
 
 
 
+
 @interface OptionsID : NSManagedObjectID {}
 @end
 
@@ -39,6 +41,20 @@ extern const struct OptionsFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (OptionsID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* advanced;
+
+
+
+@property BOOL advancedValue;
+- (BOOL)advancedValue;
+- (void)setAdvancedValue:(BOOL)value_;
+
+//- (BOOL)validateAdvanced:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -54,29 +70,29 @@ extern const struct OptionsFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* max;
+@property (nonatomic, strong) NSNumber* max_selections;
 
 
 
-@property int16_t maxValue;
-- (int16_t)maxValue;
-- (void)setMaxValue:(int16_t)value_;
+@property int16_t max_selectionsValue;
+- (int16_t)max_selectionsValue;
+- (void)setMax_selectionsValue:(int16_t)value_;
 
-//- (BOOL)validateMax:(id*)value_ error:(NSError**)error_;
-
-
+//- (BOOL)validateMax_selections:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, strong) NSNumber* min;
+
+
+@property (nonatomic, strong) NSNumber* min_selections;
 
 
 
-@property int16_t minValue;
-- (int16_t)minValue;
-- (void)setMinValue:(int16_t)value_;
+@property int16_t min_selectionsValue;
+- (int16_t)min_selectionsValue;
+- (void)setMin_selectionsValue:(int16_t)value_;
 
-//- (BOOL)validateMin:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMin_selections:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -138,26 +154,35 @@ extern const struct OptionsFetchedProperties {
 @interface _Options (CoreDataGeneratedPrimitiveAccessors)
 
 
+- (NSNumber*)primitiveAdvanced;
+- (void)setPrimitiveAdvanced:(NSNumber*)value;
+
+- (BOOL)primitiveAdvancedValue;
+- (void)setPrimitiveAdvancedValue:(BOOL)value_;
+
+
+
+
 - (NSString*)primitiveId;
 - (void)setPrimitiveId:(NSString*)value;
 
 
 
 
-- (NSNumber*)primitiveMax;
-- (void)setPrimitiveMax:(NSNumber*)value;
+- (NSNumber*)primitiveMax_selections;
+- (void)setPrimitiveMax_selections:(NSNumber*)value;
 
-- (int16_t)primitiveMaxValue;
-- (void)setPrimitiveMaxValue:(int16_t)value_;
-
-
+- (int16_t)primitiveMax_selectionsValue;
+- (void)setPrimitiveMax_selectionsValue:(int16_t)value_;
 
 
-- (NSNumber*)primitiveMin;
-- (void)setPrimitiveMin:(NSNumber*)value;
 
-- (int16_t)primitiveMinValue;
-- (void)setPrimitiveMinValue:(int16_t)value_;
+
+- (NSNumber*)primitiveMin_selections;
+- (void)setPrimitiveMin_selections:(NSNumber*)value;
+
+- (int16_t)primitiveMin_selectionsValue;
+- (void)setPrimitiveMin_selectionsValue:(int16_t)value_;
 
 
 

@@ -33,7 +33,7 @@
         
         for(DishTableViewCell *dish_cell in user.shopping_cart){
             Dish_Order *dish = [[Dish_Order alloc] initWithDishCell:dish_cell];
-            total_cost += dish_cell.getPrice;
+            total_cost += dish_cell.getCurrentPrice;
             [order_mutable addObject:dish];
         }
         

@@ -163,7 +163,7 @@
         checkoutView.checkout.backgroundColor = [UIColor nextColor];
         float tot = 0.0f;
         for(DishTableViewCell *dish_cell in self.shopping_cart){
-            tot += dish_cell.getPrice;
+            tot += dish_cell.getCurrentPrice;
             
             UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(edit:)];
             singleTap.numberOfTapsRequired = 1;
@@ -549,7 +549,7 @@
 -(void) updatePrice {
     float tot = 0.0;
     for(DishTableViewCell *dish_cell in self.shopping_cart){
-        tot += dish_cell.getPrice;
+        tot += dish_cell.getCurrentPrice;
 //        [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(edit:)];
         singleTap.numberOfTapsRequired = 1;

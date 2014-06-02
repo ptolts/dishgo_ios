@@ -4,9 +4,10 @@
 #import "_Options.h"
 
 const struct OptionsAttributes OptionsAttributes = {
+	.advanced = @"advanced",
 	.id = @"id",
-	.max = @"max",
-	.min = @"min",
+	.max_selections = @"max_selections",
+	.min_selections = @"min_selections",
 	.name = @"name",
 	.type = @"type",
 };
@@ -46,19 +47,50 @@ const struct OptionsFetchedProperties OptionsFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"maxValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"max"];
+	if ([key isEqualToString:@"advancedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"advanced"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"minValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"min"];
+	if ([key isEqualToString:@"max_selectionsValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"max_selections"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"min_selectionsValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"min_selections"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic advanced;
+
+
+
+- (BOOL)advancedValue {
+	NSNumber *result = [self advanced];
+	return [result boolValue];
+}
+
+- (void)setAdvancedValue:(BOOL)value_ {
+	[self setAdvanced:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveAdvancedValue {
+	NSNumber *result = [self primitiveAdvanced];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveAdvancedValue:(BOOL)value_ {
+	[self setPrimitiveAdvanced:[NSNumber numberWithBool:value_]];
+}
+
 
 
 
@@ -70,52 +102,52 @@ const struct OptionsFetchedProperties OptionsFetchedProperties = {
 
 
 
-@dynamic max;
+@dynamic max_selections;
 
 
 
-- (int16_t)maxValue {
-	NSNumber *result = [self max];
+- (int16_t)max_selectionsValue {
+	NSNumber *result = [self max_selections];
 	return [result shortValue];
 }
 
-- (void)setMaxValue:(int16_t)value_ {
-	[self setMax:[NSNumber numberWithShort:value_]];
+- (void)setMax_selectionsValue:(int16_t)value_ {
+	[self setMax_selections:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveMaxValue {
-	NSNumber *result = [self primitiveMax];
+- (int16_t)primitiveMax_selectionsValue {
+	NSNumber *result = [self primitiveMax_selections];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveMaxValue:(int16_t)value_ {
-	[self setPrimitiveMax:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveMax_selectionsValue:(int16_t)value_ {
+	[self setPrimitiveMax_selections:[NSNumber numberWithShort:value_]];
 }
 
 
 
 
 
-@dynamic min;
+@dynamic min_selections;
 
 
 
-- (int16_t)minValue {
-	NSNumber *result = [self min];
+- (int16_t)min_selectionsValue {
+	NSNumber *result = [self min_selections];
 	return [result shortValue];
 }
 
-- (void)setMinValue:(int16_t)value_ {
-	[self setMin:[NSNumber numberWithShort:value_]];
+- (void)setMin_selectionsValue:(int16_t)value_ {
+	[self setMin_selections:[NSNumber numberWithShort:value_]];
 }
 
-- (int16_t)primitiveMinValue {
-	NSNumber *result = [self primitiveMin];
+- (int16_t)primitiveMin_selectionsValue {
+	NSNumber *result = [self primitiveMin_selections];
 	return [result shortValue];
 }
 
-- (void)setPrimitiveMinValue:(int16_t)value_ {
-	[self setPrimitiveMin:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveMin_selectionsValue:(int16_t)value_ {
+	[self setPrimitiveMin_selections:[NSNumber numberWithShort:value_]];
 }
 
 

@@ -40,7 +40,6 @@
 
 @implementation StorefrontTableViewController
     NSMutableArray *sectionsList;
-//    NSMutableArray *shoppingCart;
     @synthesize shoppingCart;
     NSMutableArray *cellList;
     NSMutableDictionary *cart_save;
@@ -49,9 +48,6 @@
     UIActivityIndicatorView *spinner;
     int current_page = 0;
     NSSet *defaultSectionsList;
-    // io Card pin: 4827b4c8bc7646e08c699c9bd2ebde76
-//    CLLocationManager *locationManager;
-//    MKMapView *mapView;
     UIView *spinnerView;
     UIWindow  *mainWindow;
     BOOL enableCart;
@@ -588,6 +584,13 @@
     view.headerTitle.backgroundColor = [UIColor bgColor];
     [view.headerTitle sizeToFit];
     CGRect frame = view.headerTitle.frame;
+    if(frame.size.width > 250){
+        frame.size.width = 250;
+    }
+    view.headerTitle.frame = frame;
+    view.headerTitle.minimumScaleFactor = 0.5f;
+    view.headerTitle.adjustsFontSizeToFitWidth = YES;
+    frame = view.headerTitle.frame;
     frame.size.width += 20;
     view.headerTitle.frame = frame;
     view.headerTitle.center = view.center;
@@ -709,6 +712,9 @@
     [optionsMapping addAttributeMappingsFromDictionary:@{
                                                          @"name": @"name",
                                                          @"_id": @"id",
+                                                         @"min_selections":@"min_selections",
+                                                         @"max_selections":@"max_selections",
+                                                         @"advanced":@"advanced",                                                         
                                                          @"type": @"type",
                                                          }];
     optionsMapping.identificationAttributes = @[ @"id" ];
@@ -727,8 +733,8 @@
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-//    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];
