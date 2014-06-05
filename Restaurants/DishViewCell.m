@@ -70,7 +70,6 @@
     self.plus.userInteractionEnabled = YES;
     [self.plus_area addGestureRecognizer:singleTap];
     [self bringSubviewToFront:self.plus_area];
-    NSLog(@"Setup plus!");
     
 }
 

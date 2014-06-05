@@ -17,6 +17,7 @@
 #import "RootViewController.h"
 #import "StorefrontTableViewController.h"
 #import "MenuTableViewController.h"
+#import "Constant.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface RestaurantViewController ()
@@ -303,23 +304,16 @@
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
-    
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants?lat=%f&lon=%f",currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
     
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-        
-        NSLog(@"Total Restaurants: %d",[result.array count]);
         restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
                           {
                               return [obj2.images count] - [obj1.images count];
                           }];
-        
-        NSLog(@"Attempting save...\n\n\n");
-        
         [self.tableView reloadData];
         [self stopLoading];
         if([restaurantList count] == 0){
@@ -350,6 +344,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) segueToRestaurant: (Restaurant *) restaurant {
+    [self performSegueWithIdentifier:@"toStoreFront" sender: restaurant];
+}
+
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // unwrap the controller if it's embedded in the nav controller.
@@ -361,11 +359,11 @@
         controller = segue.destinationViewController;
     }
     
+    Restaurant *c = (Restaurant *) sender;
+    
     if ([controller isKindOfClass:[StorefrontTableViewController class]]) {
         StorefrontTableViewController *vc = (StorefrontTableViewController *)controller;
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSLog(@"RESTAURANT ID: %@",[[restaurantList objectAtIndex:indexPath.row] objectID]);
-        vc.restaurant = [restaurantList objectAtIndex:indexPath.row];
+        vc.restaurant = c;
         vc.managedObjectStore = managedObjectStore;
         
     } else {
@@ -424,13 +422,9 @@
     
     RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-//    RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
     if (cell == nil) {
         cell = [[RestaurantCells alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     } else {
-//        [cell.scrollView killScroll];
         [cellList removeObject:cell];
         for (UIView *aView in [NSArray arrayWithArray:cell.scrollView.subviews]) {
             [aView removeFromSuperview];
@@ -441,7 +435,7 @@
     
     // Set up the cell...
     Restaurant *resto = [restaurantList objectAtIndex:indexPath.row];
-    
+    cell.restaurant = resto;
     
     int i = 0;
     for (Images *img in resto.images) {
@@ -451,7 +445,7 @@
         frame.size = cell.scrollView.frame.size;
         
         ImagesInScroll *imageView = [[ImagesInScroll alloc] initWithFrame:frame];
-        imageView.userInteractionEnabled = YES;
+        imageView.userInteractionEnabled = NO;
         
         __weak typeof(imageView) weakImage = imageView;
         [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
@@ -474,9 +468,9 @@
     
     cell.scrollView.contentSize = CGSizeMake(cell.scrollView.frame.size.width * [resto.images count], cell.scrollView.frame.size.height);
     cell.scrollView.pagingEnabled = YES;
-    
     cell.scrollView.numberOfPages = [resto.images count];
-    
+    cell.scrollView.restaurant = resto;
+    cell.scrollView.segue_controller = self;
     cell.restaurantLabel.text = resto.name;
     cell.restaurantLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     [cellList addObject:cell];

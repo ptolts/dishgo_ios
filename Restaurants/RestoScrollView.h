@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RestaurantViewController.h"
 
 @interface RestoScrollView : UIScrollView
     @property int numberOfPages;
-- (void) scrollPages:(int) i;
+    - (void) scrollPages:(int) i;
     - (void) killScroll;
     @property int currentPage;
+    @property Restaurant *restaurant;
+    @property RestaurantViewController *segue_controller;
 @end

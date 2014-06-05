@@ -19,4 +19,5 @@
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
+    - (void) segueToSection: (Sections *) section;
 @end

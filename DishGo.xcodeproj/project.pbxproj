@@ -364,6 +364,7 @@
 		B7CF7B9818567063000D326F /* CheckoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutCell.xib; sourceTree = "<group>"; };
 		B7CF7B9A1858E49A000D326F /* AddressForDeliveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressForDeliveryViewController.h; sourceTree = "<group>"; };
 		B7CF7B9B1858E49A000D326F /* AddressForDeliveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AddressForDeliveryViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		B7D030C0193F574700A04F4B /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		B7D47F7618622C5200DD3C99 /* fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fork@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7D47F7918624D5400DD3C99 /* ReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController.h; sourceTree = "<group>"; };
 		B7D47F7A18624D5400DD3C99 /* ReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ReviewViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -804,6 +805,7 @@
 				B7CC198F18047D92003C71B9 /* Images.xcassets */,
 				B7CC198618047D92003C71B9 /* DishGo.xcdatamodeld */,
 				B7CC197818047D92003C71B9 /* Supporting Files */,
+				B7D030C0193F574700A04F4B /* Constant.h */,
 			);
 			name = DishGo;
 			path = Restaurants;
@@ -1662,7 +1664,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
 				PRODUCT_NAME = DishGo;
-				PROVISIONING_PROFILE = "2F1D61BC-28FC-48CC-A3E3-14E0CE6FBC32";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1679,7 +1681,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
 				PRODUCT_NAME = DishGo;
-				PROVISIONING_PROFILE = "2F1D61BC-28FC-48CC-A3E3-14E0CE6FBC32";
+				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -68,7 +68,7 @@
     cell.seperator.backgroundColor = [UIColor seperatorColor];
     [cell.quantity.layer setCornerRadius:5.0f];
     cell.quantity.text = [NSString stringWithFormat:@"%dx", (int) self.dishFooterView.stepper.value];
-    NSLog(@"INITIAL CARTROWCELL HEIGHT: %f",cell.frame.size.height);
+
 //    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
     cell.quantity.font = [UIFont fontWithName:@"Copperplate-Bold" size:13.0f];
     cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];

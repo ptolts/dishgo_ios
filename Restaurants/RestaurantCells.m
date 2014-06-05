@@ -26,21 +26,18 @@
     // Configure the view for the selected state
 }
 
-- (void) touchesEnded: (NSSet *) touches withEvent: (UIEvent *) event
-{
-    NSLog(@"touch cell!!");
-    // If not dragging, send event to next responder
-    [super touchesEnded: touches withEvent: event];
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-        NSLog(@"touch begin cell!! %@",super.class);
-     [super touchesBegan:touches withEvent: event];
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-        NSLog(@"touch moved cell!!");
-        [super touchesBegan:touches withEvent: event];
-}
+//- (void) touchesEnded: (NSSet *) touches withEvent: (UIEvent *) event
+//{
+//    // If not dragging, send event to next responder
+//    [super touchesEnded: touches withEvent: event];
+//}
+//
+//- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    [super touchesBegan:touches withEvent: event];
+//}
+//
+//- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+//    [super touchesBegan:touches withEvent: event];
+//}
 
 @end

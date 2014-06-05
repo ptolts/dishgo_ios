@@ -20,6 +20,7 @@
 #import "DishViewCell.h"
 #import "TableHeaderView.h"
 #import "SectionTableViewController.h"
+#import "Constant.h"
 #import "REFrostedViewController.h"
 #import "MenuTableViewController.h"
 #import "DishScrollView.h"
@@ -521,12 +522,6 @@
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    current_page = [((DishViewCell *)([(UITableView *)self.tableView cellForRowAtIndexPath:indexPath])).dishScrollView currentPage];
-    NSLog(@"ScrollViewOffset Current_Page: %d",current_page);
-    [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
-}
-
 - (void) buildCells {
     cellList = [[NSMutableArray alloc] init];
     for(Sections *section in sectionsList){
@@ -610,25 +605,15 @@
     
 }
 
-//- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
-//{
-//    UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
-//    Subsections *section = [sectionsList objectAtIndex:sectionIndex];
-//    if([section.name length] == 0){
-//        return blank;
-//    }
-//    
-//    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
-//    view.headerTitle.text = section.name;
-//    view.headerTitle.textColor = [UIColor textColor];    
-//    view.backgroundColor = [UIColor bgColor];
-//    for (UIView * txt in view.subviews){
-//        if ([txt isKindOfClass:[UILabel class]] && [txt isFirstResponder]) {
-//            ((UILabel *)txt).textColor = [UIColor textColor];
-//        }
-//    }
-//    return view;
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    current_page = [((DishViewCell *)([(UITableView *)self.tableView cellForRowAtIndexPath:indexPath])).dishScrollView currentPage];
+    NSLog(@"ScrollViewOffset Current_Page: %d",current_page);
+    [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
+}
+
+- (void) segueToSection: (Sections *) section {
+    [self performSegueWithIdentifier:@"menuSectionClick" sender: section];
+}
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -642,10 +627,11 @@
     }
     
     if ([controller isKindOfClass:[SectionTableViewController class]]) {
+        Sections *s = (Sections *) sender;
         SectionTableViewController *vc = (SectionTableViewController *)controller;
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSLog(@"Section ID: %@",[[sectionsList objectAtIndex:indexPath.row] objectID]);
-        vc.section = [sectionsList objectAtIndex:indexPath.section];
+        vc.section = s;
         vc.current_page = current_page;
         vc.restaurant = self.restaurant;
         vc.shoppingCart = shoppingCart;
@@ -733,8 +719,7 @@
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"https://dishgo.io/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
-//    NSString *url = [NSString stringWithFormat:@"http://192.168.1.132:3000/app/api/v1/restaurants/menu?id=%@",self.restaurant.id];
+    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@",dishGoUrl,self.restaurant.id];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

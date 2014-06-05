@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class StorefrontTableViewController;
+#import "Sections.h"
+#import "StorefrontTableViewController.h"
 
 @interface DishScrollView : UIScrollView
     @property (nonatomic, strong) Sections *section;

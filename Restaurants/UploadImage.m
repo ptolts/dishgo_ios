@@ -9,21 +9,17 @@
 #import "UploadImage.h"
 #import <JSONHTTPClient.h>
 #import <AFNetworking.h>
+#import "Constant.h"
+
 @implementation UploadImage
 
     -(void) startUpload {
-        [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/restaurant_admin/upload_image"
+        [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurant_admin/upload_image", dishGoUrl]
                                            params:[self toDictionary]
                                        completion:^(id json, JSONModelError *err) {
                                            
                                            
                                        }];
-//        [JSONHTTPClient postJSONFromURLWithString:@"http://192.168.1.132:3000/app/api/v1/restaurant_admin/upload_image"
-//                                           params:[self toDictionary]
-//                                       completion:^(id json, JSONModelError *err) {
-//                                           
-//                                           
-//                                       }];
     }
 
     -(void) startUploadAfn {
@@ -33,8 +29,7 @@
             self.image_data = @"";
             NSDictionary *parameters = [self toDictionary];
             
-//            AFHTTPClient *client= [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"http://192.168.1.132:3000"]];
-            AFHTTPClient *client= [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://dishgo.io"]];
+            AFHTTPClient *client= [AFHTTPClient clientWithBaseURL:[NSURL URLWithString:dishGoUrl]];
             
             NSMutableURLRequest *request = [client multipartFormRequestWithMethod:@"POST" path:@"/app/api/v1/restaurant_admin/upload_image_file" parameters:parameters constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
                 [formData appendPartWithFileData: self.raw_image_data name:@"image" fileName:@"temp.jpg" mimeType:@"image/jpeg"];

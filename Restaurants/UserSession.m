@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Philip Tolton. All rights reserved.
 //
 
+#import "Constant.h"
 #import "UserSession.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <FacebookSDK/FBSession.h>
@@ -232,7 +233,7 @@ void (^ block_pointer)(bool, NSString *);
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:@"https://dishgo.io/app/api/v1/tokens"
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/tokens", dishGoUrl]
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
@@ -240,15 +241,7 @@ void (^ block_pointer)(bool, NSString *);
                                        block(logged_in,@"Logged in!");
                                        NSLog(@"ID: %@", main_user.foodcloud_token);
                                    }];
-    
-//    [JSONHTTPClient postJSONFromURLWithString:@"http://192.168.1.132:3000/app/api/v1/tokens"
-//                                       params:@{@"email":email,@"password":password}
-//                                   completion:^(NSDictionary *json, JSONModelError *err) {
-//                                       main_user = [[User alloc] initWithDictionary:json error:nil];
-//                                       [self completeLogin:main_user];
-//                                       block(logged_in,@"Logged in!");
-//                                       NSLog(@"ID: %@", main_user.foodcloud_token);
-//                                   }];
+
     
 }
 

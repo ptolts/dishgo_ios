@@ -12,4 +12,5 @@
 @interface RestaurantViewController : UITableViewController <CLLocationManagerDelegate>
     @property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
     @property (nonatomic, strong) IBOutlet UIButton *menu;
+    - (void) segueToRestaurant: (Restaurant *) restaurant;
 @end

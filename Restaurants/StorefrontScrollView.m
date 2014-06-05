@@ -40,7 +40,7 @@
     }
     self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;
-    NSLog(@"Total Views: %d",self.subviews.count);
+
 }
 
 -(void)setupDishImages {

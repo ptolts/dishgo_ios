@@ -12,4 +12,6 @@
 @interface RestaurantCells : UITableViewCell
     @property (nonatomic, strong) IBOutlet UILabel* restaurantLabel;
     @property (nonatomic,strong) IBOutlet RestoScrollView* scrollView;
+    @property IBOutlet *tap;
+    @property Restaurant *restaurant;
 @end
