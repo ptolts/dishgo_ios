@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreLocation/CoreLocation.h"
+#import <KVOController/FBKVOController.h>
 
-@interface RestaurantViewController : UITableViewController <CLLocationManagerDelegate>
+@interface RestaurantViewController : UITableViewController <CLLocationManagerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
     @property (nonatomic,strong) NSManagedObjectContext* managedObjectContext;
     @property (nonatomic, strong) IBOutlet UIButton *menu;
     - (void) segueToRestaurant: (Restaurant *) restaurant;
+    @property UISearchDisplayController *search_bar;
+    @property UISearchBar *bar;
+    @property FBKVOController *KVOController;
 @end

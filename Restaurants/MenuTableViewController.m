@@ -19,6 +19,7 @@
 #import "ProfileViewController.h"
 #import <ALAlertBanner/ALAlertBanner.h>
 #import "WobbleCell.h"
+#import "SortView.h"
 
 @interface MenuTableViewController ()
 
@@ -27,9 +28,12 @@
 @implementation MenuTableViewController {
     ShoppingCartTableView *shop;
     UIColor *mainColor;
+    NSMutableArray *options;
     UIColor *sign_in_color;
     CheckoutView *checkoutView;
 }
+
+@synthesize sort_by;
 
 -(void) edit:(UIGestureRecognizer *) recognizer {
     ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
@@ -246,125 +250,32 @@
     
     return head;
 
-    
-//    if([[UserSession sharedManager] logged_in]){
-//        
-//        UIImageView *imageView = [[UserSession sharedManager] profilePic:_shopping color:sign_in_color offset:offset];
-//        
-//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, offset + 59, 60, 20)];
-//        label.text = @"Logout";
-//        label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
-//        label.textColor = sign_in_color;
-//        
-//        label.textAlignment = NSTextAlignmentCenter;
-////        [label sizeToFit];
-////
-////        CGRect frame = label.frame;
-////        frame.size.height = frame.size.height + 6;
-////        frame.size.width = frame.size.width + 16;
-////        label.frame = frame;
-//        
-////        label.layer.cornerRadius = 5.0f;
-//        label.layer.borderColor = sign_in_color.CGColor;
-//        label.layer.borderWidth = 1.0f;
-//        
-//        if(self.shopping){
-//            CGRect frame = label.frame;
-//            frame.origin.x = 220;
-//            label.frame = frame;
-//        } else {
-//            CGRect frame = label.frame;
-//            frame.origin.x = -1;
-//            label.frame = frame;
-//        }
-////        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-//        
-//        
-//        [label setUserInteractionEnabled:NO];
-//        [imageView setUserInteractionEnabled:NO];
-//        
-//        UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-//        
-//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, offset, 280.0f, 1.0f)];
-//        lineView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9f];
-//
-//        
-//        UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, offset + header_size - 1, 280.0f, 1.0f)];
-//        lineView2.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9f];
-//
-//        [signin addSubview:logo];
-//        [signin addSubview:lineView];
-//        [signin addSubview:lineView2];
-//        [signin addSubview:imageView];
-//        [signin addSubview:label];
-//        [signin addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        return signin;
-//    } else {
-//        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, header_size, header_size)];
-//        imageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-//        [imageView setContentMode:UIViewContentModeCenter];
-//        if(self.shopping){
-//                    imageView.image = [UIImage imageNamed:@"avatar_black.png"];
-//        } else {
-//                    imageView.image = [UIImage imageNamed:@"avatar_white.png"];
-//        }
-//        imageView.layer.masksToBounds = YES;
-//        imageView.layer.cornerRadius = [[NSNumber numberWithInt:header_size] floatValue] / 2.0;
-//        imageView.layer.borderColor = sign_in_color.CGColor;
-//        imageView.layer.borderWidth = 3.0f;
-//        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//        imageView.layer.shouldRasterize = YES;
-//        imageView.clipsToBounds = YES;
-//        
-//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 99, 0, 24)];
-//        label.text = @"Sign In";
-//        label.textColor = sign_in_color;
-//        label.font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
-////        label.backgroundColor = [UIColor clearColor];
-//        label.layer.cornerRadius = 5.0f;
-//        label.textAlignment = NSTextAlignmentCenter;        
-//        [label sizeToFit];
-//        
-//        CGRect frame = label.frame;
-//        frame.size.height = frame.size.height + 6;
-//        frame.size.width = frame.size.width + 16;
-//        label.frame = frame;
-//        
-////        label.layer.cornerRadius = 5.0f;
-//        label.layer.borderColor = sign_in_color.CGColor;
-//        label.layer.borderWidth = 1.0f;
-//
-////        label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-//        if(self.shopping){
-//            CGRect frame = label.frame;
-//            frame.origin.x = 220;
-//            label.frame = frame;
-//        } else {
-//            CGRect frame = label.frame;
-//            frame.origin.x = -1;
-//            label.frame = frame;
-//        }
-//        
-//        
-//        [label setUserInteractionEnabled:NO];
-//        [imageView setUserInteractionEnabled:NO];
-//        
-//        UIButton *signin = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 184.0f)];
-//        
-//        [signin addSubview:logo];
-//        [signin addSubview:imageView];
-//        [signin addSubview:label];
-//        [signin addTarget:self action:@selector(signin) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        return signin;
-//    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
+    options = [[NSMutableArray alloc] init];
+    NSArray *options_text = @[@[@"Distance",@1,@0],@[@"Images",@1,@0],@[@"Opened",@0,@0]];
+    for(NSArray *ar in options_text){
+        SortView *hold = [[SortView alloc] init];
+        [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
+        [self.KVOController observe:hold keyPath:@"selected" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(MenuTableViewController *observe, SortView *object, NSDictionary *change) {
+            if(object.option_type == 1){
+                self.sort_by = object.value;
+            }
+            for(SortView *sortview in options){
+                if(sortview == object || sortview.option_type != object.option_type){
+                    continue;
+                }
+                [sortview setSelectedWithoutKvo];
+            }
+        }];
+        [options addObject:hold];
+    }
 }
 
 #pragma mark -
@@ -382,7 +293,21 @@
     if (sectionIndex == 0)
         return 0;
     
-    return 0;
+    return 65;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 65)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 280, 25)];
+    [label setFont:[UIFont boldSystemFontOfSize:18]];
+    label.textAlignment = NSTextAlignmentCenter;
+    NSString *string = @"Filter Restaurants";
+    label.textColor = sign_in_color;
+    [label setText:string];
+    [view addSubview:label];
+//    [view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]]; //your background color...
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -392,18 +317,22 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == 0){
-        if([[UserSession sharedManager] logged_in]){
-            [self profile];
-        } else {
-            [self signin];
+    if(indexPath.section == 0){
+        if(indexPath.row == 0){
+            if([[UserSession sharedManager] logged_in]){
+                [self profile];
+            } else {
+                [self signin];
+            }
+        } else if (indexPath.row == 1){
+            [self logout];
+        } else if (indexPath.row == 2){
+            [self favorites];
+        } else if (indexPath.row == 3){
+            [self settings];
         }
-    } else if (indexPath.row == 1){
-        [self logout];
-    } else if (indexPath.row == 2){
-        [self favorites];
-    } else if (indexPath.row == 3){
-        [self settings];
+    } else {
+        return;
     }
 }
 
@@ -414,16 +343,20 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    if([[UserSession sharedManager] logged_in]){
-        return 2;
-        return 4;
+    if(sectionIndex == 0){
+        if([[UserSession sharedManager] logged_in]){
+            return 2;
+            return 4;
+        } else {
+            return 1;
+            return 3;
+        }
     } else {
-        return 1;
         return 3;
     }
 }
@@ -439,45 +372,80 @@
     int icon_size = 40;
     int start_point = 50;
     
-    if (indexPath.row == 0){
-        if([[UserSession sharedManager] logged_in]){
-            
-            UIImageView *imageView = [[UserSession sharedManager] profilePic:self.shopping color:sign_in_color rect:CGRectMake(start_point, 5, icon_size, icon_size)];
-            if(imageView.frame.size.width == 0.0){
-                imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
-                [imageView setContentMode:UIViewContentModeCenter];
-                imageView.image = [UIImage imageNamed:@"avatar_logged_white.png"];
-            }
-            imageView.layer.masksToBounds = YES;
-            imageView.layer.cornerRadius = icon_size / 2.0;
-            imageView.layer.borderColor = sign_in_color.CGColor;
-            imageView.layer.borderWidth = 1.5f;
-            imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-            imageView.layer.shouldRasterize = YES;
-            imageView.clipsToBounds = YES;
+    if(indexPath.section == 0){
+        if (indexPath.row == 0){
+            if([[UserSession sharedManager] logged_in]){
+                
+                UIImageView *imageView = [[UserSession sharedManager] profilePic:self.shopping color:sign_in_color rect:CGRectMake(start_point, 5, icon_size, icon_size)];
+                if(imageView.frame.size.width == 0.0){
+                    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
+                    [imageView setContentMode:UIViewContentModeCenter];
+                    imageView.image = [UIImage imageNamed:@"avatar_logged_white.png"];
+                }
+                imageView.layer.masksToBounds = YES;
+                imageView.layer.cornerRadius = icon_size / 2.0;
+                imageView.layer.borderColor = sign_in_color.CGColor;
+                imageView.layer.borderWidth = 1.5f;
+                imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+                imageView.layer.shouldRasterize = YES;
+                imageView.clipsToBounds = YES;
 
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-            label.text = @"Profile";
-            label.textColor = sign_in_color;
-            label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
-            label.layer.cornerRadius = 5.0f;
-            label.textAlignment = NSTextAlignmentLeft;
-            
-            UIView *hold = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, cell.frame.size.height)];
-            [hold addSubview:imageView];
-            [hold addSubview:label];
-            
-            CGRect frame = hold.frame;
-            frame.origin.x = 10.0;
-            hold.frame = frame;
-            
-            [cell addSubview:hold];
-            
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
+                label.text = @"Profile";
+                label.textColor = sign_in_color;
+                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+                label.layer.cornerRadius = 5.0f;
+                label.textAlignment = NSTextAlignmentLeft;
+                
+                UIView *hold = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, cell.frame.size.height)];
+                [hold addSubview:imageView];
+                [hold addSubview:label];
+                
+                CGRect frame = hold.frame;
+                frame.origin.x = 10.0;
+                hold.frame = frame;
+                
+                [cell addSubview:hold];
+                
+            } else {
+                
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
+                [imageView setContentMode:UIViewContentModeCenter];
+                imageView.image = [UIImage imageNamed:@"avatar_white.png"];
+                imageView.layer.masksToBounds = YES;
+                imageView.layer.cornerRadius = icon_size / 2.0;
+                imageView.layer.borderColor = sign_in_color.CGColor;
+                imageView.layer.borderWidth = 1.5f;
+                imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+                imageView.layer.shouldRasterize = YES;
+                imageView.clipsToBounds = YES;
+                
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
+                label.text = @"Sign In";
+                label.textColor = sign_in_color;
+                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+                label.layer.cornerRadius = 5.0f;
+                label.textAlignment = NSTextAlignmentLeft;
+                
+                UIView *hold = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, cell.frame.size.height)];
+                [hold addSubview:imageView];
+                [hold addSubview:label];
+                
+                CGRect frame = hold.frame;
+                frame.origin.x = 10.0;
+                hold.frame = frame;
+                
+                [cell addSubview:hold];
+            }
         } else {
+            
+            NSArray *titles = @[@"Logout",@"Favorites",@"Settings"];
+            
+            NSString *title = titles[indexPath.row - 1];
             
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
             [imageView setContentMode:UIViewContentModeCenter];
-            imageView.image = [UIImage imageNamed:@"avatar_white.png"];
+            imageView.image = [UIImage imageNamed:[[NSString stringWithFormat:@"%@.png",title] lowercaseString]];
             imageView.layer.masksToBounds = YES;
             imageView.layer.cornerRadius = icon_size / 2.0;
             imageView.layer.borderColor = sign_in_color.CGColor;
@@ -487,7 +455,7 @@
             imageView.clipsToBounds = YES;
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-            label.text = @"Sign In";
+            label.text = title;
             label.textColor = sign_in_color;
             label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
             label.layer.cornerRadius = 5.0f;
@@ -503,44 +471,12 @@
             
             [cell addSubview:hold];
         }
-    } else if (indexPath.section == 0) {
-        
-        NSArray *titles = @[@"Logout",@"Favorites",@"Settings"];
-        
-        NSString *title = titles[indexPath.row - 1];
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
-        [imageView setContentMode:UIViewContentModeCenter];
-        imageView.image = [UIImage imageNamed:[[NSString stringWithFormat:@"%@.png",title] lowercaseString]];
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = icon_size / 2.0;
-        imageView.layer.borderColor = sign_in_color.CGColor;
-        imageView.layer.borderWidth = 1.5f;
-        imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        imageView.layer.shouldRasterize = YES;
-        imageView.clipsToBounds = YES;
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-        label.text = title;
-        label.textColor = sign_in_color;
-        label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
-        label.layer.cornerRadius = 5.0f;
-        label.textAlignment = NSTextAlignmentLeft;
-        
-        UIView *hold = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, cell.frame.size.height)];
-        [hold addSubview:imageView];
-        [hold addSubview:label];
-        
-        CGRect frame = hold.frame;
-        frame.origin.x = 10.0;
-        hold.frame = frame;
-        
+    } else {
+        SortView *hold = [options objectAtIndex:indexPath.row];
         [cell addSubview:hold];
     }
     
-//    if(indexPath.row >= 2){
-        [cell wobble];
-//    }
+    [cell wobble];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;

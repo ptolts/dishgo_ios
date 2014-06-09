@@ -20,12 +20,14 @@
 #import "Constant.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+
 @interface RestaurantViewController ()
 
 @end
 
 @implementation RestaurantViewController {
     NSArray *restaurantList;
+    NSArray *filteredRestaurantList;
     CLLocationManager *locationManager;
     RKManagedObjectStore *managedObjectStore;
     NSMutableArray *cellList;
@@ -37,8 +39,12 @@
     int scroll_count;
     UILabel *progress;
     UIButton *retryFetch;
+    NSString *searchTxt;
+    int sortBy;
+    BOOL setSortByObserver;
     int location_attempts;
     UIActivityIndicatorView *spinner;
+    BOOL isSearching;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -76,32 +82,6 @@
     [self fetchRestaurants];
 }
 
-//- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-//{
-//    NSLog(@"HI");
-//    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
-//    if (locationAge > 5.0){
-//        NSLog(@"Skipping location because its most likely cached.");
-//        return;
-//    }
-//    
-//    NSLog(@"new: %f old: %f accuracy desired: %f obtained: %f",newLocation.coordinate.latitude,oldLocation.coordinate.latitude,locationManager.desiredAccuracy,newLocation.horizontalAccuracy);
-//    
-//    if (newLocation.horizontalAccuracy > locationManager.desiredAccuracy) {
-//        return;
-//    }
-//    
-//    NSLog(@"Done Location");
-//    
-//    currentLocation = newLocation;
-//    
-//    [locationManager stopMonitoringSignificantLocationChanges];
-//    [locationManager stopUpdatingLocation];
-//    
-//    
-//    [self fetchRestaurants];
-//}
-
 
 - (void) viewDidDisappear:(BOOL)animated {
     [locationManager stopMonitoringSignificantLocationChanges];
@@ -110,9 +90,15 @@
 
 - (void)menuClick:sender
 {
+    if(!setSortByObserver){
+        [self.KVOController observe:self.frostedViewController keyPath:@"sort_by" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
+            sortBy = object.sort_by;
+            [self filterRestaurants];
+        }];
+        setSortByObserver = YES;
+    }
     self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
     ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = NO;
-//    [((MenuTableViewController *)(self.frostedViewController.menuViewController)) setupMenu];
     [self.frostedViewController presentMenuViewController];
 }
 
@@ -138,7 +124,7 @@
     // Add the subview to the main window
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setColor:[UIColor almostBlackColor]];
-    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
+    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 210, 24, 24);
     [spinnerView addSubview:spinner];
     
     progress = [[UILabel alloc] init];
@@ -147,7 +133,7 @@
     progress.textAlignment = NSTextAlignmentCenter;
     [progress setTextColor:[UIColor blackColor]];
     CGRect rect = progress.frame;
-    rect.origin.y = logo.frame.origin.y + 210;
+    rect.origin.y = logo.frame.origin.y + 160;
     rect.size.width = mainWindow.frame.size.width;
     rect.size.height = 30;
     progress.frame = rect;
@@ -242,10 +228,83 @@
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
     label.text = @"DishGo";
-    self.navigationItem.titleView = label;
+//    self.navigationItem.titleView = label;
+    
+    UISearchDisplayController *mySearchDisplayController;
+    self.search_bar = mySearchDisplayController;
+    self.bar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 0)];
+    mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.bar contentsController:self];
+    mySearchDisplayController.delegate = self;
+    mySearchDisplayController.searchResultsDataSource = self;
+    mySearchDisplayController.searchResultsDelegate = self;
+    self.bar.delegate = self;
+    [self setSearch_bar:mySearchDisplayController];
+    
+    UITextField *txfSearchField = [self.bar valueForKey:@"_searchField"];
+//    [txfSearchField setBackgroundColor:[[UIColor scarletColor] colorWithAlphaComponent:0.95]];
+    [txfSearchField setLeftView:UITextFieldViewModeNever];
+    [txfSearchField setBorderStyle:UITextBorderStyleRoundedRect];
+    txfSearchField.layer.borderWidth = 1.0f;
+    txfSearchField.layer.cornerRadius = 5.0f;
+    txfSearchField.layer.borderColor = [UIColor clearColor].CGColor;
+
+    UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.bar];
+    self.navigationItem.leftBarButtonItem = searchBarItem;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
 
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if([searchText length] != 0) {
+        isSearching = YES;
+        searchTxt = searchText;
+        [self filterRestaurants];
+    }
+    else {
+        isSearching = NO;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    isSearching = NO;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+}
+
+- (void)filterRestaurants {
+    if([searchTxt length] != 0) {
+        NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchTxt];
+        filteredRestaurantList = [restaurantList filteredArrayUsingPredicate:resultPredicate];
+    } else {
+        filteredRestaurantList = restaurantList;
+    }
+    
+    NSSortDescriptor *sortByDistance = [NSSortDescriptor sortDescriptorWithKey:@"distance" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByDistance];
+    
+    switch(sortBy)
+    {
+        case 0:
+            filteredRestaurantList = [filteredRestaurantList sortedArrayUsingDescriptors:sortDescriptors];
+            break;
+        case 1:
+            filteredRestaurantList = [restaurantList sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+                              {
+                                  return [obj2.images count] - [obj1.images count];
+                              }];
+            break;
+        default:
+            
+            break;
+    }
+    [self.tableView reloadData];
 }
 
 - (void) fetchRestaurants {
@@ -314,6 +373,14 @@
                           {
                               return [obj2.images count] - [obj1.images count];
                           }];
+        for(Restaurant *r in restaurantList){
+            CLLocation *itemLoc = [[CLLocation alloc] initWithLatitude:[r.lat doubleValue]
+                                                             longitude:[r.lon doubleValue]];
+            CLLocationDistance itemDistance = [itemLoc distanceFromLocation:currentLocation];
+            r.distance = [NSNumber numberWithDouble:itemDistance];
+        }
+
+        filteredRestaurantList = restaurantList;
         [self.tableView reloadData];
         [self stopLoading];
         if([restaurantList count] == 0){
@@ -382,8 +449,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return restaurantList.count;
+    return [filteredRestaurantList count];
 }
 - (void) startScrolling {
     scroll_timer = [NSTimer scheduledTimerWithTimeInterval:5.0
@@ -405,7 +471,9 @@
     int i = 0;
     for(RestaurantCells *c in cellList){
         i++;
-        [c.scrollView scrollPages:i];
+        if(c.scrollView){
+            [c.scrollView scrollPages:i];
+        }
     }
     
     scroll_count++;
@@ -434,7 +502,10 @@
     // Configure the cell...
     
     // Set up the cell...
-    Restaurant *resto = [restaurantList objectAtIndex:indexPath.row];
+    Restaurant *resto;
+
+    resto = [filteredRestaurantList objectAtIndex:indexPath.row];
+    
     cell.restaurant = resto;
     
     int i = 0;

@@ -38,6 +38,7 @@
     </entity>
     <entity name="Restaurant" representedClassName="Restaurant" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -65,7 +66,7 @@
         <element name="Images" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Option" positionX="0" positionY="0" width="128" height="133"/>
         <element name="Options" positionX="0" positionY="0" width="128" height="178"/>
-        <element name="Restaurant" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Restaurant" positionX="0" positionY="0" width="128" height="180"/>
         <element name="Sections" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SizePrices" positionX="18" positionY="90" width="128" height="118"/>
     </elements>

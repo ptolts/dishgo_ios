@@ -5,6 +5,7 @@
 
 const struct RestaurantAttributes RestaurantAttributes = {
 	.address = @"address",
+	.distance = @"distance",
 	.id = @"id",
 	.lat = @"lat",
 	.lon = @"lon",
@@ -46,6 +47,11 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"distanceValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"distance"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"latValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"lat"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -65,6 +71,32 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 @dynamic address;
 
+
+
+
+
+
+@dynamic distance;
+
+
+
+- (float)distanceValue {
+	NSNumber *result = [self distance];
+	return [result floatValue];
+}
+
+- (void)setDistanceValue:(float)value_ {
+	[self setDistance:[NSNumber numberWithFloat:value_]];
+}
+
+- (float)primitiveDistanceValue {
+	NSNumber *result = [self primitiveDistance];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveDistanceValue:(float)value_ {
+	[self setPrimitiveDistance:[NSNumber numberWithFloat:value_]];
+}
 
 
 
