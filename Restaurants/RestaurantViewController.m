@@ -18,6 +18,8 @@
 #import "StorefrontTableViewController.h"
 #import "MenuTableViewController.h"
 #import "Constant.h"
+#import "Hours.h"
+#import "Days.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 
@@ -41,6 +43,7 @@
     UIButton *retryFetch;
     NSString *searchTxt;
     int sortBy;
+    BOOL isOpened;
     BOOL setSortByObserver;
     int location_attempts;
     UIActivityIndicatorView *spinner;
@@ -91,8 +94,12 @@
 - (void)menuClick:sender
 {
     if(!setSortByObserver){
-        [self.KVOController observe:self.frostedViewController keyPath:@"sort_by" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
-            sortBy = object.sort_by;
+        [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"sort_by" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
+            sortBy = [object.sort_by intValue];
+            [self filterRestaurants];
+        }];
+        [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"isOpened" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
+            isOpened = object.isOpened;
             [self filterRestaurants];
         }];
         setSortByObserver = YES;
@@ -206,6 +213,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
+    self.KVOController = KVOController;
     location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -267,10 +276,14 @@
     }
     else {
         isSearching = NO;
+        searchTxt = @"";
+        [self filterRestaurants];
     }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchTxt = @"";
+    [self filterRestaurants];
     isSearching = NO;
 }
 
@@ -295,7 +308,7 @@
             filteredRestaurantList = [filteredRestaurantList sortedArrayUsingDescriptors:sortDescriptors];
             break;
         case 1:
-            filteredRestaurantList = [restaurantList sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+            filteredRestaurantList = [filteredRestaurantList sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
                               {
                                   return [obj2.images count] - [obj1.images count];
                               }];
@@ -304,6 +317,12 @@
             
             break;
     }
+    
+    if(isOpened){
+        NSPredicate *testForTrue = [NSPredicate predicateWithFormat:@"isOpened == 1"];
+        filteredRestaurantList = [filteredRestaurantList filteredArrayUsingPredicate:testForTrue];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -344,21 +363,48 @@
                                                         @"local_file": @"url",
                                                         }];
     imagesMapping.identificationAttributes = @[ @"url" ];
+
+//    RKLogConfigureByName("RestKit", RKLogLevelWarning);
+//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
+//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    
+    
+    RKObjectMapping *daysMapping = [RKObjectMapping mappingForClass:[Days class]];
+    
+    [daysMapping addAttributeMappingsFromDictionary:@{
+                                                        @"open_1": @"opens_1",
+                                                        @"close_1": @"closes_1",
+                                                        @"closed": @"closed",
+                                                        @"name":@"day",
+                                                        }];
+    
+    
+    RKObjectMapping *hoursMapping = [RKObjectMapping mappingForClass:[Hours class]];
+    [hoursMapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"name"];
+    
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"monday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"tuesday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"wednesday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"thursday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"friday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"saturday" mapping:daysMapping];
+    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"sunday" mapping:daysMapping];
+    
     
     RKEntityMapping *restaurantMapping = [RKEntityMapping mappingForEntityForName:@"Restaurant" inManagedObjectStore:managedObjectStore];
     [restaurantMapping addAttributeMappingsFromDictionary:@{
                                                             @"_id": @"id",
                                                             @"name": @"name",
                                                             @"phone": @"phone",
-                                                            @"address": @"address_line_1",
+                                                            @"address_line_1": @"address",
                                                             @"lat": @"lat",
                                                             @"lon": @"lon",
                                                             }];
-    
-    
     restaurantMapping.identificationAttributes = @[ @"id" ];
+
     
     [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
+    [restaurantMapping addRelationshipMappingWithSourceKeyPath:@"hours" mapping:hoursMapping];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
@@ -369,15 +415,18 @@
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+        
         restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
                           {
                               return [obj2.images count] - [obj1.images count];
                           }];
+        
         for(Restaurant *r in restaurantList){
             CLLocation *itemLoc = [[CLLocation alloc] initWithLatitude:[r.lat doubleValue]
                                                              longitude:[r.lon doubleValue]];
             CLLocationDistance itemDistance = [itemLoc distanceFromLocation:currentLocation];
             r.distance = [NSNumber numberWithDouble:itemDistance];
+            [r opened];
         }
 
         filteredRestaurantList = restaurantList;
@@ -545,6 +594,25 @@
     cell.restaurantLabel.text = resto.name;
     cell.restaurantLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     [cellList addObject:cell];
+    
+    cell.distanceLabel.text = [NSString stringWithFormat:@"%.1fkm",([resto.distance doubleValue] / 1000)];
+    cell.distanceLabel.layer.cornerRadius = 5.0;
+    UIColor *b = [UIColor almostBlackColor];
+    b = [b colorWithAlphaComponent:0.8];
+    cell.distanceLabel.backgroundColor = b;
+    cell.distanceLabel.hidden = NO;
+    
+    if(resto.isOpened){
+        cell.opened_closed.text = @"Opened";
+        cell.opened_closed.textColor = [UIColor greenColor];
+    } else {
+        cell.opened_closed.text = @"Closed";
+        cell.opened_closed.textColor = [UIColor scarletColor];
+    }
+    cell.opened_closed.layer.cornerRadius = 5.0;
+    cell.opened_closed.backgroundColor = b;
+    cell.opened_closed.hidden = NO;
+    
     cell.scrollView.currentPage = 1;
     return cell;
 }

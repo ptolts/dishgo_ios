@@ -6,6 +6,7 @@
 const struct RestaurantAttributes RestaurantAttributes = {
 	.address = @"address",
 	.distance = @"distance",
+	.hours = @"hours",
 	.id = @"id",
 	.lat = @"lat",
 	.lon = @"lon",
@@ -97,6 +98,13 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 - (void)setPrimitiveDistanceValue:(float)value_ {
 	[self setPrimitiveDistance:[NSNumber numberWithFloat:value_]];
 }
+
+
+
+
+
+@dynamic hours;
+
 
 
 

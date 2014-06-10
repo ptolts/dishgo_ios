@@ -14,7 +14,8 @@
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
     @property (nonatomic, strong) IBOutlet UITableView *tableView;
     @property (nonatomic, strong) IBOutlet UIView *checkout_view;
-    @property int sort_by;
+    @property NSNumber *sort_by;
+    @property BOOL isOpened;
     @property Restaurant *restaurant;
     @property FBKVOController *KVOController;
     -(void) setupMenu;

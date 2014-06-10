@@ -9,6 +9,7 @@
 #import "StorefrontScrollView.h"
 #import "StorefrontImageView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "StorefrontTableViewController.h"
 
 @implementation StorefrontScrollView
 
@@ -18,17 +19,28 @@
     self.delegate = self;
     imageViews = [[NSMutableArray alloc] init];
     int i = 0;
-    for (Images *img in self.restaurant.images) {
+    NSMutableArray *list = [self.restaurant dishList];
+    for (Dishes *dish in list) {
+        
+        if([dish.images count] == 0){
+            continue;
+        }
+        
+        Images *img = [dish.images firstObject];
+        
         CGRect frame;
         frame.origin.x = self.frame.size.width * i;
         frame.origin.y = 0;
         frame.size = self.frame.size;
         
         StorefrontImageView *image = [[StorefrontImageView alloc] initWithFrame:frame];
+        image.dish = dish;
+        image.controller = (StorefrontTableViewController *) self.img_delegate;
+        
         image.clipsToBounds = YES;
         image.autoresizingMask = UIViewAutoresizingNone;
         [imageViews addObject:image];
-        image.userInteractionEnabled = NO;
+        image.userInteractionEnabled = YES;
         [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
               placeholderImage:[UIImage imageNamed:@"Default.png"]];
         image.contentMode = UIViewContentModeScaleAspectFill;
@@ -98,4 +110,33 @@
     }
     [_img_delegate currentImageView:[imageViews objectAtIndex:[self currentPage]]];
 }
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    // If not dragging, send event to next responder
+    if (!self.dragging){
+        [self.nextResponder touchesBegan: touches withEvent:event];
+    }
+    else{
+        [super touchesBegan: touches withEvent: event];
+    }
+}
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    // If not dragging, send event to next responder
+    if (!self.dragging){
+        [self.nextResponder touchesMoved: touches withEvent:event];
+    }
+    else{
+        [super touchesMoved: touches withEvent: event];
+    }
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    // If not dragging, send event to next responder
+    if (!self.dragging){
+        [self.nextResponder touchesMoved: touches withEvent:event];
+    }
+    else{
+        [super touchesEnded: touches withEvent: event];
+    }
+}
+
 @end

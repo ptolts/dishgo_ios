@@ -7,6 +7,8 @@
 //
 
 #import "StorefrontImageView.h"
+#import "DishTableViewController.h"
+#import "StorefrontTableViewController.h"
 
 @implementation StorefrontImageView
 
@@ -19,6 +21,10 @@
     return self;
 }
 
+-(void)setupDish{
+    [self.controller pushDish: self.dish];
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.nextResponder touchesBegan: touches withEvent:event];
 }
@@ -26,7 +32,8 @@
     [self.nextResponder touchesMoved: touches withEvent:event];
 }
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.nextResponder touchesEnded: touches withEvent:event];
+    [self setupDish];
+//    [self.nextResponder touchesEnded: touches withEvent:event];
 }
 
 /*

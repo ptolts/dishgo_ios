@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <SMPageControl.h>
 #import "DishScrollView.h"
+#import "DishTableViewController.h"
 
-@class DishTableViewController;
+//@class DishTableViewController;
 
 @interface DishViewCell : UITableViewCell <UIScrollViewDelegate>
     @property (strong, nonatomic) IBOutlet SMPageControl *page_tracker;

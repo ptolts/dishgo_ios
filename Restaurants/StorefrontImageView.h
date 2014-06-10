@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StorefrontImageView : UIImageView
+@class StorefrontTableViewController;
 
+@interface StorefrontImageView : UIImageView
+    @property Dishes *dish;
+    @property StorefrontTableViewController *controller;
 @end

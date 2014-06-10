@@ -11,6 +11,7 @@
 
 @interface ShoppingCartTableView : UITableView <UITableViewDelegate, UITableViewDataSource>
     @property (nonatomic, strong) NSMutableArray *shopping_cart;
+    @property NSString *phone;
     @property UITableView *tableViewController;
     @property int junk;
 @end

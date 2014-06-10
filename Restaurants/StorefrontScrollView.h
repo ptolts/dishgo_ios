@@ -16,6 +16,7 @@
 @interface StorefrontScrollView : UIScrollView <UIScrollViewDelegate>
     @property (nonatomic, strong) Restaurant *restaurant;
     @property (nonatomic, strong) Dishes *dish;
+    @property NSMutableArray *dish_cells;
     @property (nonatomic, strong) StorefrontLabel *label;
     @property (nonatomic, weak) id<StoreFrontScrollViewDelegate> img_delegate;
     -(void)setupImages;

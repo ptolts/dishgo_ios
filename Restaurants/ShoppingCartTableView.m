@@ -35,6 +35,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if([self.shopping_cart count]==0){
+        return;
+    }
+    
     if (heights == nil){
         NSLog(@"Setting up height dict");
         [self setupHeight];

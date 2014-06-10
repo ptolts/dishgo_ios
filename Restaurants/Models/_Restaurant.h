@@ -7,6 +7,7 @@
 extern const struct RestaurantAttributes {
 	__unsafe_unretained NSString *address;
 	__unsafe_unretained NSString *distance;
+	__unsafe_unretained NSString *hours;
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *lat;
 	__unsafe_unretained NSString *lon;
@@ -27,6 +28,7 @@ extern const struct RestaurantFetchedProperties {
 
 
 
+@class NSObject;
 
 
 
@@ -65,6 +67,16 @@ extern const struct RestaurantFetchedProperties {
 - (void)setDistanceValue:(float)value_;
 
 //- (BOOL)validateDistance:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) id hours;
+
+
+
+//- (BOOL)validateHours:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -173,6 +185,12 @@ extern const struct RestaurantFetchedProperties {
 
 - (float)primitiveDistanceValue;
 - (void)setPrimitiveDistanceValue:(float)value_;
+
+
+
+
+- (id)primitiveHours;
+- (void)setPrimitiveHours:(id)value;
 
 
 

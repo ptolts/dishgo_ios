@@ -20,4 +20,5 @@
     - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (void) segueToSection: (Sections *) section;
+    - (void) pushDish: (Dishes *) dish;
 @end

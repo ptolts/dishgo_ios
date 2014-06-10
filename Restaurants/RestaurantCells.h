@@ -10,6 +10,8 @@
 #import "RestoScrollView.h"
 
 @interface RestaurantCells : UITableViewCell
+    @property (strong, nonatomic) IBOutlet UILabel *opened_closed;
+    @property (strong, nonatomic) IBOutlet UILabel *distanceLabel;
     @property (nonatomic, strong) IBOutlet UILabel* restaurantLabel;
     @property (nonatomic,strong) IBOutlet RestoScrollView* scrollView;
     @property IBOutlet *tap;

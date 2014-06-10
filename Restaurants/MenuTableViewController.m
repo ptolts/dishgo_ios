@@ -34,6 +34,7 @@
 }
 
 @synthesize sort_by;
+@synthesize isOpened;
 
 -(void) edit:(UIGestureRecognizer *) recognizer {
     ButtonCartRow *dish_button = (ButtonCartRow *) recognizer.view;
@@ -133,8 +134,7 @@
 }
 
 -(void)setupMenu {
-    
-    NSLog(@"Loop?");
+
     
 //    self.tableView = nil;
 //    self.tableView = [[UITableView alloc] init];
@@ -157,6 +157,7 @@
     
     if([self shopping]){
         shop = [[ShoppingCartTableView alloc] init];
+        shop.phone = self.restaurant.phone;
         shop.junk = 0;
         shop.frame = self.tableView.frame;
         shop.tableViewController = self.tableView;
@@ -179,18 +180,24 @@
             dish_cell.shoppingCartCell.remove.userInteractionEnabled = YES;
             [dish_cell.shoppingCartCell.remove addGestureRecognizer:singleTap2];
             
-//            [dish_cell.shoppingCartCell.edit addTarget:self action:@selector(edit:) forControlEvents:UIControlEventTouchUpInside];
-//            [dish_cell.shoppingCartCell.remove addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
-        [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
+        // call checkout for ordering. been dsiabled a while until we support it
+//        [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
 
 // THIS BELOW ALLOWS THEM TO CLICK ORDER
 //        if([self.shopping_cart count] == 0) {
-            checkoutView.checkout.enabled = NO;
+//            checkoutView.checkout.enabled = NO;
 //        } else {
 //            checkoutView.checkout.enabled = YES;
 //        }
+        
+        if(self.restaurant.phone.length > 0){
+            [checkoutView.checkout setTitle:@"Call" forState:UIControlStateNormal];
+            [checkoutView.checkout addTarget:self action:@selector(call) forControlEvents:UIControlEventTouchUpInside];
+        } else {
+            checkoutView.checkout.enabled = NO;
+        }
         
         int total_height = self.view.frame.size.height;
         int view_height = checkoutView.frame.size.height;
@@ -226,6 +233,10 @@
     }
 }
 
+-(void) call {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.restaurant.phone]]];
+}
+
 - (UIView *) setupHeader {
     
 //    int header_size = 30;
@@ -259,13 +270,16 @@
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[@"Distance",@1,@0],@[@"Images",@1,@0],@[@"Opened",@0,@0]];
+    NSArray *options_text = @[@[@"Distance",@1,@0],@[@"Images",@1,@1],@[@"Opened",@0,@0]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
         [self.KVOController observe:hold keyPath:@"selected" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(MenuTableViewController *observe, SortView *object, NSDictionary *change) {
             if(object.option_type == 1){
-                self.sort_by = object.value;
+                self.sort_by = [NSNumber numberWithInt:object.value];
+            }
+            if(object.option_type == 0){
+                self.isOpened = (BOOL) object.selected;
             }
             for(SortView *sortview in options){
                 if(sortview == object || sortview.option_type != object.option_type){
@@ -293,12 +307,12 @@
     if (sectionIndex == 0)
         return 0;
     
-    return 65;
+    return 75;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 65)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 75)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 280, 25)];
     [label setFont:[UIFont boldSystemFontOfSize:18]];
     label.textAlignment = NSTextAlignmentCenter;
@@ -473,6 +487,8 @@
         }
     } else {
         SortView *hold = [options objectAtIndex:indexPath.row];
+        CGRect frame = cell.frame;
+        hold.frame = frame;
         [cell addSubview:hold];
     }
     

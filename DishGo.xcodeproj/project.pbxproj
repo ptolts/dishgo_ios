@@ -39,6 +39,8 @@
 		B77A8D09183FFD3A00AFBAEE /* ButtonCartRow.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A8D08183FFD3A00AFBAEE /* ButtonCartRow.m */; };
 		B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B77A8D0C1843AAF900AFBAEE /* FREESCPT.TTF */; };
 		B78A7EEF19462006002ABEE7 /* SortView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78A7EEE19462006002ABEE7 /* SortView.m */; };
+		B78A7EF219474EE5002ABEE7 /* Hours.m in Sources */ = {isa = PBXBuildFile; fileRef = B78A7EF119474EE5002ABEE7 /* Hours.m */; };
+		B78A7EF519475DB7002ABEE7 /* Days.m in Sources */ = {isa = PBXBuildFile; fileRef = B78A7EF419475DB7002ABEE7 /* Days.m */; };
 		B78FB11118200CE40063E6C4 /* StorefrontLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11018200CE40063E6C4 /* StorefrontLabel.m */; };
 		B78FB11418200ED10063E6C4 /* StorefrontScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB11318200ED10063E6C4 /* StorefrontScrollView.m */; };
 		B78FB11A182010E80063E6C4 /* StorefrontImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B78FB119182010E80063E6C4 /* StorefrontImageView.m */; };
@@ -259,6 +261,10 @@
 		B77A8D0C1843AAF900AFBAEE /* FREESCPT.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = FREESCPT.TTF; sourceTree = "<group>"; };
 		B78A7EED19462006002ABEE7 /* SortView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortView.h; sourceTree = "<group>"; };
 		B78A7EEE19462006002ABEE7 /* SortView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortView.m; sourceTree = "<group>"; };
+		B78A7EF019474EE5002ABEE7 /* Hours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hours.h; sourceTree = "<group>"; };
+		B78A7EF119474EE5002ABEE7 /* Hours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hours.m; sourceTree = "<group>"; };
+		B78A7EF319475DB7002ABEE7 /* Days.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Days.h; sourceTree = "<group>"; };
+		B78A7EF419475DB7002ABEE7 /* Days.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Days.m; sourceTree = "<group>"; };
 		B78FB10F18200CE40063E6C4 /* StorefrontLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontLabel.h; sourceTree = "<group>"; };
 		B78FB11018200CE40063E6C4 /* StorefrontLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorefrontLabel.m; sourceTree = "<group>"; };
 		B78FB11218200ED10063E6C4 /* StorefrontScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorefrontScrollView.h; sourceTree = "<group>"; };
@@ -554,6 +560,10 @@
 				B70C33401805A3270045183F /* Images.m */,
 				B70C33411805A3270045183F /* Restaurant.h */,
 				B70C33421805A3270045183F /* Restaurant.m */,
+				B78A7EF019474EE5002ABEE7 /* Hours.h */,
+				B78A7EF119474EE5002ABEE7 /* Hours.m */,
+				B78A7EF319475DB7002ABEE7 /* Days.h */,
+				B78A7EF419475DB7002ABEE7 /* Days.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1525,6 +1535,7 @@
 				B7EE7B9D1851020E003EE5B8 /* Lockbox.m in Sources */,
 				B75DA1FD1860E4E500803AF5 /* SkipTouchesUIView.m in Sources */,
 				B7B7442B182C1B0B001DFC49 /* DishView.m in Sources */,
+				B78A7EF519475DB7002ABEE7 /* Days.m in Sources */,
 				B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */,
 				B7E43058181EC22A002B6867 /* ImagesInScroll.m in Sources */,
 				B7CF7B921856627F000D326F /* CheckoutViewController.m in Sources */,
@@ -1537,6 +1548,7 @@
 				B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */,
 				B7DA9DA31846A62E0072AD47 /* SignUpViewController.m in Sources */,
 				B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */,
+				B78A7EF219474EE5002ABEE7 /* Hours.m in Sources */,
 				B7921635187DCD2200BC7BF2 /* ReviewTableCell.m in Sources */,
 				B7D47F901864A90F00DD3C99 /* Address_Order.m in Sources */,
 			);
@@ -1678,7 +1690,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
 				PRODUCT_NAME = DishGo;
-				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
+				PROVISIONING_PROFILE = "2F1D61BC-28FC-48CC-A3E3-14E0CE6FBC32";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1695,7 +1707,7 @@
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
 				PRODUCT_NAME = DishGo;
-				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
+				PROVISIONING_PROFILE = "2F1D61BC-28FC-48CC-A3E3-14E0CE6FBC32";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

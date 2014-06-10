@@ -26,7 +26,6 @@
 #import "DishScrollView.h"
 #import "DishTableViewCell.h"
 #import "UIColor+Custom.h"
-#import "StorefrontImageView.h"
 #import "ContactViewController.h"
 #import "LEColorPicker.h"
 
@@ -51,6 +50,7 @@
     NSSet *defaultSectionsList;
     UIView *spinnerView;
     UIWindow  *mainWindow;
+    Header *header;
     BOOL enableCart;
     UIButton *retryFetch;
     UILabel *progress;
@@ -82,6 +82,13 @@
     [mainWindow addSubview:_presentedNavigationController.view];
     [self unhidePresentedNavigationControllerCompletion:^{}];
 
+}
+
+-(void) pushDish:(Dishes *)dish {
+    DishTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"dishEditViewController"];
+    vc.shoppingCart = self.shoppingCart;
+    vc.dish = dish;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)dismissPresentedNavigationController {
@@ -276,12 +283,11 @@
     label.text = self.restaurant.name;
     self.navigationItem.titleView = label;
     
-    Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
+    header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.label.text = self.restaurant.name;
     header.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:25.0f];
     header.scroll_view.restaurant = self.restaurant;
     header.scroll_view.img_delegate = self;
-    [header.scroll_view setupImages];
     header.autoresizingMask = UIViewAutoresizingNone;
     header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
     header.button_view.backgroundColor = [UIColor complimentaryBg];
@@ -424,7 +430,7 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    Header *head = (Header *)self.tableView.tableHeaderView;
+    Header *head = header;//(Header *)self.tableView.tableHeaderView;
     
     head.backgroundColor = [UIColor clearColor];
     
@@ -647,8 +653,8 @@
     NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
     sectionsList = (NSMutableArray *)[self.restaurant.menu array];
 
-    [self buildCells];
-    [self.tableView reloadData];
+//    [self buildCells];
+//    [self.tableView reloadData];
     
     
     ////////// QUERY NEW DATA AND UPDATE TABLE.
@@ -744,6 +750,7 @@
             NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
         } else {
             [self buildCells];
+            [header.scroll_view setupImages];
             [self.tableView reloadData];
         }
         

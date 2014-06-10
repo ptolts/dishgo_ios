@@ -27,8 +27,8 @@
     self.value = value;
     self.option_type = option_type;
     UIColor *sign_in_color = sign_in_color = [UIColor whiteColor];
-    int sortIconSize = 30;
-    int sortStartPoint = 50;
+    int sortIconSize = 15;
+    int sortStartPoint = 70;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(sortStartPoint, 5, sortIconSize, sortIconSize)];
     [imageView setContentMode:UIViewContentModeCenter];
     imageView.image = [UIImage imageNamed:[[NSString stringWithFormat:@"%@.png",title] lowercaseString]];
@@ -46,6 +46,7 @@
     label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
     label.layer.cornerRadius = 5.0f;
     label.textAlignment = NSTextAlignmentLeft;
+    label.userInteractionEnabled = NO;
     
     CGRect frame = CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, 54);
     frame.origin.x = 10.0;
@@ -56,7 +57,6 @@
     
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(select:)];
-    
     [self addGestureRecognizer:singleFingerTap];
 }
 
