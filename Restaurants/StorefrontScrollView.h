@@ -21,6 +21,7 @@
     @property (nonatomic, weak) id<StoreFrontScrollViewDelegate> img_delegate;
     -(void)setupImages;
     -(void)setupDishImages;
+    -(void)setupRestoImages;
 @end
 
 @protocol StoreFrontScrollViewDelegate <NSObject>

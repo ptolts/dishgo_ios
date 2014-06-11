@@ -22,7 +22,9 @@
 }
 
 -(void)setupDish{
-    [self.controller pushDish: self.dish];
+    if(self.controller){
+        [self.controller pushDish: self.dish];
+    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

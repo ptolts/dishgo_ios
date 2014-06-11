@@ -166,7 +166,7 @@
     
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setColor:[UIColor almostBlackColor]];
-    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 160, 24, 24);
+    spinner.frame = CGRectMake((mainWindow.frame.size.width/2.0) - 12, logo.frame.origin.y + 240, 24, 24);
     [spinnerView addSubview:spinner];
     [spinner startAnimating];
     
@@ -189,7 +189,7 @@
     [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
     [retryFetch.titleLabel setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
     [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
-    retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 240, 220.0 , 30.0);
+    retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 160, 220.0 , 30.0);
     retryFetch.backgroundColor = [UIColor blackColor];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
@@ -520,7 +520,7 @@
 {
     // Return the number of rows in the section.
     
-    if([sectionsList count] == 0){
+    if([cellList count] == 0){
         return 0;
     }
     

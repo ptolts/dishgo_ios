@@ -511,7 +511,7 @@
 
 - (void) scrollEachCell {
     
-    if(scroll_count > 3){
+    if(scroll_count > 1){
         [scroll_timer invalidate];
         scroll_timer = nil;
         return;
@@ -603,7 +603,7 @@
     cell.distanceLabel.hidden = NO;
     
     if(resto.isOpened){
-        cell.opened_closed.text = @"Opened";
+        cell.opened_closed.text = @"Open";
         cell.opened_closed.textColor = [UIColor greenColor];
     } else {
         cell.opened_closed.text = @"Closed";

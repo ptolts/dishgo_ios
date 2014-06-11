@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 DishGo Inc. All rights reserved.
 //
 
-#define DEBUGGING false
+//#define DEBUGGING false
 
 #ifdef DEBUGGING
     #define dishGoUrl @"http://192.168.1.132:3000"
