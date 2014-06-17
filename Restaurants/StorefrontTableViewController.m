@@ -241,6 +241,7 @@
 
 -(void) myCustomBack {
 	// Some anything you need to do before leaving
+    [spinnerView removeFromSuperview];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

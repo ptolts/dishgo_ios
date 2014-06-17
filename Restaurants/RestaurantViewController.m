@@ -19,6 +19,7 @@
 #import "MenuTableViewController.h"
 #import "Constant.h"
 #import "Hours.h"
+#import "KoaPullToRefresh.h"
 #import "Days.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -44,6 +45,7 @@
     NSString *searchTxt;
     int sortBy;
     BOOL isOpened;
+    BOOL doesDelivery;
     BOOL setSortByObserver;
     int location_attempts;
     UIActivityIndicatorView *spinner;
@@ -100,6 +102,10 @@
         }];
         [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"isOpened" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
             isOpened = object.isOpened;
+            [self filterRestaurants];
+        }];
+        [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"doesDelivery" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
+            doesDelivery = object.doesDelivery;
             [self filterRestaurants];
         }];
         setSortByObserver = YES;
@@ -204,9 +210,12 @@
     [UIView animateWithDuration:1.0
                      animations:^{spinnerView.alpha = 0.0;}
                      completion:^(BOOL finished){
-                        [spinnerView removeFromSuperview];
+                         if(spinnerView){
+                             [spinnerView removeFromSuperview];
+                         }
                         [self scrollEachCell];
                      }];
+    [self.tableView.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:2];
 }
 
 
@@ -215,6 +224,7 @@
     [super viewDidLoad];
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     self.KVOController = KVOController;
+    
     location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -222,6 +232,20 @@
     locationManager.pausesLocationUpdatesAutomatically = NO;
     [locationManager startUpdatingLocation];
     scroll_count = 0;
+    
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        // Tasks to do on refresh. Update datasource, add rows, …
+        // Call [tableView.pullToRefreshView stopAnimating] when done.
+        [locationManager startUpdatingLocation];
+    }   withBackgroundColor:[UIColor almostBlackColor] withPullToRefreshHeightShowed:4];
+    
+    [self.tableView.pullToRefreshView setTextColor:[UIColor bgColor]];
+    [self.tableView.pullToRefreshView setTitle:@"LOADING" forState:KoaPullToRefreshStateLoading];
+    [self.tableView.pullToRefreshView setTitle:@"RELEASE" forState:KoaPullToRefreshStateTriggered];
+    [self.tableView.pullToRefreshView setTitle:@"PULL" forState:KoaPullToRefreshStateStopped];
+    [self.tableView.pullToRefreshView setTextFont:[UIFont fontWithName:@"Copperplate-Bold" size:16]];
+    [self.tableView.pullToRefreshView setFontAwesomeIcon:@"icon-refresh"];
+    
     [self startLoading];
     cellList = [[NSMutableArray alloc] init];
     [self startScrolling];
@@ -323,6 +347,11 @@
         filteredRestaurantList = [filteredRestaurantList filteredArrayUsingPredicate:testForTrue];
     }
     
+    if(doesDelivery){
+        NSPredicate *testForTrue = [NSPredicate predicateWithFormat:@"does_delivery == 1"];
+        filteredRestaurantList = [filteredRestaurantList filteredArrayUsingPredicate:testForTrue];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -356,6 +385,8 @@
         RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
     }
     [managedObjectStore createManagedObjectContexts];
+    
+    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];    
     
     ///// MAPPINGS
     RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
@@ -397,6 +428,7 @@
                                                             @"name": @"name",
                                                             @"phone": @"phone",
                                                             @"address_line_1": @"address",
+                                                            @"does_delivery":@"does_delivery",
                                                             @"lat": @"lat",
                                                             @"lon": @"lon",
                                                             }];
@@ -430,6 +462,7 @@
         }
 
         filteredRestaurantList = restaurantList;
+        [self filterRestaurants];
         [self.tableView reloadData];
         [self stopLoading];
         if([restaurantList count] == 0){
@@ -568,8 +601,10 @@
         imageView.userInteractionEnabled = NO;
         
         __weak typeof(imageView) weakImage = imageView;
-        [imageView          setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
+        if(i==0){
+            [imageView      setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
                             placeholderImage:[UIImage imageNamed:@"Default.png"]
+                            options:SDWebImageHighPriority
                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
                                               if (image && cacheType == SDImageCacheTypeNone)
                                               {
@@ -580,13 +615,30 @@
                                                                    }];
                                               }
                                           }];
+        } else {
+            [imageView         setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
+                               placeholderImage:[UIImage imageNamed:@"Default.png"]
+                                      completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                          if (image && cacheType == SDImageCacheTypeNone)
+                                          {
+                                              weakImage.alpha = 0.0;
+                                              [UIView animateWithDuration:1.0
+                                                               animations:^{
+                                                                   weakImage.alpha = 1.0;
+                                                               }];
+                                          }
+                                      }];
+        }
         
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [cell.scrollView addSubview:imageView];
         i++;
+        if(i > 6){
+            break;
+        }
     }
     
-    cell.scrollView.contentSize = CGSizeMake(cell.scrollView.frame.size.width * [resto.images count], cell.scrollView.frame.size.height);
+    cell.scrollView.contentSize = CGSizeMake(cell.scrollView.frame.size.width * i, cell.scrollView.frame.size.height);
     cell.scrollView.pagingEnabled = YES;
     cell.scrollView.numberOfPages = [resto.images count];
     cell.scrollView.restaurant = resto;
@@ -596,7 +648,7 @@
     [cellList addObject:cell];
     
     cell.distanceLabel.text = [NSString stringWithFormat:@"%.1fkm",([resto.distance doubleValue] / 1000)];
-    cell.distanceLabel.layer.cornerRadius = 5.0;
+    cell.distanceLabel.layer.cornerRadius = 3.0;
     UIColor *b = [UIColor almostBlackColor];
     b = [b colorWithAlphaComponent:0.8];
     cell.distanceLabel.backgroundColor = b;
@@ -609,7 +661,7 @@
         cell.opened_closed.text = @"Closed";
         cell.opened_closed.textColor = [UIColor scarletColor];
     }
-    cell.opened_closed.layer.cornerRadius = 5.0;
+    cell.opened_closed.layer.cornerRadius = 3.0;
     cell.opened_closed.backgroundColor = b;
     cell.opened_closed.hidden = NO;
     

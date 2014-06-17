@@ -6,6 +6,7 @@
 const struct RestaurantAttributes RestaurantAttributes = {
 	.address = @"address",
 	.distance = @"distance",
+	.does_delivery = @"does_delivery",
 	.hours = @"hours",
 	.id = @"id",
 	.lat = @"lat",
@@ -53,6 +54,11 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"does_deliveryValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"does_delivery"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"latValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"lat"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -97,6 +103,32 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 - (void)setPrimitiveDistanceValue:(float)value_ {
 	[self setPrimitiveDistance:[NSNumber numberWithFloat:value_]];
+}
+
+
+
+
+
+@dynamic does_delivery;
+
+
+
+- (BOOL)does_deliveryValue {
+	NSNumber *result = [self does_delivery];
+	return [result boolValue];
+}
+
+- (void)setDoes_deliveryValue:(BOOL)value_ {
+	[self setDoes_delivery:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveDoes_deliveryValue {
+	NSNumber *result = [self primitiveDoes_delivery];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveDoes_deliveryValue:(BOOL)value_ {
+	[self setPrimitiveDoes_delivery:[NSNumber numberWithBool:value_]];
 }
 
 

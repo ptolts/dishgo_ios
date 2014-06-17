@@ -255,7 +255,7 @@
         logo.layer.borderWidth = 2.5f;
 //        [head addSubview:logo];
     } else {
-        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 145)];
+        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 100)];
         logo.image = [UIImage imageNamed:@"logo.png"];
     }
     
@@ -270,7 +270,7 @@
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[@"Distance",@1,@0],@[@"Images",@1,@1],@[@"Opened",@0,@0]];
+    NSArray *options_text = @[@[@"Opened",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Images",@1,@1]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
@@ -280,6 +280,9 @@
             }
             if(object.option_type == 0){
                 self.isOpened = (BOOL) object.selected;
+            }
+            if(object.option_type == 2){
+                self.doesDelivery = (BOOL) object.selected;
             }
             for(SortView *sortview in options){
                 if(sortview == object || sortview.option_type != object.option_type){
@@ -371,7 +374,7 @@
             return 3;
         }
     } else {
-        return 3;
+        return 4;
     }
 }
 

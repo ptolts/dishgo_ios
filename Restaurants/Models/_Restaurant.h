@@ -7,6 +7,7 @@
 extern const struct RestaurantAttributes {
 	__unsafe_unretained NSString *address;
 	__unsafe_unretained NSString *distance;
+	__unsafe_unretained NSString *does_delivery;
 	__unsafe_unretained NSString *hours;
 	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *lat;
@@ -25,6 +26,7 @@ extern const struct RestaurantFetchedProperties {
 
 @class Images;
 @class Sections;
+
 
 
 
@@ -67,6 +69,20 @@ extern const struct RestaurantFetchedProperties {
 - (void)setDistanceValue:(float)value_;
 
 //- (BOOL)validateDistance:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* does_delivery;
+
+
+
+@property BOOL does_deliveryValue;
+- (BOOL)does_deliveryValue;
+- (void)setDoes_deliveryValue:(BOOL)value_;
+
+//- (BOOL)validateDoes_delivery:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -185,6 +201,15 @@ extern const struct RestaurantFetchedProperties {
 
 - (float)primitiveDistanceValue;
 - (void)setPrimitiveDistanceValue:(float)value_;
+
+
+
+
+- (NSNumber*)primitiveDoes_delivery;
+- (void)setPrimitiveDoes_delivery:(NSNumber*)value;
+
+- (BOOL)primitiveDoes_deliveryValue;
+- (void)setPrimitiveDoes_deliveryValue:(BOOL)value_;
 
 
 

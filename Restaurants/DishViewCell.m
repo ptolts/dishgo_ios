@@ -53,12 +53,12 @@
     [self addSubview:self.page_tracker];
     [self bringSubviewToFront:self.page_tracker];
     
-    self.plus.layer.cornerRadius = 5.0f;
+    self.plus.layer.cornerRadius = 3.0f;
     self.plus.backgroundColor = [UIColor textColor];
     self.plus.layer.borderWidth = 1.0f;
     self.plus.layer.borderColor = [UIColor textColor].CGColor;
     
-    self.see_more.layer.cornerRadius = 5.0f;
+    self.see_more.layer.cornerRadius = 3.0f;
     self.see_more.backgroundColor = [UIColor textColor];
     self.see_more.layer.borderWidth = 1.0f;
     self.see_more.layer.borderColor = [UIColor textColor].CGColor;

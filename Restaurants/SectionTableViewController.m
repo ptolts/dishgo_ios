@@ -222,13 +222,13 @@
     NSLog(@"resto_id: %@",self.restaurant.id);
     
     
-    cell.plus.layer.cornerRadius = 5.0f;
+    cell.plus.layer.cornerRadius = 3.0f;
     cell.plus.backgroundColor = [UIColor textColor];
     cell.plus.layer.borderWidth = 1.0f;
     cell.plus.clipsToBounds = YES;
     cell.plus.layer.borderColor = [UIColor textColor].CGColor;
     
-    cell.camera.layer.cornerRadius = 5.0f;
+    cell.camera.layer.cornerRadius = 3.0f;
     cell.camera.backgroundColor = [UIColor textColor];
     cell.camera.layer.borderWidth = 1.0f;
     cell.camera.clipsToBounds = YES;
