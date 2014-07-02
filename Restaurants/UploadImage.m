@@ -65,9 +65,13 @@
                  if([operation.response statusCode] == 403)
                  {
                      NSLog(@"Upload Failed");
-                     return;
                  }
                  NSLog(@"error: %@", [operation error]);
+                 self.section_dish_view.progress.hidden = YES;
+                 self.section_dish_view.spinner.hidden = YES;
+                 [self.section_dish_view.spinner stopAnimating];
+                 self.section_dish_view.dishDescription.text = @"Upload Failed. Your reception may be too weak. Please try again.";
+                 self.section_dish_view.dishDescription.hidden = NO;
              }];
             
             [operation start];

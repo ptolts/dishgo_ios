@@ -10,6 +10,8 @@ extern const struct DishesAttributes {
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *position;
 	__unsafe_unretained NSString *price;
+	__unsafe_unretained NSString *rating;
+	__unsafe_unretained NSString *rating_count;
 	__unsafe_unretained NSString *sizes;
 } DishesAttributes;
 
@@ -27,6 +29,8 @@ extern const struct DishesFetchedProperties {
 @class Options;
 @class Sections;
 @class Options;
+
+
 
 
 
@@ -101,6 +105,34 @@ extern const struct DishesFetchedProperties {
 - (void)setPriceValue:(float)value_;
 
 //- (BOOL)validatePrice:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* rating;
+
+
+
+@property float ratingValue;
+- (float)ratingValue;
+- (void)setRatingValue:(float)value_;
+
+//- (BOOL)validateRating:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* rating_count;
+
+
+
+@property int16_t rating_countValue;
+- (int16_t)rating_countValue;
+- (void)setRating_countValue:(int16_t)value_;
+
+//- (BOOL)validateRating_count:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -200,6 +232,24 @@ extern const struct DishesFetchedProperties {
 
 - (float)primitivePriceValue;
 - (void)setPrimitivePriceValue:(float)value_;
+
+
+
+
+- (NSNumber*)primitiveRating;
+- (void)setPrimitiveRating:(NSNumber*)value;
+
+- (float)primitiveRatingValue;
+- (void)setPrimitiveRatingValue:(float)value_;
+
+
+
+
+- (NSNumber*)primitiveRating_count;
+- (void)setPrimitiveRating_count:(NSNumber*)value;
+
+- (int16_t)primitiveRating_countValue;
+- (void)setPrimitiveRating_countValue:(int16_t)value_;
 
 
 

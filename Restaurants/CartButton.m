@@ -8,6 +8,7 @@
 
 #import "CartButton.h"
 #import "UIColor+Custom.h"
+#import "FontAwesomeKit/FAKFontAwesome.h"
 
 @implementation CartButton
 
@@ -53,12 +54,16 @@
         self = [[[NSBundle mainBundle] loadNibNamed:@"CartButton" owner:self options:nil] objectAtIndex:0];
         [self.background.layer setCornerRadius:5.0f];
     }
+//    FAKFontAwesome *fileO = [FAKFontAwesome fileIconWithSize:24];
+//    [fileO addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+//    UIImage *iconImage = [fileO imageWithSize:CGSizeMake(24, 24)];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    self.cart_count.backgroundColor = [UIColor textColor];
 //    self.cart_count.layer.borderColor = [UIColor textColor].CGColor;
+//    [btn setBackgroundImage:iconImage forState:UIControlStateNormal];
     [btn addSubview:self];
     [btn setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    [self.background setBackgroundColor:[UIColor complimentaryRed]];
+    [self.background setBackgroundColor:[UIColor whiteColor]];
     self.button = btn;
     return self;
 }

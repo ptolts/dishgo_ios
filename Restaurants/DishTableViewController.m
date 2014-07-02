@@ -14,8 +14,12 @@
 #import "MenuTableViewController.h"
 #import "UIColor+Custom.h"
 #import "SectionDishViewCell.h"
+#import <FontAwesomeKit/FAKFontAwesome.h>
 #import "Header.h"
 #import "StorefrontImageView.h"
+#import "UserSession.h"
+#import "User.h"
+#import "SetRating.h"
 
 
 @interface DishTableViewController ()
@@ -29,6 +33,8 @@
     int initialFrame;
     int initialImageHeight;
     StorefrontImageView *scroll_image_view;
+    EDStarRating *starRatingImage;
+    SignInStars *starRating;
 }
 
 - (void) preloadDishCell:(DishTableViewCell *) d{
@@ -45,6 +51,52 @@
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
     [self.navigationItem setLeftBarButtonItem:backBtn];
+    
+    FAKFontAwesome *starIcon = [FAKFontAwesome starIconWithSize:25];
+    starRating.backgroundColor = [UIColor scarletColor];
+    starRating = [[SignInStars alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    starRating.vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+    starRating.navigationController = self.navigationController;
+    [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor]];
+    starRating.starImage = [starIcon imageWithSize:CGSizeMake(25, 25)];
+    [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor]];
+    starRating.starHighlightedImage = [starIcon imageWithSize:CGSizeMake(25, 25)];
+    starRating.maxRating = 5.0;
+    starRating.delegate = self;
+    starRating.horizontalMargin = 12;
+    starRating.editable=YES;
+//    displayMode=EDStarRatingDisplayFull;
+    UserSession *session = [UserSession sharedManager];
+    SetRating *rate = session.current_restaurant_ratings;
+    if(rate && [[rate current_rating:self.dish.id] intValue] >= 0){
+        starRating.rating = [[rate current_rating:self.dish.id] intValue];
+    } else {
+        starRating.rating = [self.dish.rating intValue];
+    }
+    [self.navigationItem setTitleView:starRating];
+    self.navigationItem.titleView.backgroundColor = [UIColor almostBlackColor];
+    
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor scarletColor];
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor almostBlackColor];
+}
+
+-(void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
+{
+    User *user = [[UserSession sharedManager] fetchUser];
+    SetRating *setRating = [[SetRating alloc] init];
+    setRating.dishgo_token = user.foodcloud_token;
+    setRating.restaurant_id = self.restaurant.id;
+    setRating.dish_id = self.dish.id;
+    setRating.rating = [NSString stringWithFormat:@"%0.0f",rating];
+    [setRating setRating];
 }
 
 -(void) myCustomBack {
@@ -127,7 +179,10 @@
         header.button_view.backgroundColor = [UIColor complimentaryBg];
         header.spacer.backgroundColor = [UIColor seperatorColor];
         header.spacer2.backgroundColor = [UIColor seperatorColor];
-        header.backgroundColor = [UIColor bgColor];
+        header.backgroundColor = [UIColor almostBlackColor];
+        CGRect frame = header.frame;
+        frame.size.height -= 40;
+        header.frame = frame;
         self.tableView.tableHeaderView = header;
     }
 }
@@ -155,6 +210,7 @@
         dish_logic.restaurant = self.restaurant;
         dish_logic.dishTitle.text = dish.name;
         dish_logic.parent = self;
+        dish_logic.backgroundColor = [UIColor almostBlackColor];
         dish_logic.priceLabel.backgroundColor = [UIColor bgColor];
         [dish_logic setupLowerHalf];
     }

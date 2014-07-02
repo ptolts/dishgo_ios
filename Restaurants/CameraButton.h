@@ -11,7 +11,7 @@
 
 @class SectionDishViewCell;
 
-@interface CameraButton : UIButton
+@interface CameraButton : UIView
     @property Dishes *dish;
     @property SectionDishViewCell *parent_cell;
 @end

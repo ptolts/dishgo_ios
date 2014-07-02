@@ -11,6 +11,7 @@
 #import "StorefrontLabel.h"
 #import <RestKit/RestKit.h>
 #import "CartButton.h"
+#import "DishCellClean.h"
 
 @interface StorefrontTableViewController : UITableViewController <StoreFrontScrollViewDelegate>
     @property (nonatomic, strong) Restaurant *restaurant;
@@ -19,6 +20,6 @@
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
-    - (void) segueToSection: (Sections *) section;
+    - (void) segueToSection: (id) dishcellclean;
     - (void) pushDish: (Dishes *) dish;
 @end

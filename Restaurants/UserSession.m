@@ -13,6 +13,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <FacebookSDK/FBAccessTokenData.h>
 #import <RestKit/RestKit.h>
+#import "SetRating.h"
 #import "Lockbox.h"
 #import "User.h"
 #import "RAppDelegate.h"
@@ -28,54 +29,13 @@ static NSString* kFilename = @"TokenInfo.plist";
 @synthesize facebookToken;
 @synthesize foodcloudToken;
 @synthesize main_user;
+@synthesize current_restaurant_ratings;
 
 void (^ block_pointer)(bool, NSString *);
 
-//- (void)cacheFBAccessTokenData:(FBAccessTokenData *)accessToken {
-//    NSDictionary *tokenInformation = [accessToken dictionary];
-//    [self writeData:tokenInformation];
-//}
-
-//- (FBAccessTokenData *)fetchFBAccessTokenData
-//{
-//    NSDictionary *tokenInformation = [self readData];
-//    if (nil == tokenInformation) {
-//        return nil;
-//    } else {
-//        return [FBAccessTokenData createTokenFromDictionary:tokenInformation];
-//    }
-//}
-
-//- (void)clearToken
-//{
-//    [self writeData:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-//}
-//
-//- (NSString *) filePath {
-//    NSArray *paths =
-//    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-//                                        NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths lastObject];
-//    return [documentsDirectory stringByAppendingPathComponent:kFilename];
-//}
-//
-//- (void) writeData:(NSDictionary *) data {
-//    NSLog(@"File = %@ and Data = %@", self.tokenFilePath, data);
-//    BOOL success = [data writeToFile:self.tokenFilePath atomically:YES];
-//    if (!success) {
-//        NSLog(@"Error writing to file");
-//    }
-//}
-//
-//- (NSMutableDictionary *) readData {
-//    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:self.tokenFilePath];
-//    NSLog(@"File = %@ and data = %@", self.tokenFilePath, data);
-//    return data;
-//}
-
 - (void)clearToken
 {
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id", nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
     for(NSString *key in keys){
         [Lockbox setString:@"" forKey:key];
     }
@@ -102,7 +62,7 @@ void (^ block_pointer)(bool, NSString *);
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     
     // These keys are strings
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id", nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
     for(NSString *key in keys){
         NSLog(@"Key: %@",key);
         NSString *get = [Lockbox stringForKey:key];
@@ -180,6 +140,9 @@ void (^ block_pointer)(bool, NSString *);
             NSString *tok = [dic objectForKey:@"foodcloud_token"];
             foodcloudToken = tok;
             main_user.owns_restaurant_id = [dic objectForKey:@"owns_restaurant_id"];
+            if([[dic objectForKey:@"is_admin"] isEqualToString:@"1"]){
+                main_user.is_admin = YES;
+            }
             main_user.foodcloud_token = foodcloudToken;
             logged_in = YES;
         }
@@ -229,7 +192,16 @@ void (^ block_pointer)(bool, NSString *);
     
 }
 
-
+-(void) fetch_ratings:(NSString *)restaurant_id {
+    current_restaurant_ratings = [[SetRating alloc] init];
+    current_restaurant_ratings.dishgo_token = main_user.foodcloud_token;
+    current_restaurant_ratings.restaurant_id = restaurant_id;
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/dish/get_ratings", dishGoUrl]
+                                       params:[current_restaurant_ratings cleanDict]
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       current_restaurant_ratings = [[SetRating alloc] initWithDictionary:json error:nil];
+                                   }];
+}
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
@@ -254,11 +226,11 @@ void (^ block_pointer)(bool, NSString *);
     RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
     
     RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token",@"first_name",@"last_name"]];
+    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token",@"first_name",@"last_name",@"is_admin"]];
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/"]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:dishGoUrl]];
     
     [manager addRequestDescriptor:requestDescriptor];
     [manager addResponseDescriptor:tokenDescriptor];
@@ -311,7 +283,7 @@ void (^ block_pointer)(bool, NSString *);
     
     RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
     
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"https://dishgo.io/app"]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:dishGoUrl]];
     
     [manager addRequestDescriptor:requestDescriptor];
     [manager addResponseDescriptor:tokenDescriptor];
@@ -350,6 +322,10 @@ void (^ block_pointer)(bool, NSString *);
         [dic setObject:foodcloudToken forKey:@"foodcloud_token"];
         if(user.owns_restaurant_id){
             [dic setObject:user.owns_restaurant_id forKey:@"owns_restaurant_id"];
+        }
+        if(user.is_admin){
+            NSString *is_admin = [NSString stringWithFormat:@"%d",(int) user.is_admin];
+            [dic setObject:is_admin forKey:@"is_admin"];
         }
         [self writeData:dic];
         [((RootViewController *)(((RAppDelegate *)([[UIApplication sharedApplication] delegate])).window.rootViewController)) showOldOrders];
@@ -392,7 +368,7 @@ void (^ block_pointer)(bool, NSString *);
 //}
 
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:@"https:/dishgo.io/app/api/v1/tokens/create_from_facebook"
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/tokens/create_from_facebook",dishGoUrl]
                                        params:@{@"facebook_token":facebookToken,@"facebook_id":@""}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];

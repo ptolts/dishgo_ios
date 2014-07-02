@@ -24,12 +24,14 @@
 #import "CartButton.h"
 #import "UserSession.h"
 #import "Images.h"
+#import "FontAwesomeKit/FAKFontAwesome.h"
 #import "CameraButton.h"
 #import "UIColor+Custom.h"
 #import "User.h"
 #import "UploadImage.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AFNetworking/AFNetworking.h>
+#import "TWRBorderedView.h"
 
 #define DEFAULT_SIZE 275
 #define SECOND_SIZE 160
@@ -61,13 +63,14 @@
 }
 
 
-- (IBAction)takePhoto:(CameraButton *)sender {
+- (IBAction)takePhoto:(UITapGestureRecognizer *)sender {
 //    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 //    picker.delegate = self;
 //    picker.allowsEditing = YES;
 //    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    camera_dish = sender.dish;
-    camera_cell = sender.parent_cell;
+    CameraButton *but = (CameraButton *) sender.view;
+    camera_dish = but.dish;
+    camera_cell = but.parent_cell;
     DBCameraContainerViewController *cameraContainer = [[DBCameraContainerViewController alloc] initWithDelegate:self];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cameraContainer];
     [nav setNavigationBarHidden:YES];
@@ -144,7 +147,7 @@
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 
     self.tableView.backgroundColor = [UIColor bgColor];
 }
@@ -212,7 +215,14 @@
     cell.dish = dish;
 
     cell.dishTitle.text = dish.name;
+    cell.dishTitle.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
     cell.dishDescription.text = dish.description_text;
+    [cell.dishDescription setFont:[UIFont fontWithName:@"Merriweather Regular" size:16.0f]];
+    
+    CGSize maxSize = CGSizeMake(280.0f, CGFLOAT_MAX);
+    CGSize requiredSize = [cell.dishDescription sizeThatFits:maxSize];
+    CGRect descFrame = CGRectMake(20, 30, 280.0f, requiredSize.height);
+    cell.dishDescription.frame = descFrame;
     
     cell.dishTitle.textColor = [UIColor textColor];
     cell.seperator.backgroundColor = [UIColor seperatorColor];
@@ -222,29 +232,71 @@
     NSLog(@"resto_id: %@",self.restaurant.id);
     
     
-    cell.plus.layer.cornerRadius = 3.0f;
-    cell.plus.backgroundColor = [UIColor textColor];
+    NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
+    FAKFontAwesome *info = [FAKFontAwesome infoIconWithSize:20.0f];
+    [info addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [attributionMas appendAttributedString:[info attributedString]];
+    cell.plus.attributedText = attributionMas;
+    cell.plus.layer.cornerRadius = 15.0f;
     cell.plus.layer.borderWidth = 1.0f;
-    cell.plus.clipsToBounds = YES;
-    cell.plus.layer.borderColor = [UIColor textColor].CGColor;
+    cell.plus.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.9f];
+    cell.plus.layer.borderColor = [UIColor seperatorColor].CGColor;
+
     
-    cell.camera.layer.cornerRadius = 3.0f;
-    cell.camera.backgroundColor = [UIColor textColor];
-    cell.camera.layer.borderWidth = 1.0f;
-    cell.camera.clipsToBounds = YES;
-    cell.camera.layer.borderColor = [UIColor textColor].CGColor;
+    NSMutableAttributedString *attributionStars = [[NSMutableAttributedString alloc] init];
+    FAKFontAwesome *star = [FAKFontAwesome starIconWithSize:15.0f];
+    NSNumber *total_rating_num = dish.rating;
+    [star addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor]];
+    for(int i=0;i<[total_rating_num intValue];i++){
+        [attributionStars appendAttributedString:[star attributedString]];
+    }
+    [star addAttribute:NSForegroundColorAttributeName value:[UIColor seperatorColor]];
+    int left_over_stars = 5 - [total_rating_num intValue];
+    for(int i=0;i<left_over_stars;i++){
+        [attributionStars appendAttributedString:[star attributedString]];
+    }
+    cell.rating_label.attributedText = attributionStars;
     
-    if([user.owns_restaurant_id isEqualToString:self.restaurant.id]){
-        [cell.camera addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
-        cell.camera.dish = dish;
-        cell.camera.parent_cell = cell;
-        [cell bringSubviewToFront:cell.camera];
+    
+    NSMutableAttributedString *attributionCamera = [[NSMutableAttributedString alloc] init];
+    FAKFontAwesome *cam = [FAKFontAwesome cameraIconWithSize:20.0f];
+    [cam addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [attributionCamera appendAttributedString:[cam attributedString]];
+    cell.camera.attributedText = attributionCamera;
+    cell.camera.layer.cornerRadius = 20.0f;
+//    cell.camera.layer.borderWidth = 1.0f;
+    cell.camera.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.9f];
+//    cell.camera.layer.borderColor = [UIColor seperatorColor].CGColor;
+    
+    if([user.owns_restaurant_id isEqualToString:self.restaurant.id] || user.is_admin){
+        UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takePhoto:)];
+        [cell.camera_view setUserInteractionEnabled:YES];
+        [cell.camera_view addGestureRecognizer:gesture];
+        cell.camera_view.dish = dish;
+        cell.camera_view.parent_cell = cell;
+        [cell bringSubviewToFront:cell.camera_view];
     } else {
-        [cell.camera removeFromSuperview];
+        [cell.camera_view removeFromSuperview];
     }
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    cell.priceLabel.text = cell.getPriceFast;
+    
+    NSMutableArray *range = [dish priceRange];
+    float high = [range[1] floatValue];
+    float low = [range[0] floatValue];
+    
+    if([[NSNumber numberWithFloat:low] intValue] == 0 && [[NSNumber numberWithFloat:high] intValue] == 0){
+        cell.priceLabel.text = @"NA";
+    } else if([[NSNumber numberWithFloat:low] intValue] == 0){
+        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",high];
+    } else if([[NSNumber numberWithFloat:high] intValue] == 0){
+        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",low];
+    } else {
+        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f-%.0f",low,high];
+    }
+    
+    
+    cell.priceLabel.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
     cell.dish = dish;
     cell.dishImage.clipsToBounds = YES;
     cell.full_height = cell.contentView.frame.size.height;
@@ -315,21 +367,11 @@
     if([section.name length] == 0){
         return nil;
     }
-    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-    //    view.backgroundColor = [UIColor colorWithRed:167/255.0f green:167/255.0f blue:167/255.0f alpha:0.6f];
-    //
-    //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-    //    label.text = section.name;
-    //    label.font = [UIFont systemFontOfSize:15];
-    //    label.textColor = [UIColor whiteColor];
-    //    label.backgroundColor = [UIColor clearColor];
-    //    [label sizeToFit];
-    //    [view addSubview:label];
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
     view.headerTitle.text = section.name;
     //    view.headerTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
-    view.headerTitle.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
+    view.headerTitle.font = [UIFont fontWithName:@"Josefin Sans" size:22.0f];
     view.headerTitle.textColor = [UIColor textColor];
     view.headerTitle.backgroundColor = [UIColor bgColor];
     [view.headerTitle sizeToFit];
@@ -339,10 +381,16 @@
     view.headerTitle.center = view.center;
     view.backgroundColor = [UIColor bgColor];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line.png"]];
-    
-    [view addSubview:imageView ];
-    [view sendSubviewToBack:imageView ];
+    CGRect borderedViewRect = CGRectMake(0, view.frame.size.height - 1, 320, 1);
+    TWRBorderMask mask = TWRBorderMaskBottom;
+    TWRBorderedView *borderedView = [[TWRBorderedView alloc] initWithFrame:borderedViewRect
+                                                               borderWidth:1.0f
+                                                                     color:[UIColor seperatorColor]
+                                                                   andMask:mask];
+    [view  addSubview:borderedView];
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line.png"]];
+//    [view addSubview:imageView ];
+//    [view sendSubviewToBack:imageView ];
     return view;
     
 }
@@ -376,7 +424,13 @@
     if([dish.images count] > 0){
         return DEFAULT_SIZE;
     } else {
-        return SECOND_SIZE;
+        UILabel *label = [[UILabel alloc] init];
+        label.numberOfLines = 0;
+        label.text = dish.description_text;
+        [label setFont:[UIFont fontWithName:@"Newtext RG Bt" size:16.0f]];
+        CGSize maxSize = CGSizeMake(280.0f, CGFLOAT_MAX);
+        CGSize requiredSize = [label sizeThatFits:maxSize];
+        return requiredSize.height + 100;
     }
 }
 

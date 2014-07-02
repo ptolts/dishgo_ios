@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "SetRating.h"
 
 @interface UserSession : NSObject
     @property User *main_user;
@@ -16,7 +17,9 @@
     @property NSString *facebookId;
     @property NSString *facebookToken;
     @property NSString *foodcloudToken;
+    @property SetRating *current_restaurant_ratings;
     -(User *) fetchUser;
+    -(void) fetch_ratings:(NSString *) restaurant_id;
     + (id)sharedManager;
     -(BOOL) hasAddress;
     - (void)openSession:(void (^)(bool, NSString *))block;

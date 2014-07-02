@@ -228,7 +228,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             [hud hide:YES];
-            [self launchDialog:result];
+            [self launchDialog:@"Bad Username or Password."];
             self.password.text = @"";
         }
     }];

@@ -25,7 +25,6 @@
 
 - (void)setFrame:(CGRect)frame;
 {
-    NSLog(@"%@", NSStringFromCGRect(frame));
     [super setFrame:frame];
 }
 
@@ -143,6 +142,11 @@
     Dishes *dish = self.dish;
     
     CGRect f;
+    CGSize maxSize;
+    CGSize requiredSize;
+    
+    CGRect descFrame = CGRectMake(10, 5, 300, requiredSize.height);
+    
     
     if([dish.description_text length] != 0){
         
@@ -154,32 +158,41 @@
         cell.descriptionLabel.text = @"Description";
         cell.descriptionLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
         [cell.descriptionLabel sizeToFit];
-        cell.descriptionLabel.frame = CGRectMake(10, cell.contentView.frame.size.height, 300, cell.descriptionLabel.frame.size.height);
         
-        CGRect f = cell.contentView.frame;
-        f.size.height = cell.contentView.frame.size.height + cell.descriptionLabel.frame.size.height;
-        cell.contentView.frame = f;
+        maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
+        requiredSize = [cell.descriptionLabel sizeThatFits:maxSize];
+        
+        descFrame = CGRectMake(10, 5, 300, requiredSize.height);
+        cell.descriptionLabel.frame = descFrame;
         
         [cell.contentView addSubview:cell.descriptionLabel];
         
-        cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(0,0,500,500)];
+        CGRect f = cell.contentView.frame;
+        f.size.height = cell.descriptionLabel.frame.size.height;
+        cell.contentView.frame = f;
+        
+        cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
         cell.dishDescription.autoresizingMask = UIViewAutoresizingNone;
         cell.dishDescription.backgroundColor = [UIColor clearColor];
         cell.dishDescription.textAlignment = NSTextAlignmentLeft;
         cell.dishDescription.textColor = [UIColor textColor];
         cell.dishDescription.text = dish.description_text;
-        cell.dishDescription.font = [UIFont fontWithName:@"Copperplate" size:16.0f];
+        cell.dishDescription.font = [UIFont fontWithName:@"Newtext RG Bt" size:16.0f];
         cell.dishDescription.numberOfLines = 0;
         [cell.dishDescription sizeToFit];
-        cell.dishDescription.frame = CGRectMake(10, cell.contentView.frame.size.height, 300, cell.dishDescription.frame.size.height + 20);
+        
+        maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
+        requiredSize = [cell.dishDescription sizeThatFits:maxSize];
+        
+        descFrame = CGRectMake(10, cell.contentView.frame.size.height + 5, 300, requiredSize.height);
+        cell.dishDescription.frame = descFrame;
+        
+        [cell.contentView addSubview:cell.dishDescription];
         
         f = cell.contentView.frame;
         f.size.height = cell.contentView.frame.size.height + cell.dishDescription.frame.size.height + 10;
         cell.contentView.frame = f;
         
-        [cell.contentView addSubview:cell.dishDescription];
-        
-        NSLog(@"%@",CGRectCreateDictionaryRepresentation(cell.frame));
     }
     
     self.option_views = [[NSMutableArray alloc] init];
@@ -188,7 +201,7 @@
     OptionsView *sizeObject;
     
     if([dish.sizes intValue] == 1){
-        OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 50)];
+        OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
@@ -202,10 +215,11 @@
         
         [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
         
+        [option_view setupOption];
+        
         CGRect frame = option_view.frame;
         frame.origin.y = cell.contentView.frame.size.height + 5;
         option_view.frame = frame;
-        [option_view setupOption];
         
         [cell.contentView addSubview:option_view];
         
@@ -237,10 +251,11 @@
         option_view.tag = 12347;
         option_view.op = options;
         
+        [option_view setupOption];
+        
         CGRect frame = option_view.frame;
         frame.origin.y = cell.contentView.frame.size.height + 5;
         option_view.frame = frame;
-        [option_view setupOption];
         
         [cell.contentView addSubview:option_view];
         
@@ -264,6 +279,7 @@
     DishFooterView *foot = [[[NSBundle mainBundle] loadNibNamed:@"DishFooterView" owner:self options:nil] objectAtIndex:0];
     foot.autoresizingMask = UIViewAutoresizingNone;
     UIButton *button = foot.add;
+    foot.backgroundColor = [UIColor almostBlackColor];
     foot.parent = self;
     [button addTarget:self action:@selector(addDish:) forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"Add" forState:UIControlStateNormal];
@@ -273,6 +289,7 @@
     [foot.quantity.layer setCornerRadius:5.0f];
     self.dishFooterView = foot;
     UIStepper *stepper = self.dishFooterView.stepper;
+    stepper.backgroundColor = [UIColor almostBlackColor];
     stepper.minimumValue = 1;
     stepper.maximumValue = 12;
     

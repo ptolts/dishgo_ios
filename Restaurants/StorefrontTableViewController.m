@@ -28,9 +28,11 @@
 #import "UIColor+Custom.h"
 #import "ContactViewController.h"
 #import "LEColorPicker.h"
+#import "UserSession.h"
+#import "DishCellClean.h"
 
 
-#define DEFAULT_SIZE 148
+#define DEFAULT_SIZE 128
 #define HEADER_DEFAULT_SIZE 45
 
 @interface StorefrontTableViewController ()
@@ -196,8 +198,11 @@
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     retryFetch.hidden = YES;
     [spinnerView addSubview:retryFetch];
-    
     [mainWindow addSubview:spinnerView];
+    
+    if([[UserSession sharedManager] logged_in]){
+        [[UserSession sharedManager] fetch_ratings: self.restaurant.id];
+    }
 }
 
 - (void) restartFetch:(id) sender {
@@ -450,7 +455,7 @@
     scroll_image_view.contentMode = UIViewContentModeScaleAspectFill;
     
     CGFloat yPos = -scrollView.contentOffset.y;
-    if (yPos > 0) {
+    if (yPos >= 0) {
         CGRect imgRect = head.frame;
         imgRect.origin.y = scrollView.contentOffset.y;
         imgRect.size.height = initialFrame+yPos;
@@ -466,7 +471,8 @@
         scroll_image_view.frame = imgRect;
         
         imgRect = head.button_view_original_frame;
-        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
+//        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
+        imgRect.origin.y = head.frame.size.height - 40 + scrollView.contentOffset.y;
         head.button_view.frame = imgRect;
     }
 }
@@ -479,6 +485,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
+    return 0.1;
     if([sectionsList count] == 0){
         return 0.1;
     }
@@ -511,10 +518,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if([sectionsList count] == 0){
-        return 1;
+    if([cellList count] == 0){
+        return 0;
     }
-    return [sectionsList count];
+    return [cellList count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -531,15 +538,26 @@
 
 - (void) buildCells {
     cellList = [[NSMutableArray alloc] init];
+//    for(Sections *section in sectionsList){
+//        DishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
+//        [cell setRestorationIdentifier:@"DishViewCell"];
+//        cell.controller = self;
+//        cell.dishScrollView.section = section;
+//        cell.dishScrollView.controller = self;
+//        [cell.dishScrollView setupViews];
+//        [cell trackPage];
+//        cell.backgroundColor = [UIColor bgColor];
+//        [cellList addObject:cell];
+//    }
     for(Sections *section in sectionsList){
-        DishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishViewCell" owner:self options:nil] objectAtIndex:0];
-        [cell setRestorationIdentifier:@"DishViewCell"];
-        cell.controller = self;
-        cell.dishScrollView.section = section;
-        cell.dishScrollView.controller = self;
-        [cell.dishScrollView setupViews];
-        [cell trackPage];
+        DishCellClean *cell = [[[NSBundle mainBundle] loadNibNamed:@"DishCellClean" owner:self options:nil] objectAtIndex:0];
+        [cell setRestorationIdentifier:@"DishCellClean"];
+        cell.section = section;
+        [cell setup];
         cell.backgroundColor = [UIColor bgColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(segueToSection:)];
+        [cell addGestureRecognizer:tgr];
         [cellList addObject:cell];
     }
 }
@@ -552,6 +570,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
+    return [[UIView alloc] initWithFrame:CGRectZero];
+    
     UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
     
     if([sectionsList count] == 0){
@@ -613,13 +633,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    current_page = [((DishViewCell *)([(UITableView *)self.tableView cellForRowAtIndexPath:indexPath])).dishScrollView currentPage];
-    NSLog(@"ScrollViewOffset Current_Page: %d",current_page);
-    [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
+//    current_page = [((DishViewCell *)([(UITableView *)self.tableView cellForRowAtIndexPath:indexPath])).dishScrollView currentPage];
+//    NSLog(@"ScrollViewOffset Current_Page: %d",current_page);
+//    [self performSegueWithIdentifier:@"menuSectionClick" sender:self];
 }
 
-- (void) segueToSection: (Sections *) section {
-    [self performSegueWithIdentifier:@"menuSectionClick" sender: section];
+- (void) segueToSection: (id) dishcellclean {
+    DishCellClean *dish_cell = (DishCellClean *)((UITapGestureRecognizer *) dishcellclean).view;
+    [self performSegueWithIdentifier:@"menuSectionClick" sender: dish_cell.section];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -668,6 +689,7 @@
                                                         @"name": @"name",
                                                         @"_id": @"id",
                                                         @"price": @"price",
+                                                        @"rating":@"rating",
                                                         @"index":@"position",
                                                         @"description": @"description_text",
                                                         @"has_multiple_sizes":@"sizes",
@@ -745,15 +767,10 @@
         self.restaurant = (Restaurant *)[[[[result array] firstObject] managedObjectContext] objectWithID:[self.restaurant objectID]];
         self.restaurant.menu = [NSOrderedSet orderedSetWithArray:[result array]];
 
-        NSError *error;
-        NSLog(@"SAVING MENU OF SIZE %lu",(unsigned long)[[result array] count]);
-        if (![[self.restaurant managedObjectContext] save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        } else {
-            [self buildCells];
-            [header.scroll_view setupImages];
-            [self.tableView reloadData];
-        }
+        [self buildCells];
+        [header.scroll_view setupImages];
+        [self matchColor];
+        [self.tableView reloadData];
         
         [self loadCart];        
         [self stopLoading];

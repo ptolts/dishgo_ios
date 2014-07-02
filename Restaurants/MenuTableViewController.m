@@ -270,7 +270,7 @@
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[@"Opened",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Images",@1,@1]];
+    NSArray *options_text = @[@[@"Opened",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Menu Score",@1,@1]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];

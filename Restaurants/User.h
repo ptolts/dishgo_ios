@@ -32,6 +32,7 @@
     @property (nonatomic, copy) NSString *last_name;
     @property (nonatomic, copy) NSArray<Order_Status> *current_orders;
     @property BOOL confirm_address;
+    @property BOOL is_admin;
     @property BOOL payment_details;
     @property BOOL confirm_billing;
     @property BOOL review_confirm;

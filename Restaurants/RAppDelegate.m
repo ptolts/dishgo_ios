@@ -42,7 +42,8 @@ BOOL attemptingFacebookLogin;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self loadCart];
-    [Appsee start:@"8fef0cad79c04e569d06b0a46d0eca71"];
+//    [Appsee start:@"8fef0cad79c04e569d06b0a46d0eca71"];
+    [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:@"9nf7k0v80d"]];
     UserSession *sharedManager = [UserSession sharedManager];
     return YES;
 }

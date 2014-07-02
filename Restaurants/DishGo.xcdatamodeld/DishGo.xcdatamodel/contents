@@ -6,6 +6,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="rating_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="sizes" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
         <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Options" inverseName="dish_owner" inverseEntity="Options" syncable="YES"/>
@@ -64,7 +66,7 @@
         <relationship name="size_option" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Option" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Dishes" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="Dishes" positionX="0" positionY="0" width="128" height="225"/>
         <element name="Images" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Option" positionX="0" positionY="0" width="128" height="133"/>
         <element name="Options" positionX="0" positionY="0" width="128" height="178"/>

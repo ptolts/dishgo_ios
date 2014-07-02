@@ -52,6 +52,9 @@
 		B79216431880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */; };
 		B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F691847DF2D00BF4F3F /* facebook@2x.png */; };
 		B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */; };
+		B7A3C4A8195DE6EC00FFA685 /* SignInStars.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A3C4A7195DE6EC00FFA685 /* SignInStars.m */; };
+		B7A3C4AB195DF18100FFA685 /* SetRating.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A3C4AA195DF18100FFA685 /* SetRating.m */; };
+		B7A3C4AE196489F800FFA685 /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7A3C4AD196489F800FFA685 /* Merriweather-Regular.ttf */; };
 		B7A54C16192D426C007C8D31 /* UploadImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A54C15192D426C007C8D31 /* UploadImage.m */; };
 		B7A54C19192D55F9007C8D31 /* CameraButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A54C18192D55F9007C8D31 /* CameraButton.m */; };
 		B7B488EC1889817000054314 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7B488EB1889817000054314 /* add@2x.png */; };
@@ -82,6 +85,11 @@
 		B7BE3610185A4A5F00D55ED8 /* BillingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE360F185A4A5F00D55ED8 /* BillingView.m */; };
 		B7BE3613185F766F00D55ED8 /* DismissKeyboardScrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */; };
 		B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BE3614185F91B500D55ED8 /* edit_address@2x.png */; };
+		B7C013A51958A5E2009CAD7D /* StorefrontHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C013A41958A5E2009CAD7D /* StorefrontHeader.xib */; };
+		B7C013A81958A63B009CAD7D /* DishCellClean.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7C013A71958A63B009CAD7D /* DishCellClean.xib */; };
+		B7C013AB1958ADEE009CAD7D /* DishCellClean.m in Sources */ = {isa = PBXBuildFile; fileRef = B7C013AA1958ADEE009CAD7D /* DishCellClean.m */; };
+		B7C013AD1958B9E2009CAD7D /* dotten.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C013AC1958B9E2009CAD7D /* dotten.png */; };
+		B7C013B11958BCC7009CAD7D /* JosefinSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7C013B01958BCC7009CAD7D /* JosefinSans-Bold.ttf */; };
 		B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38243187B0F49001FD092 /* more_dish@2x.png */; };
 		B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38247187B1CEC001FD092 /* header_line@2x.png */; };
 		B7C3824A187B2B3B001FD092 /* camera_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C38249187B2B3B001FD092 /* camera_mark@2x.png */; };
@@ -283,6 +291,12 @@
 		B79216421880821400BC7BF2 /* NSMutableArray+ShoppingCartArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+ShoppingCartArray.m"; sourceTree = "<group>"; };
 		B79E8F691847DF2D00BF4F3F /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		B79E8F6B1847E0D600BF4F3F /* foodcloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foodcloud_icon@2x.png"; sourceTree = "<group>"; };
+		B7A3C4A6195DE6EC00FFA685 /* SignInStars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInStars.h; sourceTree = "<group>"; };
+		B7A3C4A7195DE6EC00FFA685 /* SignInStars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInStars.m; sourceTree = "<group>"; };
+		B7A3C4A9195DF18000FFA685 /* SetRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetRating.h; sourceTree = "<group>"; };
+		B7A3C4AA195DF18100FFA685 /* SetRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetRating.m; sourceTree = "<group>"; };
+		B7A3C4AC196453CD00FFA685 /* hudson.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hudson.gpx; sourceTree = "<group>"; };
+		B7A3C4AD196489F800FFA685 /* Merriweather-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Regular.ttf"; sourceTree = "<group>"; };
 		B7A54C14192D426C007C8D31 /* UploadImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadImage.h; sourceTree = "<group>"; };
 		B7A54C15192D426C007C8D31 /* UploadImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadImage.m; sourceTree = "<group>"; };
 		B7A54C17192D55F9007C8D31 /* CameraButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraButton.h; sourceTree = "<group>"; };
@@ -329,6 +343,12 @@
 		B7BE3611185F766F00D55ED8 /* DismissKeyboardScrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissKeyboardScrollview.h; sourceTree = "<group>"; };
 		B7BE3612185F766F00D55ED8 /* DismissKeyboardScrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DismissKeyboardScrollview.m; sourceTree = "<group>"; };
 		B7BE3614185F91B500D55ED8 /* edit_address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit_address@2x.png"; sourceTree = SOURCE_ROOT; };
+		B7C013A41958A5E2009CAD7D /* StorefrontHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorefrontHeader.xib; sourceTree = "<group>"; };
+		B7C013A71958A63B009CAD7D /* DishCellClean.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishCellClean.xib; sourceTree = "<group>"; };
+		B7C013A91958ADEE009CAD7D /* DishCellClean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishCellClean.h; sourceTree = "<group>"; };
+		B7C013AA1958ADEE009CAD7D /* DishCellClean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCellClean.m; sourceTree = "<group>"; };
+		B7C013AC1958B9E2009CAD7D /* dotten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dotten.png; sourceTree = "<group>"; };
+		B7C013B01958BCC7009CAD7D /* JosefinSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSans-Bold.ttf"; sourceTree = "<group>"; };
 		B7C38243187B0F49001FD092 /* more_dish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_dish@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7C38247187B1CEC001FD092 /* header_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header_line@2x.png"; sourceTree = SOURCE_ROOT; };
 		B7C38249187B2B3B001FD092 /* camera_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_mark@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -631,6 +651,8 @@
 				B7DA9DA51847B34E0072AD47 /* User.m */,
 				B7A54C14192D426C007C8D31 /* UploadImage.h */,
 				B7A54C15192D426C007C8D31 /* UploadImage.m */,
+				B7A3C4A9195DF18000FFA685 /* SetRating.h */,
+				B7A3C4AA195DF18100FFA685 /* SetRating.m */,
 			);
 			name = "Sign In / Up";
 			sourceTree = "<group>";
@@ -675,6 +697,15 @@
 				B7B7445518341CCE001DFC49 /* CheckoutView.xib */,
 			);
 			name = "Total Cost";
+			sourceTree = "<group>";
+		};
+		B7A3C4A2195DE5BE00FFA685 /* Star Rating Login */ = {
+			isa = PBXGroup;
+			children = (
+				B7A3C4A6195DE6EC00FFA685 /* SignInStars.h */,
+				B7A3C4A7195DE6EC00FFA685 /* SignInStars.m */,
+			);
+			name = "Star Rating Login";
 			sourceTree = "<group>";
 		};
 		B7B74419182BFA2A001DFC49 /* Sections */ = {
@@ -780,6 +811,24 @@
 			name = "Color Picker";
 			sourceTree = "<group>";
 		};
+		B7C013A31958A5C2009CAD7D /* Storefront Header */ = {
+			isa = PBXGroup;
+			children = (
+				B7C013A41958A5E2009CAD7D /* StorefrontHeader.xib */,
+			);
+			name = "Storefront Header";
+			sourceTree = "<group>";
+		};
+		B7C013A61958A61D009CAD7D /* DishCellClean */ = {
+			isa = PBXGroup;
+			children = (
+				B7C013A71958A63B009CAD7D /* DishCellClean.xib */,
+				B7C013A91958ADEE009CAD7D /* DishCellClean.h */,
+				B7C013AA1958ADEE009CAD7D /* DishCellClean.m */,
+			);
+			name = DishCellClean;
+			sourceTree = "<group>";
+		};
 		B7CC196318047D92003C71B9 = {
 			isa = PBXGroup;
 			children = (
@@ -837,6 +886,9 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B7A3C4AD196489F800FFA685 /* Merriweather-Regular.ttf */,
+				B7C013B01958BCC7009CAD7D /* JosefinSans-Bold.ttf */,
+				B7C013AC1958B9E2009CAD7D /* dotten.png */,
 				B7D6DC491936719200424BE9 /* Newtext Regular BT.ttf */,
 				B7310665191921880054AF25 /* EastMarketNF.ttf */,
 				B7310663191921190054AF25 /* EastMarketNF.otf */,
@@ -899,6 +951,7 @@
 				B7CC197A18047D92003C71B9 /* InfoPlist.strings */,
 				B7CC197D18047D92003C71B9 /* main.m */,
 				B7CC197F18047D92003C71B9 /* DishGo-Prefix.pch */,
+				B7A3C4AC196453CD00FFA685 /* hudson.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -925,6 +978,7 @@
 		B7CC19AD18047DA0003C71B9 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				B7A3C4A2195DE5BE00FFA685 /* Star Rating Login */,
 				B7BDFBE41877680B003E661F /* Color Picker */,
 				B7EE7B971850F9FB003EE5B8 /* Keychain */,
 				B7EE7B7E184E5669003EE5B8 /* Custom Alert */,
@@ -1075,6 +1129,8 @@
 		B7E20F22182042D700791BEB /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				B7C013A61958A61D009CAD7D /* DishCellClean */,
+				B7C013A31958A5C2009CAD7D /* Storefront Header */,
 				B7B7442E1832841F001DFC49 /* TableHeaderView */,
 				B7B74423182C195D001DFC49 /* DishScrollCell */,
 				B78FB10F18200CE40063E6C4 /* StorefrontLabel.h */,
@@ -1307,6 +1363,7 @@
 				B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */,
 				B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
+				B7A3C4AE196489F800FFA685 /* Merriweather-Regular.ttf in Resources */,
 				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */,
@@ -1327,9 +1384,11 @@
 				B721D6731872200800D41957 /* stop_watch_confirmed@2x.png in Resources */,
 				B721D66F1872074500D41957 /* cancel@2x.png in Resources */,
 				B7E20F581824046600791BEB /* TableHeaderView.xib in Resources */,
+				B7C013A81958A63B009CAD7D /* DishCellClean.xib in Resources */,
 				B7EE7B6518493DB6003EE5B8 /* back@2x.png in Resources */,
 				B7CC199018047D92003C71B9 /* Images.xcassets in Resources */,
 				B7B74422182C0D26001DFC49 /* DishTableViewCell.xib in Resources */,
+				B7C013AD1958B9E2009CAD7D /* dotten.png in Resources */,
 				B75DA1FA1860D3DC00803AF5 /* billing_address@2x.png in Resources */,
 				B7BE360B185A42D700D55ED8 /* secure@2x.png in Resources */,
 				B7CF7B8C18564A99000D326F /* ProfileView.xib in Resources */,
@@ -1337,10 +1396,12 @@
 				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B7310664191921190054AF25 /* EastMarketNF.otf in Resources */,
+				B7C013B11958BCC7009CAD7D /* JosefinSans-Bold.ttf in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B721D66D186A439D00D41957 /* cloud@2x.png in Resources */,
 				B7D6DC4A1936719200424BE9 /* Newtext Regular BT.ttf in Resources */,
 				B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */,
+				B7C013A51958A5E2009CAD7D /* StorefrontHeader.xib in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
 				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
 				B7BDFBD6187620EF003E661F /* loc@2x.png in Resources */,
@@ -1462,6 +1523,7 @@
 				B7E1284D183BDAB10079B5E9 /* SectionDishViewCell.m in Sources */,
 				B7D47F7B18624D5400DD3C99 /* ReviewViewController.m in Sources */,
 				B7EE7B69184CE412003EE5B8 /* UIColor+Custom.m in Sources */,
+				B7A3C4AB195DF18100FFA685 /* SetRating.m in Sources */,
 				B7D47F8D1864A8ED00DD3C99 /* Options_Order.m in Sources */,
 				B7A54C19192D55F9007C8D31 /* CameraButton.m in Sources */,
 				B7D47F8118635C2E00DD3C99 /* WobbleCell.m in Sources */,
@@ -1486,6 +1548,7 @@
 				B70C33441805A3270045183F /* Restaurant.m in Sources */,
 				B7CC197E18047D92003C71B9 /* main.m in Sources */,
 				B7E20F401820560100791BEB /* Dishes.m in Sources */,
+				B7A3C4A8195DE6EC00FFA685 /* SignInStars.m in Sources */,
 				B721D67A187331EE00D41957 /* Order_Status.m in Sources */,
 				B7D6DC531938F9D700424BE9 /* OptionButton.m in Sources */,
 				B7E20F471820560100791BEB /* Option.m in Sources */,
@@ -1522,6 +1585,7 @@
 				B7CF7B8A18564A8D000D326F /* ProfileView.m in Sources */,
 				B7B74420182C0D13001DFC49 /* DishTableViewCell.m in Sources */,
 				B7E20F481820560100791BEB /* Options.m in Sources */,
+				B7C013AB1958ADEE009CAD7D /* DishCellClean.m in Sources */,
 				B7E4305C181ED388002B6867 /* RootViewController.m in Sources */,
 				B721D67D187334AF00D41957 /* Order_Submit_Response.m in Sources */,
 				B7E20F5B1824053600791BEB /* TableHeaderView.m in Sources */,

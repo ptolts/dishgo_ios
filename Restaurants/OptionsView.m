@@ -74,6 +74,16 @@
     mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9];
     mainCGColor = mainColor.CGColor;
     
+    CGSize maxSize;
+    CGSize requiredSize;
+    CGRect descFrame;
+    maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
+    requiredSize = [self.optionTitle sizeThatFits:maxSize];
+    descFrame = CGRectMake(0, 0, 320, requiredSize.height);
+    self.frame = descFrame;
+    descFrame = CGRectMake(10, 0, 300, requiredSize.height);
+    self.optionTitle.frame = descFrame;
+    
     int index = 0;
     BOOL odd = ([option_values count] % 2 == 1);
     int last = [option_values count] - 1;
@@ -85,17 +95,17 @@
         [buttonList_dict setObject:button forKey:option_for_button.id];
         [button addTarget:self action:@selector(addOpt:) forControlEvents:UIControlEventTouchUpInside];
         
-        int buttonSize = 40;
+        int buttonSize = 45;
         
         if (index % 2 == 0){
-            button.frame = CGRectMake(5, self.frame.size.height + 5, (self.frame.size.width/2) - 10, buttonSize);
+            button.frame = CGRectMake(10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
         } else {
-            button.frame = CGRectMake((self.frame.size.width/2) + 5, self.frame.size.height + 5, (self.frame.size.width/2) - 10, buttonSize);
+            button.frame = CGRectMake((self.frame.size.width/2) + 10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
         }
         
         // make last button full size if the count is odd.
         if(odd && index == last){
-            button.frame = CGRectMake(5, self.frame.size.height + 5, self.frame.size.width - 10, buttonSize);
+            button.frame = CGRectMake(10, self.frame.size.height + 5, self.frame.size.width - 20, buttonSize);
         }
         
         button.layer.borderColor = mainCGColor;

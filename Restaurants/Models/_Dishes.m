@@ -9,6 +9,8 @@ const struct DishesAttributes DishesAttributes = {
 	.name = @"name",
 	.position = @"position",
 	.price = @"price",
+	.rating = @"rating",
+	.rating_count = @"rating_count",
 	.sizes = @"sizes",
 };
 
@@ -55,6 +57,16 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 	}
 	if ([key isEqualToString:@"priceValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"price"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"ratingValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"rating"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"rating_countValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"rating_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -137,6 +149,58 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 
 - (void)setPrimitivePriceValue:(float)value_ {
 	[self setPrimitivePrice:[NSNumber numberWithFloat:value_]];
+}
+
+
+
+
+
+@dynamic rating;
+
+
+
+- (float)ratingValue {
+	NSNumber *result = [self rating];
+	return [result floatValue];
+}
+
+- (void)setRatingValue:(float)value_ {
+	[self setRating:[NSNumber numberWithFloat:value_]];
+}
+
+- (float)primitiveRatingValue {
+	NSNumber *result = [self primitiveRating];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveRatingValue:(float)value_ {
+	[self setPrimitiveRating:[NSNumber numberWithFloat:value_]];
+}
+
+
+
+
+
+@dynamic rating_count;
+
+
+
+- (int16_t)rating_countValue {
+	NSNumber *result = [self rating_count];
+	return [result shortValue];
+}
+
+- (void)setRating_countValue:(int16_t)value_ {
+	[self setRating_count:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveRating_countValue {
+	NSNumber *result = [self primitiveRating_count];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveRating_countValue:(int16_t)value_ {
+	[self setPrimitiveRating_count:[NSNumber numberWithShort:value_]];
 }
 
 

@@ -222,6 +222,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+//    NSLog(@"PASTEBOARD: %@",[[UIPasteboard pasteboardWithName:@"fb_app_attribution" create:NO] string]);
+    
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     self.KVOController = KVOController;
     
@@ -427,6 +430,7 @@
                                                             @"_id": @"id",
                                                             @"name": @"name",
                                                             @"phone": @"phone",
+                                                            @"is_admin":@"is_admin",
                                                             @"address_line_1": @"address",
                                                             @"does_delivery":@"does_delivery",
                                                             @"lat": @"lat",
@@ -448,19 +452,19 @@
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
         
-        restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+        NSArray *new_restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
                           {
                               return [obj2.images count] - [obj1.images count];
                           }];
         
-        for(Restaurant *r in restaurantList){
+        for(Restaurant *r in new_restaurantList){
             CLLocation *itemLoc = [[CLLocation alloc] initWithLatitude:[r.lat doubleValue]
                                                              longitude:[r.lon doubleValue]];
             CLLocationDistance itemDistance = [itemLoc distanceFromLocation:currentLocation];
             r.distance = [NSNumber numberWithDouble:itemDistance];
             [r opened];
         }
-
+        restaurantList = new_restaurantList;
         filteredRestaurantList = restaurantList;
         [self filterRestaurants];
         [self.tableView reloadData];

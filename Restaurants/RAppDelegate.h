@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <Analytics/Analytics.h>
 
 
 @interface RAppDelegate : UIResponder <UIApplicationDelegate>
