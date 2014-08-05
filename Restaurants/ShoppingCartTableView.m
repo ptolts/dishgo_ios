@@ -114,7 +114,7 @@
         c.backgroundColor = [UIColor clearColor];
         c.selectionStyle = UITableViewCellSelectionStyleNone;
         UILabel *empty = [[UILabel alloc] init];
-        empty.text = @"Your cart is empty!";
+        empty.text = @"Your list is empty!";
         empty.textColor = [UIColor nextColor];
         [empty sizeToFit];
         CGRect f = empty.frame;

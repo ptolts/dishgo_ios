@@ -38,28 +38,28 @@
             AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
             
             [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-                if(self.section_dish_view.progress){
-                    float prog = ((float)totalBytesWritten/(float)totalBytesExpectedToWrite);
-                    // Make sure the view still exists
-                    if(self.section_dish_view){
-                        [self.section_dish_view.progress setProgress:prog animated:YES];
-                        if(prog == 1.0f && self.section_dish_view.spinner.hidden == YES){
-                            self.section_dish_view.spinner.hidden = NO;
-                            [self.section_dish_view.spinner startAnimating];
-                            self.section_dish_view.progress.hidden = YES;
-                        }
-                    }
-                }
+                float prog = ((float)totalBytesWritten/(float)totalBytesExpectedToWrite);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(self.progress_view){
+                        self.progress_view.progress = prog;
+                    } 
+                });
             }];
             
             [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject){
                  NSDictionary *jsons = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
                  NSLog(@"response: %@",jsons);
-                if(self.section_dish_view){
-                    self.section_dish_view.dishImage.hidden = NO;
-                    self.section_dish_view.progress.hidden = YES;
-                    self.section_dish_view.spinner.hidden = YES;
-                    [self.section_dish_view.spinner stopAnimating];
+                if(self.dish){
+                    NSManagedObjectContext *context = self.dish.managedObjectContext;
+                    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Images" inManagedObjectContext:context];
+                    Images *img = [[Images alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
+                    img.url = [jsons objectForKey:@"url"];
+                    NSMutableArray *copy_array = [[NSMutableArray alloc] initWithArray:[self.dish.images array]];
+                    [copy_array addObject:img];
+                    self.dish.images = [[NSOrderedSet alloc] initWithArray:[copy_array copy]];
+                    if(self.uitableview){
+                        [self.uitableview.tableView reloadData];
+                    }
                 }
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  if([operation.response statusCode] == 403)
@@ -67,11 +67,9 @@
                      NSLog(@"Upload Failed");
                  }
                  NSLog(@"error: %@", [operation error]);
-                 self.section_dish_view.progress.hidden = YES;
-                 self.section_dish_view.spinner.hidden = YES;
-                 [self.section_dish_view.spinner stopAnimating];
-                 self.section_dish_view.dishDescription.text = @"Upload Failed. Your reception may be too weak. Please try again.";
-                 self.section_dish_view.dishDescription.hidden = NO;
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     self.progress_view.progress = 1.0f;
+                 });
              }];
             
             [operation start];

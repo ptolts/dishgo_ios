@@ -19,5 +19,8 @@
     + (UIColor*)complimentaryBlue;
     + (UIColor*)complimentaryRed;
     + (UIColor*)complimentaryBg;
+    + (UIColor*)starColor;
     + (UIColor*)nextColor;
+    + (UIColor*)selectedButtonColor;
+    + (UIColor*)unselectedButtonColor;
 @end

@@ -14,4 +14,5 @@
     @property (strong) NSString *closes_1;
     @property BOOL closed;
     - (BOOL) opened;
+    - (NSString *) toString;
 @end

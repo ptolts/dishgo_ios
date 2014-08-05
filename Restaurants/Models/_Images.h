@@ -5,6 +5,7 @@
 
 
 extern const struct ImagesAttributes {
+	__unsafe_unretained NSString *id;
 	__unsafe_unretained NSString *url;
 } ImagesAttributes;
 
@@ -21,6 +22,7 @@ extern const struct ImagesFetchedProperties {
 
 
 
+
 @interface ImagesID : NSManagedObjectID {}
 @end
 
@@ -29,6 +31,16 @@ extern const struct ImagesFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ImagesID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* id;
+
+
+
+//- (BOOL)validateId:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -66,6 +78,12 @@ extern const struct ImagesFetchedProperties {
 @end
 
 @interface _Images (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveId;
+- (void)setPrimitiveId:(NSString*)value;
+
+
 
 
 - (NSString*)primitiveUrl;

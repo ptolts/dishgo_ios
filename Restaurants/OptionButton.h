@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Option.h"
+#import <BFPaperButton/BFPaperButton.h>
 
-@interface OptionButton : UIButton
+@interface OptionButton : BFPaperButton
     @property Option *option;
     @property float price;
     -(void) updatePrice: (NSString *)size_id;
+    - (void) setup;
 @end

@@ -15,11 +15,16 @@
 #import "DishTableViewController.h"
 #import "ButtonCartRow.h"
 #import "UserSession.h"
+#import "PrizesController.h"
 #import "UIColor+Custom.h"
 #import "ProfileViewController.h"
 #import <ALAlertBanner/ALAlertBanner.h>
 #import "WobbleCell.h"
+#import "DishCoins.h"
 #import "SortView.h"
+#import <GAI.h>
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface MenuTableViewController ()
 
@@ -93,6 +98,14 @@
     [self.frostedViewController hideMenuViewController];
 }
 
+-(void) prizes {
+    NSLog(@"Clicked Prizes");
+    PrizesController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"prizesController"];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
+}
+
 -(void) favorites {
     NSLog(@"Clicked Signin");
     CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
@@ -138,9 +151,9 @@
     
 //    self.tableView = nil;
 //    self.tableView = [[UITableView alloc] init];
-//    self.tableView.tableHeaderView = nil;
-//    self.tableView.tableFooterView = nil;
-//    
+    self.tableView.tableHeaderView = nil;
+    self.tableView.tableFooterView = nil;
+//
 //    [self.checkout_view removeFromSuperview];    
     
     CGRect frame = self.tableView.frame;
@@ -238,39 +251,38 @@
 }
 
 - (UIView *) setupHeader {
-    
-//    int header_size = 30;
-//    int offset = 120;
-    int logo_size = 60;
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, logo_size, logo_size)];
-    logo.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    [logo setContentMode:UIViewContentModeCenter];
-    UIView *head;
-    
-    if(self.shopping){
-        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 50)];
-        logo.image = [UIImage imageNamed:@"large_cart.png"];
-//        logo.layer.cornerRadius = logo_size / 2.0;
-        logo.layer.borderColor = [UIColor almostBlackColor].CGColor;
-        logo.layer.borderWidth = 2.5f;
-//        [head addSubview:logo];
+    if([self shopping]){
+        DishCoins *view = [[[NSBundle mainBundle] loadNibNamed:@"DishCoins" owner:self options:nil] objectAtIndex:0];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(prizes)];
+        tap.numberOfTapsRequired = 1;
+        [view addGestureRecognizer:tap];
+        return view;
     } else {
-        head = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 100)];
-        logo.image = [UIImage imageNamed:@"logo.png"];
+        return [[UIView alloc] initWithFrame:CGRectMake(0,0,0,75)];
     }
-    
-    return head;
-
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // returns the same tracker you created in your app delegate
+    // defaultTracker originally declared in AppDelegate.m
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    
+    // This screen name value will remain set on the tracker and sent with
+    // hits until it is set to a new value or to nil.
+    [tracker set:kGAIScreenName
+           value:@"Settings Screen"];
+    
+    // manual screen tracking
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[@"Opened",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Menu Score",@1,@1]];
+    NSArray *options_text = @[@[@"Open Now",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Menu Score",@1,@1]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
@@ -319,7 +331,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 280, 25)];
     [label setFont:[UIFont boldSystemFontOfSize:18]];
     label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = @"Filter Restaurants";
+    NSString *string = @"Sort Restaurants";
     label.textColor = sign_in_color;
     [label setText:string];
     [view addSubview:label];

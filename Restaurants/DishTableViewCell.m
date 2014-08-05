@@ -59,8 +59,8 @@
     
 //    cell.priceLabel.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
 //    cell.dishTitle.font = [UIFont fontWithName:@"6809 Chargen" size:14.0f];
-    cell.priceLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:13.0f];
-    cell.dishTitle.font = [UIFont fontWithName:@"Copperplate" size:14.0f];
+    cell.priceLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:13.0f];
+    cell.dishTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:14.0f];
     
     
     cell.backgroundColor = [UIColor clearColor];
@@ -69,7 +69,7 @@
     cell.quantity.text = [NSString stringWithFormat:@"%dx", (int) self.dishFooterView.stepper.value];
 
 //    cell.quantity.font = [UIFont fontWithName:@"6809 Chargen" size:13.0f];
-    cell.quantity.font = [UIFont fontWithName:@"Copperplate-Bold" size:13.0f];
+    cell.quantity.font = [UIFont fontWithName:@"JosefinSans-Bold" size:13.0f];
     cell.fullHeight = [NSNumber numberWithInt:cell.frame.size.height];
     cell.parent = self;
     cell.edit.parent = self;
@@ -155,8 +155,8 @@
         cell.descriptionLabel.backgroundColor = [UIColor clearColor];
         cell.descriptionLabel.textAlignment = NSTextAlignmentLeft;
         cell.descriptionLabel.textColor = [UIColor textColor];
-        cell.descriptionLabel.text = @"Description";
-        cell.descriptionLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        cell.descriptionLabel.text = @"DESCRIPTION";
+        cell.descriptionLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:10.0f];
         [cell.descriptionLabel sizeToFit];
         
         maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
@@ -177,7 +177,7 @@
         cell.dishDescription.textAlignment = NSTextAlignmentLeft;
         cell.dishDescription.textColor = [UIColor textColor];
         cell.dishDescription.text = dish.description_text;
-        cell.dishDescription.font = [UIFont fontWithName:@"Newtext RG Bt" size:16.0f];
+        cell.dishDescription.font = [UIFont fontWithName:@"Merriweather" size:14.0f];
         cell.dishDescription.numberOfLines = 0;
         [cell.dishDescription sizeToFit];
         
@@ -205,8 +205,8 @@
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
-        option_view.optionTitle.textColor=[UIColor blackColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        option_view.optionTitle.textColor = [UIColor textColor];
+        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:22.0f];
         [option_view addSubview:option_view.optionTitle];
         
         option_view.parent = self;
@@ -237,8 +237,8 @@
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
-        option_view.optionTitle.textColor=[UIColor blackColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"Copperplate-Bold" size:18.0f];
+        option_view.optionTitle.textColor = [UIColor textColor];
+        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:22.0f];
         [option_view addSubview:option_view.optionTitle];
         
         [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(setPrice)];
@@ -265,6 +265,12 @@
         frame = cell.contentView.frame;
         frame.size.height = cell.contentView.frame.size.height + option_view.frame.size.height + 10;
         cell.contentView.frame = frame;
+    }
+    
+    if(sizeObject){
+        [sizeObject willChangeValueForKey:@"selectedSize"];
+        sizeObject.selectedSize = sizeObject.selectedSize;
+        [sizeObject didChangeValueForKey:@"selectedSize"];
     }
     
     cell.dish = dish;

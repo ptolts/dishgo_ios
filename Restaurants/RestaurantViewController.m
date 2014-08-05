@@ -22,7 +22,9 @@
 #import "KoaPullToRefresh.h"
 #import "Days.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import <GAI.h>
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 @interface RestaurantViewController ()
 
@@ -59,6 +61,25 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor scarletColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    // returns the same tracker you created in your app delegate
+    // defaultTracker originally declared in AppDelegate.m
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    
+    // This screen name value will remain set on the tracker and sent with
+    // hits until it is set to a new value or to nil.
+    [tracker set:kGAIScreenName
+           value:@"Restaurant Screen"];
+    
+    // manual screen tracking
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -181,6 +202,24 @@
                          spinner.hidden = NO;
                      }];
     [self fetchRestaurants];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)sectionIndex{
+    return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex{
+    return 0.1;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void) noRestaurants {
@@ -394,9 +433,10 @@
     ///// MAPPINGS
     RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
     [imagesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"local_file": @"url",
+                                                        @"medium": @"url",
+                                                        @"id": @"id",
                                                         }];
-    imagesMapping.identificationAttributes = @[ @"url" ];
+    imagesMapping.identificationAttributes = @[ @"id" ];
 
 //    RKLogConfigureByName("RestKit", RKLogLevelWarning);
 //    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
@@ -445,7 +485,9 @@
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
+    
+    [request setTimeoutInterval:10];
     
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
@@ -467,6 +509,7 @@
         restaurantList = new_restaurantList;
         filteredRestaurantList = restaurantList;
         [self filterRestaurants];
+        NSLog(@"RELOADING DATA.");
         [self.tableView reloadData];
         [self stopLoading];
         if([restaurantList count] == 0){
@@ -617,7 +660,7 @@
                                                                    animations:^{
                                                                        weakImage.alpha = 1.0;
                                                                    }];
-                                              }
+                                              } 
                                           }];
         } else {
             [imageView         setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
@@ -635,6 +678,7 @@
         }
         
         imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         [cell.scrollView addSubview:imageView];
         i++;
         if(i > 6){

@@ -30,6 +30,7 @@
     Dishes *dish;
     DishTableViewCell *dish_logic;
     bool editing;
+    Header *header;
     int initialFrame;
     int initialImageHeight;
     StorefrontImageView *scroll_image_view;
@@ -106,7 +107,7 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    Header *head = (Header *)self.tableView.tableHeaderView;
+    Header *head = header;
     
     head.backgroundColor = [UIColor clearColor];
     
@@ -125,7 +126,7 @@
     scroll_image_view.contentMode = UIViewContentModeScaleAspectFill;
     
     CGFloat yPos = -scrollView.contentOffset.y;
-    if (yPos > 0) {
+    if (yPos >= 0) {
         CGRect imgRect = head.frame;
         imgRect.origin.y = scrollView.contentOffset.y;
         imgRect.size.height = initialFrame+yPos;
@@ -139,18 +140,14 @@
         imgRect = scroll_image_view.frame;
         imgRect.size.height = initialImageHeight + yPos;
         scroll_image_view.frame = imgRect;
-        
-        imgRect = head.button_view_original_frame;
-        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
-        head.button_view.frame = imgRect;
     }
 }
 
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];    
     self.view.autoresizingMask = UIViewAutoresizingNone;
-    [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
     [self setupViews];
@@ -167,10 +164,10 @@
     [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
     
     if([self.dish.images count] > 0){
-        Header *header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
-        header.button_view.hidden = YES;
+        header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
+        [header.button_view removeFromSuperview];
         header.label.text = self.restaurant.name;
-        header.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:25.0f];
+        header.label.font = [UIFont fontWithName:@"JosefinSans-Bold" size:25.0f];
         header.scroll_view.dish = self.dish;
         header.scroll_view.img_delegate = self;
         [header.scroll_view setupDishImages];
@@ -180,9 +177,12 @@
         header.spacer.backgroundColor = [UIColor seperatorColor];
         header.spacer2.backgroundColor = [UIColor seperatorColor];
         header.backgroundColor = [UIColor almostBlackColor];
+        [header.gradient removeFromSuperview];
         CGRect frame = header.frame;
-        frame.size.height -= 40;
+        frame.size.height -= 98;
         header.frame = frame;
+        header.scroll_view.frame = frame;
+//        header.clipsToBounds = YES;
         self.tableView.tableHeaderView = header;
     }
 }

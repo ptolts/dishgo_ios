@@ -27,15 +27,21 @@
 #import "FontAwesomeKit/FAKFontAwesome.h"
 #import "CameraButton.h"
 #import "UIColor+Custom.h"
+#import "DishCoinButton.h"
 #import "User.h"
 #import "UploadImage.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AFNetworking/AFNetworking.h>
 #import "TWRBorderedView.h"
+#import "SetRating.h"
+#import <GAI.h>
+#import "GAIFields.h"
+#import "SexyView.h"
+#import "GAIDictionaryBuilder.h"
 
-#define DEFAULT_SIZE 275
+#define DEFAULT_SIZE 235
 #define SECOND_SIZE 160
-#define HEADER_DEFAULT_SIZE 45
+#define HEADER_DEFAULT_SIZE 10
 
 @interface SectionTableViewController ()
 
@@ -49,6 +55,8 @@
     Dishes *camera_dish;
     SectionDishViewCell *camera_cell;
     User *user;
+    UserSession *session;
+    SetRating *rate;
     UploadImage *up_img;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -64,10 +72,11 @@
 
 
 - (IBAction)takePhoto:(UITapGestureRecognizer *)sender {
-//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-//    picker.delegate = self;
-//    picker.allowsEditing = YES;
-//    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    if(![[UserSession sharedManager] logged_in]){
+        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+        [self.navigationController pushViewController:signin animated:YES];
+        return;
+    }
     CameraButton *but = (CameraButton *) sender.view;
     camera_dish = but.dish;
     camera_cell = but.parent_cell;
@@ -88,17 +97,23 @@
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     NSData *imageData = UIImageJPEGRepresentation(chosenImage,1.0);
     NSString *imageDataEncodedeString = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    SexyView *progress_view = [[SexyView alloc] init];
+    progress_view.radius = 100;
+    progress_view.progressBorderThickness = -10;
+    progress_view.trackColor = [UIColor blackColor];
+    progress_view.progressColor = [UIColor whiteColor];
+    progress_view.imageToUpload = chosenImage;
+    
     up_img = [[UploadImage alloc] init];
-    up_img.section_dish_view = camera_cell;
-    camera_cell.progress.hidden = NO;
-    camera_cell.dishDescription.hidden = YES;
-    camera_cell.dishImage.hidden = YES;
-    camera_cell.dishImage.image = chosenImage;
+    up_img.dish = camera_dish;
+    up_img.progress_view = progress_view;
     up_img.dishgo_token = user.foodcloud_token;
+    up_img.uitableview = self;
     up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
     up_img.image_data = imageDataEncodedeString;
     up_img.dish_id = camera_dish.id;
+    [progress_view show];
     [up_img startUploadAfn];
 }
 
@@ -117,11 +132,15 @@
     
     
     CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
+//    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
 //    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: negativeSpacer, customItem, nil] animated:NO];
-    [self.navigationItem setRightBarButtonItem:customItem];
+//    [self.navigationItem setRightBarButtonItem:customItem];
     //    self.navigationItem.rightBarButtonItem = customItem;
+    
+    DishCoinButton *dc = [[DishCoinButton alloc] init:self];
+    [self.navigationItem setRightBarButtonItem:dc];
+    
     self.cart = cartButton;
 }
 
@@ -130,9 +149,34 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor almostBlackColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+    label.backgroundColor = [UIColor clearColor];
+    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.adjustsFontSizeToFitWidth = YES;
+    label.text = self.section.name;
+    self.navigationItem.titleView = label;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // returns the same tracker you created in your app delegate
+    // defaultTracker originally declared in AppDelegate.m
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    
+    // This screen name value will remain set on the tracker and sent with
+    // hits until it is set to a new value or to nil.
+    [tracker set:kGAIScreenName
+           value:@"Section Screen"];
+    
+    // manual screen tracking
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
     [self setupBackButtonAndCart];
     
@@ -140,10 +184,6 @@
     heights = [[NSMutableDictionary alloc] init];
     subsectionList = [[NSMutableArray alloc] init];
     [subsectionList addObject:self.section];
-    int current_page_section = 0;
-    int current_page_dish_count = 0;
-    int counter = 1;
-    int row = 0;
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -162,6 +202,11 @@
     } else {
         [self.cart setCount:@"0"];
     }
+    if(!session){
+        session = [UserSession sharedManager];
+    }
+    rate = session.current_restaurant_ratings;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -213,40 +258,61 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.dish = dish;
+    
+    CGAffineTransform transform = CGAffineTransformMakeScale(1.0f, 5.0f);
+    cell.progress.transform = transform;
 
     cell.dishTitle.text = dish.name;
-    cell.dishTitle.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
+    cell.dishTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:20.0f];
     cell.dishDescription.text = dish.description_text;
-    [cell.dishDescription setFont:[UIFont fontWithName:@"Merriweather Regular" size:16.0f]];
     
-    CGSize maxSize = CGSizeMake(280.0f, CGFLOAT_MAX);
+//    for (NSString* family in [UIFont familyNames])
+//    {
+//        NSLog(@"%@", family);
+//        
+//        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+//        {
+//            NSLog(@"  %@", name);
+//        }
+//    }
+    
+    [cell.dishDescription setFont:[UIFont fontWithName:@"Merriweather" size:14.0f]];
+    
+    CGSize maxSize = CGSizeMake(304.0f, CGFLOAT_MAX);
     CGSize requiredSize = [cell.dishDescription sizeThatFits:maxSize];
-    CGRect descFrame = CGRectMake(20, 30, 280.0f, requiredSize.height);
+    CGRect descFrame = CGRectMake(8, 30, 304.0f, requiredSize.height);
     cell.dishDescription.frame = descFrame;
     
     cell.dishTitle.textColor = [UIColor textColor];
     cell.seperator.backgroundColor = [UIColor seperatorColor];
     cell.seperator2.backgroundColor = [UIColor seperatorColor];
     
-    NSLog(@"owned_resto_id: %@",user.owns_restaurant_id);
-    NSLog(@"resto_id: %@",self.restaurant.id);
-    
+//    NSLog(@"owned_resto_id: %@",user.owns_restaurant_id);
+//    NSLog(@"resto_id: %@",self.restaurant.id);
     
     NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
-    FAKFontAwesome *info = [FAKFontAwesome infoIconWithSize:20.0f];
+    FAKFontAwesome *info = [FAKFontAwesome infoIconWithSize:15.0f];
     [info addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
     [attributionMas appendAttributedString:[info attributedString]];
     cell.plus.attributedText = attributionMas;
     cell.plus.layer.cornerRadius = 15.0f;
-    cell.plus.layer.borderWidth = 1.0f;
+
     cell.plus.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.9f];
     cell.plus.layer.borderColor = [UIColor seperatorColor].CGColor;
 
     
     NSMutableAttributedString *attributionStars = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *star = [FAKFontAwesome starIconWithSize:15.0f];
+    
     NSNumber *total_rating_num = dish.rating;
-    [star addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor]];
+    
+    if(rate && [[rate current_rating:dish.id] intValue] >= 0){
+        total_rating_num = [rate current_rating:dish.id];
+    } else {
+        total_rating_num = dish.rating;
+    }
+    
+    [star addAttribute:NSForegroundColorAttributeName value:[UIColor starColor]];
     for(int i=0;i<[total_rating_num intValue];i++){
         [attributionStars appendAttributedString:[star attributedString]];
     }
@@ -259,40 +325,42 @@
     
     
     NSMutableAttributedString *attributionCamera = [[NSMutableAttributedString alloc] init];
-    FAKFontAwesome *cam = [FAKFontAwesome cameraIconWithSize:20.0f];
+    FAKFontAwesome *cam = [FAKFontAwesome cameraIconWithSize:15.0f];
     [cam addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
     [attributionCamera appendAttributedString:[cam attributedString]];
     cell.camera.attributedText = attributionCamera;
-    cell.camera.layer.cornerRadius = 20.0f;
-//    cell.camera.layer.borderWidth = 1.0f;
+    cell.camera.layer.cornerRadius = 15.0f;
     cell.camera.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.9f];
-//    cell.camera.layer.borderColor = [UIColor seperatorColor].CGColor;
     
-    if([user.owns_restaurant_id isEqualToString:self.restaurant.id] || user.is_admin){
-        UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takePhoto:)];
-        [cell.camera_view setUserInteractionEnabled:YES];
-        [cell.camera_view addGestureRecognizer:gesture];
-        cell.camera_view.dish = dish;
-        cell.camera_view.parent_cell = cell;
-        [cell bringSubviewToFront:cell.camera_view];
-    } else {
-        [cell.camera_view removeFromSuperview];
-    }
-    
+    UITapGestureRecognizer* gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takePhoto:)];
+    [cell.camera_view setUserInteractionEnabled:YES];
+    [cell.camera_view addGestureRecognizer:gesture];
+    cell.camera_view.dish = dish;
+    cell.camera_view.parent_cell = cell;
+    [cell bringSubviewToFront:cell.camera_view];
+
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    NSMutableArray *range = [dish priceRange];
-    float high = [range[1] floatValue];
-    float low = [range[0] floatValue];
-    
-    if([[NSNumber numberWithFloat:low] intValue] == 0 && [[NSNumber numberWithFloat:high] intValue] == 0){
-        cell.priceLabel.text = @"NA";
-    } else if([[NSNumber numberWithFloat:low] intValue] == 0){
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",high];
-    } else if([[NSNumber numberWithFloat:high] intValue] == 0){
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",low];
+    if([dish.sizes boolValue]){
+        NSMutableArray *range = [dish priceRange];
+        float high = [range[1] floatValue];
+        float low = [range[0] floatValue];
+        
+        if([[NSNumber numberWithFloat:low] intValue] == 0 && [[NSNumber numberWithFloat:high] intValue] == 0){
+            cell.priceLabel.text = @"NA";
+        } else if([[NSNumber numberWithFloat:low] intValue] == 0){
+            cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",high];
+        } else if([[NSNumber numberWithFloat:high] intValue] == 0){
+            cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",low];
+        } else {
+            cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f-%.0f",low,high];
+        }
     } else {
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f-%.0f",low,high];
+        if([dish.price intValue] == 0){
+            cell.priceLabel.text = @"Ask";
+        } else {
+            cell.priceLabel.text = [NSString stringWithFormat:@"$%.0f",[dish.price floatValue]];
+        }
     }
     
     
@@ -319,8 +387,11 @@
                                       }
                                   }
          ];
+        cell.dishTitle.textColor = [UIColor whiteColor];
     } else {
         cell.dishImage.hidden = YES;
+        cell.gradient.hidden = YES;
+        cell.dishTitle.textColor = [UIColor blackColor];
     }
     cell.clipsToBounds = YES;
     return cell;
@@ -329,7 +400,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SectionDishViewCell *c = (SectionDishViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     selected_dish = c.dish;
-    NSLog(@"FRAME: %@",CGRectCreateDictionaryRepresentation(c.dishImage.frame));
+//    NSLog(@"FRAME: %@",CGRectCreateDictionaryRepresentation(c.dishImage.frame));
     [self performSegueWithIdentifier:@"dishSelectClick" sender:self];
 //    [tableView beginUpdates];
 //    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
@@ -350,22 +421,23 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
-    if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
-        return [self headerView:sectionIndex tableView:tableView];
-    }
+    return [[UIView alloc] initWithFrame:CGRectZero];
+//    if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
+//        return [self headerView:sectionIndex tableView:tableView];
+//    }
 //    else if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
 //        return [self subheaderView:sectionIndex tableView:tableView];
 //    }
-    else {
-        return nil;
-    }
+//    else {
+//        return nil;
+//    }
 }
 
 - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
 {
     Sections *section = [subsectionList objectAtIndex:sectionIndex];
     if([section.name length] == 0){
-        return nil;
+        return [[UIView alloc] initWithFrame:CGRectZero];
     }
     
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
@@ -436,6 +508,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex
 {
+    
+    return 0.1f;
 //    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
 //    if([section.name length] == 0){
 //        return 0;

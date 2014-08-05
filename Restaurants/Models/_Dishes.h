@@ -114,9 +114,9 @@ extern const struct DishesFetchedProperties {
 
 
 
-@property float ratingValue;
-- (float)ratingValue;
-- (void)setRatingValue:(float)value_;
+@property int16_t ratingValue;
+- (int16_t)ratingValue;
+- (void)setRatingValue:(int16_t)value_;
 
 //- (BOOL)validateRating:(id*)value_ error:(NSError**)error_;
 
@@ -239,8 +239,8 @@ extern const struct DishesFetchedProperties {
 - (NSNumber*)primitiveRating;
 - (void)setPrimitiveRating:(NSNumber*)value;
 
-- (float)primitiveRatingValue;
-- (void)setPrimitiveRatingValue:(float)value_;
+- (int16_t)primitiveRatingValue;
+- (void)setPrimitiveRatingValue:(int16_t)value_;
 
 
 

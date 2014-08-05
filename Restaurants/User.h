@@ -26,6 +26,7 @@
     @property (nonatomic, copy) NSString *street_number;
     @property (nonatomic, copy) NSString *apartment_number;
     @property (nonatomic, copy) NSString *city;
+    @property (nonatomic, copy) NSNumber *dishcoins;
     @property (nonatomic, copy) NSString *postal_code;
     @property (nonatomic, copy) NSString *province;
     @property (nonatomic, copy) NSString *first_name;

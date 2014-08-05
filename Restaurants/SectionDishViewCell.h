@@ -22,6 +22,7 @@
     @property (strong, nonatomic) IBOutlet UIProgressView *progress;
     @property (strong, nonatomic) IBOutlet UILabel *plus;
     @property (nonatomic, strong) Dishes *dish;
+    @property (strong, nonatomic) IBOutlet UIView *gradient;
     @property int full_height;
     -(NSString *) getPrice;
     -(NSString *) getPriceFast;

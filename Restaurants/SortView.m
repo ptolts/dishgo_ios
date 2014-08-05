@@ -7,6 +7,7 @@
 //
 
 #import "SortView.h"
+#import <FAKFontAwesome.h>
 
 @implementation SortView {
     UIImageView *imageView;
@@ -63,9 +64,13 @@
 - (void)select:(UITapGestureRecognizer *)recognizer {
     self.selected = !self.selected;
     if(self.selected){
-        imageView.layer.borderColor = [UIColor redColor].CGColor;
+        FAKFontAwesome *checkIcon = [FAKFontAwesome checkCircleIconWithSize:18.0f];
+        [checkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor]];
+        imageView.image = [checkIcon imageWithSize:CGSizeMake(18.0f,18.0f)];
+        imageView.layer.borderWidth = 0.0f;
     } else {
-        imageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        imageView.image = nil;
+        imageView.layer.borderWidth = 1.5f;
     }
 }
 

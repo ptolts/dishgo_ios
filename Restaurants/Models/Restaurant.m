@@ -26,6 +26,16 @@
     return dict;
 }
 
+- (NSMutableArray *) allDishes {
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    for(Sections *sec in self.menu){
+        for(Dishes *d in sec.dishes){
+            [list addObject:d];
+        }
+    }
+    return list;
+}
+
 - (NSMutableArray *) dishList {
     NSMutableArray *list = [[NSMutableArray alloc] init];
     int i = 0;

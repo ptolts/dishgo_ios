@@ -9,14 +9,18 @@
 #import "SetRating.h"
 #import <JSONHTTPClient.h>
 #import "Constant.h"
+#import "UserSession.h"
 
 @implementation SetRating
     -(void) setRating {
         [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/dish/set_rating", dishGoUrl]
                                            params:[self cleanDict]
                                        completion:^(id json, JSONModelError *err) {
-                                           
-                                           
+                                           UserSession *session = [UserSession sharedManager];
+                                           SetRating *rate = session.current_restaurant_ratings;
+                                           NSMutableArray<SetRating> *copy = [NSMutableArray arrayWithArray:rate.current_ratings];
+                                           [copy addObject:self];
+                                           rate.current_ratings = [NSArray arrayWithArray:copy];
                                        }];
     }
 

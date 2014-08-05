@@ -16,4 +16,5 @@
     @property (nonatomic, strong) IBOutlet UILabel *phone;
     @property (nonatomic, strong) IBOutlet UILabel *address;
     @property (nonatomic, strong) IBOutlet UILabel *contact_title;
+    @property (strong, nonatomic) IBOutlet UILabel *hours;
 @end

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Dishes" representedClassName="Dishes" syncable="YES">
         <attribute name="description_text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="rating" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
         <attribute name="rating_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="sizes" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
@@ -15,6 +15,7 @@
         <relationship name="sizes_object" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Options" inverseName="sizes_owner" inverseEntity="Options" syncable="YES"/>
     </entity>
     <entity name="Images" representedClassName="Images" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dishes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="images" inverseEntity="Dishes" syncable="YES"/>
         <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="images" inverseEntity="Restaurant" syncable="YES"/>
@@ -67,7 +68,7 @@
     </entity>
     <elements>
         <element name="Dishes" positionX="0" positionY="0" width="128" height="225"/>
-        <element name="Images" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Images" positionX="0" positionY="0" width="128" height="105"/>
         <element name="Option" positionX="0" positionY="0" width="128" height="133"/>
         <element name="Options" positionX="0" positionY="0" width="128" height="178"/>
         <element name="Restaurant" positionX="0" positionY="0" width="128" height="210"/>

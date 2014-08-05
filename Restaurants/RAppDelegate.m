@@ -7,12 +7,13 @@
 //
 
 #import "RAppDelegate.h"
-
 #import "RootViewController.h"
 #import "RestaurantViewController.h"
 #import "UserSession.h"
 #import "CancelKeyboard.h"
-#import <Appsee/Appsee.h>
+#import <GoogleAnalytics-iOS-SDK/GAI.h>
+#import <ICETutorialPage.h>
+#import <ICETutorialController.h>
 
 
 @implementation RAppDelegate
@@ -41,11 +42,129 @@ BOOL attemptingFacebookLogin;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self loadCart];
-//    [Appsee start:@"8fef0cad79c04e569d06b0a46d0eca71"];
-    [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:@"9nf7k0v80d"]];
-    UserSession *sharedManager = [UserSession sharedManager];
+
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 5;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+//    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelError];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-48865823-2"];
+
+    BOOL tutorial = YES;
+    if(tutorial){
+        [self tutorial];
+    } else {
+        [self normal];
+    }
+    
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     return YES;
+}
+
+- (void) normal {
+    [self loadCart];
+    [UserSession sharedManager];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    REFrostedViewController *rootViewController = [storyboard instantiateInitialViewController];
+    self.window.rootViewController = rootViewController;
+}
+
+- (void) tutorial {
+
+    NSString *page_1_string_part_1 = @"With DishGo you can browse menus,";
+    NSString *page_1_string_part_2 = @"rate dishes, share pictures and collect";
+    NSString *page_1_string_part_3 = @"rewards.\n";
+    NSString *page_1_string_part_4 = @"Every DishCoin earned gives";
+    NSString *page_1_string_part_5 = @"you access to great prizes.";
+
+    NSString *page_1_string = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n",page_1_string_part_1,page_1_string_part_2,page_1_string_part_3,page_1_string_part_4,page_1_string_part_5];
+
+    ICETutorialPage *layer1 = [[ICETutorialPage alloc] initWithTitle:@"Restaurant Menus, on demand" subTitle:page_1_string pictureName:@"page1.png" duration:3.0f];
+    
+    ICETutorialLabelStyle *page_1_style = [[ICETutorialLabelStyle alloc] init];
+    [page_1_style setFont:[UIFont fontWithName:@"Josefin Sans" size:18.0f]];
+    [page_1_style setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [page_1_style setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
+//    [page_1_style setOffset:280];
+
+    ICETutorialLabelStyle *page_1_desc_style = [[ICETutorialLabelStyle alloc] init];
+    [page_1_desc_style setFont:[UIFont fontWithName:@"Josefin Sans" size:18.0f]];
+    [page_1_desc_style setTextColor:TUTORIAL_LABEL_TEXT_COLOR];
+    [page_1_desc_style setLinesNumber:6];
+//    [page_1_desc_style setOffset:200];
+    
+    [layer1 setSubTitleStyle:page_1_style];
+    [layer1 setTitleStyle:page_1_desc_style];
+    
+    page_1_string_part_1 = @"Search through restaurants";
+    page_1_string_part_2 = @"in your surrounding area";
+    page_1_string_part_3 = @"and select one by";
+    page_1_string_part_4 = @"tapping the tile.";
+
+    page_1_string = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n",page_1_string_part_1,page_1_string_part_2,page_1_string_part_3,page_1_string_part_4];
+    
+    ICETutorialPage *layer2 = [[ICETutorialPage alloc] initWithTitle:@"Select a restaurant" subTitle:page_1_string pictureName:@"page2.png" duration:3.0f];
+    
+    
+    ICETutorialLabelStyle *page_2_style = [[ICETutorialLabelStyle alloc] init];
+    [page_2_style setFont:[UIFont fontWithName:@"Josefin Sans" size:18.0f]];
+    [page_2_style setTextColor:[UIColor scarletColor]];
+    [page_2_style setLinesNumber:TUTORIAL_SUB_TITLE_LINES_NUMBER];
+//    [page_2_style setOffset:280];
+    
+    ICETutorialLabelStyle *page_2_desc_style = [[ICETutorialLabelStyle alloc] init];
+    [page_2_desc_style setFont:[UIFont fontWithName:@"Josefin Sans" size:18.0f]];
+    [page_2_desc_style setTextColor:[UIColor almostBlackColor]];
+    [page_2_desc_style setLinesNumber:6];
+//    [page_2_desc_style setOffset:200];
+
+    [layer2 setSubTitleStyle:page_2_style];
+    [layer2 setTitleStyle:page_2_desc_style];
+
+    // Load into an array.
+    NSArray *tutorialLayers = @[layer1,layer2];
+    
+
+    ICETutorialController *tutorial_controller = [[ICETutorialController alloc] initWithPages:tutorialLayers delegate:self];
+    
+    // Set the common styles, and start scrolling (auto scroll, and looping enabled by default)
+//        [tutorial_controller setCommonPageSubTitleStyle:subStyle];
+//        [tutorial_controller setCommonPageDescriptionStyle:descStyle];
+
+    // Set button 1 action.
+//    [tutorial_controller setButton1Block:^(UIButton *button){
+//        NSLog(@"Button 1 pressed.");
+//    }];
+    
+    // Set button 2 action, stop the scrolling.
+//    __unsafe_unretained typeof(RAppDelegate) *weakSelf = self;
+//    [tutorial_controller setButton2Block:^(UIButton *button){
+//        [weakSelf normal];
+//    }];
+
+    
+    self.window.rootViewController = tutorial_controller;
+
+    // Run it.
+    [tutorial_controller startScrolling];
+    
+    return;
+    
+}
+
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnLeftButton:(UIButton *)sender {
+    NSLog(@"Button 1 pressed.");
+}
+
+- (void)tutorialController:(ICETutorialController *)tutorialController didClickOnRightButton:(UIButton *)sender {
+    [self normal];
 }
 
 - (void) saveCart {

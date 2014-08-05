@@ -159,22 +159,22 @@ const struct DishesFetchedProperties DishesFetchedProperties = {
 
 
 
-- (float)ratingValue {
+- (int16_t)ratingValue {
 	NSNumber *result = [self rating];
-	return [result floatValue];
+	return [result shortValue];
 }
 
-- (void)setRatingValue:(float)value_ {
-	[self setRating:[NSNumber numberWithFloat:value_]];
+- (void)setRatingValue:(int16_t)value_ {
+	[self setRating:[NSNumber numberWithShort:value_]];
 }
 
-- (float)primitiveRatingValue {
+- (int16_t)primitiveRatingValue {
 	NSNumber *result = [self primitiveRating];
-	return [result floatValue];
+	return [result shortValue];
 }
 
-- (void)setPrimitiveRatingValue:(float)value_ {
-	[self setPrimitiveRating:[NSNumber numberWithFloat:value_]];
+- (void)setPrimitiveRatingValue:(int16_t)value_ {
+	[self setPrimitiveRating:[NSNumber numberWithShort:value_]];
 }
 
 

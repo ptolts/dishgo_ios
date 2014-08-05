@@ -4,6 +4,7 @@
 #import "_Images.h"
 
 const struct ImagesAttributes ImagesAttributes = {
+	.id = @"id",
 	.url = @"url",
 };
 
@@ -44,6 +45,13 @@ const struct ImagesFetchedProperties ImagesFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic id;
+
+
 
 
 

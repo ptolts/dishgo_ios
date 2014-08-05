@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *range_label;
 @property (strong, nonatomic) IBOutlet UILabel *rating_label;
 @property (strong, nonatomic) IBOutlet UILabel *rating;
+@property (strong, nonatomic) IBOutlet UIView *separator;
 @property Sections *section;
 - (void) setup;
 @end

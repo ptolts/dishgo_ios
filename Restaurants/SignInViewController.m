@@ -74,6 +74,11 @@
     self.navigationItem.titleView = label;
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor scarletColor];
+}
+
 -(void) myCustomBack {
 	// Some anything you need to do before leaving
 	[self.navigationController popViewControllerAnimated:YES];

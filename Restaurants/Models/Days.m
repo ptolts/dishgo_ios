@@ -82,4 +82,18 @@
     }
     
 }
+
+- (NSString *) toString {
+    if(self.closed){
+        return @"Closed";
+    }
+    NSString *day_of_week = self.day;
+    day_of_week = [day_of_week stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[day_of_week substringToIndex:1] uppercaseString]];
+    if([day_of_week isEqualToString:@"Friday"]){
+        day_of_week = @"Friday  ";
+    }
+    NSString *opens = [NSString stringWithFormat:@"%@",self.opens_1];
+    NSString *closes = [NSString stringWithFormat:@"%@", self.closes_1];
+    return [NSString stringWithFormat:@"%@:\t %@ - %@",day_of_week,opens,closes];
+}
 @end

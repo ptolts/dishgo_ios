@@ -30,7 +30,13 @@
 #import "LEColorPicker.h"
 #import "UserSession.h"
 #import "DishCellClean.h"
-
+#import <GAI.h>
+#import "DishSearchTableViewController.h"
+#import "DishCoinButton.h"
+#import <FAKFontAwesome.h>
+#import "FilterDishButton.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
 
 #define DEFAULT_SIZE 128
 #define HEADER_DEFAULT_SIZE 45
@@ -56,12 +62,56 @@
     BOOL enableCart;
     UIButton *retryFetch;
     UILabel *progress;
+    UIImage *old_bg_image;
+    UIImage *old_shadow_image;
     int initialImageHeight;
+    FilterDishButton *filter;
     StorefrontImageView *scroll_image_view;
 
 - (void)showModalView
 {
     [self showModal];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:old_bg_image
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = old_shadow_image;
+    self.navigationController.navigationBar.translucent = NO;
+    
+    [filter removeFromSuperview];
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    old_bg_image = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    old_shadow_image = self.navigationController.navigationBar.shadowImage;
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.tableView.contentInset = inset;
+    self.tableView.scrollIndicatorInsets = inset;
+    
+    
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);;
+    filter = [FilterDishButton x:5.0f y:5.0f];
+    [filter addTarget:self action:@selector(showDishSearch) forControlEvents:UIControlEventTouchUpInside];
+    [mainWindow addSubview:filter];
+    [mainWindow bringSubviewToFront:filter];
+    if(spinnerView){
+        [mainWindow bringSubviewToFront:spinnerView];
+    }
+}
+
+- (void) showDishSearch {
+    DishSearchTableViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dishSearch"];
+    viewController.restaurant = self.restaurant;
+    viewController.shoppingCart = self.shoppingCart;
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void) showModal {
@@ -157,6 +207,7 @@
 - (void) startLoading {
     enableCart = NO;
     int junk = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+    junk = 0;
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
     spinnerView = [[UIView alloc] initWithFrame:CGRectMake(0, junk, mainWindow.frame.size.width, mainWindow.frame.size.height - junk)];
     spinnerView.backgroundColor = [UIColor whiteColor];
@@ -165,6 +216,16 @@
     logo.image = [UIImage imageNamed:@"loading.png"];
     logo.backgroundColor = [UIColor whiteColor];
     [spinnerView addSubview:logo];
+    
+    FAKFontAwesome *check = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
+    UIImage *b = [check imageWithSize:CGSizeMake(22.0,22.0)];
+    UIImageView *a = [[UIImageView alloc] initWithImage:b];
+    UIButton *c = [[UIButton alloc] initWithFrame:CGRectMake(10,15,44,44)];
+    [c addSubview:a];
+    [c addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [spinnerView addSubview:c];
     
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setColor:[UIColor almostBlackColor]];
@@ -199,6 +260,7 @@
     retryFetch.hidden = YES;
     [spinnerView addSubview:retryFetch];
     [mainWindow addSubview:spinnerView];
+    [mainWindow bringSubviewToFront:spinnerView];
     
     if([[UserSession sharedManager] logged_in]){
         [[UserSession sharedManager] fetch_ratings: self.restaurant.id];
@@ -232,7 +294,18 @@
 
 
 -(void) viewDidAppear:(BOOL)animated {
-    [self matchColor];
+    // returns the same tracker you created in your app delegate
+    // defaultTracker originally declared in AppDelegate.m
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    
+    // This screen name value will remain set on the tracker and sent with
+    // hits until it is set to a new value or to nil.
+    [tracker set:kGAIScreenName
+           value:@"Storefront Screen"];
+    
+    // manual screen tracking
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+//    [self matchColor];
     if([shoppingCart count] != 0){
         int tots = 0;
         for(DishTableViewCell *d in shoppingCart){
@@ -262,11 +335,11 @@
     [shoppingCart setIdent:self.restaurant.id];
     
     CartButton *cartButton = [[CartButton alloc] init];
-    [cartButton.button addTarget:self action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:cartButton.button];
-    [self.navigationItem setRightBarButtonItem:customItem];
     self.cart = cartButton;
     [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
+    
+    DishCoinButton *dc = [[DishCoinButton alloc] init:self];
+    [self.navigationItem setRightBarButtonItem:dc];
 }
 
 - (void)viewDidLoad
@@ -274,36 +347,62 @@
     [super viewDidLoad];
     [self startLoading];
     enableCart = NO;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.tableView.autoresizingMask = UIViewAutoresizingNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.tableView.autoresizingMask = UIViewAutoresizingNone;
     
     [self setupBackButtonAndCart];
     
     // FOOD CLOUD TITLE
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
-    label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
-    label.adjustsFontSizeToFitWidth = YES;
-    label.text = self.restaurant.name;
-    self.navigationItem.titleView = label;
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+//    label.backgroundColor = [UIColor clearColor];
+//    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
+//    label.textAlignment = NSTextAlignmentCenter;
+//    label.textColor = [UIColor whiteColor];
+//    label.adjustsFontSizeToFitWidth = YES;
+//    label.text = self.restaurant.name;
+//    self.navigationItem.titleView = label;
     
     header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
+    header.restaurant_name.text = self.restaurant.name;
+    header.restaurant_name.textColor = [UIColor textColor];
     header.label.text = self.restaurant.name;
     header.label.font = [UIFont fontWithName:@"Copperplate-Bold" size:25.0f];
     header.scroll_view.restaurant = self.restaurant;
     header.scroll_view.img_delegate = self;
     header.autoresizingMask = UIViewAutoresizingNone;
     header.scroll_view.autoresizingMask = UIViewAutoresizingNone;
-    header.button_view.backgroundColor = [UIColor complimentaryBg];
+    header.button_view.backgroundColor = [UIColor bgColor];
     header.spacer.backgroundColor = [UIColor seperatorColor];
     header.spacer2.backgroundColor = [UIColor seperatorColor];
+    header.seperator.backgroundColor = [UIColor seperatorColor];
+    header.separator2.backgroundColor = [UIColor clearColor];
+    header.map_label.textColor = [UIColor textColor];
+    header.phone_label.textColor = [UIColor textColor];
     header.backgroundColor = [UIColor bgColor];
     self.tableView.tableHeaderView = header;
+    
+    NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
+    FAKFontAwesome *check = [FAKFontAwesome mapMarkerIconWithSize:18.0f];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    [attributionMas appendAttributedString:[check attributedString]];
+    header.map_fa.attributedText = attributionMas;
+    
+    check = [FAKFontAwesome phoneIconWithSize:18.0f];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    attributionMas = [[NSMutableAttributedString alloc] init];
+    [attributionMas appendAttributedString:[check attributedString]];
+    header.phone_fa.attributedText = attributionMas;
+    
+    check = [FAKFontAwesome clockOIconWithSize:18.0f];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    attributionMas = [[NSMutableAttributedString alloc] init];
+    [attributionMas appendAttributedString:[check attributedString]];
+    header.hours_fa.attributedText = attributionMas;
+    
     [header.tap_info addTarget:self action:@selector(showModalView)];
     
     self.tableView.backgroundColor = [UIColor bgColor];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,45)];
     
     [self loadMenu];
 }
@@ -317,7 +416,7 @@
         NSError* err = nil;
         NSLog(@"Json from defaults: %@",json);
         Order_Order *object_order = [[Order_Order alloc] initWithString:json error:&err];
-//        NSLog(@"ERROR LOADING CART FROM NSUSERDEFAULTS: %@",err);
+        NSLog(@"ERROR LOADING CART FROM NSUSERDEFAULTS: %@",err);
         shoppingCart = [object_order reverseJsonWithRestaurant:self.restaurant];
         [shoppingCart setIdent:self.restaurant.id];
 //        NSLog(@"CART SIZE: %d",[shoppingCart count]);
@@ -357,37 +456,37 @@
     scroll_image_view = current;
     initialImageHeight = current.frame.size.height;
     
-    [self matchColor];
+//    [self matchColor];
     
 }
 
 -(void) matchColor {
-    LEColorPicker *colorPicker = [[LEColorPicker alloc] init];
-    LEColorScheme *colorScheme = [colorPicker colorSchemeFromImage:scroll_image_view.image];
-    
-    Header *head = (Header *)self.tableView.tableHeaderView;
-    
-    [head.button_view.layer removeAllAnimations];
-    
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         head.button_view.backgroundColor = [[colorScheme backgroundColor] colorWithAlphaComponent:0.8f];
-                         head.map_label.textColor = [colorScheme primaryTextColor];
-                         head.phone_label.textColor = [colorScheme primaryTextColor];
-                         head.favorite_label.textColor = [colorScheme primaryTextColor];
-                         for(UIImageView *i in [head.button_view subviews]){
-                             if([i isKindOfClass:[UIImageView class]]){
-                                 UIColor *color = [colorScheme primaryTextColor];
-                                 if(i.tag == 1){
-                                     i.image = [self ipMaskedImageNamed:@"tele.png" color:color];
-                                 } else if(i.tag == 2){
-                                     i.image = [self ipMaskedImageNamed:@"loc.png" color:color];
-                                 } else if(i.tag == 3){
-                                     i.image = [self ipMaskedImageNamed:@"heart.png" color:color];
-                                 }
-                             }
-                         }
-                     }];
+//    LEColorPicker *colorPicker = [[LEColorPicker alloc] init];
+//    LEColorScheme *colorScheme = [colorPicker colorSchemeFromImage:scroll_image_view.image];
+//    
+//    Header *head = (Header *)self.tableView.tableHeaderView;
+//    
+//    [head.button_view.layer removeAllAnimations];
+//    
+//    [UIView animateWithDuration:0.5
+//                     animations:^{
+//                         head.button_view.backgroundColor = [[colorScheme backgroundColor] colorWithAlphaComponent:0.8f];
+//                         head.map_label.textColor = [colorScheme primaryTextColor];
+//                         head.phone_label.textColor = [colorScheme primaryTextColor];
+//                         head.favorite_label.textColor = [colorScheme primaryTextColor];
+//                         for(UIImageView *i in [head.button_view subviews]){
+//                             if([i isKindOfClass:[UIImageView class]]){
+//                                 UIColor *color = [colorScheme primaryTextColor];
+//                                 if(i.tag == 1){
+//                                     i.image = [self ipMaskedImageNamed:@"tele.png" color:color];
+//                                 } else if(i.tag == 2){
+//                                     i.image = [self ipMaskedImageNamed:@"loc.png" color:color];
+//                                 } else if(i.tag == 3){
+//                                     i.image = [self ipMaskedImageNamed:@"heart.png" color:color];
+//                                 }
+//                             }
+//                         }
+//                     }];
 }
 
 - (UIImage *)ipMaskedImageNamed:(NSString *)name color:(UIColor *)color
@@ -465,14 +564,18 @@
         imgRect.size.height += yPos;
         imgRect.origin.y = scrollView.contentOffset.y;
         head.scroll_view.frame = imgRect;
+        
+        imgRect = head.gradient.frame;
+        imgRect.origin.y = scrollView.contentOffset.y;
+        head.gradient.frame = imgRect;
 
         imgRect = scroll_image_view.frame;
         imgRect.size.height = initialImageHeight + yPos;
         scroll_image_view.frame = imgRect;
         
         imgRect = head.button_view_original_frame;
-//        imgRect.origin.y = head.scroll_view.frame.origin.y + head.scroll_view.frame.size.height - head.button_view.frame.size.height;
-        imgRect.origin.y = head.frame.size.height - 40 + scrollView.contentOffset.y;
+        // the static number below is hte height of hte contact card
+        imgRect.origin.y = head.frame.size.height - 90 + scrollView.contentOffset.y;
         head.button_view.frame = imgRect;
     }
 }
@@ -571,9 +674,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
     return [[UIView alloc] initWithFrame:CGRectZero];
-    
     UIView *blank = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,1.0)];
-    
     if([sectionsList count] == 0){
         return blank;
     }
@@ -581,9 +682,6 @@
     if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
         return [self headerView:sectionIndex tableView:tableView];
     }
-//    else if ([[sectionsList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
-//        return [self subheaderView:sectionIndex tableView:tableView];
-//    }
     else {
         return blank;
     }
@@ -736,9 +834,10 @@
     
     RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
     [imagesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"local_file": @"url",
+                                                        @"medium": @"url",
+                                                        @"id":@"id",
                                                         }];
-    imagesMapping.identificationAttributes = @[ @"url" ];
+    imagesMapping.identificationAttributes = @[ @"id" ];
     
     [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
     [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"sizes" toKeyPath:@"sizes_object" withMapping:optionsMapping]];
@@ -753,7 +852,9 @@
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setTimeoutInterval:10];
+    
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     operation.managedObjectCache = managedObjectStore.managedObjectCache;
@@ -769,7 +870,7 @@
 
         [self buildCells];
         [header.scroll_view setupImages];
-        [self matchColor];
+//        [self matchColor];
         [self.tableView reloadData];
         
         [self loadCart];        

@@ -113,7 +113,20 @@ UIView *loading;
     
     footer.phone.text = self.restaurant.phone;
     footer.address.text = self.restaurant.address;
+    [footer.address sizeToFit];
 //    footer.contact_title.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
+    
+    Hours *hours = self.restaurant.gHours;
+    NSString *hours_text = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n%@\n%@",
+                            hours.monday.toString,
+                            hours.tuesday.toString,
+                            hours.wednesday.toString,
+                            hours.thursday.toString,
+                            hours.friday.toString,
+                            hours.saturday.toString,
+                            hours.sunday.toString];
+    footer.hours.text = hours_text;
+    [footer.hours sizeToFit];
 
     footer.contact_title.backgroundColor = [UIColor bgColor];
     footer.contact_title.font = [UIFont fontWithName:@"East Market NF" size:22.0f];

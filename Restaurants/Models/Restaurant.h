@@ -7,4 +7,5 @@
     -(BOOL) opened;
     @property BOOL isOpened;
     - (NSMutableArray *) dishList;
+    - (NSMutableArray *) allDishes;
 @end

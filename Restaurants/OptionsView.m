@@ -36,34 +36,7 @@
     _KVOController = KVOController;
     return self;
 }
-- (void)setupSeg
-{
-    NSMutableArray *itemArray = [[NSMutableArray alloc] init];
-    
-    self.optionTitle.text = self.op.name;
-    
-    for(NSMutableArray *option in option_values){
-        [itemArray addObject:[NSString stringWithFormat:@"%@: %@$",option[0],option[1]]];
-    }
-    
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
-    segmentedControl.frame = CGRectMake(5, self.frame.size.height + 5, self.frame.size.width - 10, 50);
-    
-    useButton = YES;
-    
-    if(useButton){
-        [self setupBut];
-    } else {
-        //    segmentedControl.selectedSegmentIndex = 1;
-        CGRect frame = self.frame;
-        frame.size.height = self.frame.size.height + 75;
-        self.frame = frame;
-        [segmentedControl addTarget:self action:@selector(updatePrice:) forControlEvents:UIControlEventValueChanged];
-        [self addSubview:segmentedControl];
-        [self.layer setCornerRadius:5.0f];
-//        self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
-    }
-}
+
 
 - (void)setupBut
 {
@@ -71,7 +44,7 @@
     buttonList_dict = [[NSMutableDictionary alloc] init];
     
     self.optionTitle.text = self.op.name;
-    mainColor = [UIColor colorWithRed:(62/255) green:(62/255) blue:(62/255) alpha:0.9];
+    mainColor = [UIColor textColor];
     mainCGColor = mainColor.CGColor;
     
     CGSize maxSize;
@@ -89,46 +62,36 @@
     int last = [option_values count] - 1;
     for(NSMutableArray *option in option_values){
         Option *option_for_button = option[3];
-        OptionButton *button = [OptionButton buttonWithType:UIButtonTypeRoundedRect];
+        CGRect button_frame;
+        int buttonSize = 40;
+//        if (index % 2 == 0){
+//            button_frame = CGRectMake(10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
+//        } else {
+//            button_frame = CGRectMake((self.frame.size.width/2) + 10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
+//        }
+        // make last button full size if the count is odd.
+//        if(odd && index == last){
+            button_frame = CGRectMake(10, self.frame.size.height + 5, self.frame.size.width - 20, buttonSize);
+//        }
+        
+        OptionButton *button = [[OptionButton alloc] initWithFrame:button_frame];
+        button.option = option_for_button;
+        [button setup];
         [self.KVOController observe:button keyPath:@"selected" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
         [self.KVOController observe:button keyPath:@"price" options:NSKeyValueObservingOptionNew action:@selector(getCurrentPrice)];
         [buttonList_dict setObject:button forKey:option_for_button.id];
         [button addTarget:self action:@selector(addOpt:) forControlEvents:UIControlEventTouchUpInside];
+
         
-        int buttonSize = 45;
+//        button.adjustsImageWhenHighlighted = NO;
+//        button.clipsToBounds = YES;
         
-        if (index % 2 == 0){
-            button.frame = CGRectMake(10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
-        } else {
-            button.frame = CGRectMake((self.frame.size.width/2) + 10, self.frame.size.height + 5, (self.frame.size.width/2) - 20, buttonSize);
-        }
-        
-        // make last button full size if the count is odd.
-        if(odd && index == last){
-            button.frame = CGRectMake(10, self.frame.size.height + 5, self.frame.size.width - 20, buttonSize);
-        }
-        
-        button.layer.borderColor = mainCGColor;
-        button.layer.backgroundColor = [UIColor bgColor].CGColor;
-        button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        button.titleLabel.numberOfLines = 2;
-        button.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [button setTitle:[NSString stringWithFormat:@"%@\n$%@",option_for_button.name,option_for_button.price] forState:UIControlStateNormal];
-        [button setTitleColor:mainColor forState:UIControlStateNormal];
-        button.layer.borderWidth=1.0f;
-        [button.layer setCornerRadius:3.0f];
-        
-        button.adjustsImageWhenHighlighted = NO;
-        button.clipsToBounds = YES;
-        
-        if (index % 2 == 1 || (index + 1) == [option_values count]){
+//        if (index % 2 == 1 || (index + 1) == [option_values count]){
             CGRect frame = self.frame;
             frame.size.height = self.frame.size.height + (buttonSize + 10);
             self.frame = frame;
-        }
-        
-        button.option = option_for_button;
-        
+//        }
+    
         button.tag = index;
         [buttonList addObject:button];
         button.adjustsImageWhenHighlighted = NO;
@@ -136,7 +99,6 @@
         index++;
     }
     [self.layer setCornerRadius:5.0f];
-//    self.layer.backgroundColor = [UIColor colorWithRed:(250.0/255.0) green:(250.0/255.0) blue:(250.0/255.0) alpha:1.0].CGColor;
 }
 
 - (void) setupFromJson:(NSMutableArray<Option_Order> *)json {
@@ -152,11 +114,9 @@
 
 - (void)setupOption
 {
-    option_order_json = [[NSMutableArray alloc] init];
     option_values = [[NSMutableArray alloc] init];
-
     option_order_json_dict = [[NSMutableDictionary alloc] init];
-//    option_values_dict = [[NSMutableDictionary alloc] init];
+    option_order_json = (NSMutableArray<Option_Order> *)[[NSMutableArray alloc] init];
     
     for(Option *option in self.op.list){
         Option_Order *opt = [[Option_Order alloc] init];
@@ -183,10 +143,13 @@
         [option_values addObject:currentItem];
     }
     
-    if (([self.op.type isEqual: @"size"])){
-        [self setupSeg];
-    } else {
         [self setupBut];
+    
+    if (([self.op.type isEqual: @"size"])){
+        // Bad name, but this makes sure only one item can be selected at once.
+        useButton = YES;
+        OptionButton *selected_button = (OptionButton *)[buttonList firstObject];
+        [self addOpt:selected_button];
     }
 
     self.full_height = self.frame.size.height;
@@ -204,34 +167,53 @@
     
     OptionButton *selected_button = (OptionButton *)sender;
     
+    if (([self.op.type isEqual: @"size"]) && selected_button.selected){
+        return;
+    }
+    
     if(useButton){
         for(OptionButton *but in buttonList){
             if(but.selected){
-                NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:but.tag];
                 if(but != sender){
                     totalPrice -= [but.option.price floatValue];
                     [but setSelected:![but isSelected]];
                     Option_Order *o = [option_order_json objectAtIndex:but.tag];
                     o.selected = !o.selected;
-                    but.layer.backgroundColor = [UIColor whiteColor].CGColor;
-                    [but setTitleColor:mainColor forState:UIControlStateNormal];
                 }
             }
         }
     } else {
         int selected_count = 0;
+        OptionButton *not_the_selected_button;
         for(OptionButton *but in buttonList){
+            // grab this reference for later. we may need to deselect something.
+            if(!not_the_selected_button && but != selected_button && but.selected){
+                not_the_selected_button = but;
+            }
             if(but.selected){
-                selected_count ++;
+                selected_count++;
             }
         }
-        if([self.op.advanced intValue] == 1 && !selected_button.selected && selected_count == [self.op.max_selections intValue]){
-            return;
+        // Advanced options selected, as in a min and max number of individual options set
+        if([self.op.advanced intValue] == 1){
+            // Just in case we'll recalculate total selected.
+            selected_count = 0;
+            for(OptionButton *but in buttonList){
+                if(but.selected){
+                    selected_count++;
+                }
+            }
+            if(!selected_button.selected && selected_count == [self.op.max_selections intValue]){
+                //If the selected button wasn't selected and we're already at our max count, let deselect a selected button. But we'll make sure there is one.
+                if(not_the_selected_button){
+                    [self addOpt:not_the_selected_button];
+                } else {
+                return;
+                }
+            }
         }
     }
     
-
-    NSMutableArray *p = (NSMutableArray *)[option_values objectAtIndex:selected_button.tag];
     [selected_button setSelected:![selected_button isSelected]];
     
     Option_Order *o = [option_order_json objectAtIndex:selected_button.tag];
@@ -243,13 +225,9 @@
     
     if(selected_button.selected){
         totalPrice += [selected_button.option.price floatValue];
-        selected_button.layer.backgroundColor = mainCGColor;
-        [selected_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.parent setPrice];
     } else {
         totalPrice -= [selected_button.option.price floatValue];
-        selected_button.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        [selected_button setTitleColor:mainColor forState:UIControlStateNormal];
         [self.parent setPrice];
     }
 }
@@ -266,7 +244,6 @@
         }
     }
     self.total_price = total_price;
-//    NSLog(@"TOTAL PRICE: %f",self.total_price);
 }
 
 @end

@@ -10,6 +10,18 @@
 
 @implementation UIColor (Custom)
 
+    + (UIColor*)unselectedButtonColor {
+        return [UIColor colorWithRed:219.0/255.0 green:219.0/255.0 blue:219.0/255.0 alpha:1];
+    }
+
+    + (UIColor*)selectedButtonColor {
+        return [UIColor colorWithRed:141.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1];
+    }
+
+    + (UIColor*)starColor {
+        return [UIColor colorWithRed:231.0/255.0 green:229.0/255.0 blue:21.0/255.0 alpha:1];
+    }
+
     //title red
     + (UIColor*)scarletColor {
         return [UIColor colorWithRed:207.0/255.0 green:47.0/255.0 blue:40.0/255.0 alpha:1];
@@ -28,7 +40,7 @@
     }
 
     + (UIColor*)almostBlackColor {
-        return [UIColor colorWithRed:17.0/255.0 green:17.0/255.0 blue:17.0/255.0 alpha:1];
+        return [UIColor colorWithRed:55.0/255.0 green:55.0/255.0 blue:55.0/255.0 alpha:1];
     }
 
     + (UIColor*)creditCardColor {

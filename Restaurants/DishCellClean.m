@@ -10,6 +10,7 @@
 #import "Dishes.h"
 #import "FontAwesomeKit/FAKFontAwesome.h"
 #import "TWRBorderedView.h"
+#import "UIColor+Custom.h"
 
 @implementation DishCellClean
 
@@ -23,12 +24,13 @@
 }
 
 - (void) setup {
-    self.title.font = [UIFont fontWithName:@"Josefin Sans" size:24.0f];
+    self.title.font = [UIFont fontWithName:@"Josefin Sans" size:22.0f];
     self.title.text = self.section.name;
     self.dish_count.text = [NSString stringWithFormat:@"%d",[self.section.dishes count]];
     float high = -1;
     float low = -1;
     float total_rating = 0;
+    int total_dishes_with_ratings = 0;
     for(Dishes *d in self.section.dishes){
         NSMutableArray *range = [d priceRange];
         float dish_high = [range[1] floatValue];
@@ -39,10 +41,13 @@
         if(low == -1 || dish_low < low){
             low = dish_low;
         }
-        total_rating += [d.rating floatValue];
+        if([d.rating intValue] > 0){
+            total_dishes_with_ratings++;
+            total_rating += [d.rating floatValue];
+        }
     }
     
-    total_rating = total_rating / [self.section.dishes count];
+    total_rating = total_rating / total_dishes_with_ratings;
     NSNumber *total_rating_num = [NSNumber numberWithFloat:total_rating];
     
     if([[NSNumber numberWithFloat:low] intValue] == 0 && [[NSNumber numberWithFloat:high] intValue] == 0){
@@ -63,7 +68,7 @@
     NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *star = [FAKFontAwesome starIconWithSize:16];
     
-    [star addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor]];
+    [star addAttribute:NSForegroundColorAttributeName value:[UIColor starColor]];
     for(int i=0;i<[total_rating_num intValue];i++){
         [attributionMas appendAttributedString:[star attributedString]];
     }
@@ -83,13 +88,14 @@
     [self.range_label setTextColor:[UIColor grayColor]];
     [self.rating_label setTextColor:[UIColor grayColor]];
     
-    CGRect borderedViewRect = CGRectMake(0, 0, 320, 1);
-    TWRBorderMask mask = TWRBorderMaskBottom;
-    TWRBorderedView *borderedView = [[TWRBorderedView alloc] initWithFrame:borderedViewRect
-                                                               borderWidth:1.0f
-                                                                     color:[UIColor colorWithRed:102.0f green:102.0f blue:102.0f alpha:1]
-                                                                   andMask:mask];
-    [self addSubview:borderedView];
+//    CGRect borderedViewRect = CGRectMake(0, 0, 320, 1);
+//    TWRBorderMask mask = TWRBorderMaskBottom;
+//    TWRBorderedView *borderedView = [[TWRBorderedView alloc] initWithFrame:borderedViewRect
+//                                                               borderWidth:1.0f
+//                                                                     color:[UIColor colorWithRed:102.0f green:102.0f blue:102.0f alpha:1]
+//                                                                   andMask:mask];
+//    [self addSubview:borderedView];
+    self.separator.backgroundColor = [UIColor seperatorColor];
 }
 
 
