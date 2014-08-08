@@ -31,7 +31,7 @@
     CGRect frame = CGRectMake(x,y_index,old_frame.size.width,old_frame.size.height);
     FilterDishButton *s = [[FilterDishButton alloc] initWithFrame:frame];
     FAKFontAwesome *searchIcon = [FAKFontAwesome searchIconWithSize:25.0f];
-    [searchIcon addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
+    [searchIcon addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
     filter.search_label.attributedText = [searchIcon attributedString];
     [s addSubview:filter];
     [s bringSubviewToFront:filter];

@@ -23,6 +23,7 @@
 #import "Days.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <GAI.h>
+#import "GetListedTableViewCell.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
@@ -46,6 +47,7 @@
     UIButton *retryFetch;
     NSString *searchTxt;
     int sortBy;
+    BOOL stopUpdatingLocation;
     BOOL isOpened;
     BOOL doesDelivery;
     BOOL setSortByObserver;
@@ -97,14 +99,17 @@
         return;
     }
     
-    NSLog(@"Done Location");
-    
     currentLocation = newLocation;
     
     [locationManager stopMonitoringSignificantLocationChanges];
     [locationManager stopUpdatingLocation];
     
+    if(stopUpdatingLocation){
+        return;
+    }
     
+    NSLog(@"Done Location -- Fetching Restaurants");
+    stopUpdatingLocation = YES;
     [self fetchRestaurants];
 }
 
@@ -163,7 +168,7 @@
     
     progress = [[UILabel alloc] init];
     [progress setText: @"FINDING LOCATION"];
-    [progress setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [progress setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     progress.textAlignment = NSTextAlignmentCenter;
     [progress setTextColor:[UIColor blackColor]];
     CGRect rect = progress.frame;
@@ -178,10 +183,10 @@
                action:@selector(restartFetch:)
      forControlEvents:UIControlEventTouchUpInside];
     [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
-    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
     retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 240, 220.0 , 30.0);
-    retryFetch.backgroundColor = [UIColor blackColor];
+    retryFetch.backgroundColor = [UIColor almostBlackColor];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -201,6 +206,7 @@
                          spinner.alpha = 1.0;
                          spinner.hidden = NO;
                      }];
+    NSLog(@"Retry Fetching Restaurants");
     [self fetchRestaurants];
 }
 
@@ -236,12 +242,17 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://dishgo.io"]];
 }
 
+-(void) letsDishGoSite:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://letsdishgo.com"]];
+}
+
 -(void) launchDemo:(id)sender {
     double your_latitiude_value = 45.455448;
     double your_longitude_value = -74.144368;
     currentLocation = [[CLLocation alloc] initWithLatitude:your_latitiude_value longitude:your_longitude_value];
     [noRestoView removeFromSuperview];
     [self startLoading];
+    NSLog(@"Launching Demo - Fetch Restaurants");
     [self fetchRestaurants];
 }
 
@@ -296,13 +307,13 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     
     // FOOD CLOUD TITLE
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
-    label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
-    label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"DishGo";
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
+//    label.backgroundColor = [UIColor clearColor];
+//    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
+//    label.textAlignment = NSTextAlignmentCenter;
+//    label.textColor = [UIColor whiteColor];
+//    label.adjustsFontSizeToFitWidth = YES;
+//    label.text = @"DishGo";
 //    self.navigationItem.titleView = label;
     
     UISearchDisplayController *mySearchDisplayController;
@@ -313,6 +324,7 @@
     mySearchDisplayController.searchResultsDataSource = self;
     mySearchDisplayController.searchResultsDelegate = self;
     self.bar.delegate = self;
+    self.bar.tintColor = [UIColor scarletColor];
     [self setSearch_bar:mySearchDisplayController];
     
     UITextField *txfSearchField = [self.bar valueForKey:@"_searchField"];
@@ -399,6 +411,8 @@
 
 - (void) fetchRestaurants {
     
+    NSLog(@"FETCHING RESTAURANTS");
+    
     [UIView animateWithDuration:1.0
                      animations:^{
                          progress.alpha = 0.0f;
@@ -469,6 +483,8 @@
     [restaurantMapping addAttributeMappingsFromDictionary:@{
                                                             @"_id": @"id",
                                                             @"name": @"name",
+                                                            @"city": @"city",
+                                                            @"postal_code": @"postal_code",                                                            
                                                             @"phone": @"phone",
                                                             @"is_admin":@"is_admin",
                                                             @"address_line_1": @"address",
@@ -487,7 +503,7 @@
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
     
-    [request setTimeoutInterval:10];
+    [request setTimeoutInterval:15];
     
     RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
@@ -578,7 +594,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [filteredRestaurantList count];
+    if(isSearching){
+        return [filteredRestaurantList count] + 1;
+    } else {
+        return [filteredRestaurantList count];
+    }
 }
 - (void) startScrolling {
     scroll_timer = [NSTimer scheduledTimerWithTimeInterval:5.0
@@ -615,10 +635,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if(([filteredRestaurantList count] + 1) == (indexPath.row + 1)){
+        static NSString *CellIdentifier = @"letsDishGoCell";
+        GetListedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"GetListed" owner:self options:nil] objectAtIndex:0];
+        }
+        [cell.letsdishgo addTarget:self action:@selector(letsDishGoSite:)];
+        return cell;
+    }
+    
+    Restaurant *resto;
+    resto = [filteredRestaurantList objectAtIndex:indexPath.row];
+    
     static NSString *CellIdentifier = @"RestaurantCells";
-    
     RestaurantCells *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
     if (cell == nil) {
         cell = [[RestaurantCells alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     } else {
@@ -627,13 +659,6 @@
             [aView removeFromSuperview];
         }
     }
-    
-    // Configure the cell...
-    
-    // Set up the cell...
-    Restaurant *resto;
-
-    resto = [filteredRestaurantList objectAtIndex:indexPath.row];
     
     cell.restaurant = resto;
     
@@ -692,13 +717,14 @@
     cell.scrollView.restaurant = resto;
     cell.scrollView.segue_controller = self;
     cell.restaurantLabel.text = resto.name;
-    cell.restaurantLabel.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
+    cell.restaurantLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:20.0f];
     [cellList addObject:cell];
     
     cell.distanceLabel.text = [NSString stringWithFormat:@"%.1fkm",([resto.distance doubleValue] / 1000)];
     cell.distanceLabel.layer.cornerRadius = 3.0;
     UIColor *b = [UIColor almostBlackColor];
     b = [b colorWithAlphaComponent:0.8];
+    cell.distanceLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:18.0f];
     cell.distanceLabel.backgroundColor = b;
     cell.distanceLabel.hidden = NO;
     
@@ -709,6 +735,7 @@
         cell.opened_closed.text = @"Closed";
         cell.opened_closed.textColor = [UIColor scarletColor];
     }
+    cell.opened_closed.font = [UIFont fontWithName:@"JosefinSans-Bold" size:18.0f];
     cell.opened_closed.layer.cornerRadius = 3.0;
     cell.opened_closed.backgroundColor = b;
     cell.opened_closed.hidden = NO;

@@ -5,6 +5,7 @@
 
 const struct RestaurantAttributes RestaurantAttributes = {
 	.address = @"address",
+	.city = @"city",
 	.distance = @"distance",
 	.does_delivery = @"does_delivery",
 	.hours = @"hours",
@@ -13,6 +14,7 @@ const struct RestaurantAttributes RestaurantAttributes = {
 	.lon = @"lon",
 	.name = @"name",
 	.phone = @"phone",
+	.postal_code = @"postal_code",
 };
 
 const struct RestaurantRelationships RestaurantRelationships = {
@@ -77,6 +79,13 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 
 @dynamic address;
+
+
+
+
+
+
+@dynamic city;
 
 
 
@@ -209,6 +218,13 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 
 @dynamic phone;
+
+
+
+
+
+
+@dynamic postal_code;
 
 
 

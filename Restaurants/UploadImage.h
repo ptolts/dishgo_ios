@@ -10,7 +10,7 @@
 #import <JSONModel.h>
 #import <KVOController/FBKVOController.h>
 #import "SectionDishViewCell.h"
-#import <TNSexyImageUploadProgress/TNSexyImageUploadProgress.h>
+#import "SexyView.h"
 
 @interface UploadImage : JSONModel
     @property (nonatomic, copy) NSString *dishgo_token;
@@ -24,7 +24,7 @@
     @property (strong, nonatomic) id<Ignore> lastObject;
     @property (copy, nonatomic) NSString<Ignore> *lastKeyPath;
     @property SectionDishViewCell<Ignore> *section_dish_view;
-    @property TNSexyImageUploadProgress<Ignore> *progress_view;
+    @property SexyView<Ignore> *progress_view;
     @property UITableViewController<Ignore> *uitableview;
     @property (copy, nonatomic) NSDictionary<Ignore> *lastChange;
 @end

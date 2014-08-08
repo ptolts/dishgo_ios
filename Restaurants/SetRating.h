@@ -18,6 +18,7 @@
     @property (nonatomic, copy) NSString *dish_id;
     @property (nonatomic, copy) NSString *restaurant_id;
     @property (nonatomic, copy) NSString *rating;
+    @property (nonatomic, copy) NSString *review;
     @property (nonatomic, copy) NSArray<SetRating> *current_ratings;
     - (void) setRating;
     - (NSDictionary *) cleanDict;

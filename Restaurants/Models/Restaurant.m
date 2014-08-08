@@ -64,7 +64,7 @@
     NSArray *days_of_the_week = @[@"sunday",@"monday",@"tuesday",@"wednesday",@"thursday",@"friday",@"saturday"];
     Days *current_day = [self.hours valueForKey:[days_of_the_week objectAtIndex:weekday]];
     BOOL is_it_opened = [current_day opened];
-    NSLog(@"day: %@ is %hhd",[days_of_the_week objectAtIndex:weekday], is_it_opened);
+//    NSLog(@"day: %@ is %hhd",[days_of_the_week objectAtIndex:weekday], is_it_opened);
     self.isOpened = is_it_opened;
     return true;
 }

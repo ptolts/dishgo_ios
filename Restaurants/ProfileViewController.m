@@ -155,24 +155,7 @@
     
     [addy_view addObserver:self forKeyPath:@"current_textfield" options:NSKeyValueObservingOptionNew context:NULL];
     
-//    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-//    [self.bg.layer setCornerRadius:5.0f];
-//    
-//    self.bg2.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
-//    [self.bg2.layer setCornerRadius:5.0f];
-//    
-//    if([[UserSession sharedManager] hasAddress]){
-//        User *u = [[UserSession sharedManager] fetchUser];
-//        self.phone_number.text = u.phone_number;
-//        self.street_number.text = u.street_number;
-//        self.street_address.text = u.street_address;
-//        self.city.text = u.city;
-//        self.postal_code.text = u.postal_code;
-//        self.province.text = u.province;
-//        self.apartment_number.text = u.apartment_number;
-//        self.first_name.text = u.first_name;
-//        self.last_name.text = u.last_name;
-//    }
+    self.address_view.hidden = YES;
     
 }
 

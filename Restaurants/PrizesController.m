@@ -9,6 +9,7 @@
 #import "PrizesController.h"
 #import "Constant.h"
 #import "UserSession.h"
+#import <FAKFontAwesome.h>
 
 @interface PrizesController ()
 
@@ -25,9 +26,28 @@
     return self;
 }
 
+-(void) myCustomBack {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor almostBlackColor];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FAKFontAwesome *back = [FAKFontAwesome timesCircleIconWithSize:22.0f];
+    [back addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
+    [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.hidesBackButton = YES;
+    [self.navigationItem setRightBarButtonItem:item];
     User *user = [[UserSession sharedManager] fetchUser];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL
                                                           URLWithString:[NSString stringWithFormat:@"%@/app/prizes/list?token=%@",dishGoUrl,user.foodcloud_token]]

@@ -19,8 +19,9 @@
 #import "StorefrontImageView.h"
 #import "UserSession.h"
 #import "User.h"
+#import "UploadImage.h"
+#import "SexyView.h"
 #import "SetRating.h"
-
 
 @interface DishTableViewController ()
 
@@ -33,9 +34,55 @@
     Header *header;
     int initialFrame;
     int initialImageHeight;
+    SetRating *starRatingObject;
     StorefrontImageView *scroll_image_view;
     EDStarRating *starRatingImage;
     SignInStars *starRating;
+    SetRating *rate;
+    
+    User *user;
+    Dishes *camera_dish;
+    SectionDishViewCell *camera_cell;
+    UploadImage *up_img;
+}
+
+- (IBAction)takePhoto:(UITapGestureRecognizer *)sender {
+    if(![[UserSession sharedManager] logged_in]){
+        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+        [self.navigationController pushViewController:signin animated:YES];
+        return;
+    }
+    camera_dish = self.dish;
+    DBCameraContainerViewController *cameraContainer = [[DBCameraContainerViewController alloc] initWithDelegate:self];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cameraContainer];
+    [nav setNavigationBarHidden:YES];
+    [self presentViewController:nav animated:YES completion:nil];
+    
+}
+
+- (void) captureImageDidFinish:(UIImage *)chosenImage withMetadata:(NSDictionary *)metadata
+{
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    NSData *imageData = UIImageJPEGRepresentation(chosenImage,1.0);
+    NSString *imageDataEncodedeString = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    SexyView *progress_view = [[SexyView alloc] init];
+    progress_view.radius = 100;
+    progress_view.progressBorderThickness = -10;
+    progress_view.trackColor = [UIColor blackColor];
+    progress_view.progressColor = [UIColor whiteColor];
+    progress_view.imageToUpload = chosenImage;
+    
+    up_img = [[UploadImage alloc] init];
+    up_img.dish = camera_dish;
+    up_img.progress_view = progress_view;
+    up_img.dishgo_token = user.foodcloud_token;
+    up_img.uitableview = self;
+    up_img.raw_image_data = imageData;
+    up_img.restaurant_id = self.restaurant.id;
+    up_img.image_data = imageDataEncodedeString;
+    up_img.dish_id = camera_dish.id;
+    [progress_view show];
+    [up_img startUploadAfn];
 }
 
 - (void) preloadDishCell:(DishTableViewCell *) d{
@@ -47,11 +94,15 @@
 }
 
 - (void) setupBackButtonAndCart {
-	self.navigationItem.hidesBackButton = YES; // Important
-    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
-    [backBtn setImage:backBtnImage];
-    [self.navigationItem setLeftBarButtonItem:backBtn];
+    FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+    [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
+    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
+    [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self.navigationItem setLeftBarButtonItem:item];
     
     FAKFontAwesome *starIcon = [FAKFontAwesome starIconWithSize:25];
     starRating.backgroundColor = [UIColor scarletColor];
@@ -60,7 +111,7 @@
     starRating.navigationController = self.navigationController;
     [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor]];
     starRating.starImage = [starIcon imageWithSize:CGSizeMake(25, 25)];
-    [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor yellowColor]];
+    [starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor starColor]];
     starRating.starHighlightedImage = [starIcon imageWithSize:CGSizeMake(25, 25)];
     starRating.maxRating = 5.0;
     starRating.delegate = self;
@@ -68,7 +119,7 @@
     starRating.editable=YES;
 //    displayMode=EDStarRatingDisplayFull;
     UserSession *session = [UserSession sharedManager];
-    SetRating *rate = session.current_restaurant_ratings;
+    rate = session.current_restaurant_ratings;
     if(rate && [[rate current_rating:self.dish.id] intValue] >= 0){
         starRating.rating = [[rate current_rating:self.dish.id] intValue];
     } else {
@@ -92,12 +143,12 @@
 -(void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
 {
     User *user = [[UserSession sharedManager] fetchUser];
-    SetRating *setRating = [[SetRating alloc] init];
-    setRating.dishgo_token = user.foodcloud_token;
-    setRating.restaurant_id = self.restaurant.id;
-    setRating.dish_id = self.dish.id;
-    setRating.rating = [NSString stringWithFormat:@"%0.0f",rating];
-    [setRating setRating];
+    starRatingObject = [[SetRating alloc] init];
+    starRatingObject.dishgo_token = user.dishgo_token;
+    starRatingObject.restaurant_id = self.restaurant.id;
+    starRatingObject.dish_id = self.dish.id;
+    starRatingObject.rating = [NSString stringWithFormat:@"%0.0f",rating];
+    [starRatingObject setRating];
 }
 
 -(void) myCustomBack {
@@ -163,6 +214,10 @@
     }
     [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
     
+    [self setupHeader];
+}
+
+-(void) setupHeader {
     if([self.dish.images count] > 0){
         header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
         [header.button_view removeFromSuperview];
@@ -179,17 +234,28 @@
         header.backgroundColor = [UIColor almostBlackColor];
         [header.gradient removeFromSuperview];
         CGRect frame = header.frame;
-        frame.size.height -= 98;
+        frame.size.height -= 82;
         header.frame = frame;
-        header.scroll_view.frame = frame;
-//        header.clipsToBounds = YES;
+        //        header.scroll_view.frame = frame;
+        //        header.clipsToBounds = YES;
         self.tableView.tableHeaderView = header;
+    } else {
+        UIView *upload_pic = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,250)];
+        FAKFontAwesome *camera = [FAKFontAwesome cameraIconWithSize:75.0f];
+        [camera addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
+        UIImage *cam = [camera imageWithSize:CGSizeMake(250.0f, 250.0f)];
+        UIImageView *c = [[UIImageView alloc] initWithImage:cam];
+        [upload_pic addSubview:c];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takePhoto:)];
+        [c addGestureRecognizer:tap];
+        c.userInteractionEnabled = YES;
+        c.contentMode = UIViewContentModeCenter;
+        CGRect frame = c.frame;
+        frame.origin.x = (self.view.frame.size.width / 2) - (frame.size.width / 2);
+        c.frame = frame;
+        self.tableView.tableHeaderView = upload_pic;
     }
 }
-
-//-(void) viewDidAppear:(BOOL)animated {
-//    [self.shoppingCart saveShoppingCart];
-//}
 
 - (void) currentImageView:(StorefrontImageView *)current {
     if(current == scroll_image_view){

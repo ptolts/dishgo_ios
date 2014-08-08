@@ -156,13 +156,13 @@
         cell.descriptionLabel.textAlignment = NSTextAlignmentLeft;
         cell.descriptionLabel.textColor = [UIColor textColor];
         cell.descriptionLabel.text = @"DESCRIPTION";
-        cell.descriptionLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:10.0f];
+        cell.descriptionLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:12.0f];
         [cell.descriptionLabel sizeToFit];
         
         maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
         requiredSize = [cell.descriptionLabel sizeThatFits:maxSize];
         
-        descFrame = CGRectMake(10, 5, 300, requiredSize.height);
+        descFrame = CGRectMake(10, 10, 300, requiredSize.height);
         cell.descriptionLabel.frame = descFrame;
         
         [cell.contentView addSubview:cell.descriptionLabel];
@@ -184,7 +184,7 @@
         maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
         requiredSize = [cell.dishDescription sizeThatFits:maxSize];
         
-        descFrame = CGRectMake(10, cell.contentView.frame.size.height + 5, 300, requiredSize.height);
+        descFrame = CGRectMake(10, cell.contentView.frame.size.height + 10, 300, requiredSize.height);
         cell.dishDescription.frame = descFrame;
         
         [cell.contentView addSubview:cell.dishDescription];
@@ -206,7 +206,7 @@
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
         option_view.optionTitle.textColor = [UIColor textColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:22.0f];
+        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:12.0f];
         [option_view addSubview:option_view.optionTitle];
         
         option_view.parent = self;
@@ -238,7 +238,7 @@
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
         option_view.optionTitle.textColor = [UIColor textColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:22.0f];
+        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:12.0f];
         [option_view addSubview:option_view.optionTitle];
         
         [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(setPrice)];

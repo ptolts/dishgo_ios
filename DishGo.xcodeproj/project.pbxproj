@@ -8,14 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		B701DC0F197D81DA00F8146F /* White_Gradient.m in Sources */ = {isa = PBXBuildFile; fileRef = B701DC0E197D81DA00F8146F /* White_Gradient.m */; };
-		B70879B31991672A00D112AD /* page1.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879B21991672A00D112AD /* page1.png */; };
-		B70879B519916D6000D112AD /* page2.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879B419916D6000D112AD /* page2.png */; };
+		B70879D419926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879BC19926C6C00D112AD /* description.txt */; };
+		B70879D519926C6C00D112AD /* page5.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879BD19926C6C00D112AD /* page5.png */; };
+		B70879D819926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879C119926C6C00D112AD /* description.txt */; };
+		B70879D919926C6C00D112AD /* page4.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879C219926C6C00D112AD /* page4.png */; };
+		B70879DC19926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879C619926C6C00D112AD /* description.txt */; };
+		B70879DD19926C6C00D112AD /* page3.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879C719926C6C00D112AD /* page3.png */; };
+		B70879E019926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879CB19926C6C00D112AD /* description.txt */; };
+		B70879E119926C6C00D112AD /* page2.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879CC19926C6C00D112AD /* page2.png */; };
+		B70879E419926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879D019926C6C00D112AD /* description.txt */; };
+		B70879E519926C6C00D112AD /* page1.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879D119926C6C00D112AD /* page1.png */; };
+		B70879EA19929A2E00D112AD /* GetListedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B70879E919929A2E00D112AD /* GetListedTableViewCell.m */; };
+		B70879EC19929A9900D112AD /* GetListed.xib in Resources */ = {isa = PBXBuildFile; fileRef = B70879EB19929A9900D112AD /* GetListed.xib */; };
+		B70879EE19929E8D00D112AD /* LetsDishGoCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879ED19929E8D00D112AD /* LetsDishGoCell@2x.png */; };
 		B70C33431805A3270045183F /* Images.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C33401805A3270045183F /* Images.m */; };
 		B70C33441805A3270045183F /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C33421805A3270045183F /* Restaurant.m */; };
 		B70C33491805B2A70045183F /* _Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C33471805B2A70045183F /* _Restaurant.m */; };
 		B70C334A1805B2A70045183F /* _Images.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C33481805B2A70045183F /* _Images.m */; };
 		B70C335C1806F5F70045183F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B70C335B1806F5F70045183F /* Default.png */; };
 		B70C335F180745A90045183F /* RestaurantLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = B70C335E180745A90045183F /* RestaurantLabelView.m */; };
+		B71B2BE81993B75800F20343 /* ReviewPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B71B2BE71993B75800F20343 /* ReviewPopup.xib */; };
+		B71B2BEB1993B8A900F20343 /* ReviewPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = B71B2BEA1993B8A900F20343 /* ReviewPopup.m */; };
 		B71C32431982C9F400EAD03A /* OptionButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B71C32421982C9F400EAD03A /* OptionButtonView.xib */; };
 		B71C32461982CA6700EAD03A /* OptionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = B71C32451982CA6700EAD03A /* OptionButtonView.m */; };
 		B71C32481986A03C00EAD03A /* DishCoins.xib in Resources */ = {isa = PBXBuildFile; fileRef = B71C32471986A03C00EAD03A /* DishCoins.xib */; };
@@ -37,6 +50,7 @@
 		B721D67D187334AF00D41957 /* Order_Submit_Response.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D67C187334AF00D41957 /* Order_Submit_Response.m */; };
 		B721D68018735BDD00D41957 /* User_Orders.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D67F18735BDD00D41957 /* User_Orders.m */; };
 		B721D68418737A7100D41957 /* OrderTrackerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B721D68318737A7100D41957 /* OrderTrackerViewController.m */; };
+		B724A4241993F8C5006090EB /* dishcoin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B724A4231993F8C5006090EB /* dishcoin@2x.png */; };
 		B727D9631911904200BB8F41 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B727D9621911904200BB8F41 /* icon@2x.png */; };
 		B7310664191921190054AF25 /* EastMarketNF.otf in Resources */ = {isa = PBXBuildFile; fileRef = B7310663191921190054AF25 /* EastMarketNF.otf */; };
 		B7310666191921880054AF25 /* EastMarketNF.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7310665191921880054AF25 /* EastMarketNF.ttf */; };
@@ -235,8 +249,20 @@
 		21643D1EDB914A93936A017C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B701DC0D197D81DA00F8146F /* White_Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = White_Gradient.h; sourceTree = "<group>"; };
 		B701DC0E197D81DA00F8146F /* White_Gradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = White_Gradient.m; sourceTree = "<group>"; };
-		B70879B21991672A00D112AD /* page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1.png; sourceTree = "<group>"; };
-		B70879B419916D6000D112AD /* page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page2.png; sourceTree = "<group>"; };
+		B70879BC19926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		B70879BD19926C6C00D112AD /* page5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page5.png; sourceTree = "<group>"; };
+		B70879C119926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		B70879C219926C6C00D112AD /* page4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page4.png; sourceTree = "<group>"; };
+		B70879C619926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		B70879C719926C6C00D112AD /* page3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page3.png; sourceTree = "<group>"; };
+		B70879CB19926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		B70879CC19926C6C00D112AD /* page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page2.png; sourceTree = "<group>"; };
+		B70879D019926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
+		B70879D119926C6C00D112AD /* page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1.png; sourceTree = "<group>"; };
+		B70879E819929A2E00D112AD /* GetListedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetListedTableViewCell.h; sourceTree = "<group>"; };
+		B70879E919929A2E00D112AD /* GetListedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetListedTableViewCell.m; sourceTree = "<group>"; };
+		B70879EB19929A9900D112AD /* GetListed.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GetListed.xib; sourceTree = "<group>"; };
+		B70879ED19929E8D00D112AD /* LetsDishGoCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LetsDishGoCell@2x.png"; path = "../../../Pictures/DishGo Tutorial/tutorialpsds/LetsDishGoCell@2x.png"; sourceTree = "<group>"; };
 		B70C333F1805A3270045183F /* Images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Images.h; sourceTree = "<group>"; };
 		B70C33401805A3270045183F /* Images.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Images.m; sourceTree = "<group>"; };
 		B70C33411805A3270045183F /* Restaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Restaurant.h; sourceTree = "<group>"; };
@@ -248,6 +274,9 @@
 		B70C335B1806F5F70045183F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B70C335D180745A90045183F /* RestaurantLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantLabelView.h; sourceTree = "<group>"; };
 		B70C335E180745A90045183F /* RestaurantLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantLabelView.m; sourceTree = "<group>"; };
+		B71B2BE71993B75800F20343 /* ReviewPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewPopup.xib; sourceTree = "<group>"; };
+		B71B2BE91993B8A900F20343 /* ReviewPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewPopup.h; sourceTree = "<group>"; };
+		B71B2BEA1993B8A900F20343 /* ReviewPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewPopup.m; sourceTree = "<group>"; };
 		B71C32421982C9F400EAD03A /* OptionButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionButtonView.xib; sourceTree = "<group>"; };
 		B71C32441982CA6700EAD03A /* OptionButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionButtonView.h; sourceTree = "<group>"; };
 		B71C32451982CA6700EAD03A /* OptionButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionButtonView.m; sourceTree = "<group>"; };
@@ -282,6 +311,7 @@
 		B721D67F18735BDD00D41957 /* User_Orders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User_Orders.m; sourceTree = "<group>"; };
 		B721D68218737A7100D41957 /* OrderTrackerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderTrackerViewController.h; sourceTree = "<group>"; };
 		B721D68318737A7100D41957 /* OrderTrackerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTrackerViewController.m; sourceTree = "<group>"; };
+		B724A4231993F8C5006090EB /* dishcoin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "dishcoin@2x.png"; path = "../../../Pictures/DishGo Tutorial/tutorialpsds/dishcoin@2x.png"; sourceTree = "<group>"; };
 		B727D9621911904200BB8F41 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../../../Pictures/icon@2x.png"; sourceTree = "<group>"; };
 		B7310663191921190054AF25 /* EastMarketNF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.otf; path = ../../../Downloads/EastMarketNF.otf; sourceTree = "<group>"; };
 		B7310665191921880054AF25 /* EastMarketNF.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EastMarketNF.ttf; path = ../../../Downloads/EastMarketNF.ttf; sourceTree = "<group>"; };
@@ -595,6 +625,80 @@
 			name = white_gradient;
 			sourceTree = "<group>";
 		};
+		B70879B919926C3C00D112AD /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				B724A4231993F8C5006090EB /* dishcoin@2x.png */,
+				B70879ED19929E8D00D112AD /* LetsDishGoCell@2x.png */,
+				B70879BA19926C6C00D112AD /* page 5 */,
+				B70879BF19926C6C00D112AD /* page 4 */,
+				B70879C419926C6C00D112AD /* page 3 */,
+				B70879C919926C6C00D112AD /* page 2 */,
+				B70879CE19926C6C00D112AD /* page 1 */,
+			);
+			name = Tutorial;
+			sourceTree = "<group>";
+		};
+		B70879BA19926C6C00D112AD /* page 5 */ = {
+			isa = PBXGroup;
+			children = (
+				B70879BC19926C6C00D112AD /* description.txt */,
+				B70879BD19926C6C00D112AD /* page5.png */,
+			);
+			name = "page 5";
+			path = "../../../Pictures/DishGo Tutorial/tutorialpsds/page 5";
+			sourceTree = "<group>";
+		};
+		B70879BF19926C6C00D112AD /* page 4 */ = {
+			isa = PBXGroup;
+			children = (
+				B70879C119926C6C00D112AD /* description.txt */,
+				B70879C219926C6C00D112AD /* page4.png */,
+			);
+			name = "page 4";
+			path = "../../../Pictures/DishGo Tutorial/tutorialpsds/page 4";
+			sourceTree = "<group>";
+		};
+		B70879C419926C6C00D112AD /* page 3 */ = {
+			isa = PBXGroup;
+			children = (
+				B70879C619926C6C00D112AD /* description.txt */,
+				B70879C719926C6C00D112AD /* page3.png */,
+			);
+			name = "page 3";
+			path = "../../../Pictures/DishGo Tutorial/tutorialpsds/page 3";
+			sourceTree = "<group>";
+		};
+		B70879C919926C6C00D112AD /* page 2 */ = {
+			isa = PBXGroup;
+			children = (
+				B70879CB19926C6C00D112AD /* description.txt */,
+				B70879CC19926C6C00D112AD /* page2.png */,
+			);
+			name = "page 2";
+			path = "../../../Pictures/DishGo Tutorial/tutorialpsds/page 2";
+			sourceTree = "<group>";
+		};
+		B70879CE19926C6C00D112AD /* page 1 */ = {
+			isa = PBXGroup;
+			children = (
+				B70879D019926C6C00D112AD /* description.txt */,
+				B70879D119926C6C00D112AD /* page1.png */,
+			);
+			name = "page 1";
+			path = "../../../Pictures/DishGo Tutorial/tutorialpsds/page 1";
+			sourceTree = "<group>";
+		};
+		B70879E719929A0B00D112AD /* GetListed */ = {
+			isa = PBXGroup;
+			children = (
+				B70879E819929A2E00D112AD /* GetListedTableViewCell.h */,
+				B70879E919929A2E00D112AD /* GetListedTableViewCell.m */,
+				B70879EB19929A9900D112AD /* GetListed.xib */,
+			);
+			name = GetListed;
+			sourceTree = "<group>";
+		};
 		B70C333E1805A28B0045183F /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +748,16 @@
 				B7B74421182C0D26001DFC49 /* DishTableViewCell.xib */,
 			);
 			name = "Header Half - LOGIC";
+			sourceTree = "<group>";
+		};
+		B71B2BE61993B73000F20343 /* Review Popup */ = {
+			isa = PBXGroup;
+			children = (
+				B71B2BE71993B75800F20343 /* ReviewPopup.xib */,
+				B71B2BE91993B8A900F20343 /* ReviewPopup.h */,
+				B71B2BEA1993B8A900F20343 /* ReviewPopup.m */,
+			);
+			name = "Review Popup";
 			sourceTree = "<group>";
 		};
 		B71C32571988354F00EAD03A /* Prizes */ = {
@@ -961,8 +1075,7 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B70879B419916D6000D112AD /* page2.png */,
-				B70879B21991672A00D112AD /* page1.png */,
+				B70879B919926C3C00D112AD /* Tutorial */,
 				B71C324C1986A3F800EAD03A /* dishcoin.png */,
 				B7A3C4AD196489F800FFA685 /* Merriweather-Regular.ttf */,
 				B7C013B01958BCC7009CAD7D /* JosefinSans-Bold.ttf */,
@@ -1164,6 +1277,7 @@
 		B7E12845183BB27D0079B5E9 /* DishTableView */ = {
 			isa = PBXGroup;
 			children = (
+				B71B2BE61993B73000F20343 /* Review Popup */,
 				B7B7441D182C0CEA001DFC49 /* DishTableViewCell */,
 				B7E12846183BB2980079B5E9 /* DishTableViewController.h */,
 				B7E12847183BB2980079B5E9 /* DishTableViewController.m */,
@@ -1281,6 +1395,7 @@
 		B7E4B84118087E4E006896D8 /* Restaurant List */ = {
 			isa = PBXGroup;
 			children = (
+				B70879E719929A0B00D112AD /* GetListed */,
 				B7CC19AF18047DEF003C71B9 /* Cells */,
 				B7CC19B618047FE9003C71B9 /* RestaurantViewController.h */,
 				B7CC19B718047FE9003C71B9 /* RestaurantViewController.m */,
@@ -1447,22 +1562,26 @@
 				B721D67118720B6500D41957 /* checkout@2x.png in Resources */,
 				B7D47F831863702B00DD3C99 /* large_cart@2x.png in Resources */,
 				B7D47F7718622C5200DD3C99 /* fork@2x.png in Resources */,
+				B70879DC19926C6C00D112AD /* description.txt in Resources */,
 				B7D47F7D1863436D00DD3C99 /* location@2x.png in Resources */,
 				B7C38248187B1CEC001FD092 /* header_line@2x.png in Resources */,
 				B7EE7B8A184FBF12003EE5B8 /* favorites@2x.png in Resources */,
 				B7A3C4AE196489F800FFA685 /* Merriweather-Regular.ttf in Resources */,
 				B7CF7B8418564475000D326F /* AddressView.xib in Resources */,
+				B71B2BE81993B75800F20343 /* ReviewPopup.xib in Resources */,
 				B7E1284F183BDADD0079B5E9 /* SectionDishViewCell.xib in Resources */,
 				B7C38244187B0F49001FD092 /* more_dish@2x.png in Resources */,
 				B7C3824A187B2B3B001FD092 /* camera_mark@2x.png in Resources */,
 				B7EE7B8B184FBF12003EE5B8 /* settings@2x.png in Resources */,
 				B7CF7B9918567063000D326F /* CheckoutCell.xib in Resources */,
 				B75DA1F4185FB00B00803AF5 /* camera@2x.png in Resources */,
+				B70879EE19929E8D00D112AD /* LetsDishGoCell@2x.png in Resources */,
 				B7BE360D185A493D00D55ED8 /* BillingView.xib in Resources */,
 				B7B7445618341CCE001DFC49 /* CheckoutView.xib in Resources */,
 				B7BDFBD9187623C2003E661F /* more@2x.png in Resources */,
 				B7EE7B79184D3ED7003EE5B8 /* avatar_white@2x.png in Resources */,
 				B7EE7B9F18510690003EE5B8 /* logout@2x.png in Resources */,
+				B70879E119926C6C00D112AD /* page2.png in Resources */,
 				B74E6B62192547CF004ACA63 /* noRestaurants.xib in Resources */,
 				B7E20F501822F91600791BEB /* DishViewCell.xib in Resources */,
 				B7C38253187C6C93001FD092 /* header_line_300@2x.png in Resources */,
@@ -1485,6 +1604,8 @@
 				B7EE7B63184938A1003EE5B8 /* avatar@2x.png in Resources */,
 				B7B74428182C1AFC001DFC49 /* DishView.xib in Resources */,
 				B7310664191921190054AF25 /* EastMarketNF.otf in Resources */,
+				B70879E519926C6C00D112AD /* page1.png in Resources */,
+				B70879EC19929A9900D112AD /* GetListed.xib in Resources */,
 				B7C013B11958BCC7009CAD7D /* JosefinSans-Bold.ttf in Resources */,
 				B77A8D0D1843AAF900AFBAEE /* FREESCPT.TTF in Resources */,
 				B721D66D186A439D00D41957 /* cloud@2x.png in Resources */,
@@ -1492,11 +1613,14 @@
 				B7BDFBD7187620EF003E661F /* tele@2x.png in Resources */,
 				B7C013A51958A5E2009CAD7D /* StorefrontHeader.xib in Resources */,
 				B7E43068181EF7A6002B6867 /* logo.png in Resources */,
+				B70879D819926C6C00D112AD /* description.txt in Resources */,
 				B7EE7B8D184FC39E003EE5B8 /* logo_black@2x.png in Resources */,
 				B7BDFBD6187620EF003E661F /* loc@2x.png in Resources */,
+				B70879D419926C6C00D112AD /* description.txt in Resources */,
 				B7EE7B73184D3135003EE5B8 /* receipt_font.ttf in Resources */,
 				B7DA9D901843DFAF0072AD47 /* control@2x.png in Resources */,
 				B7CF7B821852E522000D326F /* info@2x.png in Resources */,
+				B70879D519926C6C00D112AD /* page5.png in Resources */,
 				B75B6413191416F500D717C7 /* loading@2x.png in Resources */,
 				B7BE3615185F91B500D55ED8 /* edit_address@2x.png in Resources */,
 				B79E8F6A1847DF2D00BF4F3F /* facebook@2x.png in Resources */,
@@ -1506,12 +1630,14 @@
 				B7E6C29F183C0F56005E8598 /* DishFooterView.xib in Resources */,
 				B727D9631911904200BB8F41 /* icon@2x.png in Resources */,
 				B7CC197C18047D92003C71B9 /* InfoPlist.strings in Resources */,
+				B70879E019926C6C00D112AD /* description.txt in Resources */,
 				B7EE7B78184D3ED7003EE5B8 /* avatar_black@2x.png in Resources */,
 				B71C32481986A03C00EAD03A /* DishCoins.xib in Resources */,
 				B7CC198518047D92003C71B9 /* Main.storyboard in Resources */,
 				B7D47F991864F70500DD3C99 /* edit@2x.png in Resources */,
 				B7BDFBDF18773BEF003E661F /* right_arrow@2x.png in Resources */,
 				B79E8F6C1847E0D600BF4F3F /* foodcloud_icon@2x.png in Resources */,
+				B70879D919926C6C00D112AD /* page4.png in Resources */,
 				B7DA9D8E1843DF2F0072AD47 /* cart@2x.png in Resources */,
 				B7E20F1F18203FB900791BEB /* Header.xib in Resources */,
 				B7E6C296183BF909005E8598 /* CartRowCell.xib in Resources */,
@@ -1519,16 +1645,17 @@
 				B7B488EC1889817000054314 /* add@2x.png in Resources */,
 				B75DA1F61860A94000803AF5 /* chip@2x.png in Resources */,
 				B7CF7B9418566BF7000D326F /* checkmark@2x.png in Resources */,
+				B70879E419926C6C00D112AD /* description.txt in Resources */,
 				B7BDFBD5187620EF003E661F /* heart@2x.png in Resources */,
-				B70879B519916D6000D112AD /* page2.png in Resources */,
 				B7BDFBDE18773BEF003E661F /* left_arrow@2x.png in Resources */,
 				B7E20F2118203FEC00791BEB /* Footer.xib in Resources */,
 				B75DA1F81860CDA100803AF5 /* earth@2x.png in Resources */,
+				B70879DD19926C6C00D112AD /* page3.png in Resources */,
 				B70C335C1806F5F70045183F /* Default.png in Resources */,
 				B7921637187DCD3100BC7BF2 /* ReviewCell.xib in Resources */,
+				B724A4241993F8C5006090EB /* dishcoin@2x.png in Resources */,
 				B7B744411832AF5C001DFC49 /* gear-32x32.png in Resources */,
 				B7EE7B87184FB821003EE5B8 /* logo@2x.png in Resources */,
-				B70879B31991672A00D112AD /* page1.png in Resources */,
 				B7D47F951864D3F400DD3C99 /* remove@2x.png in Resources */,
 				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
 				B792163A187DF23A00BC7BF2 /* ReviewTotal.xib in Resources */,
@@ -1642,6 +1769,7 @@
 				B701DC0F197D81DA00F8146F /* White_Gradient.m in Sources */,
 				B7E20F25182042F800791BEB /* Header.m in Sources */,
 				B78FB11118200CE40063E6C4 /* StorefrontLabel.m in Sources */,
+				B70879EA19929A2E00D112AD /* GetListedTableViewCell.m in Sources */,
 				B70C33441805A3270045183F /* Restaurant.m in Sources */,
 				B7CC197E18047D92003C71B9 /* main.m in Sources */,
 				B7E20F401820560100791BEB /* Dishes.m in Sources */,
@@ -1716,6 +1844,7 @@
 				B7CF7B9718567050000D326F /* CheckoutCell.m in Sources */,
 				B78A7EF219474EE5002ABEE7 /* Hours.m in Sources */,
 				B7921635187DCD2200BC7BF2 /* ReviewTableCell.m in Sources */,
+				B71B2BEB1993B8A900F20343 /* ReviewPopup.m in Sources */,
 				B7D47F901864A90F00DD3C99 /* Address_Order.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

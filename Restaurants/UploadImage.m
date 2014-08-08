@@ -9,6 +9,7 @@
 #import "UploadImage.h"
 #import <JSONHTTPClient.h>
 #import <AFNetworking.h>
+#import "UserSession.h"
 #import "Constant.h"
 
 @implementation UploadImage
@@ -41,7 +42,7 @@
                 float prog = ((float)totalBytesWritten/(float)totalBytesExpectedToWrite);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if(self.progress_view){
-                        self.progress_view.progress = prog;
+                        [self.progress_view setProgress:prog];
                     } 
                 });
             }];
@@ -54,12 +55,18 @@
                     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Images" inManagedObjectContext:context];
                     Images *img = [[Images alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
                     img.url = [jsons objectForKey:@"url"];
+                    UserSession *session = [UserSession sharedManager];
+                    [session completeLogin];
                     NSMutableArray *copy_array = [[NSMutableArray alloc] initWithArray:[self.dish.images array]];
-                    [copy_array addObject:img];
+                    [copy_array insertObject:img atIndex:0];
                     self.dish.images = [[NSOrderedSet alloc] initWithArray:[copy_array copy]];
                     if(self.uitableview){
+                        if([self.uitableview respondsToSelector:@selector(setupHeader)]){
+                            [self.uitableview performSelector:@selector(setupHeader)];
+                        }
                         [self.uitableview.tableView reloadData];
                     }
+                    [self.progress_view setProgress:1.1f];
                 }
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                  if([operation.response statusCode] == 403)
@@ -68,7 +75,7 @@
                  }
                  NSLog(@"error: %@", [operation error]);
                  dispatch_async(dispatch_get_main_queue(), ^{
-                     self.progress_view.progress = 1.0f;
+                     [self.progress_view setProgress:1.1f];
                  });
              }];
             

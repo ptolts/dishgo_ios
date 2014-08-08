@@ -12,6 +12,7 @@
 @implementation SexyView
 
 @synthesize close;
+@synthesize progress = _progress;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -36,8 +37,30 @@
 }
 
 - (void) stop_upload {
+    [self.spinna removeFromSuperview];
     [close removeFromSuperview];
-    [super setProgress:1.0f];
+    [self setProgress:1.0f];
+}
+
+- (void)setProgress:(float)progress {
+    
+    if( _progress != progress ){
+        
+        _progress = progress;
+        [super performSelector:@selector(animateProgress)];
+        
+        if(_progress == 1.0f){
+            self.spinna = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            self.spinna.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+            [self addSubview:self.spinna];
+            [self.spinna startAnimating];
+            return;
+        }
+        
+        if( _progress > 1.0f ){
+            [super performSelector:@selector(outroAnimation)];
+        }
+    }
 }
 
 @end

@@ -195,15 +195,6 @@
             
         }
         checkoutView.total_cost.text = [NSString stringWithFormat:@"%.02f",tot];
-        // call checkout for ordering. been dsiabled a while until we support it
-//        [checkoutView.checkout addTarget:self action:@selector(checkout) forControlEvents:UIControlEventTouchUpInside];
-
-// THIS BELOW ALLOWS THEM TO CLICK ORDER
-//        if([self.shopping_cart count] == 0) {
-//            checkoutView.checkout.enabled = NO;
-//        } else {
-//            checkoutView.checkout.enabled = YES;
-//        }
         
         if(self.restaurant.phone.length > 0){
             [checkoutView.checkout setTitle:@"Call" forState:UIControlStateNormal];
@@ -221,12 +212,12 @@
 //        frame.size.height = view_height;
         checkoutView.frame = frame;
         
-        frame = self.tableView.frame;
-        frame.size.height = self.view.frame.size.height - view_height;
-        self.tableView.frame = frame;
+//        frame = self.tableView.frame;
+//        frame.size.height = self.view.frame.size.height - view_height;
+//        self.tableView.frame = frame;
         
         self.checkout_view = checkoutView;
-        [self.view addSubview:self.checkout_view];
+//        [self.view addSubview:self.checkout_view];
         
 //        self.tableView.tableFooterView = checkoutView;
         self.tableView.opaque = NO;
@@ -349,7 +340,8 @@
     if(indexPath.section == 0){
         if(indexPath.row == 0){
             if([[UserSession sharedManager] logged_in]){
-                [self profile];
+//                [self profile];
+                [self logout];
             } else {
                 [self signin];
             }
@@ -378,13 +370,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     if(sectionIndex == 0){
-        if([[UserSession sharedManager] logged_in]){
-            return 2;
-            return 4;
-        } else {
-            return 1;
-            return 3;
-        }
+        return 1;
     } else {
         return 4;
     }
@@ -420,7 +406,7 @@
                 imageView.clipsToBounds = YES;
 
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-                label.text = @"Profile";
+                label.text = @"Logout";
                 label.textColor = sign_in_color;
                 label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
                 label.layer.cornerRadius = 5.0f;

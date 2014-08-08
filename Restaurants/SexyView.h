@@ -10,4 +10,6 @@
 
 @interface SexyView : TNSexyImageUploadProgress
     @property UILabel *close;
+    @property UIActivityIndicatorView *spinna;
+    @property (nonatomic) float progress;
 @end

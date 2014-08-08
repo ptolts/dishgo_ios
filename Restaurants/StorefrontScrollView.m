@@ -11,9 +11,11 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "StorefrontTableViewController.h"
 
-@implementation StorefrontScrollView
+@implementation StorefrontScrollView {
 
     NSMutableArray *imageViews;
+    
+}
 
 -(void)setupImages {
     self.delegate = self;

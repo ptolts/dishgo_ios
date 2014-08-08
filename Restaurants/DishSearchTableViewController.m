@@ -112,6 +112,7 @@ SectionDishViewCell *camera_cell;
     UISearchDisplayController *mySearchDisplayController;
     self.search_bar = mySearchDisplayController;
     self.bar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 0)];
+    self.bar.tintColor = [UIColor scarletColor];
     mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.bar contentsController:self];
     mySearchDisplayController.delegate = self;
     mySearchDisplayController.searchResultsDataSource = self;

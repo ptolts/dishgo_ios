@@ -16,6 +16,7 @@
 #import "SetRating.h"
 #import "Lockbox.h"
 #import "User.h"
+#import <ALAlertBanner.h>
 #import "RAppDelegate.h"
 #import <JSONHTTPClient.h>
 #import "RootViewController.h"
@@ -112,7 +113,6 @@ void (^ block_pointer)(bool, NSString *);
     if (self = [super init]) {
         main_user = [[User alloc] init];
         logged_in = NO;
-        //        self.tokenFilePath = [self filePath];
         if([[[self readData] objectForKey:@"facebook_token"] length] > 0){
             if ([FBSession activeSession]){
                 [[FBSession activeSession] closeAndClearTokenInformation];
@@ -120,7 +120,6 @@ void (^ block_pointer)(bool, NSString *);
             FBSession *session = [[FBSession alloc] init];
             [FBSession setActiveSession:session];
             
-            NSLog(@"STATE: %u",session.state);
             if(session.state == FBSessionStateCreated){
                 NSDictionary *dic = [self readData];
                 NSString *tok = [dic objectForKey:@"facebook_token"];
@@ -129,21 +128,20 @@ void (^ block_pointer)(bool, NSString *);
                 FBAccessTokenData *access_token = [FBAccessTokenData createTokenFromString:tok permissions:per expirationDate:nil loginType:lt refreshDate:nil];
                 [session openFromAccessTokenData:access_token completionHandler:
                  ^(FBSession *session, FBSessionState state, NSError *error) {
-                     NSLog(@"result.... %@",error);
                      [self sessionStateChanged:session state:state error:error block:^(bool obj, NSString *result) {
-                         // Does nothing, but conforms to the function.
+
+                         
                      }];
                  }];
             }
-        } else if ([[[self readData] objectForKey:@"foodcloud_token"] length] > 0){
+        }
+        
+        if ([[[self readData] objectForKey:@"dishgo_token"] length] > 0){
             NSDictionary *dic = [self readData];
-            NSString *tok = [dic objectForKey:@"foodcloud_token"];
+            NSString *tok = [dic objectForKey:@"dishgo_token"];
             foodcloudToken = tok;
-            main_user.owns_restaurant_id = [dic objectForKey:@"owns_restaurant_id"];
-            if([[dic objectForKey:@"is_admin"] isEqualToString:@"1"]){
-                main_user.is_admin = YES;
-            }
-            main_user.foodcloud_token = foodcloudToken;
+            main_user.dishgo_token = foodcloudToken;
+            [self completeLogin];
             logged_in = YES;
         }
     }
@@ -205,57 +203,20 @@ void (^ block_pointer)(bool, NSString *);
 
 
 -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/tokens", dishGoUrl]
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v2/tokens", dishGoUrl]
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
-                                       [self completeLogin:main_user];
+                                       logged_in = YES;
+                                       [self completeLogin];
                                        block(logged_in,@"Logged in!");
-                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+                                       NSLog(@"ID: %@", main_user.dishgo_token);
                                    }];
 
     
 }
 
 -(void) setAddress:(NSMutableDictionary *) dict block:(void (^)(bool, NSString *))block; {
-    
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
-    
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-    
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"foodcloud_token",@"first_name",@"last_name",@"is_admin"]];
-    
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-    
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:dishGoUrl]];
-    
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:tokenDescriptor];
-    
-    main_user.phone_number = dict[@"phone_number"];
-    main_user.street_number = dict[@"street_number"];
-    main_user.street_address = dict[@"street_address"];
-    main_user.city = dict[@"city"];
-    main_user.postal_code = dict[@"postal_code"];
-    main_user.province = dict[@"province"];
-    main_user.apartment_number = dict[@"apartment_number"];
-    main_user.foodcloud_token = foodcloudToken;
-    main_user.first_name = dict[@"first_name"];
-    main_user.last_name = dict[@"last_name"];
-    
-    [manager postObject:main_user path:@"/app/api/v1/user/add_address" parameters:nil success:
-     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         NSLog(@"SAVED ADDRESS!");
-         block(YES, @"Good!");
-     } failure:
-     ^( RKObjectRequestOperation *operation , NSError *error ){
-         NSLog(@"%@",error);
-         block(NO, error.description);
-     }
-     ];
     
 }
 
@@ -271,112 +232,62 @@ void (^ block_pointer)(bool, NSString *);
 }
 
 -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block {
-    
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-    [responseMapping addAttributeMappingsFromArray:@[@"foodcloud_token"]];
-    
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-    
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromArray:@[@"email",@"password"]];
-    
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-    
-    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:dishGoUrl]];
-    
-    [manager addRequestDescriptor:requestDescriptor];
-    [manager addResponseDescriptor:tokenDescriptor];
-    
-    User *re = [[User alloc] init];
-    re.email = email;
-    re.password = password;
-    
-    [manager postObject:re path:@"/api/v1/registration" parameters:nil success:
-     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-         User *user = [result firstObject];
-         NSLog(@"ID: %@", user.foodcloud_token);
-         [self completeLogin:user];
-         block(logged_in, @"Good!");
-     } failure:
-     ^( RKObjectRequestOperation *operation , NSError *error ){
-         NSLog(@"%@",error);
-         block(logged_in, error.description);
-     }
-     ];
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/registration",dishGoUrl]
+                                       params:@{@"email":email,@"password":password}
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       main_user = [[User alloc] initWithDictionary:json error:nil];
+                                       if(err.description){
+                                           block(NO, err.description);
+                                       } else {
+                                           block(YES, @"Success!");
+                                       }
+                                   }];
     
 }
 
 -(void) logout {
-    //    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    //    [self writeData:dic];
     [self clearToken];
     logged_in = NO;
 }
 
--(void) completeLogin:(User *) user {
-    if([user.foodcloud_token length] > 0){
-        logged_in = YES;
-        foodcloudToken = user.foodcloud_token;
-        NSMutableDictionary *dic = (NSMutableDictionary *)[self readData];
-        [dic setObject:foodcloudToken forKey:@"foodcloud_token"];
-        if(user.owns_restaurant_id){
-            [dic setObject:user.owns_restaurant_id forKey:@"owns_restaurant_id"];
-        }
-        if(user.is_admin){
-            NSString *is_admin = [NSString stringWithFormat:@"%d",(int) user.is_admin];
-            [dic setObject:is_admin forKey:@"is_admin"];
-        }
-        [self writeData:dic];
-        [((RootViewController *)(((RAppDelegate *)([[UIApplication sharedApplication] delegate])).window.rootViewController)) showOldOrders];
+-(void) completeLogin {
+    int old_token_count = [main_user.dishcoins intValue];
+    if([main_user.dishgo_token length] > 0){
+        [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v2/tokens/load_user",dishGoUrl]
+                                           params:@{@"dishgo_token":main_user.dishgo_token}
+                                       completion:^(NSDictionary *json, JSONModelError *err) {
+                                           main_user = [[User alloc] initWithDictionary:json error:nil];
+                                           if(old_token_count != 0 && [main_user.dishcoins intValue] > old_token_count){
+                                               [self alertDishCoin:([main_user.dishcoins intValue] - old_token_count)];
+                                           }
+                                           logged_in = YES;
+                                       }];
     }
+
 }
 
-//-(void) loginWithFacebook:(void (^)(bool, NSString *))block {
-//
-//    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[User class]];
-//    [responseMapping addAttributeMappingsFromArray:@[@"facebook_name",@"facebook_id",@"foodcloud_token",@"phone_number",@"street_number",@"street_address",@"city",@"postal_code",@"province",@"apartment_number",@"first_name",@"last_name"]];
-//
-//    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-//    RKResponseDescriptor *tokenDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodAny pathPattern:nil keyPath:nil statusCodes:statusCodes];
-//
-//    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-//    [requestMapping addAttributeMappingsFromArray:@[@"facebook_token",@"facebook_id"]];
-//
-//    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[User class] rootKeyPath:nil method:RKRequestMethodAny];
-//
-//    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://dev.foodcloud.ca:3000"]];
-//
-//    [manager addRequestDescriptor:requestDescriptor];
-//    [manager addResponseDescriptor:tokenDescriptor];
-//
-//    User *re = [[User alloc] init];
-//    re.facebook_token = facebookToken;
-//
-//    [manager postObject:re path:@"/api/v1/tokens/create_from_facebook" parameters:nil success:
-//     ^(RKObjectRequestOperation *operation, RKMappingResult *result) {
-//         main_user = [result firstObject];
-//         NSLog(@"ADDRESS: %@",main_user.street_address);
-//         [self completeLogin:main_user];
-//         block(YES,@"Good!");
-//         NSLog(@"ID: %@", main_user.foodcloud_token);
-//     } failure: ^( RKObjectRequestOperation *operation , NSError *error ){
-//         NSLog(@"%@",error);
-//         block(NO,error.description);
-//     }];
-//
-//}
+-(void) alertDishCoin: (int) difference {
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIView *rootView = keyWindow.rootViewController.view;
+    NSString *msg = [NSString stringWithFormat:@"Earned %d additional DishCoins",difference];
+    ALAlertBanner *banner = [ALAlertBanner alertBannerForView:rootView
+                                                        style:ALAlertBannerStyleNotify
+                                                     position:ALAlertBannerPositionBottom
+                                                        title:@"Success!"
+                                                     subtitle:msg];
+    [banner show];
+}
+
 
 -(void) loginWithFacebook:(void (^)(bool, NSString *))block {
-    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/tokens/create_from_facebook",dishGoUrl]
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v2/tokens/create_from_facebook",dishGoUrl]
                                        params:@{@"facebook_token":facebookToken,@"facebook_id":@""}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
-//                                       NSLog(@"ADDRESS: %@",main_user.street_address);
-//                                       NSLog(@"ORDERS: %d\nJSON:%@",[main_user.current_orders count],json);
-                                       [self completeLogin:main_user];
+                                       logged_in = YES;
+                                       [self completeLogin];
                                        block(YES,@"Good!");
-                                       NSLog(@"ID: %@", main_user.foodcloud_token);
+                                       NSLog(@"ID: %@", main_user.dishgo_token);
                                    }];
     
 }
@@ -389,14 +300,6 @@ void (^ block_pointer)(bool, NSString *);
     NSLog(@"Session state: %u",state);
     switch (state) {
         case FBSessionStateOpen: {
-            //            UIAlertView *alertView = [[UIAlertView alloc]
-            //                                      initWithTitle:@"Success"
-            //                                      message:@"Logged in!"
-            //                                      delegate:nil
-            //                                      cancelButtonTitle:@"OK"
-            //                                      otherButtonTitles:nil];
-            //            [alertView show];
-            
             facebookToken = [session accessTokenData].accessToken;
             main_user.facebook_token = facebookToken;
             [self writeData:[[NSDictionary alloc] initWithObjectsAndKeys:
@@ -412,29 +315,11 @@ void (^ block_pointer)(bool, NSString *);
         }
             break;
         case FBSessionStateClosed: {
-            
             [FBSession.activeSession closeAndClearTokenInformation];
-            
-            //            UIAlertView *alertView = [[UIAlertView alloc]
-            //                                      initWithTitle:@"Closed"
-            //                                      message:@"Login closed"
-            //                                      delegate:nil
-            //                                      cancelButtonTitle:@"OK"
-            //                                      otherButtonTitles:nil];
-            //            [alertView show];
             break;
         }
         case FBSessionStateClosedLoginFailed: {
-            
             [FBSession.activeSession closeAndClearTokenInformation];
-            
-            //            UIAlertView *alertView = [[UIAlertView alloc]
-            //                                      initWithTitle:@"Error"
-            //                                      message:@"Login failed"
-            //                                      delegate:nil
-            //                                      cancelButtonTitle:@"OK"
-            //                                      otherButtonTitles:nil];
-            //            [alertView show];
             break;
         }
         default: {
@@ -442,15 +327,6 @@ void (^ block_pointer)(bool, NSString *);
         }
     }
     
-    if (error) {
-        //        UIAlertView *alertView = [[UIAlertView alloc]
-        //                                  initWithTitle:@"Error"
-        //                                  message:error.localizedDescription
-        //                                  delegate:nil
-        //                                  cancelButtonTitle:@"OK"
-        //                                  otherButtonTitles:nil];
-        //        [alertView show];
-    }
 }
 
 - (void)openSession:(void (^)(bool, NSString *))block

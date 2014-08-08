@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Footer.h"
+#import "StorefrontTableViewController.h"
 
 @interface ContactViewController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate>
     @property Restaurant *restaurant;
     @property Footer *footer;
+    @property StorefrontTableViewController *pops;
 @end

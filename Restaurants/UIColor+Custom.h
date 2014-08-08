@@ -22,5 +22,6 @@
     + (UIColor*)starColor;
     + (UIColor*)nextColor;
     + (UIColor*)selectedButtonColor;
+    + (UIColor*)tutorialBrown;
     + (UIColor*)unselectedButtonColor;
 @end

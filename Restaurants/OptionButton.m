@@ -64,9 +64,11 @@
     [super setSelected:selected];
     if (selected) {
         option_button_view.backgroundColor = [UIColor selectedButtonColor];
+        option_button_view.price.textColor = [UIColor almostBlackColor];
 //        [option_button_view.checkmark_label setHidden:NO];
     } else {
         option_button_view.backgroundColor = [UIColor unselectedButtonColor];
+        option_button_view.price.textColor = [UIColor scarletColor];
 //        [option_button_view.checkmark_label setHidden:YES];
     }
     [option_button_view setNeedsDisplay];

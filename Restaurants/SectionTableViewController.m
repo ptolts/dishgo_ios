@@ -52,11 +52,12 @@
     NSMutableArray *subsectionList;
     NSMutableDictionary *heights;
     Dishes *selected_dish;
-    Dishes *camera_dish;
-    SectionDishViewCell *camera_cell;
     User *user;
     UserSession *session;
     SetRating *rate;
+
+    Dishes *camera_dish;
+    SectionDishViewCell *camera_cell;
     UploadImage *up_img;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -118,17 +119,15 @@
 }
 
 - (void) setupBackButtonAndCart {
-	self.navigationItem.hidesBackButton = YES; // Important
-    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
-    [backBtn setImage:backBtnImage];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                       target:nil action:nil];
-//    negativeSpacer.width = -16;// it was -6 in iOS 6
-//    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
-    //	self.navigationItem.leftBarButtonItem = backBtn;
-    [self.navigationItem setLeftBarButtonItem:backBtn];
+    FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+    [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
+    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
+    [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self.navigationItem setLeftBarButtonItem:item];
     
     
     CartButton *cartButton = [[CartButton alloc] init];
@@ -292,7 +291,7 @@
     
     NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *info = [FAKFontAwesome infoIconWithSize:15.0f];
-    [info addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [info addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
     [attributionMas appendAttributedString:[info attributedString]];
     cell.plus.attributedText = attributionMas;
     cell.plus.layer.cornerRadius = 15.0f;
@@ -326,7 +325,7 @@
     
     NSMutableAttributedString *attributionCamera = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *cam = [FAKFontAwesome cameraIconWithSize:15.0f];
-    [cam addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [cam addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
     [attributionCamera appendAttributedString:[cam attributedString]];
     cell.camera.attributedText = attributionCamera;
     cell.camera.layer.cornerRadius = 15.0f;
@@ -391,7 +390,8 @@
     } else {
         cell.dishImage.hidden = YES;
         cell.gradient.hidden = YES;
-        cell.dishTitle.textColor = [UIColor blackColor];
+        cell.dishTitle.textColor = [UIColor almostBlackColor];
+        cell.priceLabel.textColor = [UIColor almostBlackColor];
     }
     cell.clipsToBounds = YES;
     return cell;

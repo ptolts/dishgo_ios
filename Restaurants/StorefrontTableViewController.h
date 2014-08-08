@@ -22,4 +22,5 @@
     - (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView;
     - (void) segueToSection: (id) dishcellclean;
     - (void) pushDish: (Dishes *) dish;
+    - (void) dismissPresentedNavigationController;
 @end

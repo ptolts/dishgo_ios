@@ -24,6 +24,7 @@
     -(BOOL) hasAddress;
     - (void)openSession:(void (^)(bool, NSString *))block;
     - (void)logout;
+    - (void) completeLogin;
     -(void) signUp:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
     -(void) signIn:(NSString *)email password: (NSString *) password block:(void (^)(bool, NSString *))block;
     -(void) setAddress:(NSMutableDictionary *) dict block:(void (^)(bool, NSString *))block;

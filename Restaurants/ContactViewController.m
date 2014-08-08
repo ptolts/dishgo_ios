@@ -9,6 +9,7 @@
 #import "ContactViewController.h"
 #import "Footer.h"
 #import "PinsView.h"
+#import <FAKFontAwesome.h>
 
 
 @interface ContactViewController ()
@@ -111,9 +112,10 @@ UIView *loading;
     
     Footer *footer = [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] objectAtIndex:0];
     
-    footer.phone.text = self.restaurant.phone;
-    footer.address.text = self.restaurant.address;
-    [footer.address sizeToFit];
+    footer.phone.text = [self.restaurant.phone stringByReplacingOccurrencesOfString:@" " withString:@""];
+    footer.address.textAlignment = NSTextAlignmentCenter;
+    footer.address.text = [NSString stringWithFormat:@"%@\n%@\n%@",self.restaurant.address,self.restaurant.city,self.restaurant.postal_code];
+//    [footer.address sizeToFit];
 //    footer.contact_title.font = [UIFont fontWithName:@"Copperplate-Bold" size:20.0f];
     
     Hours *hours = self.restaurant.gHours;
@@ -126,7 +128,8 @@ UIView *loading;
                             hours.saturday.toString,
                             hours.sunday.toString];
     footer.hours.text = hours_text;
-    [footer.hours sizeToFit];
+
+//    [footer.hours sizeToFit];
 
     footer.contact_title.backgroundColor = [UIColor bgColor];
     footer.contact_title.font = [UIFont fontWithName:@"East Market NF" size:22.0f];
@@ -156,7 +159,7 @@ UIView *loading;
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [locationManager startUpdatingLocation];
+//    [locationManager startUpdatingLocation];
     footer.mapView.delegate = self;
     self.footer = footer;
     [footer setNeedsLayout];
@@ -166,14 +169,33 @@ UIView *loading;
     UITapGestureRecognizer* phone1LblGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phone1LblTapped)];
     [self.footer.phone setUserInteractionEnabled:YES];
     [self.footer.phone addGestureRecognizer:phone1LblGesture];
+
+    double lat = [self.restaurant.lat doubleValue];
+    double lon = [self.restaurant.lon doubleValue];
+    CLLocationCoordinate2D dest = CLLocationCoordinate2DMake(lat, lon);
+    PinsView *adddAnnotation = [[PinsView alloc] initWithCoordinate:dest];
+    [self.footer.mapView addAnnotation:adddAnnotation];
+    self.footer.mapView.centerCoordinate = dest;
+
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(dest, 500, 500);
+    MKCoordinateRegion adjustedRegion = [self.footer.mapView regionThatFits:viewRegion];
+    [self.footer.mapView setRegion:adjustedRegion animated:YES];
+    self.footer.mapView.showsUserLocation = YES;
     
-    
-    loading = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.footer.mapView.frame.size.width, self.footer.mapView.frame.size.height)];
-    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityView.center=loading.center;
-    [activityView startAnimating];
-    [loading addSubview:activityView];
-    [self.footer.mapView addSubview:loading];
+//    loading = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.footer.mapView.frame.size.width, self.footer.mapView.frame.size.height)];
+//    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc]  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    activityView.center=loading.center;
+//    [activityView startAnimating];
+//    [loading addSubview:activityView];
+//    [self.footer.mapView addSubview:loading];
+    FAKFontAwesome *check = [FAKFontAwesome timesCircleIconWithSize:22.0f];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
+    UIImage *b = [check imageWithSize:CGSizeMake(22.0,22.0)];
+    UIImageView *a = [[UIImageView alloc] initWithImage:b];
+    UIButton *c = [[UIButton alloc] initWithFrame:CGRectMake(10,10,44,44)];
+    [c addSubview:a];
+    [c addTarget:self action:@selector(dismissModalView:) forControlEvents:UIControlEventTouchUpInside];
+    [self.footer addSubview:c];
 }
 
 - (void)phone1LblTapped
@@ -200,7 +222,9 @@ UIView *loading;
 
 - (IBAction)dismissModalView:(id)sender
 {
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    if(self.pops){
+        [self.pops dismissPresentedNavigationController];
+    }
 }
 
 @end

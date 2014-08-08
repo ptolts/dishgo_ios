@@ -43,7 +43,8 @@
     buttonList = [[NSMutableArray alloc] init];
     buttonList_dict = [[NSMutableDictionary alloc] init];
     
-    self.optionTitle.text = self.op.name;
+//    self.optionTitle.text = self.op.name;
+    self.optionTitle.text = [self.op.name uppercaseString];
     mainColor = [UIColor textColor];
     mainCGColor = mainColor.CGColor;
     

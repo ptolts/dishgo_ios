@@ -65,7 +65,7 @@
     UIImage *old_bg_image;
     UIImage *old_shadow_image;
     int initialImageHeight;
-    FilterDishButton *filter;
+    FilterDishButton *dish_filter;
     StorefrontImageView *scroll_image_view;
 
 - (void)showModalView
@@ -80,7 +80,7 @@
     self.navigationController.navigationBar.shadowImage = old_shadow_image;
     self.navigationController.navigationBar.translucent = NO;
     
-    [filter removeFromSuperview];
+    [dish_filter removeFromSuperview];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -98,10 +98,10 @@
     
     
     mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);;
-    filter = [FilterDishButton x:5.0f y:5.0f];
-    [filter addTarget:self action:@selector(showDishSearch) forControlEvents:UIControlEventTouchUpInside];
-    [mainWindow addSubview:filter];
-    [mainWindow bringSubviewToFront:filter];
+    dish_filter = [FilterDishButton x:5.0f y:5.0f];
+    [dish_filter addTarget:self action:@selector(showDishSearch) forControlEvents:UIControlEventTouchUpInside];
+    [mainWindow addSubview:dish_filter];
+    [mainWindow bringSubviewToFront:dish_filter];
     if(spinnerView){
         [mainWindow bringSubviewToFront:spinnerView];
     }
@@ -116,7 +116,8 @@
 
 - (void) showModal {
     ContactViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contactView"];
-    viewController.restaurant = self.restaurant;    
+    viewController.restaurant = self.restaurant;
+    viewController.pops = self;
     [viewController.view setNeedsLayout];
     _presentedNavigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
     _presentedNavigationController.navigationBar.hidden = YES;
@@ -217,7 +218,7 @@
     logo.backgroundColor = [UIColor whiteColor];
     [spinnerView addSubview:logo];
     
-    FAKFontAwesome *check = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+    FAKFontAwesome *check = [FAKFontAwesome timesCircleIconWithSize:22.0f];
     [check addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
     UIImage *b = [check imageWithSize:CGSizeMake(22.0,22.0)];
     UIImageView *a = [[UIImageView alloc] initWithImage:b];
@@ -235,7 +236,7 @@
     
     progress = [[UILabel alloc] init];
     [progress setText: @"FETCHING MENU"];
-    [progress setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [progress setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     progress.textAlignment = NSTextAlignmentCenter;
     [progress setTextColor:[UIColor blackColor]];
     CGRect rect = progress.frame;
@@ -250,10 +251,10 @@
                    action:@selector(restartFetch:)
          forControlEvents:UIControlEventTouchUpInside];
     [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
-    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"Copperplate-Bold" size:12.0f]];
+    [retryFetch.titleLabel setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
     retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 160, 220.0 , 30.0);
-    retryFetch.backgroundColor = [UIColor blackColor];
+    retryFetch.backgroundColor = [UIColor almostBlackColor];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [retryFetch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -324,12 +325,16 @@
 }
 
 - (void) setupBackButtonAndCart {
-	self.navigationItem.hidesBackButton = YES; // Important
-    UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
-    [backBtn setImage:backBtnImage];
-
-    [self.navigationItem setLeftBarButtonItem:backBtn];
+//	self.navigationItem.hidesBackButton = YES;
+    FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+    [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
+    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
+    [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:image forState:UIControlStateNormal];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self.navigationItem setLeftBarButtonItem:item];
     
     shoppingCart = [[NSMutableArray alloc] init];
     [shoppingCart setIdent:self.restaurant.id];
@@ -347,20 +352,8 @@
     [super viewDidLoad];
     [self startLoading];
     enableCart = NO;
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-//    self.tableView.autoresizingMask = UIViewAutoresizingNone;
-    
+
     [self setupBackButtonAndCart];
-    
-    // FOOD CLOUD TITLE
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
-//    label.backgroundColor = [UIColor clearColor];
-//    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.textColor = [UIColor whiteColor];
-//    label.adjustsFontSizeToFitWidth = YES;
-//    label.text = self.restaurant.name;
-//    self.navigationItem.titleView = label;
     
     header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.restaurant_name.text = self.restaurant.name;
@@ -383,18 +376,18 @@
     
     NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *check = [FAKFontAwesome mapMarkerIconWithSize:18.0f];
-    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
     [attributionMas appendAttributedString:[check attributedString]];
     header.map_fa.attributedText = attributionMas;
     
     check = [FAKFontAwesome phoneIconWithSize:18.0f];
-    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
     attributionMas = [[NSMutableAttributedString alloc] init];
     [attributionMas appendAttributedString:[check attributedString]];
     header.phone_fa.attributedText = attributionMas;
     
     check = [FAKFontAwesome clockOIconWithSize:18.0f];
-    [check addAttribute:NSForegroundColorAttributeName value:[UIColor textColor]];
+    [check addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
     attributionMas = [[NSMutableAttributedString alloc] init];
     [attributionMas appendAttributedString:[check attributedString]];
     header.hours_fa.attributedText = attributionMas;
@@ -781,6 +774,8 @@
     
     RKManagedObjectStore *managedObjectStore = self.managedObjectStore;
     
+//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    
     ///// MAPPINGS
     RKEntityMapping *dishesMapping = [RKEntityMapping mappingForEntityForName:@"Dishes" inManagedObjectStore:managedObjectStore];
     [dishesMapping addAttributeMappingsFromDictionary:@{
@@ -847,7 +842,7 @@
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@",dishGoUrl,self.restaurant.id];
+    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0]];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

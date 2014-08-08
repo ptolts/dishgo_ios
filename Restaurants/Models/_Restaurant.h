@@ -6,6 +6,7 @@
 
 extern const struct RestaurantAttributes {
 	__unsafe_unretained NSString *address;
+	__unsafe_unretained NSString *city;
 	__unsafe_unretained NSString *distance;
 	__unsafe_unretained NSString *does_delivery;
 	__unsafe_unretained NSString *hours;
@@ -14,6 +15,7 @@ extern const struct RestaurantAttributes {
 	__unsafe_unretained NSString *lon;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *phone;
+	__unsafe_unretained NSString *postal_code;
 } RestaurantAttributes;
 
 extern const struct RestaurantRelationships {
@@ -30,7 +32,9 @@ extern const struct RestaurantFetchedProperties {
 
 
 
+
 @class NSObject;
+
 
 
 
@@ -55,6 +59,16 @@ extern const struct RestaurantFetchedProperties {
 
 
 //- (BOOL)validateAddress:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* city;
+
+
+
+//- (BOOL)validateCity:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -156,6 +170,16 @@ extern const struct RestaurantFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSString* postal_code;
+
+
+
+//- (BOOL)validatePostal_code:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 @property (nonatomic, strong) NSOrderedSet *images;
 
 - (NSMutableOrderedSet*)imagesSet;
@@ -192,6 +216,12 @@ extern const struct RestaurantFetchedProperties {
 
 - (NSString*)primitiveAddress;
 - (void)setPrimitiveAddress:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveCity;
+- (void)setPrimitiveCity:(NSString*)value;
 
 
 
@@ -252,6 +282,12 @@ extern const struct RestaurantFetchedProperties {
 
 - (NSString*)primitivePhone;
 - (void)setPrimitivePhone:(NSString*)value;
+
+
+
+
+- (NSString*)primitivePostal_code;
+- (void)setPrimitivePostal_code:(NSString*)value;
 
 
 

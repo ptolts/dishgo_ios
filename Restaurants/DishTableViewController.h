@@ -12,10 +12,11 @@
 #import "StorefrontScrollView.h"
 #import "DishTableViewCell.h"
 #import "SignInStars.h"
+#import <DBCamera/DBCameraContainerViewController.h>
 
 @class DishTableViewCell;
 
-@interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, StoreFrontScrollViewDelegate, EDStarRatingProtocol>
+@interface DishTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, StoreFrontScrollViewDelegate, EDStarRatingProtocol, DBCameraViewControllerDelegate>
     @property (nonatomic, strong) NSMutableArray *shoppingCart;
     @property (nonatomic, strong) Dishes *dish;
     @property (nonatomic, strong) CartButton *cart;
