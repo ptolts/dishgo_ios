@@ -26,9 +26,9 @@ ReviewPopup *review_popup;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actuallySubmitRating) name:@"submitReview" object:nil];
 
     if([self.rating intValue] <= 3){
-        review_popup.review_label.text = @"Please let us know what you don't like about this dish. It won't be publically displayed and we will pass it anonymously along to the restaurant owner to help improve their food!";
+        review_popup.review_label.text = NSLocalizedString(@"What didn't you like about this dish? We will anonymously let the restaurant know so they can improve their food!",nil);
     } else {
-        review_popup.review_label.text = @"Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!";
+        review_popup.review_label.text = NSLocalizedString(@"Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!",nil);
     }
     
     [popup show];
@@ -40,6 +40,7 @@ ReviewPopup *review_popup;
 
 - (void) hidePopup {
     [popup hide];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) actuallySubmitRating {
@@ -54,7 +55,7 @@ ReviewPopup *review_popup;
                                        [copy addObject:self];
                                        rate.current_ratings = [NSArray arrayWithArray:copy];
                                    }];
-    [self hidePopup];
+    [self hidePopup];    
 }
 
 -(NSDictionary *) cleanDict {

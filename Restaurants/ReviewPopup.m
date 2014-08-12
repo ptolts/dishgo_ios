@@ -32,11 +32,33 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"submitReview" object:nil];
 }
 
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([self.review_text.text isEqualToString:NSLocalizedString(@"Type your review here!",nil)]) {
+        self.review_text.text = @"";
+        self.review_text.textColor = [UIColor almostBlackColor]; //optional
+    }
+    [self.review_text becomeFirstResponder];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if ([self.review_text.text isEqualToString:@""]) {
+        self.review_text.text = NSLocalizedString(@"Type your review here!",nil);
+        self.review_text.textColor = [UIColor lightGrayColor]; //optional
+    }
+    [self.review_text resignFirstResponder];
+}
+
 - (void) setup {
     self.review_text.layer.cornerRadius = 3.0f;
     self.review_text.layer.borderWidth = 1.0f;
     self.review_text.layer.shadowColor = [UIColor almostBlackColor].CGColor;
     self.review_text.layer.masksToBounds = NO;
+    self.review_text.tintColor = [UIColor scarletColor];
+    self.review_text.text = NSLocalizedString(@"Type your review here!",nil);
+    self.review_text.textColor = [UIColor lightGrayColor];
+    self.review_text.delegate = self;
 }
 
 -(IBAction)close:(id)sender {

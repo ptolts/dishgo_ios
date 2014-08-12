@@ -286,13 +286,14 @@
     frame.origin.y = junkHeight - frame.size.height;
     dish_logic.dishFooterView.frame = frame;
     
-    CGRect make = CGRectMake(0, (dish_logic.frame.origin.y + dish_logic.frame.size.height), 320, junkHeight - dish_logic.dishFooterView.frame.size.height - dish_logic.frame.size.height);
+//    CGRect make = CGRectMake(0, (dish_logic.frame.origin.y + dish_logic.frame.size.height), 320, junkHeight - dish_logic.dishFooterView.frame.size.height - dish_logic.frame.size.height);
+    CGRect make = CGRectMake(0, (dish_logic.frame.origin.y + dish_logic.frame.size.height), 320, junkHeight - dish_logic.frame.size.height);
     self.tableView = [[UITableView alloc] initWithFrame:make style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
     [self.view addSubview:self.tableView];
-    [self.view addSubview: dish_logic.dishFooterView];
+//    [self.view addSubview: dish_logic.dishFooterView];
     [self.view addSubview: dish_logic];
 
 }

@@ -26,6 +26,7 @@
 #import "GetListedTableViewCell.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "UserSession.h"
 
 @interface RestaurantViewController ()
 
@@ -42,6 +43,7 @@
     noRestaurants *noRestoView;
     UIWindow  *mainWindow;
     CLLocation *currentLocation;
+    UserSession *session;
     int scroll_count;
     UILabel *progress;
     UIButton *retryFetch;
@@ -110,6 +112,8 @@
     
     NSLog(@"Done Location -- Fetching Restaurants");
     stopUpdatingLocation = YES;
+    session.lat = [NSString stringWithFormat:@"%f",currentLocation.coordinate.latitude];
+    session.lon = [NSString stringWithFormat:@"%f",currentLocation.coordinate.longitude];
     [self fetchRestaurants];
 }
 
@@ -167,7 +171,7 @@
     [spinnerView addSubview:spinner];
     
     progress = [[UILabel alloc] init];
-    [progress setText: @"FINDING LOCATION"];
+    [progress setText: NSLocalizedString(@"FINDING LOCATION",nil)];
     [progress setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     progress.textAlignment = NSTextAlignmentCenter;
     [progress setTextColor:[UIColor blackColor]];
@@ -182,7 +186,7 @@
     [retryFetch addTarget:self
                action:@selector(restartFetch:)
      forControlEvents:UIControlEventTouchUpInside];
-    [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
+    [retryFetch setTitle:NSLocalizedString(@"RETRY",nil) forState:UIControlStateNormal];
     [retryFetch.titleLabel setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
     retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 240, 220.0 , 30.0);
@@ -274,6 +278,7 @@
     [super viewDidLoad];
     
 //    NSLog(@"PASTEBOARD: %@",[[UIPasteboard pasteboardWithName:@"fb_app_attribution" create:NO] string]);
+    session = [UserSession sharedManager];
     
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     self.KVOController = KVOController;
@@ -287,8 +292,7 @@
     scroll_count = 0;
     
     [self.tableView addPullToRefreshWithActionHandler:^{
-        // Tasks to do on refresh. Update datasource, add rows, …
-        // Call [tableView.pullToRefreshView stopAnimating] when done.
+        stopUpdatingLocation = NO;
         [locationManager startUpdatingLocation];
     }   withBackgroundColor:[UIColor almostBlackColor] withPullToRefreshHeightShowed:4];
     
@@ -416,7 +420,7 @@
     [UIView animateWithDuration:1.0
                      animations:^{
                          progress.alpha = 0.0f;
-                         progress.text = @"FETCHING RESTAURANTS";
+                         progress.text = NSLocalizedString(@"FETCHING RESTAURANTS",nil);
                          progress.alpha = 1.0f;
                      }];
 
@@ -542,7 +546,7 @@
                              spinner.alpha = 0.0f;
                              spinner.hidden = YES;
                              progress.alpha = 0.0f;
-                             progress.text = @"NETWORK ERROR";
+                             progress.text = NSLocalizedString(@"NETWORK ERROR",nil);
                              progress.alpha = 1.0f;
                          }];
     }];
@@ -729,10 +733,10 @@
     cell.distanceLabel.hidden = NO;
     
     if(resto.isOpened){
-        cell.opened_closed.text = @"Open";
+        cell.opened_closed.text = NSLocalizedString(@"Open",nil);
         cell.opened_closed.textColor = [UIColor greenColor];
     } else {
-        cell.opened_closed.text = @"Closed";
+        cell.opened_closed.text = NSLocalizedString(@"Closed",nil);
         cell.opened_closed.textColor = [UIColor scarletColor];
     }
     cell.opened_closed.font = [UIFont fontWithName:@"JosefinSans-Bold" size:18.0f];

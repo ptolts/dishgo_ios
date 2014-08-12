@@ -14,6 +14,8 @@
     @property User *main_user;
     @property Boolean logged_in;
     @property NSString *facebookUserName;
+    @property NSString *lat;
+    @property NSString *lon;
     @property NSString *facebookId;
     @property NSString *facebookToken;
     @property NSString *foodcloudToken;

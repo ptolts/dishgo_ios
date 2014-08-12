@@ -32,4 +32,13 @@
     }
 }
 
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if(![[UserSession sharedManager] logged_in]){
+        return;
+    } else {
+        [super touchesEnded:touches withEvent:event];
+    }
+}
+
 @end

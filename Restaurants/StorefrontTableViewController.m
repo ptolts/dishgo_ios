@@ -30,6 +30,7 @@
 #import "LEColorPicker.h"
 #import "UserSession.h"
 #import "DishCellClean.h"
+#import "PrizesController.h"
 #import <GAI.h>
 #import "DishSearchTableViewController.h"
 #import "DishCoinButton.h"
@@ -56,6 +57,7 @@
     UIActivityIndicatorView *spinner;
     int current_page = 0;
     NSSet *defaultSectionsList;
+    UserSession *session;
     UIView *spinnerView;
     UIWindow  *mainWindow;
     Header *header;
@@ -235,7 +237,7 @@
     [spinner startAnimating];
     
     progress = [[UILabel alloc] init];
-    [progress setText: @"FETCHING MENU"];
+    [progress setText: NSLocalizedString(@"FETCHING MENU",nil)];
     [progress setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     progress.textAlignment = NSTextAlignmentCenter;
     [progress setTextColor:[UIColor blackColor]];
@@ -250,7 +252,7 @@
     [retryFetch addTarget:self
                    action:@selector(restartFetch:)
          forControlEvents:UIControlEventTouchUpInside];
-    [retryFetch setTitle:@"RETRY" forState:UIControlStateNormal];
+    [retryFetch setTitle:NSLocalizedString(@"RETRY",nil) forState:UIControlStateNormal];
     [retryFetch.titleLabel setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:12.0f]];
     [retryFetch.titleLabel setTintColor:[UIColor whiteColor]];
     retryFetch.frame = CGRectMake((mainWindow.frame.size.width / 2) - 110, logo.frame.origin.y + 160, 220.0 , 30.0);
@@ -275,7 +277,7 @@
                          retryFetch.alpha = 0.0f;
                          retryFetch.hidden = YES;
                          progress.alpha = 0.0f;
-                         [progress setText: @"FETCHING MENU"];
+                         [progress setText: NSLocalizedString(@"FETCHING MENU",nil)];
                          progress.alpha = 1.0f;
                          spinner.alpha = 1.0;
                          spinner.hidden = NO;
@@ -355,6 +357,8 @@
 
     [self setupBackButtonAndCart];
     
+    session = [UserSession sharedManager];
+    
     header = [[[NSBundle mainBundle] loadNibNamed:@"Header" owner:self options:nil] objectAtIndex:0];
     header.restaurant_name.text = self.restaurant.name;
     header.restaurant_name.textColor = [UIColor textColor];
@@ -427,15 +431,27 @@
 
 - (void)cartClick:sender
 {
-    if(!enableCart){
+//    if(!enableCart){
+//        return;
+//    }
+//    
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = shoppingCart;
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
+//    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
+//    [self.frostedViewController presentMenuViewController];
+    
+    if(![[UserSession sharedManager] logged_in]){
+        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+        [self.navigationController pushViewController:signin animated:YES];
         return;
     }
-    
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = shoppingCart;
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
-    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
-    [self.frostedViewController presentMenuViewController];
+
+    PrizesController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"prizesController"];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
+
 }
 
 
@@ -842,7 +858,8 @@
     [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0]];
+
+    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@&lat=%@&lon=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0],session.lat,session.lon];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

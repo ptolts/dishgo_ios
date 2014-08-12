@@ -65,7 +65,7 @@
     self.selected = !self.selected;
     if(self.selected){
         FAKFontAwesome *checkIcon = [FAKFontAwesome checkCircleIconWithSize:18.0f];
-        [checkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor]];
+        [checkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
         imageView.image = [checkIcon imageWithSize:CGSizeMake(18.0f,18.0f)];
         imageView.layer.borderWidth = 0.0f;
     } else {

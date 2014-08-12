@@ -28,9 +28,9 @@
 }
 
 - (void) setup {
+    option_button_view = [[[NSBundle mainBundle] loadNibNamed:@"OptionButtonView" owner:self options:nil] objectAtIndex:0];
     option_button_view.description.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
     option_button_view.price.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
-    option_button_view = [[[NSBundle mainBundle] loadNibNamed:@"OptionButtonView" owner:self options:nil] objectAtIndex:0];
     option_button_view.description.text = self.option.name;
     option_button_view.backgroundColor = [UIColor unselectedButtonColor];
     if([self.option.price floatValue] != 0.0){
@@ -64,11 +64,13 @@
     [super setSelected:selected];
     if (selected) {
         option_button_view.backgroundColor = [UIColor selectedButtonColor];
-        option_button_view.price.textColor = [UIColor almostBlackColor];
+        option_button_view.price.textColor = [UIColor whiteColor];
+        option_button_view.description.textColor = [UIColor whiteColor];
 //        [option_button_view.checkmark_label setHidden:NO];
     } else {
         option_button_view.backgroundColor = [UIColor unselectedButtonColor];
         option_button_view.price.textColor = [UIColor scarletColor];
+        option_button_view.description.textColor = [UIColor almostBlackColor];
 //        [option_button_view.checkmark_label setHidden:YES];
     }
     [option_button_view setNeedsDisplay];

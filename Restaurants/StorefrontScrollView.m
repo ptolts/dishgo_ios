@@ -10,6 +10,7 @@
 #import "StorefrontImageView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "StorefrontTableViewController.h"
+#import <ImageIO/ImageIO.h>
 
 @implementation StorefrontScrollView {
 
@@ -43,8 +44,9 @@
         image.autoresizingMask = UIViewAutoresizingNone;
         [imageViews addObject:image];
         image.userInteractionEnabled = YES;
-        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
-              placeholderImage:[UIImage imageNamed:@"Default.png"]];
+        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+
+        }];
         image.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:image];
         if(i==0){
@@ -58,6 +60,42 @@
     self.contentSize = CGSizeMake(self.frame.size.width * ([self.subviews count] - 1), self.frame.size.height);
     self.pagingEnabled = YES;
 
+}
+
+-(void) imageDpi:(NSString *) url_from_out {
+    NSURL *url = [[NSURL alloc] initWithString:url_from_out];
+    
+    // Reference to an image source
+    CGImageSourceRef imageRef = CGImageSourceCreateWithURL((__bridge CFURLRef)url, NULL);
+    
+    // Get reference to dictionary of image
+    CFDictionaryRef imageDict = CGImageSourceCopyPropertiesAtIndex(imageRef, 0, NULL);
+    
+    // Print image dictionary
+    NSLog(@"URL: %@", url_from_out);
+//    NSLog(@"image dict: %@", imageDict);
+    
+    // Get references to model, width, height and depth objects
+    CFStringRef model = (CFStringRef)CFDictionaryGetValue(imageDict, kCGImagePropertyColorModel);
+    CFNumberRef width = (CFNumberRef)CFDictionaryGetValue(imageDict, kCGImagePropertyPixelWidth);
+    CFNumberRef height = (CFNumberRef)CFDictionaryGetValue(imageDict, kCGImagePropertyPixelHeight);
+    CFNumberRef depth = (CFNumberRef)CFDictionaryGetValue(imageDict, kCGImagePropertyDepth);
+    
+    // Cast CFStringRef to NSString
+    NSLog(@"Image model: %@\n", (__bridge NSString *)model);
+    
+    // Get the values of the number references
+    int w = 0, h = 0, d = 0;
+    CFNumberGetValue(depth, kCFNumberIntType, &d);
+    CFNumberGetValue(width, kCFNumberIntType, &w);
+    CFNumberGetValue(height, kCFNumberIntType, &h);
+    
+    NSLog(@"Image depth: %d\n", d);
+    NSLog(@"Image width: %d\n", w);
+    NSLog(@"Image height: %d\n", h);
+    
+    CFRelease(imageDict);
+    CFRelease(imageRef);
 }
 
 -(void)setupRestoImages {
@@ -74,8 +112,9 @@
         image.autoresizingMask = UIViewAutoresizingNone;
         [imageViews addObject:image];
         image.userInteractionEnabled = YES;
-        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]]
-              placeholderImage:[UIImage imageNamed:@"Default.png"]];
+        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",img.url]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+
+        }];
         image.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:image];
         if(i==0){

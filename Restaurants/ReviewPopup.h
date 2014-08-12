@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReviewPopup : UIView
+@interface ReviewPopup : UIView <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *review_label;
 @property (strong, nonatomic) IBOutlet UITextView *review_text;
 @property (strong, nonatomic) IBOutlet UIButton *submit_button;

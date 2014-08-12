@@ -24,6 +24,7 @@
 #import "CartButton.h"
 #import "UserSession.h"
 #import "Images.h"
+#import "PrizesController.h"
 #import "FontAwesomeKit/FAKFontAwesome.h"
 #import "CameraButton.h"
 #import "UIColor+Custom.h"
@@ -216,11 +217,22 @@
 
 - (void)cartClick:sender
 {
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = self.shoppingCart;
-    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
-    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
-    [self.frostedViewController presentMenuViewController];
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping = YES;
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).shopping_cart = self.shoppingCart;
+//    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
+//    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
+//    [self.frostedViewController presentMenuViewController];
+    
+    if(![[UserSession sharedManager] logged_in]){
+        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+        [self.navigationController pushViewController:signin animated:YES];
+        return;
+    }
+    
+    PrizesController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"prizesController"];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:vc animated:YES];
+    [self.frostedViewController hideMenuViewController];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

@@ -1,0 +1,53 @@
+/*
+ Localization.strings
+ DishGo
+ 
+ Created by Philip Tolton on 2014-08-12.
+ Copyright (c) 2014 DishGo Inc. All rights reserved.
+ */
+
+"Browse Restaurant Menus" = "Browse Restaurant Menus";
+"Rate dishes, share pictures and collect DishCoins. Redeem them for great prizes." = "Rate dishes, share pictures and collect DishCoins. Redeem them for great prizes.";
+
+"Select a Restaurant" = "Select a Restaurant";
+"Search through restaurants in your surrounding area and select one by tapping the tile." = "Search through restaurants in your surrounding area and select one by tapping the tile.";
+
+"Restaurant Storefront" = "Restaurant Storefront";
+"Browse the restaurant details. Tap a menu section or dish image." = "Browse the restaurant details. Tap a menu section or dish image.";
+
+"Browse & Upload Pics" = "Browse & Upload Pics";
+"Browse the dishes and share pictures of your meal to accumulate DishCoins." = "Browse the dishes and share pictures of your meal to accumulate DishCoins.";
+
+"Dish Details & Ratings" = "Dish Details & Ratings";
+"Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins." = "Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins.";
+
+"Earn Rewards!" = "Earn Rewards!";
+"Accumulate DishCoins and bid on great prizes. Win instantly!" = "Accumulate DishCoins and bid on great prizes. Win instantly!";
+
+"Start  " = "Start  ";
+
+"FETCHING RESTAURANTS" = "FETCHING RESTAURANTS";
+"FINDING LOCATION" = "FINDING LOCATION";
+"RETRY" = "RETRY";
+
+"Open" = "Open";
+"Closed" = "Closed";
+"NETWORK ERROR" = "NETWORK ERROR";
+"FETCHING MENU" = "FETCHING MENU";
+
+"DESCRIPTION" = "DESCRIPTION";
+
+"Type your review here!" = "Type your review here!";
+
+"Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!" = "Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!";
+
+"What didn't you like about this dish? We will anonymously let the restaurant know so they can improve their food!" = "What didn't you like about this dish? We will anonymously let the restaurant know so they can improve their food!";
+
+"Sign In" = "Sign In";
+"Logout" = "Logout";
+"Sort Restaurants" = "Sort Restaurants";
+"Open Now" = "Open Now";
+"Distance" = "Distance";
+"Help" = "Help";
+"Delivery" = "Delivery";
+"Menu Score" = "Menu Score";

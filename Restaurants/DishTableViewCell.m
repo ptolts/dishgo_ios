@@ -155,8 +155,8 @@
         cell.descriptionLabel.backgroundColor = [UIColor clearColor];
         cell.descriptionLabel.textAlignment = NSTextAlignmentLeft;
         cell.descriptionLabel.textColor = [UIColor textColor];
-        cell.descriptionLabel.text = @"DESCRIPTION";
-        cell.descriptionLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:12.0f];
+        cell.descriptionLabel.text = NSLocalizedString(@"DESCRIPTION",nil);
+        cell.descriptionLabel.font = [UIFont fontWithName:@"JosefinSans-Bold" size:14.0f];
         [cell.descriptionLabel sizeToFit];
         
         maxSize = CGSizeMake(300.0f, CGFLOAT_MAX);
@@ -168,7 +168,7 @@
         [cell.contentView addSubview:cell.descriptionLabel];
         
         CGRect f = cell.contentView.frame;
-        f.size.height = cell.descriptionLabel.frame.size.height;
+        f.size.height = cell.descriptionLabel.frame.size.height + 5;
         cell.contentView.frame = f;
         
         cell.dishDescription = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
@@ -177,7 +177,7 @@
         cell.dishDescription.textAlignment = NSTextAlignmentLeft;
         cell.dishDescription.textColor = [UIColor textColor];
         cell.dishDescription.text = dish.description_text;
-        cell.dishDescription.font = [UIFont fontWithName:@"Merriweather" size:14.0f];
+        cell.dishDescription.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
         cell.dishDescription.numberOfLines = 0;
         [cell.dishDescription sizeToFit];
         
@@ -199,14 +199,16 @@
     _optionViews = [[NSMutableDictionary alloc] init];
     
     OptionsView *sizeObject;
+    BOOL dish_has_sizes = NO;
     
-    if([dish.sizes intValue] == 1){
+    if([dish.sizes intValue] == 1 && dish.sizes_object){
+        dish_has_sizes = YES;
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
         option_view.optionTitle.backgroundColor = [UIColor clearColor];
         option_view.optionTitle.textAlignment = NSTextAlignmentLeft;
         option_view.optionTitle.textColor = [UIColor textColor];
-        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:12.0f];
+        option_view.optionTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:14.0f];
         [option_view addSubview:option_view.optionTitle];
         
         option_view.parent = self;
@@ -243,7 +245,7 @@
         
         [self.KVOController observe:option_view keyPath:@"total_price" options:NSKeyValueObservingOptionNew action:@selector(setPrice)];
         
-        if(dish.sizes){
+        if(dish_has_sizes){
             option_view.size_prices = sizeObject;
         }
 
@@ -360,7 +362,14 @@
 }
 
 -(void) setPrice {
-    self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
+    
+    NSString *p = [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
+    if([p isEqualToString:@"0.00"]){
+        self.priceLabel.text = @"Ask";
+    } else {
+        self.priceLabel.text = [NSString stringWithFormat:@"%.02f", [self getCurrentPrice]];
+    }
+    
     if(self.shoppingCartCell){
         [self setupShoppingCart];
         [self setupReviewCell];

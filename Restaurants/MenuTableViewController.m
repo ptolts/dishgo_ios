@@ -21,10 +21,12 @@
 #import <ALAlertBanner/ALAlertBanner.h>
 #import "WobbleCell.h"
 #import "DishCoins.h"
+#import "TutorialViewController.h"
 #import "SortView.h"
 #import <GAI.h>
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import <FAKFontAwesome.h>
 
 @interface MenuTableViewController ()
 
@@ -106,14 +108,6 @@
     [self.frostedViewController hideMenuViewController];
 }
 
--(void) favorites {
-    NSLog(@"Clicked Signin");
-    CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
-    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
-    [navigationController pushViewController:vc animated:YES];
-    [self.frostedViewController hideMenuViewController];
-}
-
 -(void) settings {
     NSLog(@"Clicked Signin");
     CheckoutViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
@@ -125,6 +119,13 @@
 -(void) logout {
     [[UserSession sharedManager] logout];
     [self launchAlert:@"Logged out!"];
+    [self.frostedViewController hideMenuViewController];
+}
+
+- (void) help {
+    TutorialViewController *tutorial_view_controller = [TutorialViewController setup];
+    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [navigationController pushViewController:tutorial_view_controller animated:YES];
     [self.frostedViewController hideMenuViewController];
 }
 
@@ -273,7 +274,7 @@
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[@"Open Now",@0,@0],@[@"Distance",@1,@0],@[@"Delivery",@2,@0],@[@"Menu Score",@1,@1]];
+    NSArray *options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0],@[NSLocalizedString(@"Menu Score",nil),@1,@1]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
@@ -322,7 +323,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 280, 25)];
     [label setFont:[UIFont boldSystemFontOfSize:18]];
     label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = @"Sort Restaurants";
+    NSString *string = NSLocalizedString(@"Sort Restaurants",nil);
     label.textColor = sign_in_color;
     [label setText:string];
     [view addSubview:label];
@@ -346,9 +347,10 @@
                 [self signin];
             }
         } else if (indexPath.row == 1){
-            [self logout];
+            [self help];
+//            [self logout];
         } else if (indexPath.row == 2){
-            [self favorites];
+            [self prizes];
         } else if (indexPath.row == 3){
             [self settings];
         }
@@ -370,7 +372,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
     if(sectionIndex == 0){
-        return 1;
+        return 3;
     } else {
         return 4;
     }
@@ -384,7 +386,7 @@
     fr.size.width = self.tableView.frame.size.width;
     cell.frame = fr;
 
-    int icon_size = 40;
+    int icon_size = 30;
     int start_point = 50;
     
     if(indexPath.section == 0){
@@ -405,8 +407,8 @@
                 imageView.layer.shouldRasterize = YES;
                 imageView.clipsToBounds = YES;
 
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-                label.text = @"Logout";
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 120, 20)];
+                label.text = NSLocalizedString(@"Logout",nil);
                 label.textColor = sign_in_color;
                 label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
                 label.layer.cornerRadius = 5.0f;
@@ -435,8 +437,8 @@
                 imageView.layer.shouldRasterize = YES;
                 imageView.clipsToBounds = YES;
                 
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
-                label.text = @"Sign In";
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 130, 20)];
+                label.text = NSLocalizedString(@"Sign In",nil);
                 label.textColor = sign_in_color;
                 label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
                 label.layer.cornerRadius = 5.0f;
@@ -454,22 +456,31 @@
             }
         } else {
             
-            NSArray *titles = @[@"Logout",@"Favorites",@"Settings"];
+            NSArray *titles = @[NSLocalizedString(@"Help",nil),@"DishCoins",@"Settings"];
             
             NSString *title = titles[indexPath.row - 1];
             
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
             [imageView setContentMode:UIViewContentModeCenter];
-            imageView.image = [UIImage imageNamed:[[NSString stringWithFormat:@"%@.png",title] lowercaseString]];
-            imageView.layer.masksToBounds = YES;
-            imageView.layer.cornerRadius = icon_size / 2.0;
-            imageView.layer.borderColor = sign_in_color.CGColor;
-            imageView.layer.borderWidth = 1.5f;
+            if([title isEqualToString:NSLocalizedString(@"Help",nil)]){
+                FAKFontAwesome *help = [FAKFontAwesome questionIconWithSize:20.0f];
+                [help addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+                imageView.image = [help imageWithSize:CGSizeMake(icon_size,icon_size)];
+                imageView.layer.masksToBounds = YES;
+                imageView.layer.cornerRadius = icon_size / 2.0;
+                imageView.layer.borderColor = sign_in_color.CGColor;
+                imageView.layer.borderWidth = 1.5f;
+            }
+            if([title isEqualToString:@"DishCoins"]){
+                imageView.image = [UIImage imageNamed:@"dishcoin@2x.png"];
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+            }
+
             imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
             imageView.layer.shouldRasterize = YES;
             imageView.clipsToBounds = YES;
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 100, 20)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 130, 20)];
             label.text = title;
             label.textColor = sign_in_color;
             label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];

@@ -38,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor almostBlackColor];
     FAKFontAwesome *back = [FAKFontAwesome timesCircleIconWithSize:22.0f];
     [back addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];

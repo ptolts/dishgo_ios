@@ -10,7 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <ICETutorialController.h>
 
-@interface RAppDelegate : UIResponder <UIApplicationDelegate, ICETutorialControllerDelegate>
+@interface RAppDelegate : UIResponder <UIApplicationDelegate>
 
     @property (strong, nonatomic) UIWindow *window;
 
