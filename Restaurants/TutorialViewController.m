@@ -135,8 +135,27 @@
     [layer5 setTitleStyle:page_5_style];
     
     
+    // PAGE 6
+    
+    page_1_string = NSLocalizedString(@"Accumulate DishCoins and bid on great prizes. Win instantly!",nil);
+    
+    page_title = NSLocalizedString(@"Earn Rewards!",nil);
+    
+    ICETutorialPage *layer6 = [[ICETutorialPage alloc] initWithTitle:page_title subTitle:page_1_string pictureName:@"page6.png" duration:5.0f];
+    
+    ICETutorialLabelStyle *page_6_style = [[ICETutorialLabelStyle alloc] init];
+    [page_6_style setTextColor:[UIColor scarletColor]];
+    [page_6_style setOffset:230];
+    
+    ICETutorialLabelStyle *page_6_desc_style = [[ICETutorialLabelStyle alloc] init];
+    [page_6_desc_style setTextColor:[UIColor tutorialBrown]];
+    [page_6_desc_style setOffset:200];
+    
+    [layer6 setSubTitleStyle:page_6_desc_style];
+    [layer6 setTitleStyle:page_6_style];
+    
     // Load into an array.
-    NSArray *tutorialLayers = @[layer1,layer2,layer3,layer4,layer5];
+    NSArray *tutorialLayers = @[layer1,layer2,layer3,layer4,layer5,layer6];
     
     TutorialViewController *tutorial_view = [[TutorialViewController alloc] initWithPages:tutorialLayers];
     tutorial_view.delegate = tutorial_view;
@@ -152,7 +171,7 @@
     NSString *start_button = NSLocalizedString(@"Start  ",nil);
     NSMutableAttributedString *arrow_string = [[NSMutableAttributedString alloc] initWithString:start_button];
     [arrow_string addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"JosefinSans-Bold" size:20.0f] range:NSMakeRange(0,[start_button length]-1)];
-    FAKFontAwesome *arrow = [FAKFontAwesome caretRightIconWithSize:20.0f];
+    FAKFontAwesome *arrow = [FAKFontAwesome caretRightIconWithSize:15.0f];
     [arrow addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     [arrow_string appendAttributedString:[arrow attributedString]];
     [rightButtonLabel setAttributedText:arrow_string];
@@ -190,5 +209,30 @@
     self.rightButton.hidden = NO;
 }
 
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    if(self.navigationController){
+        FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
+        [back addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+        UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+        CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+        UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
+        [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
+        [button setImage:image forState:UIControlStateNormal];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+        [self.navigationItem setLeftBarButtonItem:item];
+    }
+}
+
+-(void) myCustomBack {
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName
+           value:@"Tutorial Controller"];
+}
 
 @end

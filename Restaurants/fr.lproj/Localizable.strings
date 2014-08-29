@@ -15,10 +15,10 @@
 "Restaurant Storefront" = "Vitrine";
 "Browse the restaurant details. Tap a menu section or dish image." = "Parcourez les renseignements sur le restaurant. Cliquez sur une section du menu ou une photo de plat.";
 
-"Browse & Upload Pics" = "Parcourez et mettez des photos en ligne";
+"Browse & Upload Pics" = "Parcourez/envoyer des photos";
 "Browse the dishes and share pictures of your meal to accumulate DishCoins." = "Parcourez les plats et partagez des photos de votre repas pour accumuler des DishCoins.";
 
-"Dish Details & Ratings" = "Renseignements sur les plats & évaluations";
+"Dish Details & Ratings" = "Détails et evaluations";
 "Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins." = "Faites la critique de votre plat en incluant des renseignements sur les portions et les options. Soumettez votre propre évaluation pour accumuler des DishCoins supplémentaires.";
 
 "Earn Rewards!" = "Recevez des récompenses!";
@@ -26,7 +26,7 @@
 
 "Start  " = "Commencer  ";
 
-"FETCHING RESTAURANTS" = "OBTENTION RESTAURANTS";
+"FETCHING RESTAURANTS" = "TÉLÉCHARGEMENT DES RESTAURANTS";
 "FINDING LOCATION" = "LOCALISER VOTRE POSITION";
 "RETRY" = "RÉESSAYER";
 
@@ -34,15 +34,15 @@
 "Closed" = "Fermé";
 "NETWORK ERROR" = "ERREUR DE RÉSEAU";
 
-"FETCHING MENU" = "CARTE OBTENTION";
+"FETCHING MENU" = "TÉLÉCHARGEMENT DE LA CARTE";
 
 "DESCRIPTION" = "DESCRIPTION";
 
 "Type your review here!" = "Tapez votre commentaire ici!";
 
-"Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!" = "S'il vous plaît laissez-nous savoir ce que vous aimez ce plat. Il peut être affiché directement sur ​​le menu!";
+"Please let us know what you loved about this dish. In the future it may be displayed directly on the menu!" = "Faites-nous savoir ce que vous aimez à propos de ce plat. Dans l'avenir, il peut être affiché directement sur ​​le menu!";
 
-"What didn't you like about this dish? We will anonymously let the restaurant know so they can improve their food!" = "Qu'est-ce que vous n'avez pas aimé ce plat? Nous allons anonyme laisser le restaurant savoir afin qu'ils puissent améliorer leur nourriture!";
+"What didn't you like about this dish? We will anonymously let the restaurant know so they can improve their food!" = "Pourquoi vous n'avez pas aimé ce plat? Nous allons laisser le restaurant savoir de manière anonyme afin qu'ils puissent améliorer leur nourriture.";
 
 "Sign In" = "Se Connecter";
 "Logout" = "Déconnecter";
@@ -52,3 +52,19 @@
 "Distance" = "Distance";
 "Delivery" = "Livraison";
 "Menu Score" = "Score";
+
+"We won't post to your wall!" = "Nous ne publierons sur votre mur!";
+
+"Win Instantly" = "Gagnez des Coupons";
+"Win Coupons" = "Gagnez des Coupons";
+
+"Account Created!\nPlease check your email and activate your account." = "Créé compte!\nS'il vous plaît vérifier votre e-mail et activer votre compte.";
+"Congratulations!\nYour account has been created and you are logged in." = "Félicitations!\nVotre compte a été créé et vous êtes connecté.";
+
+"Invalid email or password." = "E-mail ou mot de passe invalide.";
+
+"We are having difficulty connecting to the internet." = "Nous avons des difficultés à vous connecter à Internet.";
+
+"Without your location we can only offer a preview of what we have to offer." = "Voici une démo de ce que nous avons à offrir.";
+
+"This restaurant is giving away great prizes. Click on the button in the top right to see what they have to offer!" = "%@ a de grands prix à offrir. Cliquer sur le lien en haut à droite pour voir ce qu'ils ont à offrir!";

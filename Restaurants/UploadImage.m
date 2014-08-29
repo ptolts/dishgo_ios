@@ -25,6 +25,9 @@
 
     -(void) startUploadAfn {
         
+        UserSession *session = [UserSession sharedManager];
+        self.dishgo_token = [session fetchUser].dishgo_token;
+        
         if (self.raw_image_data)
         {
             self.image_data = @"";
@@ -55,7 +58,6 @@
                     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Images" inManagedObjectContext:context];
                     Images *img = [[Images alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
                     img.url = [jsons objectForKey:@"url"];
-                    UserSession *session = [UserSession sharedManager];
                     [session completeLogin];
                     NSMutableArray *copy_array = [[NSMutableArray alloc] initWithArray:[self.dish.images array]];
                     [copy_array insertObject:img atIndex:0];
@@ -77,9 +79,38 @@
                  dispatch_async(dispatch_get_main_queue(), ^{
                      [self.progress_view setProgress:1.1f];
                  });
+                 [self launchDialog:NSLocalizedString(@"We are having difficulty connecting to the internet.",nil)];
              }];
             
             [operation start];
         }
+    }
+
+    - (void)launchDialog:(NSString *)msg
+    {
+        // Here we need to pass a full frame
+        CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+        UIView *msg_view = [[UIView alloc] initWithFrame:CGRectMake(0,0,260,100)];
+        // Add some custom content to the alert view
+        UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 240, 100)];
+        message.text = msg;
+        message.numberOfLines = 0;
+        message.textAlignment = NSTextAlignmentCenter;
+        message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+        [msg_view addSubview:message];
+        [alertView setContainerView:msg_view];
+        
+        // Modify the parameters
+        [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+        
+        // You may use a Block, rather than a delegate.
+        [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+            [alertView close];
+        }];
+        
+        [alertView setUseMotionEffects:true];
+        
+        // And launch the dialog
+        [alertView show];
     }
 @end

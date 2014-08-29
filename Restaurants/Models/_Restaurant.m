@@ -15,6 +15,7 @@ const struct RestaurantAttributes RestaurantAttributes = {
 	.name = @"name",
 	.phone = @"phone",
 	.postal_code = @"postal_code",
+	.prizes = @"prizes",
 };
 
 const struct RestaurantRelationships RestaurantRelationships = {
@@ -68,6 +69,11 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 	}
 	if ([key isEqualToString:@"lonValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"lon"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"prizesValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"prizes"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -226,6 +232,32 @@ const struct RestaurantFetchedProperties RestaurantFetchedProperties = {
 
 @dynamic postal_code;
 
+
+
+
+
+
+@dynamic prizes;
+
+
+
+- (int16_t)prizesValue {
+	NSNumber *result = [self prizes];
+	return [result shortValue];
+}
+
+- (void)setPrizesValue:(int16_t)value_ {
+	[self setPrizes:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitivePrizesValue {
+	NSNumber *result = [self primitivePrizes];
+	return [result shortValue];
+}
+
+- (void)setPrimitivePrizesValue:(int16_t)value_ {
+	[self setPrimitivePrizes:[NSNumber numberWithShort:value_]];
+}
 
 
 

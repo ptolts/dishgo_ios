@@ -109,7 +109,7 @@
     up_img = [[UploadImage alloc] init];
     up_img.dish = camera_dish;
     up_img.progress_view = progress_view;
-    up_img.dishgo_token = user.foodcloud_token;
+    up_img.dishgo_token = user.dishgo_token;
     up_img.uitableview = self;
     up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
@@ -122,7 +122,7 @@
 - (void) setupBackButtonAndCart {
     FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
     [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
-    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    UIImage *image = [back imageWithSize:CGSizeMake(32.0,32.0)];
     CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
     UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
     [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
@@ -223,16 +223,16 @@
 //    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
 //    [self.frostedViewController presentMenuViewController];
     
-    if(![[UserSession sharedManager] logged_in]){
-        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
-        [self.navigationController pushViewController:signin animated:YES];
-        return;
-    }
+//    if(![[UserSession sharedManager] logged_in]){
+//        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+//        [self.navigationController pushViewController:signin animated:YES];
+//        return;
+//    }
     
     PrizesController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"prizesController"];
-    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
-    [navigationController pushViewController:vc animated:YES];
-    [self.frostedViewController hideMenuViewController];
+    vc.restaurant = self.restaurant.id;
+    [self.navigationController pushViewController:vc animated:YES];
+//    [self.frostedViewController hideMenuViewController];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -399,6 +399,11 @@
                                   }
          ];
         cell.dishTitle.textColor = [UIColor whiteColor];
+        cell.dishTitle.shadowColor = [UIColor almostBlackColor];
+        cell.dishTitle.shadowOffset = CGSizeMake(1, 1);
+        cell.priceLabel.shadowColor = [UIColor almostBlackColor];
+        cell.priceLabel.shadowOffset = CGSizeMake(1, 1);
+        
     } else {
         cell.dishImage.hidden = YES;
         cell.gradient.hidden = YES;
@@ -412,37 +417,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SectionDishViewCell *c = (SectionDishViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     selected_dish = c.dish;
-//    NSLog(@"FRAME: %@",CGRectCreateDictionaryRepresentation(c.dishImage.frame));
     [self performSegueWithIdentifier:@"dishSelectClick" sender:self];
-//    [tableView beginUpdates];
-//    NSString *key = [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row];
-//    if([[heights valueForKey:key] doubleValue] == DEFAULT_SIZE){
-//        DishTableViewCell *c = (DishTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//        int size = c.full_height;
-//        for(id kkey in [heights allKeys]) {
-//            [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:kkey];
-//        }
-//        [heights setObject:[NSNumber numberWithInteger:size] forKey:key];
-//    } else {
-//        [heights setObject:[NSNumber numberWithInteger:DEFAULT_SIZE] forKey:key];
-//    }
-//    [tableView endUpdates];
-//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
 {
     return [[UIView alloc] initWithFrame:CGRectZero];
-//    if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Sections class]]){
-//        return [self headerView:sectionIndex tableView:tableView];
-//    }
-//    else if ([[subsectionList objectAtIndex:sectionIndex] isKindOfClass:[Subsections class]]){
-//        return [self subheaderView:sectionIndex tableView:tableView];
-//    }
-//    else {
-//        return nil;
-//    }
 }
 
 - (UIView *) headerView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
@@ -472,38 +453,12 @@
                                                                      color:[UIColor seperatorColor]
                                                                    andMask:mask];
     [view  addSubview:borderedView];
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"header_line.png"]];
-//    [view addSubview:imageView ];
-//    [view sendSubviewToBack:imageView ];
     return view;
     
 }
 
-//- (UIView *) subheaderView:(NSInteger)sectionIndex tableView:(UITableView *)tableView
-//{
-//    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
-//    if([section.name length] == 0){
-//        return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 0)];
-//    }
-//    //    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 34)];
-//    //    view.backgroundColor = [UIColor colorWithRed:0.863 green:0.863 blue:0.863 alpha:1.0];
-//    //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 0, 0)];
-//    //    label.text = section.name;
-//    //    label.font = [UIFont systemFontOfSize:15];
-//    //    label.textColor = [UIColor whiteColor];
-//    //    label.backgroundColor = [UIColor clearColor];
-//    //    [label sizeToFit];
-//    //    [view addSubview:label];
-//    
-//    TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil] objectAtIndex:0];
-//    view.headerTitle.text = section.name;
-//    return view;
-//}
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
     Dishes *dish = [_section.dishes.array objectAtIndex:indexPath.row];
     if([dish.images count] > 0){
         return DEFAULT_SIZE;
@@ -522,11 +477,6 @@
 {
     
     return 0.1f;
-//    Subsections *section = [subsectionList objectAtIndex:sectionIndex];
-//    if([section.name length] == 0){
-//        return 0;
-//    }
-    
     return HEADER_DEFAULT_SIZE;
 }
 
@@ -537,17 +487,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    // Return the number of rows in the section.
-//    
-//    if([[subsectionList objectAtIndex:section] isKindOfClass:[Subsections class]]){
-//        return [((Subsections *)[subsectionList objectAtIndex:section]).dishes count];
-//    }
-
     return [_section.dishes count];
-    
-//    return 0;
-
-    
 }
 
 @end

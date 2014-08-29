@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "UserSession.h"
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "AddressView.h"
 #import "ProfileView.h"
 

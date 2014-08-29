@@ -8,7 +8,7 @@
 
 #import "ReviewViewController.h"
 #import "ShoppingCartTableView.h"
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "DishTableViewCell.h"
 #import "ReviewTotal.h"
 #import "ReviewTableCell.h"

@@ -8,7 +8,7 @@
 
 #import "AddressView.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "UserSession.h"
 
 @implementation AddressView

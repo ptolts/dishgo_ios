@@ -19,10 +19,11 @@
                     <rect key="frame" x="0.0" y="1" width="320" height="235"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <view userInteractionEnabled="NO" contentMode="scaleAspectFill" id="mmQ-7F-r6p" customClass="White_Gradient">
+                <view userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleAspectFill" id="mmQ-7F-r6p" customClass="White_Gradient">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="42"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nVq-lE-jP3">
                     <rect key="frame" x="252" y="1" width="68" height="30"/>

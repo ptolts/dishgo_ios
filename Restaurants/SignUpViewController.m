@@ -9,7 +9,7 @@
 #import "SignUpViewController.h"
 #import "UserSession.h"
 #import <MBProgressHUD.h>
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 
 @interface SignUpViewController ()
 
@@ -44,6 +44,7 @@
     // Add some custom content to the alert view
     UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 260, 100)];
     message.text = msg;
+    message.numberOfLines = 0;
     message.textAlignment = NSTextAlignmentCenter;
     message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
     [alertView setContainerView:message];
@@ -107,7 +108,7 @@
     [[UserSession sharedManager] signUp:self.username.text password:self.password.text block:^(bool obj, NSString *error) {
         if(obj){
             [hud hide:YES];
-            [self launchAlert:@"Account Created!"];
+            [self launchDialog:NSLocalizedString(@"Account Created!\nPlease check your email and activate your account.",nil)];
             [self.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [hud hide:YES];
@@ -124,14 +125,18 @@
     [super viewDidLoad];
     [self setupBackButton];
 	// Do any additional setup after loading the view.
-    UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
+    UIImage *img = [UIImage imageNamed:@"background_signup.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:imageView ];
     [self.view sendSubviewToBack:imageView ];
     
-    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+    self.bg.backgroundColor = [[UIColor almostBlackColor] colorWithAlphaComponent:0.75f];
     [self.bg.layer setCornerRadius:5.0f];
+    
+    self.username.tintColor = [UIColor scarletColor];
+    self.password.tintColor = [UIColor scarletColor];
+    self.password2.tintColor = [UIColor scarletColor];
 }
 
 -(IBAction)dissmissKeyboard:(id)sender{
@@ -161,11 +166,11 @@
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
+    [label setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
-    label.text = @"DishGo";
+    label.text = @"Sign Up";
     self.navigationItem.titleView = label;
 }
 

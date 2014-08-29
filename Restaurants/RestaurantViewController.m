@@ -49,6 +49,7 @@
     UIButton *retryFetch;
     NSString *searchTxt;
     int sortBy;
+    UIView *requestLocation;
     BOOL stopUpdatingLocation;
     BOOL isOpened;
     BOOL doesDelivery;
@@ -215,11 +216,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)sectionIndex{
-    return 0.1;
+    return 0.1f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectionIndex{
-    return 0.1;
+    return 0.1f;
 }
 
 -(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
@@ -272,6 +273,43 @@
     [self.tableView.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:2];
 }
 
+-(BOOL) checkLocationServices {
+    if([CLLocationManager locationServicesEnabled]){
+        if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
+            NSLog(@"LOCATION SERVICES ARE DENIED");
+            return false;
+        }
+    } else {
+            NSLog(@"LOCATION SERVICES ARE DISABLED");
+            return false;
+    }
+    return true;
+}
+
+- (void) requestLocationServices {
+    // Get main window reference
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
+    
+    // Create a full-screen subview
+    requestLocation = [[UIView alloc] initWithFrame:CGRectMake(0, 0, mainWindow.frame.size.width, mainWindow.frame.size.height)];
+    UIImageView *loc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"request_loc.png"]];
+    
+    [requestLocation addSubview:loc];
+    UITapGestureRecognizer *close_location_services_tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeLocationServices)];
+    [requestLocation addGestureRecognizer:close_location_services_tap];
+    [mainWindow addSubview:requestLocation];
+}
+
+-(void) closeLocationServices {
+    [requestLocation removeFromSuperview];
+    mainWindow = (((RAppDelegate *)[UIApplication sharedApplication].delegate).window);
+    
+    noRestoView = [[[NSBundle mainBundle] loadNibNamed:@"noRestaurants" owner:self options:nil] objectAtIndex:0];
+    [noRestoView.demo addTarget:self action:@selector(launchDemo:) forControlEvents:UIControlEventTouchUpInside];
+    [noRestoView.viewSite addTarget:self action:@selector(launchSite:) forControlEvents:UIControlEventTouchUpInside];
+    noRestoView.demoLabel.text = NSLocalizedString(@"Without your location we can only offer a preview of what we have to offer.", nil);
+    [mainWindow addSubview:noRestoView];
+}
 
 - (void)viewDidLoad
 {
@@ -294,7 +332,7 @@
     [self.tableView addPullToRefreshWithActionHandler:^{
         stopUpdatingLocation = NO;
         [locationManager startUpdatingLocation];
-    }   withBackgroundColor:[UIColor almostBlackColor] withPullToRefreshHeightShowed:4];
+    }   withBackgroundColor:[UIColor almostBlackColor] withPullToRefreshHeightShowed:1];
     
     [self.tableView.pullToRefreshView setTextColor:[UIColor bgColor]];
     [self.tableView.pullToRefreshView setTitle:@"LOADING" forState:KoaPullToRefreshStateLoading];
@@ -303,22 +341,12 @@
     [self.tableView.pullToRefreshView setTextFont:[UIFont fontWithName:@"Copperplate-Bold" size:16]];
     [self.tableView.pullToRefreshView setFontAwesomeIcon:@"icon-refresh"];
     
-    [self startLoading];
     cellList = [[NSMutableArray alloc] init];
     [self startScrolling];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.navigationController.navigationBar.barTintColor = [UIColor scarletColor];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     
-    // FOOD CLOUD TITLE
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
-//    label.backgroundColor = [UIColor clearColor];
-//    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    label.textColor = [UIColor whiteColor];
-//    label.adjustsFontSizeToFitWidth = YES;
-//    label.text = @"DishGo";
-//    self.navigationItem.titleView = label;
     
     UISearchDisplayController *mySearchDisplayController;
     self.search_bar = mySearchDisplayController;
@@ -343,6 +371,13 @@
     self.navigationItem.leftBarButtonItem = searchBarItem;
     
     [self.menu addTarget:self action:@selector(menuClick:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+    
+    if(![self checkLocationServices]){
+        [self requestLocationServices];
+        return;
+    }
+    
+    [self startLoading];
 
 }
 
@@ -494,6 +529,7 @@
                                                             @"address_line_1": @"address",
                                                             @"does_delivery":@"does_delivery",
                                                             @"lat": @"lat",
+                                                            @"prizes":@"prizes",
                                                             @"lon": @"lon",
                                                             }];
     restaurantMapping.identificationAttributes = @[ @"id" ];

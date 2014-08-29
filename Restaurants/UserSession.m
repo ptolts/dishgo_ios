@@ -16,7 +16,7 @@
 #import "SetRating.h"
 #import "Lockbox.h"
 #import "User.h"
-#import <ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "RAppDelegate.h"
 #import <JSONHTTPClient.h>
 #import "RootViewController.h"
@@ -31,12 +31,22 @@ static NSString* kFilename = @"TokenInfo.plist";
 @synthesize foodcloudToken;
 @synthesize main_user;
 @synthesize current_restaurant_ratings;
+BOOL customUrlSchemeLogin = NO;
 
 void (^ block_pointer)(bool, NSString *);
 
 - (void)clearToken
 {
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
+    //Set Cache
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0 diskCapacity:0 diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
+    
+    //Clear All Cookies
+    for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    
+    NSArray *keys = [NSArray arrayWithObjects:@"dishgo_token",@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
     for(NSString *key in keys){
         [Lockbox setString:@"" forKey:key];
     }
@@ -45,6 +55,7 @@ void (^ block_pointer)(bool, NSString *);
     }
     FBSession *session = [[FBSession alloc] init];
     [FBSession setActiveSession:session];
+    main_user = [[User alloc] init];
 }
 
 - (void) writeData:(NSDictionary *) data {
@@ -53,7 +64,7 @@ void (^ block_pointer)(bool, NSString *);
             [Lockbox setArray:[data objectForKey:key] forKey:key];
         } else {
             NSString *set = [data objectForKey:key];
-            NSLog(@"SET: %@",set);
+            NSLog(@"SET: %@ KEY: %@",set,key);
             [Lockbox setString:set forKey:key];
         }
     }
@@ -63,7 +74,7 @@ void (^ block_pointer)(bool, NSString *);
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     
     // These keys are strings
-    NSArray *keys = [NSArray arrayWithObjects:@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
+    NSArray *keys = [NSArray arrayWithObjects:@"dishgo_token",@"facebook_token",@"foodcloud_token",@"facebook_login_type",@"facebook_permissions",@"owns_restaurant_id",@"is_admin",nil];
     for(NSString *key in keys){
         NSLog(@"Key: %@",key);
         NSString *get = [Lockbox stringForKey:key];
@@ -88,18 +99,6 @@ void (^ block_pointer)(bool, NSString *);
     return data;
 }
 
-///// Store a secret
-//[[GSKeychain systemKeychain] setSecret:@"t0ps3kr1t" forKey:@"myAccessToken"];
-//
-//// Fetch a secret
-//NSString *secret = [[GSKeychain systemKeychain] secretForKey:@"myAccessToken"];
-//
-//// Delete a secret
-//[[GSKeychain systemKeychain] removeSecretForKey:@"myAccessToken"];
-//
-//// Delete all secrets
-//[[GSKeychain systemKeychain] removeAllSecrets];
-
 + (id)sharedManager {
     static UserSession *user_session = nil;
     static dispatch_once_t onceToken;
@@ -107,6 +106,12 @@ void (^ block_pointer)(bool, NSString *);
         user_session = [[self alloc] init];
     });
     return user_session;
+}
+
+- (void)loadUserFromToken:(NSString *)dishgo_token {
+    main_user.dishgo_token = dishgo_token;
+    customUrlSchemeLogin = YES;
+    [self completeLogin];
 }
 
 - (id)init {
@@ -135,11 +140,9 @@ void (^ block_pointer)(bool, NSString *);
                  }];
             }
         }
-        
-        if ([[[self readData] objectForKey:@"dishgo_token"] length] > 0){
-            NSDictionary *dic = [self readData];
-            NSString *tok = [dic objectForKey:@"dishgo_token"];
-            foodcloudToken = tok;
+        NSString *saved_token = [[self readData] objectForKey:@"dishgo_token"];
+        if ([saved_token length] > 0){
+            foodcloudToken = saved_token;
             main_user.dishgo_token = foodcloudToken;
             [self completeLogin];
             logged_in = YES;
@@ -192,7 +195,7 @@ void (^ block_pointer)(bool, NSString *);
 
 -(void) fetch_ratings:(NSString *)restaurant_id {
     current_restaurant_ratings = [[SetRating alloc] init];
-    current_restaurant_ratings.dishgo_token = main_user.foodcloud_token;
+    current_restaurant_ratings.dishgo_token = main_user.dishgo_token;
     current_restaurant_ratings.restaurant_id = restaurant_id;
     [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/dish/get_ratings", dishGoUrl]
                                        params:[current_restaurant_ratings cleanDict]
@@ -206,6 +209,12 @@ void (^ block_pointer)(bool, NSString *);
     [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v2/tokens", dishGoUrl]
                                        params:@{@"email":email,@"password":password}
                                    completion:^(NSDictionary *json, JSONModelError *err) {
+                                       
+                                       if(err.description){
+                                           block(NO, NSLocalizedString([json objectForKey:@"error"],nil));
+                                           return;
+                                       }
+                                       
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
                                        logged_in = YES;
                                        [self completeLogin];
@@ -237,7 +246,7 @@ void (^ block_pointer)(bool, NSString *);
                                    completion:^(NSDictionary *json, JSONModelError *err) {
                                        main_user = [[User alloc] initWithDictionary:json error:nil];
                                        if(err.description){
-                                           block(NO, err.description);
+                                           block(NO, [json objectForKey:@"error"]);
                                        } else {
                                            block(YES, @"Success!");
                                        }
@@ -256,14 +265,44 @@ void (^ block_pointer)(bool, NSString *);
         [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v2/tokens/load_user",dishGoUrl]
                                            params:@{@"dishgo_token":main_user.dishgo_token}
                                        completion:^(NSDictionary *json, JSONModelError *err) {
+                                           
                                            main_user = [[User alloc] initWithDictionary:json error:nil];
+                                           
                                            if(old_token_count != 0 && [main_user.dishcoins intValue] > old_token_count){
                                                [self alertDishCoin:([main_user.dishcoins intValue] - old_token_count)];
                                            }
+                                           
+                                           [self writeData:[[NSDictionary alloc] initWithObjectsAndKeys:
+                                                            main_user.dishgo_token,@"dishgo_token", nil]];
+                                           
+                                           if(customUrlSchemeLogin){
+                                               [self launchDialog:NSLocalizedString(@"Congratulations!\nYour account has been created and you are logged in.",nil)];
+                                               customUrlSchemeLogin = NO;
+                                           }
+                                                            
                                            logged_in = YES;
                                        }];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"logged_in_before"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
+}
+
+- (void)launchDialog:(NSString *)msg
+{
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 260, 100)];
+    message.text = msg;
+    message.numberOfLines = 0;
+    message.textAlignment = NSTextAlignmentCenter;
+    message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+    [alertView setContainerView:message];
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    [alertView setUseMotionEffects:true];
+    [alertView show];
 }
 
 -(void) alertDishCoin: (int) difference {
@@ -316,6 +355,9 @@ void (^ block_pointer)(bool, NSString *);
             break;
         case FBSessionStateClosed: {
             [FBSession.activeSession closeAndClearTokenInformation];
+            [self clearToken];
+            logged_in = NO;
+            main_user = [[User alloc] init];
             break;
         }
         case FBSessionStateClosedLoginFailed: {
@@ -352,7 +394,7 @@ void (^ block_pointer)(bool, NSString *);
 - (void) cancelHud {
     NSLog(@"Canceling Facebook Login!");
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"attemptingFacebookLogin" object:nil];
-    block_pointer(NO,@"Please try again");
+//    block_pointer(NO,@"Please try again");
 }
 
 @end

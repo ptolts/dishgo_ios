@@ -23,6 +23,7 @@
     -(User *) fetchUser;
     -(void) fetch_ratings:(NSString *) restaurant_id;
     + (id)sharedManager;
+    - (void)loadUserFromToken:(NSString *)dishgo_token;
     -(BOOL) hasAddress;
     - (void)openSession:(void (^)(bool, NSString *))block;
     - (void)logout;

@@ -38,6 +38,7 @@
 #import "FilterDishButton.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
+#import "Coax.h"
 
 #define DEFAULT_SIZE 128
 #define HEADER_DEFAULT_SIZE 45
@@ -330,11 +331,14 @@
 //	self.navigationItem.hidesBackButton = YES;
     FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
     [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
-    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    UIImage *image = [back imageWithSize:CGSizeMake(32.0f,32.0f)];
     CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
     UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
     [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
     [button setImage:image forState:UIControlStateNormal];
+    button.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.5f];
+//    button.backgroundColor = [UIColor bgColor];
+    button.layer.cornerRadius = 15.0f;
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setLeftBarButtonItem:item];
     
@@ -346,6 +350,10 @@
     [self.cart setCount:[NSString stringWithFormat:@"%d", [shoppingCart count]]];
     
     DishCoinButton *dc = [[DishCoinButton alloc] init:self];
+//    dc.button_view.backgroundColor = [UIColor bgColor];
+    dc.button_view.backgroundColor = [[UIColor bgColor] colorWithAlphaComponent:0.75f];
+    dc.button_view.layer.cornerRadius = 15.0f;
+
     [self.navigationItem setRightBarButtonItem:dc];
 }
 
@@ -402,6 +410,20 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,45)];
     
     [self loadMenu];
+
+    if(self.restaurant.prizes && self.restaurant.prizes > 0 && ![[NSUserDefaults standardUserDefaults] boolForKey:@"has_seen_prize_page"]){
+        Coax *v = [[[NSBundle mainBundle] loadNibNamed:@"CoaxToPrizes" owner:self options:nil] objectAtIndex:0];
+        v.coax_label.font = [UIFont fontWithName:@"Josefin Sans" size:20.0f];
+        CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+        v.coax_label.text = [NSString stringWithFormat:NSLocalizedString(@"This restaurant is giving away great prizes. Click on the button in the top right to see what they have to offer!", nil),self.restaurant.name];
+        [alertView setContainerView:v];
+        [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+        [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+            [alertView close];
+        }];
+        [alertView setUseMotionEffects:true];
+        [alertView show];
+    }
 }
 
 - (void) loadCart {
@@ -440,17 +462,17 @@
 //    ((MenuTableViewController *)(self.frostedViewController.menuViewController)).restaurant = self.restaurant;
 //    self.frostedViewController.direction = REFrostedViewControllerDirectionRight;
 //    [self.frostedViewController presentMenuViewController];
-    
-    if(![[UserSession sharedManager] logged_in]){
-        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
-        [self.navigationController pushViewController:signin animated:YES];
-        return;
-    }
+//    
+//    if(![[UserSession sharedManager] logged_in]){
+//        SignInViewController *signin = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+//        [self.navigationController pushViewController:signin animated:YES];
+//        return;
+//    }
 
     PrizesController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"prizesController"];
-    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
-    [navigationController pushViewController:vc animated:YES];
-    [self.frostedViewController hideMenuViewController];
+    vc.restaurant = self.restaurant.id;
+//    UINavigationController *navigationController = (UINavigationController *)self.frostedViewController.contentViewController;
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
 
@@ -859,7 +881,7 @@
     
     NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
 
-    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@&lat=%@&lon=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0],session.lat,session.lon];
+    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@&lat=%@&lon=%@&token=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0],session.lat,session.lon,session.main_user.dishgo_token];
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];

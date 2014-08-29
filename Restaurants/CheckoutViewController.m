@@ -17,7 +17,7 @@
 #import "Order_Order.h"
 #import <JSONModel/JSONHTTPClient.h>
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import <REFrostedViewController/REFrostedViewController.h>
 #import "RootViewController.h"
 #import "Order_Submit_Response.h"

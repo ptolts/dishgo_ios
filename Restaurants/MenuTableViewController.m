@@ -18,7 +18,7 @@
 #import "PrizesController.h"
 #import "UIColor+Custom.h"
 #import "ProfileViewController.h"
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "WobbleCell.h"
 #import "DishCoins.h"
 #import "TutorialViewController.h"
@@ -38,6 +38,8 @@
     NSMutableArray *options;
     UIColor *sign_in_color;
     CheckoutView *checkoutView;
+    NSArray *options_text;
+    NSUserDefaults *defaults;
 }
 
 @synthesize sort_by;
@@ -149,7 +151,7 @@
 
 -(void)setupMenu {
 
-    
+    self.shopping = NO;
 //    self.tableView = nil;
 //    self.tableView = [[UITableView alloc] init];
     self.tableView.tableHeaderView = nil;
@@ -169,7 +171,7 @@
     frame.origin.y = self.view.frame.size.height;
     self.checkout_view.frame = frame;
     
-    if([self shopping]){
+    if(self.shopping){
         shop = [[ShoppingCartTableView alloc] init];
         shop.phone = self.restaurant.phone;
         shop.junk = 0;
@@ -258,6 +260,9 @@
 {
     [super viewDidLoad];
     
+    options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0]];
+    //    options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0],@[NSLocalizedString(@"Menu Score",nil),@1,@1]];
+    
     // returns the same tracker you created in your app delegate
     // defaultTracker originally declared in AppDelegate.m
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -270,11 +275,12 @@
     // manual screen tracking
     [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
+    defaults = [NSUserDefaults standardUserDefaults];
+    
     FBKVOController *KVOController = [FBKVOController controllerWithObserver:self];
     self.KVOController = KVOController;
     mainColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.85];
     options = [[NSMutableArray alloc] init];
-    NSArray *options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0],@[NSLocalizedString(@"Menu Score",nil),@1,@1]];
     for(NSArray *ar in options_text){
         SortView *hold = [[SortView alloc] init];
         [hold setupView:ar[0] type:[ar[1] intValue] value:[ar[2] intValue]];
@@ -320,9 +326,9 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 75)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 280, 25)];
-    [label setFont:[UIFont boldSystemFontOfSize:18]];
-    label.textAlignment = NSTextAlignmentCenter;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(45, 20, 235, 25)];
+    label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+    label.textAlignment = NSTextAlignmentLeft;
     NSString *string = NSLocalizedString(@"Sort Restaurants",nil);
     label.textColor = sign_in_color;
     [label setText:string];
@@ -374,7 +380,7 @@
     if(sectionIndex == 0){
         return 3;
     } else {
-        return 4;
+        return [options_text count];
     }
 }
 
@@ -387,15 +393,15 @@
     cell.frame = fr;
 
     int icon_size = 30;
-    int start_point = 50;
+    int top_start_point = 25;
     
     if(indexPath.section == 0){
         if (indexPath.row == 0){
             if([[UserSession sharedManager] logged_in]){
                 
-                UIImageView *imageView = [[UserSession sharedManager] profilePic:self.shopping color:sign_in_color rect:CGRectMake(start_point, 5, icon_size, icon_size)];
+                UIImageView *imageView = [[UserSession sharedManager] profilePic:self.shopping color:sign_in_color rect:CGRectMake(top_start_point, 5, icon_size, icon_size)];
                 if(imageView.frame.size.width == 0.0){
-                    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
+                    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(top_start_point, 5, icon_size, icon_size)];
                     [imageView setContentMode:UIViewContentModeCenter];
                     imageView.image = [UIImage imageNamed:@"avatar_logged_white.png"];
                 }
@@ -407,10 +413,10 @@
                 imageView.layer.shouldRasterize = YES;
                 imageView.clipsToBounds = YES;
 
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 120, 20)];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 10 + top_start_point, (icon_size / 2.0) - 5, 165, 20)];
                 label.text = NSLocalizedString(@"Logout",nil);
                 label.textColor = sign_in_color;
-                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:14.0f];
                 label.layer.cornerRadius = 5.0f;
                 label.textAlignment = NSTextAlignmentLeft;
                 
@@ -426,7 +432,7 @@
                 
             } else {
                 
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(top_start_point, 5, icon_size, icon_size)];
                 [imageView setContentMode:UIViewContentModeCenter];
                 imageView.image = [UIImage imageNamed:@"avatar_white.png"];
                 imageView.layer.masksToBounds = YES;
@@ -437,10 +443,10 @@
                 imageView.layer.shouldRasterize = YES;
                 imageView.clipsToBounds = YES;
                 
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 130, 20)];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 10 + top_start_point, (icon_size / 2.0) - 5, 165, 20)];
                 label.text = NSLocalizedString(@"Sign In",nil);
                 label.textColor = sign_in_color;
-                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+                label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:14.0f];
                 label.layer.cornerRadius = 5.0f;
                 label.textAlignment = NSTextAlignmentLeft;
                 
@@ -460,8 +466,16 @@
             
             NSString *title = titles[indexPath.row - 1];
             
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(start_point, 5, icon_size, icon_size)];
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(top_start_point, 5, icon_size, icon_size)];
             [imageView setContentMode:UIViewContentModeCenter];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 10 + top_start_point, (icon_size / 2.0) - 5, 165, 20)];
+            label.text = title;
+            label.textColor = sign_in_color;
+            label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:14.0f];
+            label.layer.cornerRadius = 5.0f;
+            label.textAlignment = NSTextAlignmentLeft;
+            
             if([title isEqualToString:NSLocalizedString(@"Help",nil)]){
                 FAKFontAwesome *help = [FAKFontAwesome questionIconWithSize:20.0f];
                 [help addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
@@ -471,21 +485,23 @@
                 imageView.layer.borderColor = sign_in_color.CGColor;
                 imageView.layer.borderWidth = 1.5f;
             }
+            
             if([title isEqualToString:@"DishCoins"]){
                 imageView.image = [UIImage imageNamed:@"dishcoin@2x.png"];
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
+                
+                // If the user has never logged in before, let's change the prompt a little to try and entice him to login.
+                BOOL logged_in_before = [defaults boolForKey:@"logged_in_before"];
+                if(![[UserSession sharedManager] logged_in] && !logged_in_before){
+                    label.text = NSLocalizedString(@"Win Instantly",nil);
+                } else {
+                    label.text = NSLocalizedString(@"Win Coupons",nil);
+                }
             }
-
+            
             imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
             imageView.layer.shouldRasterize = YES;
             imageView.clipsToBounds = YES;
-            
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(icon_size + 20 + start_point, (icon_size / 2.0) - 5, 130, 20)];
-            label.text = title;
-            label.textColor = sign_in_color;
-            label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
-            label.layer.cornerRadius = 5.0f;
-            label.textAlignment = NSTextAlignmentLeft;
             
             UIView *hold = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, cell.frame.size.height)];
             [hold addSubview:imageView];

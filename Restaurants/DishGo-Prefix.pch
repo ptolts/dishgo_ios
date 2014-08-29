@@ -21,3 +21,9 @@
     #import "NSMutableArray+ShoppingCartArray.h"
     #import "CustomIOS7AlertView.h"
 #endif
+
+#ifdef DEBUG
+    #define DebugLog(...) NSLog(__VA_ARGS__)
+#else
+    #define DebugLog(...) while(0)
+#endif

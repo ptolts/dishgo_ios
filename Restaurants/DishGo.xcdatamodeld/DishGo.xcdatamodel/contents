@@ -51,6 +51,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="postal_code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="prizes" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="relationship" inverseEntity="Images" syncable="YES"/>
         <relationship name="menu" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sections" inverseName="restaurant" inverseEntity="Sections" syncable="YES"/>
     </entity>
@@ -73,7 +74,7 @@
         <element name="Images" positionX="0" positionY="0" width="128" height="105"/>
         <element name="Option" positionX="0" positionY="0" width="128" height="133"/>
         <element name="Options" positionX="0" positionY="0" width="128" height="178"/>
-        <element name="Restaurant" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="Restaurant" positionX="0" positionY="0" width="128" height="255"/>
         <element name="Sections" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SizePrices" positionX="18" positionY="90" width="128" height="118"/>
     </elements>

@@ -10,5 +10,6 @@
 
 @interface noRestaurants : UIView
     @property (strong, nonatomic) IBOutlet UIButton *demo;
+@property (strong, nonatomic) IBOutlet UILabel *demoLabel;
     @property (strong, nonatomic) IBOutlet UIButton *viewSite;
 @end

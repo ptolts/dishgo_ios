@@ -16,6 +16,7 @@
 
     @property IBOutlet UIView *bg;
     @property IBOutlet UIView *bg2;
+    @property (strong, nonatomic) IBOutlet UILabel *we_wont_post;
 
     @property IBOutlet UIButton *signUp;
     @property IBOutlet UIButton *signIn;

@@ -18,7 +18,9 @@
 #import "Header.h"
 #import "StorefrontImageView.h"
 #import "UserSession.h"
+#import <JSONHTTPClient.h>
 #import "User.h"
+#import "Constant.h"
 #import "UploadImage.h"
 #import "SexyView.h"
 #import "SetRating.h"
@@ -75,7 +77,7 @@
     up_img = [[UploadImage alloc] init];
     up_img.dish = camera_dish;
     up_img.progress_view = progress_view;
-    up_img.dishgo_token = user.foodcloud_token;
+    up_img.dishgo_token = user.dishgo_token;
     up_img.uitableview = self;
     up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
@@ -96,7 +98,7 @@
 - (void) setupBackButtonAndCart {
     FAKFontAwesome *back = [FAKFontAwesome chevronLeftIconWithSize:22.0f];
     [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
-    UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
+    UIImage *image = [back imageWithSize:CGSizeMake(32.0,32.0)];
     CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
     UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
     [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
@@ -149,6 +151,7 @@
     starRatingObject.dish_id = self.dish.id;
     starRatingObject.rating = [NSString stringWithFormat:@"%0.0f",rating];
     [starRatingObject setRating];
+    self.dish.rating = [NSNumber numberWithFloat:rating];
 }
 
 -(void) myCustomBack {
@@ -214,7 +217,20 @@
     }
     [self.cart setCount:[NSString stringWithFormat:@"%d", tots]];
     
+    [self logDishView];
+    
     [self setupHeader];
+    
+    user = [[UserSession sharedManager] fetchUser];
+}
+
+- (void) logDishView {
+    User *u = [[UserSession sharedManager] fetchUser];
+    [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/dish/log_view?dish_id=%@&dishgo_token=%@",dishGoUrl,self.dish.id,u.dishgo_token]
+                                       params:nil
+                                   completion:^(NSDictionary *json, JSONModelError *err) {
+                                       NSLog(@"Logged Dish View");
+                                   }];
 }
 
 -(void) setupHeader {

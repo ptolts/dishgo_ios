@@ -44,11 +44,16 @@ ReviewPopup *review_popup;
 }
 
 -(void) actuallySubmitRating {
+    NSLog(@"Submitting Review");
     UserSession *session = [UserSession sharedManager];
     self.review = review_popup.review_text.text;
     [JSONHTTPClient postJSONFromURLWithString:[NSString stringWithFormat:@"%@/app/api/v1/dish/set_rating", dishGoUrl]
                                        params:[self cleanDict]
                                    completion:^(id json, JSONModelError *err) {
+                                       if(err){
+                                           [self launchDialog:NSLocalizedString(@"We are having difficulty connecting to the internet.",nil)];
+                                           return;
+                                       }
                                        [session completeLogin];
                                        SetRating *rate = session.current_restaurant_ratings;
                                        NSMutableArray<SetRating> *copy = [NSMutableArray arrayWithArray:rate.current_ratings];
@@ -56,6 +61,34 @@ ReviewPopup *review_popup;
                                        rate.current_ratings = [NSArray arrayWithArray:copy];
                                    }];
     [self hidePopup];    
+}
+
+- (void)launchDialog:(NSString *)msg
+{
+    // Here we need to pass a full frame
+    CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+    UIView *msg_view = [[UIView alloc] initWithFrame:CGRectMake(0,0,260,100)];
+    // Add some custom content to the alert view
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 240, 100)];
+    message.text = msg;
+    message.numberOfLines = 0;
+    message.textAlignment = NSTextAlignmentCenter;
+    message.font = [UIFont fontWithName:@"Helvetica Neue" size:14.0f];
+    [msg_view addSubview:message];
+    [alertView setContainerView:msg_view];
+    
+    // Modify the parameters
+    [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"Ok", nil]];
+    
+    // You may use a Block, rather than a delegate.
+    [alertView setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
+        [alertView close];
+    }];
+    
+    [alertView setUseMotionEffects:true];
+    
+    // And launch the dialog
+    [alertView show];
 }
 
 -(NSDictionary *) cleanDict {

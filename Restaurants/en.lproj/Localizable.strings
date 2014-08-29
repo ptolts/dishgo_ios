@@ -19,7 +19,7 @@
 "Browse the dishes and share pictures of your meal to accumulate DishCoins." = "Browse the dishes and share pictures of your meal to accumulate DishCoins.";
 
 "Dish Details & Ratings" = "Dish Details & Ratings";
-"Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins." = "Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins.";
+"Review the dish details including sizes and options. Submit you own rating to collect extra DishCoins." = "Review the dish details including sizes and options. Submit your own rating to collect extra DishCoins.";
 
 "Earn Rewards!" = "Earn Rewards!";
 "Accumulate DishCoins and bid on great prizes. Win instantly!" = "Accumulate DishCoins and bid on great prizes. Win instantly!";
@@ -51,3 +51,18 @@
 "Help" = "Help";
 "Delivery" = "Delivery";
 "Menu Score" = "Menu Score";
+
+"Win Instantly" = "Win Instantly";
+"Win Coupons" = "Win Coupons";
+
+"We won't post to your wall!" = "We won't post on your wall!";
+
+"This restaurant is giving away great prizes. Click on the button in the top right to see what they have to offer!" = "%@ is giving away great prizes. Click on the button in the top right to see what they have to offer!";
+
+"Account Created!\nPlease check your email and activate your account." = "Account Created!\nPlease check your email and activate your account.";
+"Congratulations!\nYour account has been created and you are logged in." = "Congratulations!\nYour account has been created and you are logged in.";
+
+"Invalid email or password." = "Invalid email or password.";
+
+"We are having difficulty connecting to the internet." = "We are having difficulty connecting to the internet.";
+"Without your location we can only offer a preview of what we have to offer." = "Without your location we can only offer a preview of what we have to offer.";

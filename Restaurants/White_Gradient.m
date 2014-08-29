@@ -24,11 +24,10 @@
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIColor *al = [[UIColor almostBlackColor] colorWithAlphaComponent:1];
-    UIColor *all = [[UIColor almostBlackColor] colorWithAlphaComponent:0.8];
-    UIColor *alll = [[UIColor almostBlackColor] colorWithAlphaComponent:0.3];
-    NSArray *gradientColors = [NSArray arrayWithObjects:(id) al.CGColor, all.CGColor, alll.CGColor, nil];
+    UIColor *all = [[UIColor almostBlackColor] colorWithAlphaComponent:0.3];
+    NSArray *gradientColors = [NSArray arrayWithObjects:(id) al.CGColor, [UIColor clearColor].CGColor, nil];
     
-    CGFloat gradientLocations[] = {0.3, 0.6, 0.8};
+    CGFloat gradientLocations[] = {0, 0.75, 1};
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) gradientColors, gradientLocations);
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));

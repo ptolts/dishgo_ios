@@ -693,7 +693,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="XUC-ZF-U01">
-                                <rect key="frame" x="29" y="20" width="263" height="267"/>
+                                <rect key="frame" x="29" y="20" width="263" height="273"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.84999999999999987" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qA7-N8-MEd">
@@ -744,7 +744,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" alpha="0.84999999999999987" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gaq-h8-GGK">
-                                        <rect key="frame" x="183" y="211" width="35" height="30"/>
+                                        <rect key="frame" x="183" y="223" width="35" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.050980396568775177" green="0.38431376218795776" blue="0.73333334922790527" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -757,7 +757,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.84999999999999987" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KWH-UB-0Mb">
-                                        <rect key="frame" x="45" y="211" width="138" height="30"/>
+                                        <rect key="frame" x="45" y="223" width="138" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.050980396570000003" green="0.38431376220000002" blue="0.73333334920000004" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -770,7 +770,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" alpha="0.49999999999999961" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iE3-5X-aRa">
-                                        <rect key="frame" x="183" y="211" width="1" height="30"/>
+                                        <rect key="frame" x="183" y="223" width="1" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal">
@@ -780,6 +780,13 @@
                                             <action selector="facebookSignIn:" destination="lMc-e9-cyE" eventType="touchUpInside" id="5k3-hV-4hq"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We won't post to your wall!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="glr-J1-lQT">
+                                        <rect key="frame" x="20" y="194" width="223" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -820,6 +827,7 @@
                         <outlet property="signIn" destination="qA7-N8-MEd" id="6Jd-s5-1Bz"/>
                         <outlet property="signInFacebook" destination="gaq-h8-GGK" id="Vwa-Df-j9q"/>
                         <outlet property="username" destination="WQg-Rj-c47" id="vX7-0X-wsc"/>
+                        <outlet property="we_wont_post" destination="glr-J1-lQT" id="Bgc-zc-cNF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wTy-bs-g8Z" userLabel="First Responder" sceneMemberID="firstResponder"/>

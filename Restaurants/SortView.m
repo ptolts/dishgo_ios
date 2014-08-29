@@ -29,7 +29,7 @@
     self.option_type = option_type;
     UIColor *sign_in_color = sign_in_color = [UIColor whiteColor];
     int sortIconSize = 15;
-    int sortStartPoint = 70;
+    int sortStartPoint = 45.0;
     imageView = [[UIImageView alloc] initWithFrame:CGRectMake(sortStartPoint, 5, sortIconSize, sortIconSize)];
     [imageView setContentMode:UIViewContentModeCenter];
     imageView.image = [UIImage imageNamed:[[NSString stringWithFormat:@"%@.png",title] lowercaseString]];
@@ -41,16 +41,23 @@
     imageView.layer.shouldRasterize = YES;
     imageView.clipsToBounds = YES;
     
+    if([title isEqualToString:NSLocalizedString(@"Distance",nil)]){
+        FAKFontAwesome *checkIcon = [FAKFontAwesome checkCircleIconWithSize:18.0f];
+        [checkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
+        imageView.image = [checkIcon imageWithSize:CGSizeMake(18.0f,18.0f)];
+        imageView.layer.borderWidth = 0.0f;
+        self.selected = YES;
+    }
+    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(sortIconSize + 20 + sortStartPoint, (sortIconSize / 2.0) - 5, 100, 20)];
     label.text = title;
     label.textColor = sign_in_color;
-    label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:16.0f];
+    label.font = [UIFont fontWithName:@"GurmukhiMN-Bold" size:14.0f];
     label.layer.cornerRadius = 5.0f;
     label.textAlignment = NSTextAlignmentLeft;
     label.userInteractionEnabled = NO;
     
     CGRect frame = CGRectMake(0, 0, imageView.frame.size.width + label.frame.size.width, 54);
-    frame.origin.x = 10.0;
     self.frame = frame;
     
     [self addSubview:imageView];

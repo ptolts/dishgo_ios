@@ -10,12 +10,65 @@
 #import "Constant.h"
 #import "UserSession.h"
 #import <FAKFontAwesome.h>
+#import <GAI.h>
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
+#import "WebViewJavascriptBridge.h"
+#import "SignInViewController.h"
 
 @interface PrizesController ()
 
 @end
 
-@implementation PrizesController
+@implementation PrizesController {
+    UIActivityIndicatorView *spinner;
+    NSString *prize_url;
+    UIImage *old_bg_image;
+    UIImage *old_shadow_image;
+    WebViewJavascriptBridge *bridge;
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result {
+    switch (result) {
+        case MessageComposeResultCancelled: break;
+            
+        case MessageComposeResultFailed:
+            NSLog(@"Error sending sms");
+            break;
+            
+        case MessageComposeResultSent: break;
+            
+        default: break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)sendSMS: (NSString *) message {
+    //check if the device can send text messages
+    if(![MFMessageComposeViewController canSendText]) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device cannot send text messages" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    //set receipients
+    NSArray *recipients = [NSArray arrayWithObjects: nil];
+
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    [messageController setRecipients:recipients];
+    [messageController setBody:message];
+    
+    // Present message view controller on screen
+    [self presentViewController:messageController animated:YES completion:nil];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:NO];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,29 +85,68 @@
 
 -(void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [UIColor almostBlackColor];
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if(!self.restaurant){
+        self.restaurant = @"";
+    }
     self.view.backgroundColor = [UIColor almostBlackColor];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"has_seen_prize_page"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     FAKFontAwesome *back = [FAKFontAwesome timesCircleIconWithSize:22.0f];
-    [back addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
     UIImage *image = [back imageWithSize:CGSizeMake(45.0,45.0)];
-    CGRect buttonFrame = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGRect buttonFrame = CGRectMake(self.view.frame.size.width - image.size.width, 10, image.size.width, image.size.height);
     UIButton *button = [[UIButton alloc] initWithFrame:buttonFrame];
     [button addTarget:self action:@selector(myCustomBack) forControlEvents:UIControlEventTouchUpInside];
     [button setImage:image forState:UIControlStateNormal];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.hidesBackButton = YES;
-    [self.navigationItem setRightBarButtonItem:item];
-    User *user = [[UserSession sharedManager] fetchUser];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL
-                                                          URLWithString:[NSString stringWithFormat:@"%@/app/prizes/list?token=%@",dishGoUrl,user.foodcloud_token]]
-                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                         timeoutInterval:60.0];
-    [self.webview loadRequest:request];
+    [self.view addSubview: button];
+    [self.view bringSubviewToFront:button];
+    
+    self.webview.backgroundColor = [UIColor almostBlackColor];
+    
+    
+    bridge = [WebViewJavascriptBridge bridgeForWebView:self.webview webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"%@",data);
+        
+        if([data isKindOfClass:[NSString class]]){
+            if([data isEqualToString:@"sign_in"]){
+                UINavigationController *nc = self.navigationController;
+                SignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signinController"];
+                [[self navigationController] setNavigationBarHidden:NO animated:NO];
+                [nc pushViewController:vc animated:YES];
+            }
+        }
+        
+        if([data isKindOfClass:[NSDictionary class]]){
+            NSDictionary *result = (NSDictionary *) data;
+            if([result objectForKey:@"sendSMS"]){
+                NSString *text = [result objectForKey:@"sendSMS"];
+                [self sendSMS:text];
+            }
+        }
+    }];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    if ([self.webview stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML"].length < 1)
+    {
+        [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:prize_url] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:5.0]];
+    } else {
+        [spinner removeFromSuperview];
+    }
+}
+
+- (void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%@",error);
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,15 +155,32 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName
+           value:@"Prizes Screen"];
+    
+    User *user = [[UserSession sharedManager] fetchUser];
+    NSString *tok = user.dishgo_token;
+    if(!tok){
+        tok = @"";
+    }
+    prize_url = [NSString stringWithFormat:@"%@/app/prizes/list?token=%@&restaurant=%@",dishGoUrl,tok,self.restaurant];
+    NSLog(@"Looking up prizes at: %@",prize_url);
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL
+                                                          URLWithString:prize_url]
+                                             cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                         timeoutInterval:60.0];
+    
+    
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.webview.center;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    
+    [self.webview loadRequest:request];
 }
-*/
 
 @end

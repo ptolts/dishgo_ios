@@ -201,7 +201,7 @@ SectionDishViewCell *camera_cell;
     SexyView *progress_view = [[SexyView alloc] init];
     progress_view.radius = 100;
     progress_view.progressBorderThickness = -10;
-    progress_view.trackColor = [UIColor blackColor];
+    progress_view.trackColor = [UIColor almostBlackColor];
     progress_view.progressColor = [UIColor whiteColor];
     progress_view.imageToUpload = chosenImage;
     
@@ -209,7 +209,7 @@ SectionDishViewCell *camera_cell;
     up_img.dish = camera_dish;
     up_img.uitableview = self;
     up_img.progress_view = progress_view;
-    up_img.dishgo_token = user.foodcloud_token;
+    up_img.dishgo_token = user.dishgo_token;
     up_img.raw_image_data = imageData;
     up_img.restaurant_id = self.restaurant.id;
     up_img.image_data = imageDataEncodedeString;
@@ -249,7 +249,7 @@ SectionDishViewCell *camera_cell;
     
     NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *info = [FAKFontAwesome infoIconWithSize:15.0f];
-    [info addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [info addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
     [attributionMas appendAttributedString:[info attributedString]];
     cell.plus.attributedText = attributionMas;
     cell.plus.layer.cornerRadius = 15.0f;
@@ -283,7 +283,7 @@ SectionDishViewCell *camera_cell;
     
     NSMutableAttributedString *attributionCamera = [[NSMutableAttributedString alloc] init];
     FAKFontAwesome *cam = [FAKFontAwesome cameraIconWithSize:15.0f];
-    [cam addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    [cam addAttribute:NSForegroundColorAttributeName value:[UIColor almostBlackColor]];
     [attributionCamera appendAttributedString:[cam attributedString]];
     cell.camera.attributedText = attributionCamera;
     cell.camera.layer.cornerRadius = 15.0f;
@@ -345,10 +345,15 @@ SectionDishViewCell *camera_cell;
                                        }
          ];
         cell.dishTitle.textColor = [UIColor whiteColor];
+        cell.dishTitle.shadowColor = [UIColor almostBlackColor];
+        cell.dishTitle.shadowOffset = CGSizeMake(1, 1);
+        cell.priceLabel.shadowColor = [UIColor almostBlackColor];
+        cell.priceLabel.shadowOffset = CGSizeMake(1, 1);
     } else {
         cell.dishImage.hidden = YES;
         cell.gradient.hidden = YES;
-        cell.dishTitle.textColor = [UIColor blackColor];
+        cell.dishTitle.textColor = [UIColor almostBlackColor];
+        cell.priceLabel.textColor = [UIColor almostBlackColor];
     }
     cell.clipsToBounds = YES;
     return cell;

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface PrizesController : UIViewController
-@property (strong, nonatomic) IBOutlet UIWebView *webview;
+@interface PrizesController : UIViewController <UIWebViewDelegate, MFMessageComposeViewControllerDelegate>
+    @property (strong, nonatomic) IBOutlet UIWebView *webview;
+    @property NSString *restaurant;
 @end

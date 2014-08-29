@@ -33,8 +33,21 @@ BOOL attemptingFacebookLogin;
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    attemptingFacebookLogin = YES;
-    return [FBSession.activeSession handleOpenURL:url];
+    if([[url scheme] isEqualToString:@"dishgo"]){
+        NSString *query = [url query]; // replace this with [url query];
+        NSArray *components = [query componentsSeparatedByString:@"&"];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        for (NSString *component in components) {
+            NSArray *subcomponents = [component componentsSeparatedByString:@"="];
+            [parameters setObject:[[subcomponents objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                           forKey:[[subcomponents objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        }
+        [[UserSession sharedManager] loadUserFromToken:[parameters objectForKey:@"dishgo_token"]];
+        return YES;
+    } else {
+        attemptingFacebookLogin = YES;
+        return [FBSession.activeSession handleOpenURL:url];
+    }
 }
 
 - (CancelKeyboard *)window
@@ -46,7 +59,6 @@ BOOL attemptingFacebookLogin;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
     NSLog(@"%@",[[NSLocale preferredLanguages] objectAtIndex:0]);
     // Optional: automatically send uncaught exceptions to Google Analytics.
     [GAI sharedInstance].trackUncaughtExceptions = YES;
@@ -60,15 +72,17 @@ BOOL attemptingFacebookLogin;
     
     // Initialize tracker. Replace with your tracking ID.
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-48865823-2"];
+    
+    [UserSession sharedManager];
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     BOOL tutorial = [defaults boolForKey:@"tutorial"];
-//    if(!tutorial){
+    if(!tutorial){
         [self tutorial];
-//    } else {
-//        [self normal];
-//    }
+    } else {
+        [self normal];
+    }
     
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
@@ -77,7 +91,6 @@ BOOL attemptingFacebookLogin;
 
 - (void) normal {
     [self loadCart];
-    [UserSession sharedManager];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     REFrostedViewController *rootViewController = [storyboard instantiateInitialViewController];
     self.window.rootViewController = rootViewController;

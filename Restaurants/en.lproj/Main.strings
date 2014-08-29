@@ -1,0 +1,60 @@
+
+/* Class = "IBUIButton"; normalTitle = "Submit"; ObjectID = "6Pp-Oz-E6N"; */
+"6Pp-Oz-E6N.normalTitle" = "Submit";
+
+/* Class = "IBUILabel"; text = "Email"; ObjectID = "6n2-gm-VPe"; */
+"6n2-gm-VPe.text" = "Email";
+
+/* Class = "IBUIButton"; normalTitle = "Scan Credit Card"; ObjectID = "Dxe-Ip-jLz"; */
+"Dxe-Ip-jLz.normalTitle" = "Scan Credit Card";
+
+/* Class = "IBUIViewController"; title = "Frosty"; ObjectID = "FPU-Lg-MNu"; */
+"FPU-Lg-MNu.title" = "Frosty";
+
+/* Class = "IBUILabel"; text = "Don't have an account?"; ObjectID = "GkH-PV-buI"; */
+"GkH-PV-buI.text" = "Don't have an account?";
+
+/* Class = "IBUILabel"; text = "Password"; ObjectID = "IyH-vY-z0K"; */
+"IyH-vY-z0K.text" = "Password";
+
+/* Class = "IBUIButton"; normalTitle = "Login with Facebook"; ObjectID = "KWH-UB-0Mb"; */
+"KWH-UB-0Mb.normalTitle" = "Login with Facebook";
+
+/* Class = "IBUIButton"; normalTitle = "Create New Account"; ObjectID = "KYF-rT-jSE"; */
+"KYF-rT-jSE.normalTitle" = "Create New Account";
+
+/* Class = "IBUILabel"; text = "10km"; ObjectID = "UP1-2H-WBd"; */
+"UP1-2H-WBd.text" = "10km";
+
+/* Class = "IBUITextField"; text = "4242424242424242"; ObjectID = "VAj-Vl-XwD"; */
+"VAj-Vl-XwD.text" = "4242424242424242";
+
+/* Class = "IBUILabel"; text = "Email"; ObjectID = "Yea-WR-OOd"; */
+"Yea-WR-OOd.text" = "Email";
+
+/* Class = "IBUILabel"; text = "Opened"; ObjectID = "ZxX-gs-ciJ"; */
+"ZxX-gs-ciJ.text" = "Opened";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "a1S-A0-HGV"; */
+"a1S-A0-HGV.text" = "Label";
+
+/* Class = "IBUILabel"; text = "Password"; ObjectID = "gjY-2y-hJu"; */
+"gjY-2y-hJu.text" = "Password";
+
+/* Class = "IBUILabel"; text = "We won't post to your wall!"; ObjectID = "glr-J1-lQT"; */
+"glr-J1-lQT.text" = "We won't post to your wall!";
+
+/* Class = "IBUITextField"; text = "08/16"; ObjectID = "h7a-VX-AtL"; */
+"h7a-VX-AtL.text" = "08/16";
+
+/* Class = "IBUITextField"; text = "666"; ObjectID = "hKy-Zo-3s6"; */
+"hKy-Zo-3s6.text" = "666";
+
+/* Class = "IBUILabel"; text = "Retype Password"; ObjectID = "hyF-Ii-Uwy"; */
+"hyF-Ii-Uwy.text" = "Retype Password";
+
+/* Class = "IBUITableViewController"; title = "FoodCloud"; ObjectID = "pGg-6v-bdr"; */
+"pGg-6v-bdr.title" = "FoodCloud";
+
+/* Class = "IBUIButton"; normalTitle = "Login"; ObjectID = "qA7-N8-MEd"; */
+"qA7-N8-MEd.normalTitle" = "Login";

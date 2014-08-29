@@ -7,7 +7,7 @@
 //
 
 #import "AddressForDeliveryViewController.h"
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "CheckoutViewController.h"
 
 @interface AddressForDeliveryViewController ()

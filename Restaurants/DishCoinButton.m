@@ -11,20 +11,20 @@
 
 @implementation DishCoinButton
 - (DishCoinButton *) init: (id) target {
-//    NSMutableAttributedString *attributionMas = [[NSMutableAttributedString alloc] init];
-//    FAKFontAwesome *check = [FAKFontAwesome btcIconWithSize:18.0f];
-//    [check addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
-//    [attributionMas appendAttributedString:[check attributedString]];
-//    UIImage *b = [check imageWithSize:CGSizeMake(30.0,30.0)];
-//    UIImage *b = [[UIImage alloc] initWithContentsOfFile:@"dishcoin@2x.png"];
     UIImage *b = [UIImage imageNamed:@"dishcoin@2x.png"];
-    UIImageView *a = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,30,30)];
-    a.image = b;
-    a.contentMode = UIViewContentModeScaleAspectFit;
-    UIButton *c = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
-    [c addSubview:a];
-    [c addTarget:target action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
-    self = [[DishCoinButton alloc] initWithCustomView:c];
+    self.image_view = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,25,25)];
+    self.image_view.image = b;
+    self.image_view.contentMode = UIViewContentModeScaleAspectFit;
+    self.button_view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    self.image_view.center = self.button_view.center;
+    [self.button_view addSubview:self.image_view];
+    self.button_view.userInteractionEnabled = NO;
+    self.button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,32,32)];
+    [self.button addSubview:self.button_view];
+    [self.button addTarget:target action:@selector(cartClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIView *pointaaa = self.button_view;
+    self = [[DishCoinButton alloc] initWithCustomView:self.button];
+    self.button_view = pointaaa;
     return self;
 }
 @end

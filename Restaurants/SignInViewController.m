@@ -11,7 +11,7 @@
 #import "SignUpViewController.h"
 #import "REFrostedViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 
 @interface SignInViewController ()
 
@@ -37,18 +37,22 @@
 //    [self.signupHeader setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
     [self setupBackButton];
     
-    UIImage *img = [UIImage imageNamed:@"background_signup.jpg"];
+    UIImage *img = [UIImage imageNamed:@"background_signup.png"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:imageView ];
     [self.view sendSubviewToBack:imageView];
     
-    self.bg.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+    self.bg.backgroundColor = [[UIColor almostBlackColor] colorWithAlphaComponent:0.75f];
     [self.bg.layer setCornerRadius:5.0f];
     
-    self.bg2.backgroundColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:0.5f];
+    self.bg2.backgroundColor = [[UIColor almostBlackColor] colorWithAlphaComponent:0.75f];
     [self.bg2.layer setCornerRadius:5.0f];
 	// Do any additional setup after loading the view.
+    self.username.tintColor = [UIColor scarletColor];
+    self.password.tintColor = [UIColor scarletColor];
+    
+    self.we_wont_post.text = NSLocalizedString(@"We won't post to your wall!", nil);
 }
 
 - (void) setupBackButton {
@@ -56,17 +60,12 @@
     UIImage *backBtnImage = [UIImage imageNamed:@"back.png"]; // <-- Use your own image
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(myCustomBack)];
     [backBtn setImage:backBtnImage];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                       target:nil action:nil];
-//    negativeSpacer.width = -16;// it was -6 in iOS 6
-//    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:negativeSpacer, backBtn, nil] animated:NO];
     [self.navigationItem setLeftBarButtonItem:backBtn];
     
     // FOOD CLOUD TITLE
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, 44)];
     label.backgroundColor = [UIColor clearColor];
-    [label setFont:[UIFont fontWithName:@"Copperplate-Bold" size:20.0f]];
+    [label setFont:[UIFont fontWithName:@"JosefinSans-Bold" size:20.0f]];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.adjustsFontSizeToFitWidth = YES;
@@ -212,7 +211,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         } else {
             [hud hide:YES];
-            [self launchDialog:@"Bad Username or Password."];
+            [self launchDialog:result];
             self.password.text = @"";
         }
     }];

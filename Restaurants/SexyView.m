@@ -50,7 +50,10 @@
         [super performSelector:@selector(animateProgress)];
         
         if(_progress == 1.0f){
-            self.spinna = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            self.spinna = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0,0,50,50)];
+            self.spinna.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+            self.spinna.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.75];
+            self.spinna.layer.cornerRadius = 25;
             self.spinna.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
             [self addSubview:self.spinna];
             [self.spinna startAnimating];

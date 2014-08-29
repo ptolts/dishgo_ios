@@ -10,7 +10,7 @@
 //#import "PaymentTableViewCell.h"
 #import "PKView.h"
 #import <PKTextField.h>
-#import <ALAlertBanner/ALAlertBanner.h>
+#import "ALAlertBanner.h"
 #import "BillingView.h"
 
 #define CELL_SIZE 532

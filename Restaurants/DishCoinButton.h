@@ -10,4 +10,7 @@
 
 @interface DishCoinButton : UIBarButtonItem
     - (DishCoinButton *) init: (id) target;
+    @property UIImageView *image_view;
+    @property UIButton *button;
+    @property UIView *button_view;
 @end
