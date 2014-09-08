@@ -10,6 +10,8 @@
 
 @implementation OptionButtonView
 
+@synthesize description;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

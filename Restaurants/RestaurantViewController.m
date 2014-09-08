@@ -323,6 +323,7 @@
     
     location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
+    [locationManager requestWhenInUseAuthorization];
     locationManager.delegate = self;
     [locationManager setDesiredAccuracy: 1];
     locationManager.pausesLocationUpdatesAutomatically = NO;

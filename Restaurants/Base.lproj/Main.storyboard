@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="FPU-Lg-MNu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="FPU-Lg-MNu">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -19,7 +19,7 @@
             </objects>
             <point key="canvasLocation" x="-1" y="64"/>
         </scene>
-        <!--Root View Controller - Frosty-->
+        <!--Frosty-->
         <scene sceneID="NGI-AE-VNv">
             <objects>
                 <viewController title="Frosty" id="FPU-Lg-MNu" customClass="RootViewController" sceneMemberID="viewController">
@@ -117,7 +117,7 @@
             </objects>
             <point key="canvasLocation" x="1424" y="-619"/>
         </scene>
-        <!--Restaurant View Controller - FoodCloud-->
+        <!--FoodCloud-->
         <scene sceneID="VgW-fR-Quf">
             <objects>
                 <tableViewController title="FoodCloud" id="pGg-6v-bdr" customClass="RestaurantViewController" sceneMemberID="viewController">
@@ -844,13 +844,16 @@
         <image name="placeholder.png" width="32" height="19"/>
         <image name="secure.png" width="60" height="13"/>
     </resources>
-    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="U72-oE-Ecv"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
 </document>

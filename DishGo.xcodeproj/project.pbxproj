@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B701DC0F197D81DA00F8146F /* White_Gradient.m in Sources */ = {isa = PBXBuildFile; fileRef = B701DC0E197D81DA00F8146F /* White_Gradient.m */; };
+		B707759219B66D77004B0BDF /* DishGo-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B707759119B66D77004B0BDF /* DishGo-Info.plist */; };
 		B70879D419926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879BC19926C6C00D112AD /* description.txt */; };
 		B70879D519926C6C00D112AD /* page5.png in Resources */ = {isa = PBXBuildFile; fileRef = B70879BD19926C6C00D112AD /* page5.png */; };
 		B70879D819926C6C00D112AD /* description.txt in Resources */ = {isa = PBXBuildFile; fileRef = B70879C119926C6C00D112AD /* description.txt */; };
@@ -268,6 +269,7 @@
 		21643D1EDB914A93936A017C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B701DC0D197D81DA00F8146F /* White_Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = White_Gradient.h; sourceTree = "<group>"; };
 		B701DC0E197D81DA00F8146F /* White_Gradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = White_Gradient.m; sourceTree = "<group>"; };
+		B707759119B66D77004B0BDF /* DishGo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DishGo-Info.plist"; sourceTree = "<group>"; };
 		B70879BC19926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
 		B70879BD19926C6C00D112AD /* page5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page5.png; sourceTree = "<group>"; };
 		B70879C119926C6C00D112AD /* description.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
@@ -466,7 +468,6 @@
 		B7CC197118047D92003C71B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B7CC197318047D92003C71B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B7CC197518047D92003C71B9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		B7CC197918047D92003C71B9 /* DishGo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DishGo-Info.plist"; sourceTree = "<group>"; };
 		B7CC197B18047D92003C71B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B7CC197D18047D92003C71B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B7CC197F18047D92003C71B9 /* DishGo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DishGo-Prefix.pch"; sourceTree = "<group>"; };
@@ -1166,6 +1167,7 @@
 		B7CC197818047D92003C71B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B707759119B66D77004B0BDF /* DishGo-Info.plist */,
 				B724A449199CFF1C006090EB /* background_signup@2x.png */,
 				B70879B919926C3C00D112AD /* Tutorial */,
 				B71C324C1986A3F800EAD03A /* dishcoin.png */,
@@ -1229,7 +1231,6 @@
 				B7B744401832AF5C001DFC49 /* gear-32x32.png */,
 				B7E43067181EF7A6002B6867 /* logo.png */,
 				B70C335B1806F5F70045183F /* Default.png */,
-				B7CC197918047D92003C71B9 /* DishGo-Info.plist */,
 				B7CC197A18047D92003C71B9 /* InfoPlist.strings */,
 				B7CC197D18047D92003C71B9 /* main.m */,
 				B7CC197F18047D92003C71B9 /* DishGo-Prefix.pch */,
@@ -1809,6 +1810,7 @@
 				B7D47F951864D3F400DD3C99 /* remove@2x.png in Resources */,
 				B724A42F199A7150006090EB /* Localizable.strings in Resources */,
 				B7EE7B84184E74DF003EE5B8 /* avatar_logged_black@2x.png in Resources */,
+				B707759219B66D77004B0BDF /* DishGo-Info.plist in Resources */,
 				B792163A187DF23A00BC7BF2 /* ReviewTotal.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2116,7 +2118,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				INFOPLIST_FILE = "/Users/philiptolton/ios/Restaurants/Restaurants/DishGo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
@@ -2153,7 +2156,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				INFOPLIST_FILE = "/Users/philiptolton/ios/Restaurants/Restaurants/DishGo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "7111F9FE-9941-4EB6-88A8-7DF7B16FCE64";
 				SDKROOT = iphoneos;
@@ -2172,6 +2176,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = DishGo;
 				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;
@@ -2189,6 +2194,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Restaurants/DishGo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Restaurants/DishGo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = DishGo;
 				PROVISIONING_PROFILE = "45A074D2-BBAC-4191-B052-C764E2E82B8D";
 				WRAPPER_EXTENSION = app;

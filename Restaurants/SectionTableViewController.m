@@ -184,10 +184,7 @@
     heights = [[NSMutableDictionary alloc] init];
     subsectionList = [[NSMutableArray alloc] init];
     [subsectionList addObject:self.section];
-    
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:current_page_section] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+
 
     self.tableView.backgroundColor = [UIColor bgColor];
 }
@@ -276,16 +273,6 @@
     cell.dishTitle.text = dish.name;
     cell.dishTitle.font = [UIFont fontWithName:@"JosefinSans-Bold" size:20.0f];
     cell.dishDescription.text = dish.description_text;
-    
-//    for (NSString* family in [UIFont familyNames])
-//    {
-//        NSLog(@"%@", family);
-//        
-//        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-//        {
-//            NSLog(@"  %@", name);
-//        }
-//    }
     
     [cell.dishDescription setFont:[UIFont fontWithName:@"Merriweather" size:14.0f]];
     
@@ -378,6 +365,7 @@
     cell.priceLabel.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
     cell.dish = dish;
     cell.dishImage.clipsToBounds = YES;
+    cell.dishImage.contentMode = UIViewContentModeScaleAspectFill;
     cell.full_height = cell.contentView.frame.size.height;
     cell.backgroundColor = [UIColor bgColor];
     if([dish.images count] > 0){
@@ -411,6 +399,7 @@
         cell.priceLabel.textColor = [UIColor almostBlackColor];
     }
     cell.clipsToBounds = YES;
+    cell.contentView.clipsToBounds = YES;
     return cell;
 }
 

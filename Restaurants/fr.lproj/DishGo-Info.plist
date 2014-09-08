@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Nous avons besoin de votre position afin que nous trouver des restaurants dans votre région.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<array>
 		<string>en</string>
@@ -51,8 +53,6 @@
 	<string>DishGo</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to find restaurants in your area.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Regular.ttf</string>
