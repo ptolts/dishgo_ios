@@ -110,8 +110,10 @@ SectionDishViewCell *camera_cell;
 {
     [super viewDidLoad];
     UISearchDisplayController *mySearchDisplayController;
+    self.tableView.backgroundColor = [UIColor bgColor];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.search_bar = mySearchDisplayController;
-    self.bar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 250, 0)];
+    self.bar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 240, 0)];
     self.bar.tintColor = [UIColor scarletColor];
     mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.bar contentsController:self];
     mySearchDisplayController.delegate = self;
@@ -298,7 +300,7 @@ SectionDishViewCell *camera_cell;
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    if([dish.sizes boolValue]){
+    if(dish.sizes){
         NSMutableArray *range = [dish priceRange];
         float high = [range[1] floatValue];
         float low = [range[0] floatValue];
@@ -324,6 +326,7 @@ SectionDishViewCell *camera_cell;
     cell.priceLabel.font = [UIFont fontWithName:@"Josefin Sans" size:18.0f];
     cell.dish = dish;
     cell.dishImage.clipsToBounds = YES;
+    cell.dishImage.contentMode = UIViewContentModeScaleAspectFill;
     cell.full_height = cell.contentView.frame.size.height;
     cell.backgroundColor = [UIColor bgColor];
     if([dish.images count] > 0){
@@ -355,6 +358,7 @@ SectionDishViewCell *camera_cell;
         cell.dishTitle.textColor = [UIColor almostBlackColor];
         cell.priceLabel.textColor = [UIColor almostBlackColor];
     }
+    cell.contentView.clipsToBounds = YES;
     cell.clipsToBounds = YES;
     return cell;
 }

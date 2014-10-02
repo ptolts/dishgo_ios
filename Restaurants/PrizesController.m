@@ -65,6 +65,10 @@
     [self presentViewController:messageController animated:YES completion:nil];
 }
 
+- (void)sharePromoCode:(NSString *) msg {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:msg]];
+}
+
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
@@ -99,6 +103,8 @@
     
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"has_seen_prize_page"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    self.webview.autoresizingMask = UIViewAutoresizingNone;
 
     FAKFontAwesome *back = [FAKFontAwesome timesCircleIconWithSize:22.0f];
     [back addAttribute:NSForegroundColorAttributeName value:[UIColor scarletColor]];
@@ -123,6 +129,9 @@
                 [[self navigationController] setNavigationBarHidden:NO animated:NO];
                 [nc pushViewController:vc animated:YES];
             }
+            if([data isEqualToString:@"app_version"]){
+                responseCallback([[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]);
+            }
         }
         
         if([data isKindOfClass:[NSDictionary class]]){
@@ -130,6 +139,10 @@
             if([result objectForKey:@"sendSMS"]){
                 NSString *text = [result objectForKey:@"sendSMS"];
                 [self sendSMS:text];
+            }
+            if([result objectForKey:@"sharePromoCode"]){
+                NSString *text = [result objectForKey:@"sharePromoCode"];
+                [self sharePromoCode:text];
             }
         }
     }];
@@ -160,13 +173,15 @@
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName
            value:@"Prizes Screen"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
     
-    User *user = [[UserSession sharedManager] fetchUser];
+    UserSession *user_session = [UserSession sharedManager];
+    User *user = [user_session fetchUser];
     NSString *tok = user.dishgo_token;
     if(!tok){
         tok = @"";
     }
-    prize_url = [NSString stringWithFormat:@"%@/app/prizes/list?token=%@&restaurant=%@",dishGoUrl,tok,self.restaurant];
+    prize_url = [NSString stringWithFormat:@"%@/app/prizes/list?token=%@&restaurant=%@&lat=%@&lon=%@",dishGoUrl,tok,self.restaurant,user_session.lat,user_session.lon];
     NSLog(@"Looking up prizes at: %@",prize_url);
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL
@@ -182,5 +197,6 @@
     
     [self.webview loadRequest:request];
 }
+
 
 @end

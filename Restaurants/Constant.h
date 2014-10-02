@@ -12,6 +12,7 @@
 
 #ifdef DEBUGGING
     #define dishGoUrl @"http://192.168.1.132:3000"
+//    #define dishGoUrl @"http://127.0.0.1:3000"
 #endif
 
 #ifdef dev_debugging

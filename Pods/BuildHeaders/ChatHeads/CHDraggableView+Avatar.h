@@ -1,0 +1,1 @@
+../../../../chatheads/ChatHeads/Classes/CHDraggableView+Avatar.h

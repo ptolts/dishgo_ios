@@ -2,6 +2,8 @@
 #import "Options.h"
 #import "Option.h"
 
+@class RestaurantOld;
+
 @interface Dishes ()
 
 // Private interface goes here.

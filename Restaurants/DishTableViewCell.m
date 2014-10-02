@@ -201,7 +201,7 @@
     OptionsView *sizeObject;
     BOOL dish_has_sizes = NO;
     
-    if([dish.sizes intValue] == 1 && dish.sizes_object){
+    if(dish.sizes && dish.sizes_object){
         dish_has_sizes = YES;
         OptionsView *option_view = [[OptionsView alloc] initWithFrame:CGRectMake(10, 0, 300, 0)];
         option_view.optionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
@@ -330,7 +330,7 @@
     
     float total_price = 0.0f;
     
-    if(self.dish.price == nil || [self.dish.sizes intValue] == 1){
+    if(self.dish.price == nil || self.dish.sizes){
         total_price = 0.0f;
     } else {
         total_price = [self.dish.price floatValue];

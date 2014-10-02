@@ -185,7 +185,7 @@
     subsectionList = [[NSMutableArray alloc] init];
     [subsectionList addObject:self.section];
 
-
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.backgroundColor = [UIColor bgColor];
 }
 
@@ -261,7 +261,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    Dishes *dish = [((Subsections *)[subsectionList objectAtIndex:indexPath.section]).dishes.array objectAtIndex:indexPath.row];
-    Dishes *dish = [_section.dishes.array objectAtIndex:indexPath.row];
+    Dishes *dish = [_section.dishes objectAtIndex:indexPath.row];
     SectionDishViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"SectionDishViewCell" owner:self options:nil] objectAtIndex:0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -339,7 +339,7 @@
 
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    if([dish.sizes boolValue]){
+    if(dish.sizes){
         NSMutableArray *range = [dish priceRange];
         float high = [range[1] floatValue];
         float low = [range[0] floatValue];
@@ -448,7 +448,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Dishes *dish = [_section.dishes.array objectAtIndex:indexPath.row];
+    Dishes *dish = [_section.dishes objectAtIndex:indexPath.row];
     if([dish.images count] > 0){
         return DEFAULT_SIZE;
     } else {

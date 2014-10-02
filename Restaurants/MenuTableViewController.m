@@ -260,7 +260,7 @@
 {
     [super viewDidLoad];
     
-    options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0]];
+    options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",nil),@2,@0],@[NSLocalizedString(@"Prizes",nil),@3,@0]];
     //    options_text = @[@[NSLocalizedString(@"Open Now",nil),@0,@0],@[NSLocalizedString(@"Distance",nil),@1,@0],@[NSLocalizedString(@"Delivery",),@2,@0],@[NSLocalizedString(@"Menu Score",nil),@1,@1]];
     
     // returns the same tracker you created in your app delegate
@@ -293,6 +293,9 @@
             }
             if(object.option_type == 2){
                 self.doesDelivery = (BOOL) object.selected;
+            }
+            if(object.option_type == 3){
+                self.hasPrize = (BOOL) object.selected;
             }
             for(SortView *sortview in options){
                 if(sortview == object || sortview.option_type != object.option_type){

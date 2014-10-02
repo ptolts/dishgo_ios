@@ -18,7 +18,7 @@ extern const struct ImagesFetchedProperties {
 } ImagesFetchedProperties;
 
 @class Dishes;
-@class Restaurant;
+@class RestaurantOld;
 
 
 
@@ -63,7 +63,7 @@ extern const struct ImagesFetchedProperties {
 
 
 
-@property (nonatomic, strong) Restaurant *relationship;
+@property (nonatomic, strong) RestaurantOld *relationship;
 
 //- (BOOL)validateRelationship:(id*)value_ error:(NSError**)error_;
 
@@ -98,8 +98,8 @@ extern const struct ImagesFetchedProperties {
 
 
 
-- (Restaurant*)primitiveRelationship;
-- (void)setPrimitiveRelationship:(Restaurant*)value;
+- (RestaurantOld*)primitiveRelationship;
+- (void)setPrimitiveRelationship:(RestaurantOld*)value;
 
 
 @end

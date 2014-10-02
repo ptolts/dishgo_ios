@@ -16,6 +16,7 @@
     @property (nonatomic, strong) IBOutlet UIView *checkout_view;
     @property NSNumber *sort_by;
     @property BOOL isOpened;
+    @property BOOL hasPrize;
     @property BOOL doesDelivery;
     @property Restaurant *restaurant;
     @property FBKVOController *KVOController;

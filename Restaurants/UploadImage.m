@@ -54,12 +54,12 @@
                  NSDictionary *jsons = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
                  NSLog(@"response: %@",jsons);
                 if(self.dish){
-                    NSManagedObjectContext *context = self.dish.managedObjectContext;
-                    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Images" inManagedObjectContext:context];
-                    Images *img = [[Images alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
+//                    NSManagedObjectContext *context = self.dish.managedObjectContext;
+//                    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Images" inManagedObjectContext:context];
+                    Images *img = [[Images alloc] init];
                     img.url = [jsons objectForKey:@"url"];
                     [session completeLogin];
-                    NSMutableArray *copy_array = [[NSMutableArray alloc] initWithArray:[self.dish.images array]];
+                    NSMutableArray *copy_array = [[NSMutableArray alloc] initWithArray:self.dish.images];
                     [copy_array insertObject:img atIndex:0];
                     self.dish.images = [[NSOrderedSet alloc] initWithArray:[copy_array copy]];
                     if(self.uitableview){

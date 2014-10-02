@@ -19,7 +19,7 @@ extern const struct SectionsFetchedProperties {
 } SectionsFetchedProperties;
 
 @class Dishes;
-@class Restaurant;
+@class RestaurantOld;
 
 
 
@@ -79,7 +79,7 @@ extern const struct SectionsFetchedProperties {
 
 
 
-@property (nonatomic, strong) Restaurant *restaurant;
+@property (nonatomic, strong) RestaurantOld *restaurant;
 
 //- (BOOL)validateRestaurant:(id*)value_ error:(NSError**)error_;
 
@@ -128,8 +128,8 @@ extern const struct SectionsFetchedProperties {
 
 
 
-- (Restaurant*)primitiveRestaurant;
-- (void)setPrimitiveRestaurant:(Restaurant*)value;
+- (RestaurantOld*)primitiveRestaurant;
+- (void)setPrimitiveRestaurant:(RestaurantOld*)value;
 
 
 @end

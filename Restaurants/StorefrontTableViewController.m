@@ -411,7 +411,7 @@
     
     [self loadMenu];
 
-    if(self.restaurant.prizes && self.restaurant.prizes > 0 && ![[NSUserDefaults standardUserDefaults] boolForKey:@"has_seen_prize_page"]){
+    if(self.restaurant.prizes && [self.restaurant.prizes intValue] > 0 && ![[NSUserDefaults standardUserDefaults] boolForKey:@"has_seen_prize_page"]){
         Coax *v = [[[NSBundle mainBundle] loadNibNamed:@"CoaxToPrizes" owner:self options:nil] objectAtIndex:0];
         v.coax_label.font = [UIFont fontWithName:@"Josefin Sans" size:20.0f];
         CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
@@ -787,7 +787,6 @@
         Sections *s = (Sections *) sender;
         SectionTableViewController *vc = (SectionTableViewController *)controller;
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSLog(@"Section ID: %@",[[sectionsList objectAtIndex:indexPath.row] objectID]);
         vc.section = s;
         vc.current_page = current_page;
         vc.restaurant = self.restaurant;
@@ -801,132 +800,51 @@
 }
 - (void) loadMenu {
     
-    NSLog(@"SUBVIEW RESTAURANT ID: %@",self.restaurant.objectID);
-    sectionsList = (NSMutableArray *)[self.restaurant.menu array];
-
-//    [self buildCells];
-//    [self.tableView reloadData];
+    sectionsList = self.restaurant.menu;
     
-    
-    ////////// QUERY NEW DATA AND UPDATE TABLE.
-    
-    RKManagedObjectStore *managedObjectStore = self.managedObjectStore;
-    
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    
-    ///// MAPPINGS
-    RKEntityMapping *dishesMapping = [RKEntityMapping mappingForEntityForName:@"Dishes" inManagedObjectStore:managedObjectStore];
-    [dishesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"name": @"name",
-                                                        @"_id": @"id",
-                                                        @"price": @"price",
-                                                        @"rating":@"rating",
-                                                        @"index":@"position",
-                                                        @"description": @"description_text",
-                                                        @"has_multiple_sizes":@"sizes",
-                                                        }];
-    dishesMapping.identificationAttributes = @[ @"id" ];
-    
-    RKEntityMapping *sectionsMapping = [RKEntityMapping mappingForEntityForName:@"Sections" inManagedObjectStore:managedObjectStore];
-    [sectionsMapping addAttributeMappingsFromDictionary:@{
-                                                          @"name": @"name",
-                                                          @"_id": @"id",
-                                                          @"index":@"position",
-                                                          }];
-    sectionsMapping.identificationAttributes = @[ @"id" ];
-    
-    
-    RKEntityMapping *sizePricesMapping = [RKEntityMapping mappingForEntityForName:@"SizePrices" inManagedObjectStore:managedObjectStore];
-    [sizePricesMapping addAttributeMappingsFromDictionary:@{
-                                                          @"id": @"id",
-                                                          @"price":@"price",
-                                                          @"size_id":@"related_to_size",
-                                                          }];
-    sizePricesMapping.identificationAttributes = @[ @"id" ];
-    
-    
-    RKEntityMapping *optionMapping = [RKEntityMapping mappingForEntityForName:@"Option" inManagedObjectStore:managedObjectStore];
-    [optionMapping addAttributeMappingsFromDictionary:@{
-                                                        @"name": @"name",
-                                                        @"price": @"price",
-                                                        @"_id": @"id",
-                                                        @"price_according_to_size":@"price_according_to_size",
-                                                        }];
-    optionMapping.identificationAttributes = @[ @"id" ];
-    
-    RKEntityMapping *optionsMapping = [RKEntityMapping mappingForEntityForName:@"Options" inManagedObjectStore:managedObjectStore];
-    [optionsMapping addAttributeMappingsFromDictionary:@{
-                                                         @"name": @"name",
-                                                         @"_id": @"id",
-                                                         @"min_selections":@"min_selections",
-                                                         @"max_selections":@"max_selections",
-                                                         @"advanced":@"advanced",                                                         
-                                                         @"type": @"type",
-                                                         }];
-    optionsMapping.identificationAttributes = @[ @"id" ];
-    
-    RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
-    [imagesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"medium": @"url",
-                                                        @"id":@"id",
-                                                        }];
-    imagesMapping.identificationAttributes = @[ @"id" ];
-    
-    [sectionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"dishes" toKeyPath:@"dishes" withMapping:dishesMapping]];
-    [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"sizes" toKeyPath:@"sizes_object" withMapping:optionsMapping]];
-    [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"options" toKeyPath:@"options" withMapping:optionsMapping]];
-    [optionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"size_prices" toKeyPath:@"size_prices" withMapping:sizePricesMapping]];
-    [dishesMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
-    [optionsMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"individual_options" toKeyPath:@"list" withMapping:optionMapping]];
-    
-    NSString *query = [NSString stringWithFormat:@"/app/api/v1/restaurants/menu"]; //?id=%@",self.restaurant.id];
-
     NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants/menu?id=%@&language=%@&lat=%@&lon=%@&token=%@",dishGoUrl,self.restaurant.id,[[NSLocale preferredLanguages] objectAtIndex:0],session.lat,session.lon,session.main_user.dishgo_token];
+    NSLog(@"%@",url);
     
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sectionsMapping method:RKRequestMethodAny pathPattern:query keyPath:@"menu" statusCodes:statusCodes];
+    NSURL *ns_url = [NSURL URLWithString:url];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setTimeoutInterval:10];
-    
-    RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
-    operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
-    operation.managedObjectCache = managedObjectStore.managedObjectCache;
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+    [[[NSURLSession sharedSession] dataTaskWithURL:ns_url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
+        if(error){
+            NSLog(@"Failed with error: %@", [error localizedDescription]);
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               [UIView animateWithDuration:1.5
+                                                animations:^{
+                                                    retryFetch.alpha = 0.0f;
+                                                    spinner.alpha = 1.0f;
+                                                    retryFetch.hidden = NO;
+                                                    retryFetch.alpha = 1.0f;
+                                                    spinner.alpha = 0.0f;
+                                                    spinner.hidden = YES;
+                                                    progress.alpha = 0.0f;
+                                                    progress.text = @"NETWORK ERROR";
+                                                    progress.alpha = 1.0f;
+                                                }];
+                           });
+            return;
+        }
         
-        sectionsList = (NSMutableArray *)[result array];
-        
+        NSError *err;
+        id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+        NSArray *json_result = [json objectForKey:@"menu"];
+        sectionsList = [Sections arrayOfModelsFromDictionaries:json_result error:&err];
         [sectionsList sortUsingDescriptors:[NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"position" ascending:YES], nil]];
-
-        self.restaurant = (Restaurant *)[[[[result array] firstObject] managedObjectContext] objectWithID:[self.restaurant objectID]];
-        self.restaurant.menu = [NSOrderedSet orderedSetWithArray:[result array]];
-
-        [self buildCells];
-        [header.scroll_view setupImages];
-//        [self matchColor];
-        [self.tableView reloadData];
+        self.restaurant.menu = sectionsList;
+        dispatch_async(dispatch_get_main_queue(),
+                       ^{    //back on main thread
+                            [self buildCells];
+                            [header.scroll_view setupImages];
+                            [self.tableView reloadData];
+                            [self loadCart];        
+                            [self stopLoading];
+                       });
         
-        [self loadCart];        
-        [self stopLoading];
-        
-    }failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed with error: %@", [error localizedDescription]);
-        [UIView animateWithDuration:1.5
-                         animations:^{
-                             retryFetch.alpha = 0.0f;
-                             spinner.alpha = 1.0f;
-                             retryFetch.hidden = NO;
-                             retryFetch.alpha = 1.0f;
-                             spinner.alpha = 0.0f;
-                             spinner.hidden = YES;
-                             progress.alpha = 0.0f;
-                             progress.text = @"NETWORK ERROR";
-                             progress.alpha = 1.0f;
-                         }];
-    }];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
+    }] resume];
     
 }
 

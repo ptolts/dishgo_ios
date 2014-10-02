@@ -1,0 +1,140 @@
+PODS:
+  - AFNetworking (1.3.4)
+  - AFPopupView (1.0)
+  - BFPaperButton (1.2.7):
+    - UIColor+BFPaperColors
+  - Bolts (1.1.2)
+  - CAAnimationBlocks (0.0.1)
+  - CardIO (3.4.1)
+  - ChatHeads (1.0):
+    - CAAnimationBlocks
+    - SKBounceAnimation
+  - DBCamera (2.0)
+  - EDStarRating (1.1)
+  - Facebook-iOS-SDK (3.17.0):
+    - Bolts
+  - FontAwesome+iOS (0.1.1)
+  - FontAwesomeKit/Core (2.1.7)
+  - FontAwesomeKit/FontAwesome (2.1.7):
+    - FontAwesomeKit/Core
+  - GoogleAnalytics-iOS-SDK (3.0.7)
+  - ICETutorial (1.1.0)
+  - ISO8601DateFormatterValueTransformer (0.6.0):
+    - RKValueTransformers (~> 1.1.0)
+  - JSONModel (1.0.1)
+  - KoaPullToRefresh (1.0.6):
+    - FontAwesome+iOS
+  - KVOController (1.0.1)
+  - MBProgressHUD (0.8)
+  - MGInstagram (0.0.2)
+  - PaymentKit (1.0.0)
+  - REFrostedViewController (2.3.4)
+  - RestKit (0.23.1):
+    - RestKit/Core
+  - RestKit/Core (0.23.1):
+    - RestKit/CoreData
+    - RestKit/Network
+    - RestKit/ObjectMapping
+  - RestKit/CoreData (0.23.1):
+    - RestKit/ObjectMapping
+  - RestKit/Network (0.23.1):
+    - AFNetworking (~> 1.3.0)
+    - RestKit/ObjectMapping
+    - RestKit/Support
+    - SOCKit
+  - RestKit/ObjectMapping (0.23.1):
+    - ISO8601DateFormatterValueTransformer (~> 0.6.0)
+    - RestKit/Support
+    - RKValueTransformers (~> 1.1.0)
+  - RestKit/Support (0.23.1):
+    - TransitionKit (= 2.1.0)
+  - RKValueTransformers (1.1.0)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core
+  - SDWebImage-ProgressView (0.3.1):
+    - SDWebImage (~> 3.0)
+  - SDWebImage/Core (3.7.1)
+  - SKBounceAnimation (1.0.04)
+  - SMPageControl (1.2)
+  - SOCKit (1.1)
+  - Stripe (1.1.3):
+    - PaymentKit (~> 1.0.4)
+  - TNSexyImageUploadProgress (0.2)
+  - TransitionKit (2.1.0)
+  - TWRBorderedView (0.1)
+  - UIColor+BFPaperColors (1.2.1)
+  - WebViewJavascriptBridge (4.1.4)
+
+DEPENDENCIES:
+  - AFNetworking (~> 1.3.4)
+  - AFPopupView (~> 1.0)
+  - BFPaperButton (~> 1.2.7)
+  - CardIO
+  - ChatHeads (from `~/ios/chatheads`)
+  - DBCamera (~> 2.0)
+  - EDStarRating
+  - Facebook-iOS-SDK
+  - FontAwesomeKit/FontAwesome
+  - GoogleAnalytics-iOS-SDK
+  - ICETutorial (from `/Users/philiptolton/ios/ICETutorial`)
+  - JSONModel
+  - KoaPullToRefresh
+  - KVOController
+  - MBProgressHUD (= 0.8)
+  - MGInstagram
+  - PaymentKit (from `~/ios/PaymentKit/`)
+  - REFrostedViewController
+  - RestKit (= 0.23.1)
+  - SDWebImage-ProgressView
+  - SMPageControl
+  - Stripe (= 1.1.3)
+  - TNSexyImageUploadProgress
+  - TWRBorderedView
+  - WebViewJavascriptBridge
+
+EXTERNAL SOURCES:
+  ChatHeads:
+    :path: ~/ios/chatheads
+  ICETutorial:
+    :path: /Users/philiptolton/ios/ICETutorial
+  PaymentKit:
+    :path: ~/ios/PaymentKit/
+
+SPEC CHECKSUMS:
+  AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
+  AFPopupView: a637995cd7975bc2dca692cb5c3dc5c9eefc555b
+  BFPaperButton: bfa3a89cfdf425fc5ca540e1bbe8494fbca583e2
+  Bolts: 2635e8698a630774689441047f3465d78c48d485
+  CAAnimationBlocks: 981bfca79ac481f07957aa8357885e620637f926
+  CardIO: 29a1a907050daacc47774c42174bad55bf338e3b
+  ChatHeads: 8220d1108b9f7a0b1a7371e063071a264a6662ef
+  DBCamera: 512ab24fca498ffb9e603c78dfba47bd08a315bb
+  EDStarRating: c7b87f9866be0ea29bb054964023b8eb3f18286c
+  Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
+  FontAwesome+iOS: 3c574273fb301c2e0a88f983551562bf8768b623
+  FontAwesomeKit: af6eef70d23986349284d2feb4e959459621587d
+  GoogleAnalytics-iOS-SDK: bb285d8eef15a682f1b82971becd0d22edd0e53b
+  ICETutorial: 82ce3f8259845c2d947cce0e3c3fabe93fd79d77
+  ISO8601DateFormatterValueTransformer: a705384ea6531255258e25b6480ba1180db703a0
+  JSONModel: 634100aaacbd89811bc8a03da209356e5989c569
+  KoaPullToRefresh: 7a9d6530482fb9d52e66de8560dcd8fe9c395751
+  KVOController: e6ad4a058ab0ceed546802361adb89d322a22cf2
+  MBProgressHUD: c356980b0cd097f19acec959b49dca5eb8ec31be
+  MGInstagram: 2b7722b68caf4b27eae38112fa5ade2541fa9fab
+  PaymentKit: 40e5673a9a0960d7ef111d66d0604af245caf635
+  REFrostedViewController: ecdd06091d0a111031eb2e5049c7668c61d72a71
+  RestKit: 0b5f1bbc43b81beba158262a1adae48ac062eb1e
+  RKValueTransformers: b705e7b4651b9206b94600408462b74554bba969
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  SDWebImage-ProgressView: 7b7a9512cbf22d0d6e3d20d9aa8b03e1940d164f
+  SKBounceAnimation: a47c30f67d3e4b948b1823ce5957d72d4382dd73
+  SMPageControl: 506b0c561d3ddbe2d5df28cb33acc8e4b1f93f19
+  SOCKit: d8d0dd3688ae1026c12367570da8fa8e1a6980fb
+  Stripe: 95b57b2b8371b460188f0b64b04b22e0de8b0727
+  TNSexyImageUploadProgress: 7ebcbfe1598d413f5bf7941350de6cef63fb9ff5
+  TransitionKit: 6a6f3ddda38ae758778aa889dcb930e4f8d64edc
+  TWRBorderedView: 34508430c24fc249d2079f1c508f9f63d07f4bd0
+  UIColor+BFPaperColors: 7b45ea51681ab93307a215e4d6b937dd2ea9968d
+  WebViewJavascriptBridge: 259a6c8c67b492bd8079c9944b6866d3476e16ac
+
+COCOAPODS: 0.33.1

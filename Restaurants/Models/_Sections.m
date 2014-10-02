@@ -24,16 +24,16 @@ const struct SectionsFetchedProperties SectionsFetchedProperties = {
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Sections" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"SectionsOld" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"Sections";
+	return @"SectionsOld";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"Sections" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"SectionsOld" inManagedObjectContext:moc_];
 }
 
 - (SectionsID*)objectID {

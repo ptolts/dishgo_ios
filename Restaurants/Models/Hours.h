@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Days.h"
+#import <JSONModel.h>
+#import "JSONValueTransformer+Days.h"
 
-@interface Hours : NSObject
+@protocol Hours
+
+@end
+
+@interface Hours : JSONModel
     @property (strong) Days *monday;
     @property (strong) Days *tuesday;
     @property (strong) Days *wednesday;
@@ -17,5 +23,4 @@
     @property (strong) Days *friday;
     @property (strong) Days *saturday;
     @property (strong) Days *sunday;
-    @property (strong) NSString *name;
 @end

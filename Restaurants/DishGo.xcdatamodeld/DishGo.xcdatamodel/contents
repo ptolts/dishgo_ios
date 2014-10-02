@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.17" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Dishes" representedClassName="Dishes" syncable="YES">
         <attribute name="description_text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -11,14 +11,14 @@
         <attribute name="sizes" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="dishes" inverseEntity="Images" syncable="YES"/>
         <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Options" inverseName="dish_owner" inverseEntity="Options" syncable="YES"/>
-        <relationship name="sections" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sections" inverseName="dishes" inverseEntity="Sections" syncable="YES"/>
+        <relationship name="sections" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SectionsOld" inverseName="dishes" inverseEntity="SectionsOld" syncable="YES"/>
         <relationship name="sizes_object" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Options" inverseName="sizes_owner" inverseEntity="Options" syncable="YES"/>
     </entity>
     <entity name="Images" representedClassName="Images" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dishes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="images" inverseEntity="Dishes" syncable="YES"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="images" inverseEntity="Restaurant" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RestaurantOld" inverseName="images" inverseEntity="RestaurantOld" syncable="YES"/>
     </entity>
     <entity name="Option" representedClassName="Option" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,7 +39,7 @@
         <relationship name="list" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Option" inverseName="option_owner" inverseEntity="Option" syncable="YES"/>
         <relationship name="sizes_owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dishes" inverseName="sizes_object" inverseEntity="Dishes" syncable="YES"/>
     </entity>
-    <entity name="Restaurant" representedClassName="Restaurant" syncable="YES">
+    <entity name="RestaurantOld" representedClassName="RestaurantOld" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="distance" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -53,14 +53,14 @@
         <attribute name="postal_code" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="prizes" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Images" inverseName="relationship" inverseEntity="Images" syncable="YES"/>
-        <relationship name="menu" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sections" inverseName="restaurant" inverseEntity="Sections" syncable="YES"/>
+        <relationship name="menu" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SectionsOld" inverseName="restaurant" inverseEntity="SectionsOld" syncable="YES"/>
     </entity>
-    <entity name="Sections" representedClassName="Sections" syncable="YES">
+    <entity name="SectionsOld" representedClassName="Sections" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="position" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Dishes" inverseName="sections" inverseEntity="Dishes" syncable="YES"/>
-        <relationship name="restaurant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Restaurant" inverseName="menu" inverseEntity="Restaurant" syncable="YES"/>
+        <relationship name="restaurant" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RestaurantOld" inverseName="menu" inverseEntity="RestaurantOld" syncable="YES"/>
     </entity>
     <entity name="SizePrices" representedClassName="SizePrices" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -74,8 +74,8 @@
         <element name="Images" positionX="0" positionY="0" width="128" height="105"/>
         <element name="Option" positionX="0" positionY="0" width="128" height="133"/>
         <element name="Options" positionX="0" positionY="0" width="128" height="178"/>
-        <element name="Restaurant" positionX="0" positionY="0" width="128" height="255"/>
-        <element name="Sections" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="RestaurantOld" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="SectionsOld" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SizePrices" positionX="18" positionY="90" width="128" height="118"/>
     </elements>
 </model>

@@ -123,10 +123,10 @@
         Option_Order *opt = [[Option_Order alloc] init];
         opt.name = option.name;
         opt.selected = NO;
-        if(option.price_according_to_sizeValue){
+        if(option.price_according_to_size){
             [self.KVOController observe:self.size_prices keyPath:@"selectedSize" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(OptionsView *observe, OptionsView *object, NSDictionary *change) {
                 for(OptionButton *but in buttonList){
-                    if(but.option.price_according_to_sizeValue){
+                    if(but.option.price_according_to_size){
                         [but updatePrice:change[@"new"]];
                     }
                 }
@@ -196,7 +196,7 @@
             }
         }
         // Advanced options selected, as in a min and max number of individual options set
-        if([self.op.advanced intValue] == 1){
+        if(self.op.advanced){
             // Just in case we'll recalculate total selected.
             selected_count = 0;
             for(OptionButton *but in buttonList){

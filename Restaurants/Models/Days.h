@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JSONModel.h>
 
-@interface Days : NSObject
+@interface Days : JSONModel
     @property (strong) NSString *day;
     @property (strong) NSString *opens_1;
     @property (strong) NSString *closes_1;

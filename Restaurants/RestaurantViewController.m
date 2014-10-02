@@ -27,6 +27,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 #import "UserSession.h"
+#import <JSONHTTPClient.h>
 
 @interface RestaurantViewController ()
 
@@ -52,6 +53,7 @@
     UIView *requestLocation;
     BOOL stopUpdatingLocation;
     BOOL isOpened;
+    BOOL hasPrize;
     BOOL doesDelivery;
     BOOL setSortByObserver;
     int location_attempts;
@@ -137,6 +139,10 @@
         }];
         [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"doesDelivery" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
             doesDelivery = object.doesDelivery;
+            [self filterRestaurants];
+        }];
+        [self.KVOController observe:self.frostedViewController.menuViewController keyPath:@"hasPrize" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew block:^(RestaurantViewController *observe, MenuTableViewController *object, NSDictionary *change) {
+            hasPrize = object.hasPrize;
             [self filterRestaurants];
         }];
         setSortByObserver = YES;
@@ -323,7 +329,11 @@
     
     location_attempts = 0;
     locationManager = [[CLLocationManager alloc] init];
-    [locationManager requestWhenInUseAuthorization];
+    
+    if([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
+        [locationManager requestWhenInUseAuthorization];
+    }
+ 
     locationManager.delegate = self;
     [locationManager setDesiredAccuracy: 1];
     locationManager.pausesLocationUpdatesAutomatically = NO;
@@ -446,6 +456,11 @@
         filteredRestaurantList = [filteredRestaurantList filteredArrayUsingPredicate:testForTrue];
     }
     
+    if(hasPrize){
+        NSPredicate *testForTrue = [NSPredicate predicateWithFormat:@"hasPrize == 1"];
+        filteredRestaurantList = [filteredRestaurantList filteredArrayUsingPredicate:testForTrue];
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -459,136 +474,64 @@
                          progress.text = NSLocalizedString(@"FETCHING RESTAURANTS",nil);
                          progress.alpha = 1.0f;
                      }];
-
-    self.managedObjectContext = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    
-    NSError *error;
-
-    self.frostedViewController.direction = REFrostedViewControllerDirectionLeft;
-    ////////// QUERY NEW DATA AND UPDATE TABLE.
-    
-    NSManagedObjectModel *managedObjectModel = [(RAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectModel];
-    
-    managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    error = nil;
-    BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
-    if (! success) {
-        RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
-    }
-    NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Restaurants.sqlite"];
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path fromSeedDatabaseAtPath:path withConfiguration:nil options:nil error:&error];
-    if (! persistentStore) {
-        RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
-    }
-    [managedObjectStore createManagedObjectContexts];
-    
-    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];    
-    
-    ///// MAPPINGS
-    RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Images" inManagedObjectStore:managedObjectStore];
-    [imagesMapping addAttributeMappingsFromDictionary:@{
-                                                        @"medium": @"url",
-                                                        @"id": @"id",
-                                                        }];
-    imagesMapping.identificationAttributes = @[ @"id" ];
-
-//    RKLogConfigureByName("RestKit", RKLogLevelWarning);
-//    RKLogConfigureByName("RestKit/ObjectMapping", RKLogLevelTrace);
-//    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
     
     
-    RKObjectMapping *daysMapping = [RKObjectMapping mappingForClass:[Days class]];
+    NSString *url = [NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude];
+    NSLog(@"%@",url);
     
-    [daysMapping addAttributeMappingsFromDictionary:@{
-                                                        @"open_1": @"opens_1",
-                                                        @"close_1": @"closes_1",
-                                                        @"closed": @"closed",
-                                                        @"name":@"day",
-                                                        }];
+    NSURL *ns_url = [NSURL URLWithString:url];
     
-    
-    RKObjectMapping *hoursMapping = [RKObjectMapping mappingForClass:[Hours class]];
-    [hoursMapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"name"];
-    
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"monday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"tuesday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"wednesday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"thursday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"friday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"saturday" mapping:daysMapping];
-    [hoursMapping addRelationshipMappingWithSourceKeyPath:@"sunday" mapping:daysMapping];
-    
-    
-    RKEntityMapping *restaurantMapping = [RKEntityMapping mappingForEntityForName:@"Restaurant" inManagedObjectStore:managedObjectStore];
-    [restaurantMapping addAttributeMappingsFromDictionary:@{
-                                                            @"_id": @"id",
-                                                            @"name": @"name",
-                                                            @"city": @"city",
-                                                            @"postal_code": @"postal_code",                                                            
-                                                            @"phone": @"phone",
-                                                            @"is_admin":@"is_admin",
-                                                            @"address_line_1": @"address",
-                                                            @"does_delivery":@"does_delivery",
-                                                            @"lat": @"lat",
-                                                            @"prizes":@"prizes",
-                                                            @"lon": @"lon",
-                                                            }];
-    restaurantMapping.identificationAttributes = @[ @"id" ];
-
-    
-    [restaurantMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"image" toKeyPath:@"images" withMapping:imagesMapping]];
-    [restaurantMapping addRelationshipMappingWithSourceKeyPath:@"hours" mapping:hoursMapping];
-    
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:restaurantMapping method:RKRequestMethodAny pathPattern:@"/app/api/v1/restaurants" keyPath:nil statusCodes:statusCodes];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/app/api/v1/restaurants?lat=%f&lon=%f",dishGoUrl,currentLocation.coordinate.latitude,currentLocation.coordinate.longitude]]];
-    
-    [request setTimeoutInterval:15];
-    
-    RKManagedObjectRequestOperation *operation = [[RKManagedObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
-    operation.managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
-    operation.managedObjectCache = managedObjectStore.managedObjectCache;
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *result) {
+    [[[NSURLSession sharedSession] dataTaskWithURL:ns_url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if(error){
+            NSLog(@"Failed with error: %@", [error localizedDescription]);
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               [UIView animateWithDuration:1.5
+                                                animations:^{
+                                                    retryFetch.alpha = 0.0f;
+                                                    spinner.alpha = 1.0f;
+                                                    retryFetch.hidden = NO;
+                                                    retryFetch.alpha = 1.0f;
+                                                    spinner.alpha = 0.0f;
+                                                    spinner.hidden = YES;
+                                                    progress.alpha = 0.0f;
+                                                    progress.text = NSLocalizedString(@"NETWORK ERROR",nil);
+                                                    progress.alpha = 1.0f;
+                                                }];
+                           });
+            return;
+        }
         
-        NSArray *new_restaurantList = [result.array sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
-                          {
-                              return [obj2.images count] - [obj1.images count];
-                          }];
+        NSError *err;
+        NSArray *result = [Restaurant arrayOfModelsFromData:data error:&err];
+        NSArray *new_restaurantList = [result sortedArrayUsingComparator:^NSComparisonResult(Restaurant *obj1, Restaurant *obj2)
+                                       {
+                                           return [obj2.images count] - [obj1.images count];
+                                       }];
         
         for(Restaurant *r in new_restaurantList){
             CLLocation *itemLoc = [[CLLocation alloc] initWithLatitude:[r.lat doubleValue]
                                                              longitude:[r.lon doubleValue]];
             CLLocationDistance itemDistance = [itemLoc distanceFromLocation:currentLocation];
             r.distance = [NSNumber numberWithDouble:itemDistance];
+            [r setup_prizes];
             [r opened];
         }
-        restaurantList = new_restaurantList;
-        filteredRestaurantList = restaurantList;
-        [self filterRestaurants];
-        NSLog(@"RELOADING DATA.");
-        [self.tableView reloadData];
-        [self stopLoading];
-        if([restaurantList count] == 0){
-            [self noRestaurants];
-        }
-    }failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed with error: %@", [error localizedDescription]);
-        [UIView animateWithDuration:1.5
-                         animations:^{
-                             retryFetch.alpha = 0.0f;
-                             spinner.alpha = 1.0f;
-                             retryFetch.hidden = NO;
-                             retryFetch.alpha = 1.0f;
-                             spinner.alpha = 0.0f;
-                             spinner.hidden = YES;
-                             progress.alpha = 0.0f;
-                             progress.text = NSLocalizedString(@"NETWORK ERROR",nil);
-                             progress.alpha = 1.0f;
-                         }];
-    }];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
+        
+        dispatch_async(dispatch_get_main_queue(),
+                       ^{    //back on main thread
+                           restaurantList = new_restaurantList;
+                           filteredRestaurantList = restaurantList;
+                           [self filterRestaurants];
+                           NSLog(@"RELOADING DATA.");
+                           [self.tableView reloadData];
+                           [self stopLoading];
+                           if([restaurantList count] == 0){
+                               [self noRestaurants];
+                           }
+                       });
+
+    }] resume];
 }
 
 - (void)didReceiveMemoryWarning

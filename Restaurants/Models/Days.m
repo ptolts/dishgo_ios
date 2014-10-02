@@ -96,4 +96,20 @@
     NSString *closes = [NSString stringWithFormat:@"%@", self.closes_1];
     return [NSString stringWithFormat:@"%@:\t %@ - %@",day_of_week,opens,closes];
 }
+
++(BOOL)propertyIsOptional:(NSString*)propertyName
+{
+    return YES;
+}
+
++(JSONKeyMapper*)keyMapper
+{
+    return [[JSONKeyMapper alloc] initWithDictionary:@{
+                                                       @"close_1": @"closes_1",
+                                                       @"open_1": @"opens_1",
+                                                       @"name": @"day",
+                                                       }];
+}
+
+
 @end
